@@ -36,15 +36,23 @@ var _ok = false, _q = [], _try = 0;
 
 function init(){
   if(_ok) return;
+  console.log('[AuraEmail] init() attempt #'+((_try||0)+1)+', emailjs='+(typeof emailjs)+', PK='+C.PK.substring(0,6)+'..., SVC='+C.SVC+', TPL='+C.TPL);
   if(typeof emailjs === 'undefined'){
-    if(++_try <= 25){ setTimeout(init, 250); } else { console.error('[AuraEmail] SDK timeout'); }
+    if(++_try <= 25){ setTimeout(init, 250); } else { console.error('[AuraEmail] SDK TIMEOUT — emailjs CDN did not load after 25 attempts. Check network/ad-blocker.'); }
     return;
   }
-  emailjs.init({ publicKey: C.PK });
-  _ok = true;
-  _q.forEach(function(m){ _send(m.to, m.subj, m.html, m.reply); });
-  _q = [];
-  console.log('[AuraEmail] Ready');
+  try {
+    emailjs.init({ publicKey: C.PK });
+    _ok = true;
+    console.log('[AuraEmail] ✅ Ready! SDK initialized. SVC='+C.SVC+' TPL='+C.TPL);
+    if(_q.length){
+      console.log('[AuraEmail] Flushing '+_q.length+' queued emails...');
+      _q.forEach(function(m){ _send(m.to, m.subj, m.html, m.reply); });
+      _q = [];
+    }
+  } catch(e) {
+    console.error('[AuraEmail] init() EXCEPTION:', e);
+  }
 }
 
 /* ── CORE SEND ─────────────────────────────────────── */
@@ -55,19 +63,47 @@ function _send(to, subj, html, reply){
     _q.push({to:to,subj:subj,html:html,reply:reply}); init(); return;
   }
   var p = { to_email:to, subject:subj, html_content:html, reply_to:reply||C.FROM_NOREPLY };
-  console.log('[AuraEmail] Sending -> '+to+' | TPL: '+C.TPL);
-  emailjs.send(C.SVC, C.TPL, p).then(function(r){
-    console.log('[AuraEmail] OK -> '+to+' | '+subj, r.status);
-    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail gesendet!','success');
-  }).catch(function(e1){
-    console.warn('[AuraEmail] TPL1 fail, trying fallback...', e1);
-    emailjs.send(C.SVC, C.TPL2, p).then(function(r2){
-      console.log('[AuraEmail] OK(fb) -> '+to, r2.status);
+  console.log('[AuraEmail] 📤 Sending -> '+to+' | Subj: '+subj+' | SVC: '+C.SVC+' | TPL: '+C.TPL);
+  console.log('[AuraEmail] Params:', JSON.stringify({to_email:to, subject:subj, reply_to:p.reply_to, html_length:(html||'').length}));
+  try {
+    emailjs.send(C.SVC, C.TPL, p).then(function(r){
+      console.log('[AuraEmail] ✅ OK -> '+to+' | '+subj+' | status='+r.status+' text='+r.text);
       if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail gesendet!','success');
-    }).catch(function(e2){
-      console.error('[AuraEmail] FAIL -> '+to, e2);
-      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail-Versand fehlgeschlagen','error');
+    }).catch(function(e1){
+      console.error('[AuraEmail] ❌ FAIL -> '+to+' | Error:', e1);
+      console.error('[AuraEmail] Error details: status='+((e1&&e1.status)||'?')+' text='+((e1&&e1.text)||JSON.stringify(e1)));
+      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail-Versand fehlgeschlagen: '+(e1&&e1.text||e1),'error');
     });
+  } catch(e) {
+    console.error('[AuraEmail] send() EXCEPTION:', e);
+  }
+}
+
+/* ── DIRECT TEST (call from console: AuraEmail.test('you@mail.com')) ── */
+function testEmail(toAddr){
+  var to = toAddr || 'ethanwalker2318@gmail.com';
+  console.log('=== AuraEmail TEST START ===');
+  console.log('emailjs type:', typeof emailjs);
+  console.log('_ok:', _ok);
+  console.log('Config:', JSON.stringify(C, null, 2));
+  if(typeof emailjs === 'undefined'){
+    console.error('TEST FAIL: emailjs SDK not loaded! Check if CDN script is present and not blocked.');
+    return;
+  }
+  if(!_ok){
+    console.log('TEST: SDK present but not initialized. Initializing now...');
+    try { emailjs.init({ publicKey: C.PK }); _ok = true; console.log('TEST: init OK'); } catch(e) { console.error('TEST: init FAILED:', e); return; }
+  }
+  var params = { to_email: to, subject: 'AuraEmail Test '+new Date().toLocaleTimeString(), html_content: '<h2>Test OK</h2><p>If you see this, EmailJS works!</p>', reply_to: C.FROM_NOREPLY };
+  console.log('TEST: Sending with SVC='+C.SVC+' TPL='+C.TPL+' to='+to);
+  console.log('TEST: Params:', JSON.stringify(params));
+  emailjs.send(C.SVC, C.TPL, params).then(function(r){
+    console.log('=== TEST ✅ SUCCESS === status='+r.status+' text='+r.text);
+    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Test email sent!','success');
+  }).catch(function(e){
+    console.error('=== TEST ❌ FAILED ===', e);
+    console.error('Status:', e&&e.status, 'Text:', e&&e.text||JSON.stringify(e));
+    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Test failed: '+(e&&e.text||e),'error');
   });
 }
 
@@ -513,6 +549,7 @@ function sendCareerApplication(data){
 window.AuraEmail = {
   CONFIG: C,
   init: init,
+  test: testEmail,
   sendWelcome: sendWelcome,
   sendPrimeWelcome: sendPrimeWelcome,
   sendOrderConfirmation: sendOrderConfirmation,

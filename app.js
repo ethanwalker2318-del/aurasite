@@ -413,12 +413,20 @@ function renderCartBadge(){
   });
 }
 function showToast(msg, type){
+  // Create toast container if not exists
+  var container = document.getElementById('aura-toast-container');
+  if(!container){
+    container = document.createElement('div');
+    container.id = 'aura-toast-container';
+    container.style.cssText = 'position:fixed;bottom:76px;right:24px;z-index:10001;display:flex;flex-direction:column-reverse;gap:8px;pointer-events:none;max-width:340px;';
+    document.body.appendChild(container);
+  }
   var t = document.createElement('div');
-  t.className = 'fixed bottom-6 right-6 z-[200] px-5 py-3 rounded-lg shadow-2xl text-sm font-medium text-white transition-all duration-300 translate-y-4 opacity-0 '+(type==='error'?'bg-red-500':'bg-green-600');
+  t.style.cssText = 'padding:12px 20px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.2);font-size:13px;font-weight:500;color:#fff;font-family:Inter,system-ui,sans-serif;transition:all .3s ease;transform:translateY(16px);opacity:0;pointer-events:auto;background:'+(type==='error'?'#ef4444':'#16a34a')+';';
   t.textContent = msg;
-  document.body.appendChild(t);
+  container.appendChild(t);
   requestAnimationFrame(function(){t.style.transform='translateY(0)';t.style.opacity='1';});
-  setTimeout(function(){t.style.transform='translateY(16px)';t.style.opacity='0';setTimeout(function(){t.remove();},300);},2500);
+  setTimeout(function(){t.style.transform='translateY(16px)';t.style.opacity='0';setTimeout(function(){t.remove();if(container.children.length===0)container.remove();},300);},3000);
 }
 function isImgUrl(src){ return src && (src.indexOf('http')===0 || src.indexOf('/')===0 || src.indexOf('data:')===0); }
 function imgHtml(src, sizeClass){
@@ -819,7 +827,7 @@ document.addEventListener('click', function(e){
     var btn=document.createElement('button');
     btn.id='aura-prime-sticky';
     btn.onclick=showPrimeModal;
-    btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9997;background:linear-gradient(135deg,#C5A059,#A8863D);color:white;border:none;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;box-shadow:0 4px 20px rgba(197,160,89,0.4);transition:transform .2s,box-shadow .2s;';
+    btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9997;background:linear-gradient(135deg,#C5A059,#A8863D);color:white;border:none;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;box-shadow:0 4px 20px rgba(197,160,89,0.4);transition:transform .2s,box-shadow .2s;border-radius:6px;';
     btn.textContent='Aura Prime 💎';
     btn.onmouseenter=function(){btn.style.transform='scale(1.05)';btn.style.boxShadow='0 6px 24px rgba(197,160,89,0.5)';};
     btn.onmouseleave=function(){btn.style.transform='scale(1)';btn.style.boxShadow='0 4px 20px rgba(197,160,89,0.4)';};
