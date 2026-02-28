@@ -11,7 +11,7 @@
 /* ── CONFIG ────────────────────────────────────────── */
 var C = {
   PK:   '6E1iefDAtX8goF9mt',
-  SVC:  'service_6xbgj7m',
+  SVC:  'service_6xbgl7m',
   TPL:  'template_gdaxgeg',
   TPL2: 'template_gdaxgeg',
   FROM_SUPPORT:    'support@auraglobal-merchants.com',
