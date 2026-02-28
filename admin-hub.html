@@ -1434,6 +1434,8 @@ window.updateOrderFromModal=function(type){
   if(type==='status'){
     var st=document.getElementById('om-status-select').value;
     Aura.updateOrderStatus(_currentOrderId,st);
+    var o=Aura.getOrderById(_currentOrderId);
+    if(o && typeof AuraEmail!=='undefined') AuraEmail.sendStatusUpdate(o,st);
     Aura.showToast(t('status_'+st),'success');
   }else if(type==='tracking'){
     var trk=document.getElementById('om-tracking').value.trim();
@@ -2295,7 +2297,8 @@ window.submitReply=function(){
 
   var fromKey=document.getElementById('reply-from').value;
   var fromMap={support:'SUPPORT',hr:'HR',orders:'ORDERS',marketing:'MARKETING',noreply:'NOREPLY'};
-  AuraEmail.sendReply(_currentMsgId, text).then(function(){
+  var fromAlias=fromMap[fromKey]?AuraEmail.FM[fromMap[fromKey]]:null;
+  AuraEmail.sendReply(_currentMsgId, text, fromAlias).then(function(){
     Aura.showToast(lang==='ru'?'Ответ отправлен!':'Antwort gesendet!','success');
     closeReplyModal();
     refreshInbox();

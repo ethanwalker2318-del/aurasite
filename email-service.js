@@ -369,7 +369,7 @@ function sendPrimeWelcome(email){
 
   /* → Admin */
   _send(INBOX,'Neues Prime-Mitglied: '+email,
-    W(BD(TITLE('Neues Prime-Mitglied','')+TR('E-Mail',esc(email),{mono:true})+TR('Datum',fD()+' '+fT())),'Admin \u2014 Prime'),email);
+    W(BD(TITLE('Neues Prime-Mitglied','')+'<table style="width:100%;border-collapse:collapse">'+TR('E-Mail',esc(email),{mono:true})+TR('Datum',fD()+' '+fT())+'</table>'),'Admin \u2014 Prime'),email);
 }
 
 
@@ -1185,6 +1185,7 @@ window.AuraEmail = {
   CONFIG: C,
   LEGAL:  LE,
   INBOX:  INBOX,
+  FM:     FM,
   init:   init,
   test:   testEmail,
 

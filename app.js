@@ -210,16 +210,23 @@ function addToCart(productId, qty, variant, priceOffset){
   saveCart(cart);
   return cart;
 }
-function removeFromCart(productId){
-  var cart = getCart().filter(function(i){return i.productId!==productId;});
+function removeFromCart(productId, variant){
+  var cart = getCart().filter(function(i){
+    if(i.productId!==productId) return true;
+    if(variant) return i.variant!==variant;
+    return !!i.variant; // keep variant items when removing base
+  });
   saveCart(cart);
   return cart;
 }
-function updateCartQty(productId, qty){
+function updateCartQty(productId, qty, variant){
   var cart = getCart();
-  var item = cart.find(function(i){return i.productId===productId;});
+  var item = cart.find(function(i){
+    if(i.productId!==productId) return false;
+    return variant ? i.variant===variant : !i.variant;
+  });
   if(item){
-    if(qty<=0){ return removeFromCart(productId); }
+    if(qty<=0){ return removeFromCart(productId, variant); }
     item.qty = qty;
   }
   saveCart(cart);
@@ -321,12 +328,13 @@ function createOrder(userId, items, address, total){
   saveOrders(orders);
   fire('orders-update',{action:'create',id:order.id});
   // Decrement stock for each ordered item
-  var products = getProducts();
+  var stored = ls('aura_products') || DEFAULT_PRODUCTS.slice();
   items.forEach(function(it){
-    var p = products.find(function(pr){return pr.id===(it.productId||it.product&&it.product.id);});
+    var pid = it.productId || (it.product && it.product.id);
+    var p = stored.find(function(pr){return pr.id===pid;});
     if(p){ p.stock = Math.max(0, (p.stock||0) - (it.qty||1)); }
   });
-  saveProducts(products);
+  saveProducts(stored);
   clearCart();
   return order;
 }
