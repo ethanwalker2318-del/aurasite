@@ -49,15 +49,24 @@ function init(){
 
 /* ── CORE SEND ─────────────────────────────────────── */
 function _send(to, subj, html, reply){
-  if(!_ok){ _q.push({to:to,subj:subj,html:html,reply:reply}); init(); return; }
+  if(!to){ console.warn('[AuraEmail] SKIP — no recipient'); return; }
+  if(!_ok){
+    console.log('[AuraEmail] Queued (SDK loading) -> '+to);
+    _q.push({to:to,subj:subj,html:html,reply:reply}); init(); return;
+  }
   var p = { to_email:to, subject:subj, html_content:html, reply_to:reply||C.FROM_NOREPLY };
+  console.log('[AuraEmail] Sending -> '+to+' | TPL: '+C.TPL);
   emailjs.send(C.SVC, C.TPL, p).then(function(r){
     console.log('[AuraEmail] OK -> '+to+' | '+subj, r.status);
-  }).catch(function(){
+    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail gesendet!','success');
+  }).catch(function(e1){
+    console.warn('[AuraEmail] TPL1 fail, trying fallback...', e1);
     emailjs.send(C.SVC, C.TPL2, p).then(function(r2){
       console.log('[AuraEmail] OK(fb) -> '+to, r2.status);
+      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail gesendet!','success');
     }).catch(function(e2){
       console.error('[AuraEmail] FAIL -> '+to, e2);
+      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail-Versand fehlgeschlagen','error');
     });
   });
 }

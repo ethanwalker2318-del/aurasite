@@ -676,7 +676,7 @@ html{scrollbar-gutter:stable}
 <div class="max-w-xl mx-auto px-4 text-center">
   <h2 class="font-sans text-white text-2xl font-bold mb-3 reveal" data-i18n="sec_news">Newsletter</h2>
   <p class="text-white/40 text-sm mb-6 reveal" data-i18n="news_desc">Neue Angebote und geprüfte Produkte direkt in Ihr Postfach.</p>
-  <form class="flex gap-2 reveal" onsubmit="event.preventDefault();var em=this.querySelector('input').value;if(typeof AuraEmail!=='undefined')AuraEmail.sendNewsletterWelcome(em);Aura.showToast('Erfolgreich abonniert!');this.reset();">
+  <form class="flex gap-2 reveal" onsubmit="event.preventDefault();var em=this.querySelector('input').value.trim();if(!em){Aura.showToast('Bitte E-Mail eingeben','error');return;}console.log('[Newsletter] Subscribing:',em);if(typeof AuraEmail!=='undefined'){AuraEmail.sendNewsletterWelcome(em);Aura.showToast('Erfolgreich abonniert! Prüfen Sie Ihr Postfach.','success');}else{console.error('[Newsletter] AuraEmail not loaded');Aura.showToast('Fehler — bitte Seite neu laden','error');}this.reset();">
     <input type="email" required placeholder="Ihre E-Mail-Adresse" class="flex-1 px-4 py-3 bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 outline-none focus:border-gold/40">
     <button type="submit" class="px-6 py-3 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors">ABONNIEREN</button>
   </form>
