@@ -8,7 +8,7 @@ var ADMIN_EMAIL = 'ethanwalker2318@gmail.com';
 var ADMIN_PASS = 'AuraAdmin2026!';
 
 /* ── Helpers ───────────────────────────────────── */
-function ls(k,v){ if(v===undefined) { try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;} } try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){ console.error('localStorage quota exceeded for key: '+k, e); if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Speicher voll — Bilder/Videos zu groß','error'); } }
+function ls(k,v){ if(v===undefined) { try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;} } try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ console.error('localStorage quota exceeded for key: '+k, e); if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Speicher voll — Daten zu groß','error'); return false; } }
 function uid(){ return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,6); }
 function fire(name,data){ document.dispatchEvent(new CustomEvent(name,{detail:data})); }
 function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -148,15 +148,19 @@ function getProducts(){
   }
   return p;
 }
-function saveProducts(arr){ ls('aura_products', arr); }
+function saveProducts(arr){ return ls('aura_products', arr); }
 function getProductById(id){
   return getProducts().find(function(p){return p.id===id;}) || null;
 }
 function addProduct(data){
   var stored = ls('aura_products') || DEFAULT_PRODUCTS.slice();
   data.id = uid();
-  stored.push(data);
-  saveProducts(stored);
+  stored.unshift(data);
+  var ok = saveProducts(stored);
+  if(!ok) return null;
+  // Verify save
+  var check = ls('aura_products');
+  if(!check || !check.find(function(p){return p.id===data.id;})){ console.error('addProduct: verification failed for '+data.id); return null; }
   fire('products-update',{action:'add',id:data.id});
   return data;
 }
@@ -166,7 +170,7 @@ function updateProduct(id, data){
   var idx = stored.findIndex(function(p){return p.id===id;});
   if(idx>=0){
     Object.assign(stored[idx], data);
-    saveProducts(stored);
+    if(!saveProducts(stored)) return null;
     fire('products-update',{action:'update',id:id});
     return stored[idx];
   }
@@ -176,7 +180,7 @@ function updateProduct(id, data){
   if(fi===-1) return null;
   var copy = Object.assign({}, full[fi], data);
   stored.push(copy);
-  saveProducts(stored);
+  if(!saveProducts(stored)) return null;
   fire('products-update',{action:'update',id:id});
   return copy;
 }

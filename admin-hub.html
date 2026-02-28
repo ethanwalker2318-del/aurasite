@@ -1657,11 +1657,14 @@ window.saveProduct=function(e){
     // Preserve existing rating/reviews on edit
     var existing=Aura.getProductById(id);
     if(existing){data.rating=existing.rating;data.reviews=existing.reviews;}
-    Aura.updateProduct(id,data);
+    var updated=Aura.updateProduct(id,data);
+    if(!updated){ Aura.showToast(lang==='ru'?'Ошибка сохранения! Проверьте localStorage.':'Save error!','error'); return false; }
     Aura.showToast(lang==='ru'?'Товар обновлён':'Product updated','success');
   }else{
-    Aura.addProduct(data);
-    Aura.showToast(lang==='ru'?'Товар добавлен':'Product added','success');
+    var added=Aura.addProduct(data);
+    if(!added){ Aura.showToast(lang==='ru'?'Ошибка: товар не сохранён! Возможно localStorage переполнен.':'Save error! localStorage may be full.','error'); return false; }
+    Aura.showToast(lang==='ru'?'Товар добавлен: '+data.name:'Product added: '+data.name,'success');
+    prodPage=1; // Show new product on page 1
   }
   closeProductModal();
   refreshAll();
