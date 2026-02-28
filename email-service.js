@@ -813,68 +813,111 @@ function sendStatusUpdate(order,status){
 
 
 /* ══════════════════════════════════════════════════════
-   INBOX — Local message storage for Admin Panel
-   ══════════════════════════════════════════════════════ */
-
+   INBOX — Cloud (Firebase) + localStorage fallback
+   ══════════════════════════════════════════════════════
+   ↓↓↓ FIREBASE REALTIME DATABASE URL ↓↓↓
+   1. https://console.firebase.google.com → Create project
+   2. Realtime Database → Create Database → Test mode
+   3. Copy URL and paste below (without trailing slash)        */
+var FB_DB='';
 var INBOX_KEY='aura_inbox';
+
 function _storeMsg(msg){
-  var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');
   msg.id=msg.id||('MSG-'+Date.now().toString(36).toUpperCase());
   msg.date=msg.date||new Date().toISOString();
   msg.status=msg.status||'new';
   msg.replies=msg.replies||[];
-  inbox.unshift(msg);
-  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+  if(FB_DB){
+    fetch(FB_DB+'/inbox/'+msg.id+'.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(msg)
+    }).catch(function(e){console.warn('[AuraInbox] store error:',e);});
+  }else{
+    var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');
+    inbox.unshift(msg);
+    localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+  }
   return msg;
 }
-function getInbox(){return JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');}
-function getInboxMsg(id){
-  return getInbox().find(function(m){return m.id===id;})||null;
+
+function getInbox(){
+  if(FB_DB){
+    return fetch(FB_DB+'/inbox.json')
+      .then(function(r){return r.json();})
+      .then(function(data){
+        if(!data) return [];
+        return Object.keys(data).map(function(k){return data[k];})
+          .sort(function(a,b){return new Date(b.date)-new Date(a.date);});
+      })
+      .catch(function(e){console.warn('[AuraInbox] fetch error:',e);return [];});
+  }
+  return Promise.resolve(JSON.parse(localStorage.getItem(INBOX_KEY)||'[]'));
 }
+
+function getInboxMsg(id){
+  if(FB_DB){
+    return fetch(FB_DB+'/inbox/'+id+'.json')
+      .then(function(r){return r.json();})
+      .catch(function(e){console.warn('[AuraInbox] get error:',e);return null;});
+  }
+  var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');
+  return Promise.resolve(inbox.find(function(m){return m.id===id;})||null);
+}
+
 function updateInboxMsg(id,updates){
-  var inbox=getInbox();
+  if(FB_DB){
+    return fetch(FB_DB+'/inbox/'+id+'.json',{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(updates)
+    }).catch(function(e){console.warn('[AuraInbox] update error:',e);});
+  }
+  var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');
   for(var i=0;i<inbox.length;i++){
     if(inbox[i].id===id){for(var k in updates)inbox[i][k]=updates[k];break;}
   }
   localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+  return Promise.resolve();
 }
+
 function deleteInboxMsg(id){
-  var inbox=getInbox().filter(function(m){return m.id!==id;});
+  if(FB_DB){
+    return fetch(FB_DB+'/inbox/'+id+'.json',{method:'DELETE'})
+      .catch(function(e){console.warn('[AuraInbox] delete error:',e);});
+  }
+  var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]')
+    .filter(function(m){return m.id!==id;});
   localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+  return Promise.resolve();
 }
 
 /* ── Admin Reply — sends professional email from corporate address ── */
-function sendReply(msgId, replyText, fromAlias){
-  var msg=getInboxMsg(msgId);
-  if(!msg) return;
-  var from=fromAlias||FM.SUPPORT;
-  var dept='Kundendienst';
-  if(msg.type==='career'){from=FM.HR;dept='Personalabteilung';}
-  else if(msg.type==='order'){from=FM.ORDERS;dept='Auftragsverwaltung';}
+function sendReply(msgId,replyText,fromAlias){
+  return getInboxMsg(msgId).then(function(msg){
+    if(!msg) return;
+    var from=fromAlias||FM.SUPPORT;
+    var dept='Kundendienst';
+    if(msg.type==='career'){from=FM.HR;dept='Personalabteilung';}
+    else if(msg.type==='order'){from=FM.ORDERS;dept='Auftragsverwaltung';}
 
-  var replyHtml=W(BD(
-    TITLE('Antwort auf Ihre Anfrage','Referenz: '+esc(msg.refId||msg.id))+
-    DIV()+
-    GREET(msg.senderName||msg.email)+
-    '<div style="white-space:pre-wrap;font-size:14px;color:'+_warm+';line-height:1.85">'+esc(replyText)+'</div>'+
-    SIGN(dept)+
-    SEC('Ihre urspr\u00fcngliche Nachricht')+
-    '<div style="background:'+_light+';padding:16px;border-radius:4px;font-size:12px;color:'+_muted+';line-height:1.7;white-space:pre-wrap">'+esc(msg.message||'')+'</div>'
-  ),'Antwort \u2014 '+esc(msg.refId||msg.id),msg.refId||msg.id,
-    'Antwort auf Ihre Anfrage ['+esc(msg.refId||msg.id)+']');
+    var replyHtml=W(BD(
+      TITLE('Antwort auf Ihre Anfrage','Referenz: '+esc(msg.refId||msg.id))+
+      DIV()+
+      GREET(msg.senderName||msg.email)+
+      '<div style="white-space:pre-wrap;font-size:14px;color:'+_warm+';line-height:1.85">'+esc(replyText)+'</div>'+
+      SIGN(dept)+
+      SEC('Ihre urspr\u00fcngliche Nachricht')+
+      '<div style="background:'+_light+';padding:16px;border-radius:4px;font-size:12px;color:'+_muted+';line-height:1.7;white-space:pre-wrap">'+esc(msg.message||'')+'</div>'
+    ),'Antwort \u2014 '+esc(msg.refId||msg.id),msg.refId||msg.id,
+      'Antwort auf Ihre Anfrage ['+esc(msg.refId||msg.id)+']');
 
-  _send(msg.email,'Re: '+(msg.subject||msg.position||'Ihre Anfrage')+' ['+esc(msg.refId||msg.id)+'] \u2014 '+LE.NAME,replyHtml,from);
+    _send(msg.email,'Re: '+(msg.subject||msg.position||'Ihre Anfrage')+' ['+esc(msg.refId||msg.id)+'] \u2014 '+LE.NAME,replyHtml,from);
 
-  /* Store reply in inbox history */
-  var inbox=getInbox();
-  for(var i=0;i<inbox.length;i++){
-    if(inbox[i].id===msgId){
-      inbox[i].replies.push({text:replyText,from:from,date:new Date().toISOString()});
-      inbox[i].status='replied';
-      break;
-    }
-  }
-  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+    var replies=(msg.replies||[]);
+    replies.push({text:replyText,from:from,date:new Date().toISOString()});
+    return updateInboxMsg(msgId,{replies:replies,status:'replied'});
+  });
 }
 
 

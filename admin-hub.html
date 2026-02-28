@@ -2140,7 +2140,7 @@ window.setInboxStatusFilter=function(st,btn){
 
 function refreshInbox(){
   if(typeof AuraEmail==='undefined'||!AuraEmail.getInbox) return;
-  var msgs=AuraEmail.getInbox();
+  AuraEmail.getInbox().then(function(msgs){
   var newCount=msgs.filter(function(m){return m.status==='new';}).length;
 
   // Badge
@@ -2199,25 +2199,27 @@ function refreshInbox(){
     +'</div>';
   }).join('');
   if(typeof lucide!=='undefined')lucide.createIcons();
+  });
 }
 
 window.deleteInboxMsg=function(id){
   if(!confirm(lang==='ru'?'Удалить сообщение?':'Nachricht löschen?')) return;
-  AuraEmail.deleteInboxMsg(id);
-  Aura.showToast(lang==='ru'?'Удалено':'Gelöscht','success');
-  refreshInbox();
+  AuraEmail.deleteInboxMsg(id).then(function(){
+    Aura.showToast(lang==='ru'?'Удалено':'Gelöscht','success');
+    refreshInbox();
+  });
 };
 
 window.openReplyModal=function(id){
-  var msg=AuraEmail.getInboxMsg(id);
-  if(!msg) return;
-  _currentMsgId=id;
+  AuraEmail.getInboxMsg(id).then(function(msg){
+    if(!msg) return;
+    _currentMsgId=id;
 
-  // Mark as read
-  if(msg.status==='new'){
-    AuraEmail.updateInboxMsg(id,{status:'read'});
-    refreshInbox();
-  }
+    // Mark as read
+    if(msg.status==='new'){
+      AuraEmail.updateInboxMsg(id,{status:'read'});
+      refreshInbox();
+    }
 
   document.getElementById('reply-modal-title').textContent=msg.type==='career'?'Bewerbung beantworten':'Anfrage beantworten';
   document.getElementById('reply-modal-ref').textContent=msg.refId||msg.id;
@@ -2260,9 +2262,10 @@ window.openReplyModal=function(id){
     historyDiv.style.display='none';
   }
 
-  document.getElementById('reply-text').value='';
-  document.getElementById('inbox-reply-modal').style.display='flex';
-  if(typeof lucide!=='undefined')lucide.createIcons();
+    document.getElementById('reply-text').value='';
+    document.getElementById('inbox-reply-modal').style.display='flex';
+    if(typeof lucide!=='undefined')lucide.createIcons();
+  });
 };
 
 window.closeReplyModal=function(){
@@ -2292,12 +2295,11 @@ window.submitReply=function(){
 
   var fromKey=document.getElementById('reply-from').value;
   var fromMap={support:'SUPPORT',hr:'HR',orders:'ORDERS',marketing:'MARKETING',noreply:'NOREPLY'};
-  // AuraEmail.sendReply handles the from mapping internally
-  AuraEmail.sendReply(_currentMsgId, text);
-
-  Aura.showToast(lang==='ru'?'Ответ отправлен!':'Antwort gesendet!','success');
-  closeReplyModal();
-  refreshInbox();
+  AuraEmail.sendReply(_currentMsgId, text).then(function(){
+    Aura.showToast(lang==='ru'?'Ответ отправлен!':'Antwort gesendet!','success');
+    closeReplyModal();
+    refreshInbox();
+  });
 };
 
 // ── INIT ────────────────────────────────────────────────────
