@@ -12,8 +12,8 @@
 var C = {
   PK:   '6E1iefDAtX8goF9mt',
   SVC:  'service_6xbgl7m',
-  TPL:  'template_gdaxgeg',
-  TPL2: 'template_gdaxgeg',
+  TPL:  'template_slxey9g',
+  TPL2: 'tmpl_universal',
   FROM_SUPPORT:    'support@auraglobal-merchants.com',
   FROM_ORDERS:     'orders@auraglobal-merchants.com',
   FROM_NOREPLY:    'noreply@auraglobal-merchants.com',
