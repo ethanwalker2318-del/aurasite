@@ -813,11 +813,88 @@ function sendStatusUpdate(order,status){
 
 
 /* ══════════════════════════════════════════════════════
+   INBOX — Local message storage for Admin Panel
+   ══════════════════════════════════════════════════════ */
+
+var INBOX_KEY='aura_inbox';
+function _storeMsg(msg){
+  var inbox=JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');
+  msg.id=msg.id||('MSG-'+Date.now().toString(36).toUpperCase());
+  msg.date=msg.date||new Date().toISOString();
+  msg.status=msg.status||'new';
+  msg.replies=msg.replies||[];
+  inbox.unshift(msg);
+  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+  return msg;
+}
+function getInbox(){return JSON.parse(localStorage.getItem(INBOX_KEY)||'[]');}
+function getInboxMsg(id){
+  return getInbox().find(function(m){return m.id===id;})||null;
+}
+function updateInboxMsg(id,updates){
+  var inbox=getInbox();
+  for(var i=0;i<inbox.length;i++){
+    if(inbox[i].id===id){for(var k in updates)inbox[i][k]=updates[k];break;}
+  }
+  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+}
+function deleteInboxMsg(id){
+  var inbox=getInbox().filter(function(m){return m.id!==id;});
+  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+}
+
+/* ── Admin Reply — sends professional email from corporate address ── */
+function sendReply(msgId, replyText, fromAlias){
+  var msg=getInboxMsg(msgId);
+  if(!msg) return;
+  var from=fromAlias||FM.SUPPORT;
+  var dept='Kundendienst';
+  if(msg.type==='career'){from=FM.HR;dept='Personalabteilung';}
+  else if(msg.type==='order'){from=FM.ORDERS;dept='Auftragsverwaltung';}
+
+  var replyHtml=W(BD(
+    TITLE('Antwort auf Ihre Anfrage','Referenz: '+esc(msg.refId||msg.id))+
+    DIV()+
+    GREET(msg.senderName||msg.email)+
+    '<div style="white-space:pre-wrap;font-size:14px;color:'+_warm+';line-height:1.85">'+esc(replyText)+'</div>'+
+    SIGN(dept)+
+    SEC('Ihre urspr\u00fcngliche Nachricht')+
+    '<div style="background:'+_light+';padding:16px;border-radius:4px;font-size:12px;color:'+_muted+';line-height:1.7;white-space:pre-wrap">'+esc(msg.message||'')+'</div>'
+  ),'Antwort \u2014 '+esc(msg.refId||msg.id),msg.refId||msg.id,
+    'Antwort auf Ihre Anfrage ['+esc(msg.refId||msg.id)+']');
+
+  _send(msg.email,'Re: '+(msg.subject||msg.position||'Ihre Anfrage')+' ['+esc(msg.refId||msg.id)+'] \u2014 '+LE.NAME,replyHtml,from);
+
+  /* Store reply in inbox history */
+  var inbox=getInbox();
+  for(var i=0;i<inbox.length;i++){
+    if(inbox[i].id===msgId){
+      inbox[i].replies.push({text:replyText,from:from,date:new Date().toISOString()});
+      inbox[i].status='replied';
+      break;
+    }
+  }
+  localStorage.setItem(INBOX_KEY,JSON.stringify(inbox));
+}
+
+
+/* ══════════════════════════════════════════════════════
    5 · KUNDENKOMMUNIKATION
    ══════════════════════════════════════════════════════ */
 
 function sendContactForm(data){
   var refId=data.refId||'KA-'+Date.now().toString(36).toUpperCase();
+
+  /* Store in local inbox */
+  _storeMsg({
+    type:'contact',
+    refId:refId,
+    senderName:data.name,
+    email:data.email,
+    subject:data.subject,
+    message:data.message,
+    orderNumber:data.orderNumber||null
+  });
 
   /* → Admin (INBOX) — incoming customer request */
   var aHtml=W(BD(
@@ -938,6 +1015,18 @@ function verifyCode(c){
 
 function sendCareerApplication(data){
   var refId=data.refId||'BW-'+Date.now().toString(36).toUpperCase();
+
+  /* Store in local inbox */
+  _storeMsg({
+    type:'career',
+    refId:refId,
+    senderName:(data.firstname||'')+' '+(data.lastname||''),
+    email:data.email,
+    subject:'Bewerbung: '+data.position,
+    position:data.position,
+    message:data.message||'',
+    messenger:data.messenger||null
+  });
 
   /* → Admin (INBOX) — incoming application */
   var hrHtml=W(BD(
@@ -1085,7 +1174,14 @@ window.AuraEmail = {
 
   /* 7 · HR */
   sendCareerApplication:    sendCareerApplication,
-  sendOnboarding:           sendOnboarding
+  sendOnboarding:           sendOnboarding,
+
+  /* 8 · Inbox & Reply */
+  getInbox:                 getInbox,
+  getInboxMsg:              getInboxMsg,
+  updateInboxMsg:           updateInboxMsg,
+  deleteInboxMsg:           deleteInboxMsg,
+  sendReply:                sendReply
 };
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);

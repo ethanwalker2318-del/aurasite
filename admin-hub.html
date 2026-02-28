@@ -53,6 +53,7 @@
       <div class="px-4 mb-2"><span class="text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.5)" data-i18n="nav_main">ОСНОВНОЕ</span></div>
       <a class="sidebar-link active" data-section="dashboard" onclick="showSection('dashboard')"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span data-i18n="nav_dashboard">Обзор</span></a>
       <a class="sidebar-link" data-section="orders" onclick="showSection('orders')"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="nav_orders">Заказы</span></a>
+      <a class="sidebar-link admin-only" data-section="inbox" onclick="showSection('inbox')"><i data-lucide="mail" class="w-4 h-4"></i><span data-i18n="nav_inbox">Входящие</span><span id="inbox-badge" class="ml-auto px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full leading-none" style="display:none">0</span></a>
       <a class="sidebar-link admin-only" data-section="products" onclick="showSection('products')"><i data-lucide="box" class="w-4 h-4"></i><span data-i18n="nav_products">Товары</span></a>
       <div class="px-4 mt-6 mb-2 admin-only"><span class="text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.5)" data-i18n="nav_manage">УПРАВЛЕНИЕ</span></div>
       <a class="sidebar-link admin-only" data-section="linguists" onclick="showSection('linguists')"><i data-lucide="users" class="w-4 h-4"></i><span data-i18n="nav_linguists">Лингвисты</span></a>
@@ -276,6 +277,120 @@
           </tr></thead><tbody id="linguists-body"></tbody></table>
         </div>
       </section>
+
+      <!-- INBOX — Incoming Messages & Reply System -->
+      <section id="sec-inbox" class="section hidden admin-only">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h1 class="font-serif text-2xl font-bold" data-i18n="inbox_title">Входящие сообщения</h1>
+          <div class="flex items-center gap-2">
+            <span id="inbox-count" class="text-sm text-gray-400"></span>
+            <div class="flex gap-1" id="inbox-type-pills">
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white" data-itype="all" onclick="setInboxFilter('all',this)" data-i18n="inbox_all">Alle</button>
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded text-blue-600 bg-blue-50" data-itype="contact" onclick="setInboxFilter('contact',this)">Kontakt</button>
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded text-purple-600 bg-purple-50" data-itype="career" onclick="setInboxFilter('career',this)">Bewerbungen</button>
+            </div>
+            <div class="flex gap-1" id="inbox-status-pills">
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white" data-ist="all" onclick="setInboxStatusFilter('all',this)">Alle</button>
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded text-red-600 bg-red-50" data-ist="new" onclick="setInboxStatusFilter('new',this)">Neu</button>
+              <button class="px-3 py-1.5 text-[11px] font-bold rounded text-green-600 bg-green-50" data-ist="replied" onclick="setInboxStatusFilter('replied',this)" data-i18n="inbox_replied">Beantwortet</button>
+            </div>
+          </div>
+        </div>
+        <!-- MESSAGE LIST -->
+        <div id="inbox-list" class="space-y-3"></div>
+        <div id="inbox-empty" class="bg-white border border-gray-100 p-12 text-center text-gray-400 text-sm hidden">
+          <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-3 text-gray-200"></i>
+          <p data-i18n="inbox_empty">Keine Nachrichten</p>
+        </div>
+      </section>
+
+      <!-- INBOX REPLY MODAL -->
+      <div id="inbox-reply-modal" class="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto" style="display:none" onclick="if(event.target===this)closeReplyModal()">
+        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-[800px] mx-4 my-6 bg-[#0f1117] shadow-2xl rounded-2xl border border-white/[0.06]">
+          <!-- HEADER -->
+          <div class="flex items-center justify-between px-8 py-5 border-b border-white/[0.06] sticky top-0 bg-[#0f1117]/95 backdrop-blur z-10 rounded-t-2xl">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 bg-gold/10 border border-gold/20 flex items-center justify-center rounded-lg"><i data-lucide="reply" class="w-5 h-5 text-gold"></i></div>
+              <div>
+                <h2 id="reply-modal-title" class="text-white text-lg font-bold tracking-tight">Antworten</h2>
+                <span id="reply-modal-ref" class="text-[10px] text-white/25 tracking-wider uppercase font-mono"></span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="reply-modal-type-badge" class="px-3 py-1 text-xs font-bold rounded-full"></span>
+              <button onclick="closeReplyModal()" class="w-9 h-9 flex items-center justify-center text-white/30 hover:text-white hover:bg-white/10 rounded-lg transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+          </div>
+          <!-- BODY -->
+          <div class="p-6 lg:p-8 space-y-6">
+            <!-- Original message -->
+            <div class="bg-[#101520] border border-blue-500/20 rounded-xl p-5 space-y-3">
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                <span class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.25em]">EINGEHENDE NACHRICHT</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Absender</span><p id="reply-sender" class="text-white/80 text-sm font-medium"></p></div>
+                <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">E-Mail</span><p id="reply-email" class="text-white/60 text-sm font-mono"></p></div>
+                <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Betreff</span><p id="reply-subject" class="text-white/80 text-sm font-medium"></p></div>
+                <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Datum</span><p id="reply-date" class="text-white/60 text-sm font-mono"></p></div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-blue-500/10">
+                <span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-2">Nachricht</span>
+                <div id="reply-message" class="text-white/70 text-sm whitespace-pre-wrap leading-relaxed max-h-[200px] overflow-y-auto"></div>
+              </div>
+            </div>
+            <!-- Reply history -->
+            <div id="reply-history" class="space-y-3" style="display:none">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                <span class="text-[10px] font-bold text-green-300 uppercase tracking-[0.25em]">BISHERIGE ANTWORTEN</span>
+              </div>
+              <div id="reply-history-list" class="space-y-2"></div>
+            </div>
+            <!-- Compose reply -->
+            <div class="bg-[#15130e] border border-gold/20 rounded-xl p-5 space-y-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-2 h-2 rounded-full bg-gold"></div>
+                <span class="text-[10px] font-bold text-gold uppercase tracking-[0.25em]">ANTWORT VERFASSEN</span>
+              </div>
+              <div>
+                <label class="text-[10px] text-gold/60 uppercase tracking-wider block mb-1.5">Absender (Corporate)</label>
+                <select id="reply-from" class="w-full h-10 px-3 bg-[#0f0a14] border border-gold/15 rounded-lg text-sm text-white/80 outline-none">
+                  <option value="support">support@auraglobal-merchants.com (Kundendienst)</option>
+                  <option value="hr">karriere@auraglobal-merchants.com (HR)</option>
+                  <option value="orders">orders@auraglobal-merchants.com (Aufträge)</option>
+                  <option value="marketing">marketing@auraglobal-merchants.com (Marketing)</option>
+                  <option value="noreply">noreply@auraglobal-merchants.com</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] text-gold/60 uppercase tracking-wider block mb-1.5">Nachricht</label>
+                <textarea id="reply-text" rows="6" placeholder="Ihre Antwort..." class="w-full px-4 py-3 bg-[#0f0a14] border border-gold/15 rounded-lg text-sm text-white/80 placeholder:text-white/15 outline-none focus:border-gold/40 resize-none transition-colors leading-relaxed"></textarea>
+              </div>
+              <!-- Quick response templates -->
+              <div>
+                <label class="text-[10px] text-gold/40 uppercase tracking-wider block mb-2">Schnellantworten</label>
+                <div class="flex flex-wrap gap-1.5">
+                  <button type="button" onclick="insertQuickReply('contact_received')" class="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] text-white/40 text-[10px] rounded-lg hover:text-gold hover:border-gold/30 transition-all">Anfrage erhalten</button>
+                  <button type="button" onclick="insertQuickReply('processing')" class="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] text-white/40 text-[10px] rounded-lg hover:text-gold hover:border-gold/30 transition-all">In Bearbeitung</button>
+                  <button type="button" onclick="insertQuickReply('resolved')" class="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] text-white/40 text-[10px] rounded-lg hover:text-gold hover:border-gold/30 transition-all">Erledigt</button>
+                  <button type="button" onclick="insertQuickReply('career_invite')" class="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] text-white/40 text-[10px] rounded-lg hover:text-gold hover:border-gold/30 transition-all">Einladung (HR)</button>
+                  <button type="button" onclick="insertQuickReply('career_reject')" class="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] text-white/40 text-[10px] rounded-lg hover:text-gold hover:border-gold/30 transition-all">Absage (HR)</button>
+                </div>
+              </div>
+              <div class="flex gap-3 pt-2">
+                <button onclick="submitReply()" class="flex-1 py-3 bg-gradient-to-r from-gold to-gold-light hover:from-gold-light hover:to-gold text-navy font-bold text-sm tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-gold/10">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                  <span>Antwort senden</span>
+                </button>
+                <button onclick="closeReplyModal()" class="px-6 py-3 border border-white/10 text-white/40 hover:text-white text-sm font-medium rounded-xl transition-all">Abbrechen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- PROFIT -->
       <section id="sec-profit" class="section hidden admin-only">
@@ -766,9 +881,10 @@ var lang='ru';
 var dict={
   ru:{
     no_access:'Нет доступа',go_login:'Войти',
-    nav_main:'ОСНОВНОЕ',nav_dashboard:'Обзор',nav_orders:'Заказы',nav_products:'Товары',nav_manage:'УПРАВЛЕНИЕ',nav_linguists:'Лингвисты',nav_profit:'Прибыль',
+    nav_main:'ОСНОВНОЕ',nav_dashboard:'Обзор',nav_orders:'Заказы',nav_products:'Товары',nav_manage:'УПРАВЛЕНИЕ',nav_linguists:'Лингвисты',nav_profit:'Прибыль',nav_inbox:'Входящие',
     dash_title:'Обзор',stat_products:'Товары',stat_orders:'Заказы',stat_revenue:'Выручка',stat_users:'Пользователи',stat_profit_net:'Чистая прибыль',dash_recent:'Последние заказы',
     chart_revenue:'Выручка за 30 дней',dash_top_products:'Топ-5 товаров',dash_low_stock:'Мало на складе',dash_order_status:'Статусы заказов',
+    inbox_title:'Входящие сообщения',inbox_all:'Все',inbox_replied:'Отвечено',inbox_empty:'Нет сообщений',
     th_id:'ID',th_date:'Дата',th_total:'Сумма',th_status:'Статус',th_customer:'Клиент',th_items:'Товары',th_actions:'Действия',th_name:'Название',th_brand:'Бренд',th_cat:'Категория',th_price:'Aura / UVP',th_stock:'Склад',th_role:'Роль',th_cost:'Себест.',th_profit_col:'Прибыль',th_badge:'Значок',th_protocol:'Протокол',
     orders_title:'Заказы',orders_empty:'Заказов пока нет',
     products_title:'Товары',btn_add_product:'Добавить товар',
@@ -786,9 +902,10 @@ var dict={
   },
   en:{
     no_access:'Access denied',go_login:'Login',
-    nav_main:'MAIN',nav_dashboard:'Dashboard',nav_orders:'Orders',nav_products:'Products',nav_manage:'MANAGEMENT',nav_linguists:'Linguists',nav_profit:'Profit',
+    nav_main:'MAIN',nav_dashboard:'Dashboard',nav_orders:'Orders',nav_products:'Products',nav_manage:'MANAGEMENT',nav_linguists:'Linguists',nav_profit:'Profit',nav_inbox:'Inbox',
     dash_title:'Dashboard',stat_products:'Products',stat_orders:'Orders',stat_revenue:'Revenue',stat_users:'Users',stat_profit_net:'Net Profit',dash_recent:'Recent Orders',
     chart_revenue:'Revenue (30 days)',dash_top_products:'Top 5 Products',dash_low_stock:'Low Stock Alert',dash_order_status:'Order Status',
+    inbox_title:'Inbox',inbox_all:'All',inbox_replied:'Replied',inbox_empty:'No messages',
     th_id:'ID',th_date:'Date',th_total:'Total',th_status:'Status',th_customer:'Customer',th_items:'Items',th_actions:'Actions',th_name:'Name',th_brand:'Brand',th_cat:'Category',th_price:'Aura / RRP',th_stock:'Stock',th_role:'Role',th_cost:'Cost',th_profit_col:'Profit',th_badge:'Badge',th_protocol:'Protocol',
     orders_title:'Orders',orders_empty:'No orders yet',
     products_title:'Products',btn_add_product:'Add Product',
@@ -806,9 +923,10 @@ var dict={
   },
   de:{
     no_access:'Kein Zugang',go_login:'Anmelden',
-    nav_main:'HAUPT',nav_dashboard:'Übersicht',nav_orders:'Bestellungen',nav_products:'Produkte',nav_manage:'VERWALTUNG',nav_linguists:'Linguisten',nav_profit:'Gewinn',
+    nav_main:'HAUPT',nav_dashboard:'Übersicht',nav_orders:'Bestellungen',nav_products:'Produkte',nav_manage:'VERWALTUNG',nav_linguists:'Linguisten',nav_profit:'Gewinn',nav_inbox:'Posteingang',
     dash_title:'Übersicht',stat_products:'Produkte',stat_orders:'Bestellungen',stat_revenue:'Umsatz',stat_users:'Benutzer',stat_profit_net:'Nettogewinn',dash_recent:'Letzte Bestellungen',
     chart_revenue:'Umsatz (30 Tage)',dash_top_products:'Top-5 Produkte',dash_low_stock:'Geringer Bestand',dash_order_status:'Bestellstatus',
+    inbox_title:'Posteingang',inbox_all:'Alle',inbox_replied:'Beantwortet',inbox_empty:'Keine Nachrichten',
     th_id:'ID',th_date:'Datum',th_total:'Betrag',th_status:'Status',th_customer:'Kunde',th_items:'Artikel',th_actions:'Aktionen',th_name:'Name',th_brand:'Marke',th_cat:'Kategorie',th_price:'Aura / UVP',th_stock:'Lager',th_role:'Rolle',th_cost:'Einkauf',th_profit_col:'Gewinn',th_badge:'Badge',th_protocol:'Protokoll',
     orders_title:'Bestellungen',orders_empty:'Noch keine Bestellungen',
     products_title:'Produkte',btn_add_product:'Produkt hinzufügen',
@@ -939,6 +1057,9 @@ function refreshAll(){
       return '<tr class="border-t border-gray-50"><td class="table-cell font-medium">'+u.name+'</td><td class="table-cell text-gray-400">'+u.email+'</td><td class="table-cell"><span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded">linguist</span></td></tr>';
     }).join(''):'<tr><td colspan="3" class="table-cell text-center text-gray-400">—</td></tr>';
   }
+
+  // ── INBOX ──
+  if(isAdmin && typeof refreshInbox==='function') refreshInbox();
 
   if(typeof lucide!=='undefined') lucide.createIcons();
 }
@@ -1981,6 +2102,202 @@ window.calcProfit=function(){
   document.getElementById('prof-unit').textContent='€'+perUnit.toFixed(2);
   document.getElementById('prof-total').textContent='€'+(perUnit*qty).toFixed(2);
   document.getElementById('prof-total').className=perUnit>=0?'text-green-600 font-bold':'text-red-600 font-bold';
+};
+
+// ══════════════════════════════════════════════════════════════
+//  INBOX — Message list, filters, reply system
+// ══════════════════════════════════════════════════════════════
+
+var _inboxTypeFilter='all';
+var _inboxStatusFilter='all';
+var _currentMsgId=null;
+
+window.setInboxFilter=function(type,btn){
+  _inboxTypeFilter=type;
+  document.getElementById('inbox-type-pills').querySelectorAll('button').forEach(function(b){
+    if(b.getAttribute('data-itype')===type) b.className='px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white';
+    else{
+      var st=b.getAttribute('data-itype');
+      var cm={contact:'text-blue-600 bg-blue-50',career:'text-purple-600 bg-purple-50'};
+      b.className='px-3 py-1.5 text-[11px] font-bold rounded '+(cm[st]||'text-gray-400 hover:bg-gray-100');
+    }
+  });
+  refreshInbox();
+};
+
+window.setInboxStatusFilter=function(st,btn){
+  _inboxStatusFilter=st;
+  document.getElementById('inbox-status-pills').querySelectorAll('button').forEach(function(b){
+    if(b.getAttribute('data-ist')===st) b.className='px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white';
+    else{
+      var s=b.getAttribute('data-ist');
+      var cm={'new':'text-red-600 bg-red-50','replied':'text-green-600 bg-green-50'};
+      b.className='px-3 py-1.5 text-[11px] font-bold rounded '+(cm[s]||'text-gray-400 hover:bg-gray-100');
+    }
+  });
+  refreshInbox();
+};
+
+function refreshInbox(){
+  if(typeof AuraEmail==='undefined'||!AuraEmail.getInbox) return;
+  var msgs=AuraEmail.getInbox();
+  var newCount=msgs.filter(function(m){return m.status==='new';}).length;
+
+  // Badge
+  var badge=document.getElementById('inbox-badge');
+  if(badge){
+    if(newCount>0){badge.textContent=newCount;badge.style.display='';}
+    else badge.style.display='none';
+  }
+
+  // Filter
+  var filtered=msgs.filter(function(m){
+    if(_inboxTypeFilter!=='all'&&m.type!==_inboxTypeFilter) return false;
+    if(_inboxStatusFilter!=='all'&&m.status!==_inboxStatusFilter) return false;
+    return true;
+  });
+
+  document.getElementById('inbox-count').textContent=filtered.length+' / '+msgs.length+(lang==='ru'?' сообщений':' Nachrichten');
+
+  if(!filtered.length){
+    document.getElementById('inbox-list').innerHTML='';
+    document.getElementById('inbox-empty').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('inbox-empty').classList.add('hidden');
+
+  document.getElementById('inbox-list').innerHTML=filtered.map(function(m){
+    var isNew=m.status==='new';
+    var typeBadge=m.type==='career'
+      ?'<span class="px-2 py-0.5 bg-purple-50 text-purple-600 text-[10px] font-bold rounded">Bewerbung</span>'
+      :'<span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded">Kontakt</span>';
+    var statusBadge=isNew
+      ?'<span class="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded animate-pulse">NEU</span>'
+      :'<span class="px-2 py-0.5 bg-green-50 text-green-600 text-[10px] font-bold rounded">'+(m.replies&&m.replies.length?m.replies.length+'× ':'')+'Beantwortet</span>';
+    var date=new Date(m.date).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+    var preview=(m.message||'').substring(0,120);
+    if((m.message||'').length>120) preview+='…';
+
+    return '<div class="bg-white border '+(isNew?'border-gold/40 shadow-sm':'border-gray-100')+' hover:shadow-md transition-all cursor-pointer" onclick="openReplyModal(\''+m.id+'\')">'
+      +'<div class="p-4 sm:p-5">'
+        +'<div class="flex items-start justify-between gap-3 mb-2">'
+          +'<div class="flex items-center gap-2 flex-wrap">'+typeBadge+statusBadge
+            +'<span class="text-[10px] text-gray-400 font-mono">'+m.refId+'</span>'
+          +'</div>'
+          +'<div class="flex items-center gap-2 flex-shrink-0">'
+            +'<span class="text-[10px] text-gray-400">'+date+'</span>'
+            +'<button onclick="event.stopPropagation();deleteInboxMsg(\''+m.id+'\')" class="w-7 h-7 flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 rounded transition-colors" title="Löschen"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>'
+          +'</div>'
+        +'</div>'
+        +'<div class="flex items-center gap-2 mb-1">'
+          +'<span class="font-semibold text-sm text-navy">'+(m.senderName||'Unbekannt')+'</span>'
+          +'<span class="text-xs text-gray-400">&lt;'+(m.email||'')+'&gt;</span>'
+        +'</div>'
+        +'<p class="text-sm font-medium text-navy/80 mb-1">'+(m.subject||'Kein Betreff')+'</p>'
+        +'<p class="text-xs text-gray-400 leading-relaxed">'+preview+'</p>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  if(typeof lucide!=='undefined')lucide.createIcons();
+}
+
+window.deleteInboxMsg=function(id){
+  if(!confirm(lang==='ru'?'Удалить сообщение?':'Nachricht löschen?')) return;
+  AuraEmail.deleteInboxMsg(id);
+  Aura.showToast(lang==='ru'?'Удалено':'Gelöscht','success');
+  refreshInbox();
+};
+
+window.openReplyModal=function(id){
+  var msg=AuraEmail.getInboxMsg(id);
+  if(!msg) return;
+  _currentMsgId=id;
+
+  // Mark as read
+  if(msg.status==='new'){
+    AuraEmail.updateInboxMsg(id,{status:'read'});
+    refreshInbox();
+  }
+
+  document.getElementById('reply-modal-title').textContent=msg.type==='career'?'Bewerbung beantworten':'Anfrage beantworten';
+  document.getElementById('reply-modal-ref').textContent=msg.refId||msg.id;
+
+  var tBadge=document.getElementById('reply-modal-type-badge');
+  if(msg.type==='career'){
+    tBadge.className='px-3 py-1 text-xs font-bold rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30';
+    tBadge.textContent='Bewerbung';
+  }else{
+    tBadge.className='px-3 py-1 text-xs font-bold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30';
+    tBadge.textContent='Kontakt';
+  }
+
+  document.getElementById('reply-sender').textContent=msg.senderName||'—';
+  document.getElementById('reply-email').textContent=msg.email||'—';
+  document.getElementById('reply-subject').textContent=msg.subject||'—';
+  document.getElementById('reply-date').textContent=new Date(msg.date).toLocaleString('de-DE');
+  document.getElementById('reply-message').textContent=msg.message||'—';
+
+  // Set from selector
+  var fromSel=document.getElementById('reply-from');
+  if(msg.type==='career') fromSel.value='hr';
+  else fromSel.value='support';
+
+  // Reply history
+  var historyDiv=document.getElementById('reply-history');
+  var historyList=document.getElementById('reply-history-list');
+  if(msg.replies&&msg.replies.length>0){
+    historyDiv.style.display='';
+    historyList.innerHTML=msg.replies.map(function(r){
+      return '<div class="bg-[#0a1a0f] border border-green-500/15 rounded-lg p-4">'
+        +'<div class="flex items-center justify-between mb-2">'
+          +'<span class="text-[10px] text-green-400/60 font-mono">'+(r.from||'support@...')+'</span>'
+          +'<span class="text-[10px] text-green-400/40">'+new Date(r.date).toLocaleString('de-DE')+'</span>'
+        +'</div>'
+        +'<p class="text-white/60 text-sm whitespace-pre-wrap leading-relaxed">'+r.text+'</p>'
+      +'</div>';
+    }).join('');
+  }else{
+    historyDiv.style.display='none';
+  }
+
+  document.getElementById('reply-text').value='';
+  document.getElementById('inbox-reply-modal').style.display='flex';
+  if(typeof lucide!=='undefined')lucide.createIcons();
+};
+
+window.closeReplyModal=function(){
+  document.getElementById('inbox-reply-modal').style.display='none';
+  _currentMsgId=null;
+};
+
+// Quick reply templates (professional German)
+var _quickReplies={
+  contact_received:'Sehr geehrte/r Absender,\n\nvielen Dank für Ihre Nachricht. Wir haben Ihre Anfrage erhalten und werden uns schnellstmöglich bei Ihnen melden.\n\nBitte beachten Sie, dass die Bearbeitungszeit in der Regel 24–48 Stunden (Werktage) beträgt.\n\nMit freundlichen Grüßen',
+  processing:'Sehr geehrte/r Absender,\n\nIhre Anfrage befindet sich derzeit in Bearbeitung. Wir werden Sie informieren, sobald eine Lösung vorliegt.\n\nMit freundlichen Grüßen',
+  resolved:'Sehr geehrte/r Absender,\n\nIhre Anfrage wurde bearbeitet. Wir hoffen, dass wir Ihnen weiterhelfen konnten.\n\nSollten Sie weitere Fragen haben, stehen wir Ihnen gerne zur Verfügung.\n\nMit freundlichen Grüßen',
+  career_invite:'Sehr geehrte/r Bewerber/in,\n\nvielen Dank für Ihre Bewerbung bei Aura Global Merchants Ltd.\n\nWir freuen uns, Sie zu einem Gespräch einzuladen. Bitte teilen Sie uns Ihre zeitliche Verfügbarkeit mit, damit wir einen passenden Termin vereinbaren können.\n\nMit freundlichen Grüßen\nPersonalabteilung',
+  career_reject:'Sehr geehrte/r Bewerber/in,\n\nvielen Dank für Ihr Interesse an einer Tätigkeit bei Aura Global Merchants Ltd. und für Ihre eingereichte Bewerbung.\n\nNach sorgfältiger Prüfung müssen wir Ihnen leider mitteilen, dass wir Ihre Bewerbung für die ausgeschriebene Position nicht weiter berücksichtigen können.\n\nWir wünschen Ihnen für Ihren weiteren beruflichen Werdegang alles Gute.\n\nMit freundlichen Grüßen\nPersonalabteilung'
+};
+
+window.insertQuickReply=function(key){
+  var ta=document.getElementById('reply-text');
+  if(_quickReplies[key]) ta.value=_quickReplies[key];
+  ta.focus();
+};
+
+window.submitReply=function(){
+  if(!_currentMsgId) return;
+  var text=document.getElementById('reply-text').value.trim();
+  if(!text){Aura.showToast(lang==='ru'?'Введите текст ответа':'Bitte Antwort eingeben','error');return;}
+
+  var fromKey=document.getElementById('reply-from').value;
+  var fromMap={support:'SUPPORT',hr:'HR',orders:'ORDERS',marketing:'MARKETING',noreply:'NOREPLY'};
+  // AuraEmail.sendReply handles the from mapping internally
+  AuraEmail.sendReply(_currentMsgId, text);
+
+  Aura.showToast(lang==='ru'?'Ответ отправлен!':'Antwort gesendet!','success');
+  closeReplyModal();
+  refreshInbox();
 };
 
 // ── INIT ────────────────────────────────────────────────────
