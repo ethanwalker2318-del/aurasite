@@ -1,15 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════
-   AURA GLOBAL MERCHANTS LTD. — Transactional Email System v4.0
+   AURA GLOBAL MERCHANTS LTD. — Transactional Email System v4.1
    ─────────────────────────────────────────────────────────────
    British Business Formal · Sie-Form · Hochdeutsch
    Client-side via EmailJS · Single Universal Template
-   RFC 5322 Compliant · GDPR/DSGVO Konform
+   RFC 5322 · GDPR/DSGVO · UK Companies Act 2006
    ═══════════════════════════════════════════════════════════════ */
 (function(){
 'use strict';
 
-/* ── CONFIGURATION ─────────────────────────────────── */
-var C  = { PK:'6E1iefDAtX8goF9mt', SVC:'service_6xbgl7m', TPL:'template_slxey9g' };
+/* ── CONFIG ────────────────────────────────────────── */
+var C = { PK:'6E1iefDAtX8goF9mt', SVC:'service_6xbgl7m', TPL:'template_slxey9g' };
+
+/* INBOX — real mailbox for all incoming admin notifications */
+var INBOX = 'ethanwalker2318@gmail.com';
+
+/* Display "From" addresses (shown in Reply-To) */
 var FM = {
   SUPPORT:   'support@auraglobal-merchants.com',
   ORDERS:    'orders@auraglobal-merchants.com',
@@ -21,13 +26,15 @@ var FM = {
   INSPECT:   'inspection@auraglobal-merchants.com',
   LOGISTICS: 'logistics@auraglobal-merchants.com'
 };
+
 var LE = {
-  NAME:'Aura Global Merchants Ltd.',
-  CRN:'15847293',
-  ADDR:'71-75 Shelton Street, Covent Garden, London, WC2H 9JQ',
-  COUNTRY:'United Kingdom',
-  JUR:'England and Wales'
+  NAME:    'Aura Global Merchants Ltd.',
+  CRN:     '15847293',
+  ADDR:    '71-75 Shelton Street, Covent Garden, London, WC2H 9JQ',
+  COUNTRY: 'United Kingdom',
+  JUR:     'England and Wales'
 };
+
 var YR = new Date().getFullYear();
 var O  = window.location.origin;
 
@@ -37,14 +44,13 @@ function init(){
   if(_ok) return;
   if(typeof emailjs==='undefined'){
     if(++_n<=30) setTimeout(init,200);
-    else console.error('[AuraEmail] EmailJS SDK nicht geladen.');
+    else console.error('[AuraEmail] EmailJS SDK timeout.');
     return;
   }
   emailjs.init({publicKey:C.PK});
   _ok=true;
-  console.log('[AuraEmail] v4.0 Initialisiert. SVC='+C.SVC+' TPL='+C.TPL);
-  _q.forEach(function(m){_send(m.to,m.subj,m.html,m.reply);});
-  _q=[];
+  console.log('[AuraEmail] v4.1 Ready. SVC='+C.SVC+' TPL='+C.TPL+' INBOX='+INBOX);
+  _q.forEach(function(m){_send(m.to,m.subj,m.html,m.reply);}); _q=[];
 }
 
 /* ── CORE SEND ─────────────────────────────────────── */
@@ -64,118 +70,133 @@ function _send(to,subj,html,reply){
 
 /* ── TEST ──────────────────────────────────────────── */
 function testEmail(to){
-  var addr = to||'ethanwalker2318@gmail.com';
-  console.log('=== AuraEmail v4.0 TEST ===');
-  if(!_ok){
-    if(typeof emailjs!=='undefined'){emailjs.init({publicKey:C.PK});_ok=true;}
-    else{console.error('SDK not loaded');return;}
-  }
+  var a=to||INBOX;
+  if(!_ok){if(typeof emailjs!=='undefined'){emailjs.init({publicKey:C.PK});_ok=true;}else{console.error('SDK missing');return;}}
+  console.log('=== AuraEmail v4.1 TEST -> '+a+' ===');
   emailjs.send(C.SVC,C.TPL,{
-    to_email:addr,
-    subject:'AuraEmail v4.0 Test — '+new Date().toLocaleTimeString(),
-    html_content:'<h2>Transactional Email System v4.0</h2><p>Status: Operational.</p>',
+    to_email:a,
+    subject:'AuraEmail v4.1 Test — '+new Date().toLocaleTimeString(),
+    html_content:'<h2 style="font-family:Georgia,serif;color:#C5A059">Email System v4.1 — Operational</h2><p>Timestamp: '+new Date().toISOString()+'</p>',
     reply_to:FM.NOREPLY
-  }).then(function(r){console.log('TEST OK',r.status);})
-    .catch(function(e){console.error('TEST FAIL',e);});
+  }).then(function(r){console.log('TEST OK',r.status);}).catch(function(e){console.error('TEST FAIL',e);});
 }
 
 
 /* ══════════════════════════════════════════════════════
-   TEMPLATE ENGINE
-   Graphite #2c2c2c · Black #0a0a0a · Gold #C5A059
-   max-width: 600px · Inter / Helvetica / sans-serif
+   DESIGN SYSTEM — Boutique Luxury
+   ──────────────────────────────────────────────────────
+   Deep Navy #0B1D33 · Warm Gold #C9A84C · Ivory #FAFAF7
+   Charcoal body #2D2D2D · Warm Gray text #4A4A4A
    ══════════════════════════════════════════════════════ */
 
-var _f  = "'Inter',Helvetica,Arial,sans-serif";
-var _fs = "Georgia,'Times New Roman',serif";
+/* Typography */
+var _serif = "Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif";
+var _sans  = "'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif";
+var _mono  = "'SF Mono','Cascadia Code','Fira Code',Consolas,monospace";
+
+/* Colors */
+var _navy  = '#0B1D33';
+var _gold  = '#C9A84C';
+var _goldL = '#D4B76A';
+var _ivory = '#FAFAF7';
+var _charcoal = '#2D2D2D';
+var _warm  = '#4A4A4A';
+var _muted = '#8E8E8E';
+var _light = '#F2F0EC';
 
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function genCode(){return Math.floor(100000+Math.random()*900000).toString();}
-function fD(d){return new Date(d||Date.now()).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function fD(d){return new Date(d||Date.now()).toLocaleDateString('de-DE',{day:'2-digit',month:'long',year:'numeric'});}
+function fDs(d){return new Date(d||Date.now()).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});}
 function fP(n){return(n||0).toFixed(2).replace('.',',');}
 function fT(d){return new Date(d||Date.now()).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
 
-/* Hidden pre-header for inbox preview */
+/* Pre-header (inbox preview snippet) */
 function PH(t){
-  return '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:0;color:#2c2c2c;line-height:0">'+
-    esc(t)+'</div>';
+  return '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:0;color:#fafaf7;line-height:0">'+esc(t)+'</div>';
 }
 
-/* HEADER — Logo left, Reference right */
+/* ── HEADER ────────────────────────────────────────── */
 function HDR(subtitle,refId){
-  return '<div style="background:#0a0a0a;padding:0">'+
-    '<div style="max-width:600px;margin:0 auto;padding:32px 32px 24px">'+
+  return ''+
+  '<div style="background:'+_navy+';padding:0">'+
+    '<div style="max-width:600px;margin:0 auto;padding:36px 40px 28px">'+
       '<table style="width:100%;border-collapse:collapse"><tr>'+
+        /* Logo */
         '<td style="vertical-align:middle">'+
-          '<div style="font-family:'+_fs+';font-size:22px;font-weight:700;color:#C5A059;letter-spacing:3px">AURA GLOBAL</div>'+
-          '<div style="font-family:'+_f+';font-size:7px;color:rgba(197,160,89,0.35);letter-spacing:5px;margin-top:1px">MERCHANTS LTD.</div>'+
+          '<div style="font-family:'+_serif+';font-size:20px;font-weight:700;color:'+_gold+';letter-spacing:4px;line-height:1">AURA GLOBAL</div>'+
+          '<div style="font-family:'+_sans+';font-size:7px;color:rgba(201,168,76,0.3);letter-spacing:6px;margin-top:3px;font-weight:400">MERCHANTS LTD.</div>'+
         '</td>'+
+        /* Reference & Date */
         (refId?'<td style="vertical-align:middle;text-align:right">'+
-          '<div style="font-family:monospace;font-size:12px;color:#C5A059;font-weight:700">'+esc(refId)+'</div>'+
-          '<div style="font-family:'+_f+';font-size:8px;color:#666;margin-top:2px">'+fD()+'</div>'+
+          '<div style="font-family:'+_mono+';font-size:11px;color:'+_gold+';font-weight:600;letter-spacing:0.5px">'+esc(refId)+'</div>'+
+          '<div style="font-family:'+_sans+';font-size:9px;color:rgba(255,255,255,0.25);margin-top:3px">'+fD()+'</div>'+
         '</td>':'<td></td>')+
       '</tr></table>'+
-      (subtitle?'<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(197,160,89,0.12)">'+
-        '<div style="font-family:'+_f+';font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:2.5px;text-transform:uppercase">'+subtitle+'</div>'+
+      /* Subtitle */
+      (subtitle?'<div style="margin-top:18px;padding-top:12px;border-top:1px solid rgba(201,168,76,0.08)">'+
+        '<div style="font-family:'+_serif+';font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:3px;text-transform:uppercase;font-style:italic">'+subtitle+'</div>'+
       '</div>':'')+
     '</div>'+
   '</div>';
 }
 
-/* LEGAL FOOTER — 20% of email */
+/* ── FOOTER — Legal Shield (20%+ of email) ────────── */
 function FTR(){
-  return '<div style="background:#0a0a0a;padding:0;border-top:3px solid #C5A059">'+
-    '<div style="max-width:600px;margin:0 auto;padding:32px 32px 24px;font-family:'+_f+'">'+
+  return ''+
+  /* Gold accent line */
+  '<div style="height:3px;background:linear-gradient(90deg,'+_gold+','+_goldL+','+_gold+')"></div>'+
+  '<div style="background:'+_navy+';padding:0">'+
+    '<div style="max-width:600px;margin:0 auto;padding:36px 40px 28px;font-family:'+_sans+'">'+
 
-      /* Company identity */
-      '<div style="text-align:center;margin-bottom:16px">'+
-        '<div style="font-family:'+_fs+';font-size:13px;color:#C5A059;letter-spacing:2px;font-weight:700">AURA GLOBAL</div>'+
-        '<div style="font-size:6px;color:rgba(197,160,89,0.35);letter-spacing:4px;margin-top:1px">MERCHANTS LTD.</div>'+
+      /* Logo mark */
+      '<div style="text-align:center;margin-bottom:20px">'+
+        '<div style="font-family:'+_serif+';font-size:14px;color:'+_gold+';letter-spacing:3px;font-weight:700">AURA GLOBAL</div>'+
+        '<div style="font-size:6px;color:rgba(201,168,76,0.25);letter-spacing:5px;margin-top:2px">MERCHANTS LTD.</div>'+
       '</div>'+
 
-      /* Registration */
-      '<div style="text-align:center;font-size:10px;color:#777;line-height:1.9">'+
-        'Registered in '+LE.JUR+' &nbsp;|&nbsp; Company No. (CRN): '+LE.CRN+'<br>'+
-        'Registered Office: '+LE.ADDR+', '+LE.COUNTRY+
+      /* Company registration */
+      '<div style="text-align:center;font-size:10px;color:rgba(255,255,255,0.35);line-height:2">'+
+        'Registered in '+LE.JUR+' &nbsp;&bull;&nbsp; Company No. (CRN): '+LE.CRN+'<br>'+
+        'Registered Office: '+LE.ADDR+'<br>'+LE.COUNTRY+
       '</div>'+
 
-      /* Links */
-      '<div style="text-align:center;margin:14px 0;font-size:10px">'+
-        '<a href="'+O+'/impressum.html" style="color:#C5A059;text-decoration:none;letter-spacing:0.5px">Impressum</a>'+
-        ' &nbsp;&middot;&nbsp; '+
-        '<a href="'+O+'/privacy.html" style="color:#C5A059;text-decoration:none;letter-spacing:0.5px">Datenschutz</a>'+
-        ' &nbsp;&middot;&nbsp; '+
-        '<a href="'+O+'/agb.html" style="color:#C5A059;text-decoration:none;letter-spacing:0.5px">AGB</a>'+
-        ' &nbsp;&middot;&nbsp; '+
-        '<a href="'+O+'/contact.html" style="color:#C5A059;text-decoration:none;letter-spacing:0.5px">Kontakt</a>'+
+      /* Nav links */
+      '<div style="text-align:center;margin:18px 0;font-size:10px">'+
+        '<a href="'+O+'/impressum.html" style="color:'+_gold+';text-decoration:none;letter-spacing:0.5px">Impressum</a>'+
+        ' &nbsp;&nbsp;&bull;&nbsp;&nbsp; '+
+        '<a href="'+O+'/privacy.html" style="color:'+_gold+';text-decoration:none;letter-spacing:0.5px">Datenschutz</a>'+
+        ' &nbsp;&nbsp;&bull;&nbsp;&nbsp; '+
+        '<a href="'+O+'/agb.html" style="color:'+_gold+';text-decoration:none;letter-spacing:0.5px">AGB</a>'+
+        ' &nbsp;&nbsp;&bull;&nbsp;&nbsp; '+
+        '<a href="'+O+'/contact.html" style="color:'+_gold+';text-decoration:none;letter-spacing:0.5px">Kontakt</a>'+
       '</div>'+
 
-      '<div style="width:50px;height:1px;background:rgba(197,160,89,0.15);margin:18px auto"></div>'+
+      '<div style="width:60px;height:1px;background:rgba(201,168,76,0.1);margin:20px auto"></div>'+
 
       /* Confidentiality Notice */
-      '<div style="font-size:9px;color:#666;line-height:1.7;margin:14px 0;text-align:left">'+
-        '<strong style="color:#888;letter-spacing:0.5px;text-transform:uppercase;font-size:8px">Confidentiality Notice</strong><br>'+
+      '<div style="font-size:9px;color:rgba(255,255,255,0.3);line-height:1.8;margin:16px 0;text-align:left">'+
+        '<span style="color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;font-size:8px">Confidentiality Notice</span><br>'+
         'This email and any attachments are confidential and intended solely for the named addressee. '+
         'If you have received this message in error, please notify the sender immediately and delete all copies. '+
         'Unauthorised use, disclosure, copying or distribution is strictly prohibited.'+
       '</div>'+
 
-      /* GDPR / DSGVO */
-      '<div style="font-size:9px;color:#666;line-height:1.7;margin:14px 0;text-align:left">'+
-        '<strong style="color:#888;letter-spacing:0.5px;text-transform:uppercase;font-size:8px">Datenschutzhinweis (DSGVO / GDPR)</strong><br>'+
-        'Diese Nachricht wird gem&auml;&szlig; der EU-Datenschutz-Grundverordnung (DSGVO) und dem UK Data Protection Act 2018 verarbeitet. '+
-        'Informationen zur Verarbeitung Ihrer personenbezogenen Daten: '+
-        '<a href="'+O+'/privacy.html" style="color:#C5A059;text-decoration:none">Datenschutzerkl&auml;rung</a>.'+
+      /* GDPR */
+      '<div style="font-size:9px;color:rgba(255,255,255,0.3);line-height:1.8;margin:16px 0;text-align:left">'+
+        '<span style="color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;font-size:8px">Datenschutzhinweis (DSGVO / GDPR)</span><br>'+
+        'Verarbeitung gem&auml;&szlig; EU-DSGVO und UK Data Protection Act 2018. '+
+        'Details: <a href="'+O+'/privacy.html" style="color:'+_gold+';text-decoration:none">Datenschutzerkl&auml;rung</a>.'+
       '</div>'+
 
-      /* Auto-generated disclaimer */
-      '<div style="font-size:9px;color:#555;line-height:1.6;margin:16px 0;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:2px;text-align:center">'+
-        'Dies ist eine automatisch generierte Nachricht. Bitte antworten Sie nicht direkt auf diese E-Mail.<br>'+
-        'F&uuml;r R&uuml;ckfragen: <a href="mailto:'+FM.SUPPORT+'" style="color:#C5A059;text-decoration:none">'+FM.SUPPORT+'</a>'+
+      /* Auto-generated */
+      '<div style="font-size:9px;color:rgba(255,255,255,0.2);line-height:1.7;margin:20px 0 0;padding:12px 16px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;text-align:center">'+
+        'Automatisch generierte Nachricht. Bitte nicht direkt antworten.<br>'+
+        'R&uuml;ckfragen: <a href="mailto:'+FM.SUPPORT+'" style="color:'+_gold+';text-decoration:none">'+FM.SUPPORT+'</a>'+
       '</div>'+
 
       /* Copyright */
-      '<div style="text-align:center;font-size:8px;color:#555;margin-top:14px">'+
+      '<div style="text-align:center;font-size:8px;color:rgba(255,255,255,0.15);margin-top:16px">'+
         '&copy; '+YR+' Aura Global Group. All rights reserved.'+
       '</div>'+
 
@@ -183,169 +204,222 @@ function FTR(){
   '</div>';
 }
 
-/* Full email wrapper */
+/* ── WRAPPER ───────────────────────────────────────── */
 function W(body,subtitle,refId,preheader){
   return '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">'+
-    '<title>Aura Global Merchants</title></head>'+
-    '<body style="margin:0;padding:0;background:#2c2c2c;-webkit-font-smoothing:antialiased">'+
+    '<title>'+LE.NAME+'</title></head>'+
+    '<body style="margin:0;padding:0;background:'+_charcoal+';-webkit-font-smoothing:antialiased">'+
     (preheader?PH(preheader):'')+
-    '<div style="max-width:600px;margin:0 auto;background:#ffffff;font-family:'+_f+';color:#1a1a1a;overflow:hidden">'+
+    '<div style="max-width:600px;margin:0 auto;background:'+_ivory+';font-family:'+_sans+';color:'+_warm+';overflow:hidden">'+
       HDR(subtitle,refId)+body+FTR()+
     '</div></body></html>';
 }
 
-/* Body content wrapper */
+/* ── COMPONENTS ────────────────────────────────────── */
+
+/* Body padding */
 function BD(html){
-  return '<div style="padding:36px 32px;font-family:'+_f+';font-size:13px;line-height:1.8;color:#1a1a1a">'+html+'</div>';
+  return '<div style="padding:40px 40px 36px;font-family:'+_sans+';font-size:14px;line-height:1.85;color:'+_warm+'">'+html+'</div>';
 }
 
-/* Matte Gold button */
+/* Primary CTA — Matte Gold with subtle shadow */
 function BTN(text,href){
-  return '<div style="text-align:center;margin:28px 0">'+
-    '<a href="'+href+'" style="display:inline-block;background:#C5A059;color:#0a0a0a;padding:14px 36px;text-decoration:none;font-family:'+_f+';font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:2px">'+
+  return '<div style="text-align:center;margin:32px 0">'+
+    '<a href="'+href+'" style="display:inline-block;background:'+_gold+';color:'+_navy+';padding:15px 42px;text-decoration:none;font-family:'+_sans+';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:3px;box-shadow:0 2px 12px rgba(201,168,76,0.25)">'+
     text+'</a></div>';
 }
 
-/* Outline button */
+/* Secondary — elegant outline */
 function BTN_O(text,href){
-  return '<div style="text-align:center;margin:24px 0">'+
-    '<a href="'+href+'" style="display:inline-block;border:2px solid #1a1a1a;color:#1a1a1a;padding:12px 32px;text-decoration:none;font-family:'+_f+';font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:2px">'+
+  return '<div style="text-align:center;margin:28px 0">'+
+    '<a href="'+href+'" style="display:inline-block;border:1.5px solid '+_navy+';color:'+_navy+';padding:13px 36px;text-decoration:none;font-family:'+_sans+';font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:3px">'+
     text+'</a></div>';
 }
 
-/* Verification code display */
+/* Verification code */
 function CODE(c){
-  return '<div style="text-align:center;margin:28px 0">'+
-    '<div style="display:inline-block;background:#0a0a0a;color:#C5A059;font-size:32px;letter-spacing:12px;padding:18px 36px;font-weight:700;font-family:monospace;border-radius:2px">'+c+'</div></div>';
+  return '<div style="text-align:center;margin:32px 0">'+
+    '<div style="display:inline-block;background:'+_navy+';color:'+_gold+';font-size:34px;letter-spacing:14px;padding:20px 40px;font-weight:700;font-family:'+_mono+';border-radius:4px;box-shadow:0 4px 20px rgba(11,29,51,0.15)">'+c+'</div></div>';
 }
 
-/* Section title */
+/* Section heading — elegant serif */
 function SEC(t){
-  return '<div style="margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #C5A059">'+
-    '<span style="font-family:'+_f+';font-size:10px;font-weight:700;color:#1a1a1a;letter-spacing:1.5px;text-transform:uppercase">'+t+'</span></div>';
+  return '<div style="margin:32px 0 14px">'+
+    '<div style="font-family:'+_serif+';font-size:13px;color:'+_navy+';font-weight:700;letter-spacing:1px;padding-bottom:10px;border-bottom:1.5px solid '+_gold+'">'+t+'</div></div>';
 }
 
-/* Info card */
+/* Card with gold left accent */
 function CARD(html){
-  return '<div style="background:#f8f8f8;border:1px solid #e5e5e5;border-radius:2px;padding:20px;margin:16px 0">'+html+'</div>';
+  return '<div style="background:#fff;border:1px solid #E8E5DF;border-left:3px solid '+_gold+';border-radius:0 3px 3px 0;padding:20px 22px;margin:18px 0">'+html+'</div>';
 }
 
-/* Status badge */
+/* Subtle info card (no accent) */
+function CARD_S(html){
+  return '<div style="background:'+_light+';border-radius:4px;padding:20px 22px;margin:18px 0">'+html+'</div>';
+}
+
+/* Status badge — refined pill */
 function BDG(text,bg,fg){
-  return '<span style="display:inline-block;background:'+(bg||'#0a0a0a')+';color:'+(fg||'#fff')+';padding:4px 14px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:2px;font-family:'+_f+'">'+text+'</span>';
+  return '<span style="display:inline-block;background:'+(bg||_navy)+';color:'+(fg||'#fff')+';padding:5px 16px;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;border-radius:3px;font-family:'+_sans+'">'+text+'</span>';
 }
 
 /* Gold divider */
 function DIV(){
-  return '<div style="width:40px;height:2px;background:#C5A059;margin:24px auto"></div>';
+  return '<div style="width:48px;height:2px;background:'+_gold+';margin:28px auto"></div>';
 }
 
-/* Key-value table row */
+/* Key-value table row — warm, readable */
 function TR(label,value,opts){
   var o=opts||{};
-  return '<tr><td style="padding:5px 0;font-size:11px;color:#888;vertical-align:top;width:'+(o.w||'140')+'px;font-family:'+_f+'">'+label+'</td>'+
-    '<td style="padding:5px 0;font-size:12px;color:#1a1a1a;font-family:'+(o.mono?'monospace':_f)+';'+(o.bold?'font-weight:700;':'')+'">'+value+'</td></tr>';
+  return '<tr>'+
+    '<td style="padding:7px 0;font-size:12px;color:'+_muted+';vertical-align:top;width:'+(o.w||'150')+'px;font-family:'+_sans+'">'+label+'</td>'+
+    '<td style="padding:7px 0;font-size:13px;color:'+_warm+';font-family:'+(o.mono?_mono:_sans)+';'+(o.bold?'font-weight:700;color:'+_navy+';':'')+'">'+value+'</td></tr>';
+}
+
+/* Page title block */
+function TITLE(h1,sub){
+  return '<h1 style="font-family:'+_serif+';font-size:24px;color:'+_navy+';margin:0 0 6px;font-weight:700;line-height:1.3">'+h1+'</h1>'+
+    (sub?'<p style="color:'+_muted+';font-size:12px;margin:0 0 24px;font-family:'+_sans+'">'+sub+'</p>':'');
+}
+
+/* Greeting */
+function GREET(name){
+  return '<p style="font-size:14px;line-height:1.8">Sehr geehrte/r '+esc(name)+',</p>';
+}
+
+/* Sign-off */
+function SIGN(dept){
+  return '<p style="font-size:13px;color:'+_warm+';margin-top:28px;line-height:1.6">Mit freundlichen Gr&uuml;&szlig;en,<br>'+
+    '<strong style="color:'+_navy+'">'+dept+'</strong><br>'+
+    '<span style="font-size:11px;color:'+_muted+'">'+LE.NAME+'</span></p>';
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 1: SALES & TRUST — Kundenkorrespondenz
+   1 · SALES & TRUST — Kundenkorrespondenz
    ══════════════════════════════════════════════════════ */
 
 
 /* ── 1.1 Kontoregistrierung ───────────────────────── */
 function sendWelcome(email,name){
   var n=esc(name||email.split('@')[0]);
+
+  /* → Customer */
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px;font-weight:700">Kontozugang best&auml;tigt</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 20px">Registrierung abgeschlossen f&uuml;r '+esc(email)+'</p>'+
+    TITLE('Willkommen bei Aura Global','Ihr Kundenkonto wurde eingerichtet.')+
     DIV()+
-    '<p>Sehr geehrte/r '+n+',</p>'+
-    '<p>Ihr Kundenkonto bei '+LE.NAME+' wurde eingerichtet. S&auml;mtliche Funktionen stehen Ihnen ab sofort zur Verf&uuml;gung.</p>'+
-    SEC('KONTODATEN')+
+    GREET(n)+
+    '<p>Ihr Konto ist ab sofort aktiv. Nachfolgend finden Sie Ihre Kontodaten und eine &Uuml;bersicht der verf&uuml;gbaren Leistungen.</p>'+
+
+    SEC('Kontodaten')+
     '<table style="width:100%;border-collapse:collapse">'+
-      TR('E-Mail',esc(email),{mono:true})+
-      TR('Registriert am',fD())+
-      TR('Kundenstatus',BDG('Aktiv','#059669'))+
+      TR('E-Mail-Adresse',esc(email),{mono:true})+
+      TR('Registrierung',fD())+
+      TR('Kontostatus',BDG('Aktiv','#059669'))+
     '</table>'+
-    SEC('LEISTUNGSUMFANG')+
-    '<table style="width:100%;font-size:12px;color:#444">'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0">Zugang zum vollst&auml;ndigen Produktkatalog (verifizierte Markenware)</td></tr>'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0">24-Punkt Aura Inspection Protocol f&uuml;r jeden Artikel</td></tr>'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0">14 Tage Widerrufsrecht gem. Fernabsatzgesetz</td></tr>'+
-      '<tr><td style="padding:6px 0">Pers&ouml;nlicher Video-Inspektionsbericht pro Bestellung</td></tr>'+
-    '</table>'+
-    BTN('ZUM KATALOG &rarr;',O+'/catalog.html')+
-    '<p style="font-size:11px;color:#888;text-align:center;margin-top:24px">Fragen zum Konto: <a href="mailto:'+FM.SUPPORT+'" style="color:#C5A059;text-decoration:none">'+FM.SUPPORT+'</a></p>'
+
+    SEC('Leistungsumfang')+
+    CARD_S(
+      '<table style="width:100%;font-size:13px;color:'+_warm+'">'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;Vollst&auml;ndiger Katalogzugang — verifizierte Markenware</td></tr>'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;24-Punkt Aura Inspection Protocol pro Artikel</td></tr>'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;14 Tage Widerrufsrecht gem&auml;&szlig; Fernabsatzgesetz</td></tr>'+
+        '<tr><td style="padding:8px 0">&bull; &nbsp;Pers&ouml;nlicher Video-Inspektionsbericht</td></tr>'+
+      '</table>'
+    )+
+    BTN('Katalog ansehen &rarr;',O+'/catalog.html')+
+    SIGN('Kundendienst')
   ),'Kontoregistrierung',null,
-    'Ihr Kundenkonto bei Aura Global Merchants ist aktiv.');
-  _send(email,'Kontozugang best\u00e4tigt \u2014 '+LE.NAME,html,FM.SUPPORT);
+    'Ihr Kundenkonto bei Aura Global ist aktiv.');
+  _send(email,'Willkommen bei Aura Global \u2014 Kontozugang best\u00e4tigt',html,FM.SUPPORT);
+
+  /* → Admin (INBOX) */
+  var aHtml=W(BD(
+    TITLE('Neue Registrierung','Kundenkonto erstellt')+
+    '<table style="width:100%;border-collapse:collapse">'+
+      TR('Kunde',n)+
+      TR('E-Mail',esc(email),{mono:true})+
+      TR('Registriert',fD()+' '+fT())+
+    '</table>'
+  ),'Admin \u2014 Registrierung');
+  _send(INBOX,'Neue Registrierung: '+n+' ('+email+')',aHtml,email);
 }
 
 
-/* ── 1.2 Aura Prime Mitgliedschaft ───────────────── */
+/* ── 1.2 Aura Prime ──────────────────────────────── */
 function sendPrimeWelcome(email){
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#C5A059;margin:0 0 4px;font-weight:700">Aura Prime — Mitgliedschaft aktiv</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 20px">Zugang freigeschaltet f&uuml;r '+esc(email)+'</p>'+
+    TITLE('Aura Prime Mitgliedschaft','Ihr exklusiver Zugang ist freigeschaltet.')+
     DIV()+
     '<p>Ihre Aura Prime Mitgliedschaft ist ab sofort aktiv. Folgende Leistungen sind in Ihrem Konto hinterlegt:</p>'+
-    SEC('PRIME-LEISTUNGEN')+
-    '<table style="width:100%;font-size:12px;color:#444">'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0"><strong>Vorab-Zugang</strong> — Neue Produkte 48h vor &ouml;ffentlichem Verkaufsstart</td></tr>'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0"><strong>Express-Versand</strong> — Kostenfrei ab &euro;99 Bestellwert (DHL Express)</td></tr>'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0"><strong>Priority Inspection</strong> — Bevorzugte Bearbeitung im Aura Hub</td></tr>'+
-      '<tr><td style="padding:6px 0"><strong>Exklusive Konditionen</strong> — Sonderpreise auf ausgew&auml;hlte Artikel</td></tr>'+
-    '</table>'+
-    BTN('PRIME-ANGEBOTE ANSEHEN &rarr;',O+'/catalog.html')+
-    '<p style="font-size:10px;color:#999;text-align:center">K&uuml;ndigung jederzeit m&ouml;glich. Keine Mindestlaufzeit.</p>'
+    SEC('Prime-Leistungen')+
+    CARD_S(
+      '<table style="width:100%;font-size:13px;color:'+_warm+'">'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF"><strong style="color:'+_navy+'">Vorab-Zugang</strong> &mdash; 48 Stunden vor &ouml;ffentlichem Verkaufsstart</td></tr>'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF"><strong style="color:'+_navy+'">Express-Versand</strong> &mdash; Kostenfrei ab &euro;99 (DHL Express)</td></tr>'+
+        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF"><strong style="color:'+_navy+'">Priority Inspection</strong> &mdash; Bevorzugte Bearbeitung im Aura Hub</td></tr>'+
+        '<tr><td style="padding:8px 0"><strong style="color:'+_navy+'">Exklusive Konditionen</strong> &mdash; Sonderpreise auf ausgew&auml;hlte Artikel</td></tr>'+
+      '</table>'
+    )+
+    BTN('Prime-Angebote ansehen &rarr;',O+'/catalog.html')+
+    '<p style="font-size:11px;color:'+_muted+';text-align:center">K&uuml;ndigung jederzeit. Keine Mindestlaufzeit.</p>'
   ),'Aura Prime',null,
     'Ihre Aura Prime Mitgliedschaft ist aktiv.');
   _send(email,'Aura Prime Mitgliedschaft best\u00e4tigt \u2014 '+LE.NAME,html,FM.MARKETING);
+
+  /* → Admin */
+  _send(INBOX,'Neues Prime-Mitglied: '+email,
+    W(BD(TITLE('Neues Prime-Mitglied','')+TR('E-Mail',esc(email),{mono:true})+TR('Datum',fD()+' '+fT())),'Admin \u2014 Prime'),email);
 }
 
 
-/* ── 1.3 Newsletter-Anmeldung ─────────────────────── */
+/* ── 1.3 Newsletter ───────────────────────────────── */
 function sendNewsletterWelcome(email){
   var subs=JSON.parse(localStorage.getItem('aura_newsletter_subs')||'[]');
   if(!subs.some(function(s){return s.email===email;})){
     subs.push({email:email,date:new Date().toISOString()});
     localStorage.setItem('aura_newsletter_subs',JSON.stringify(subs));
   }
+
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Newsletter-Anmeldung best&auml;tigt</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 20px">Empf&auml;nger: '+esc(email)+'</p>'+
+    TITLE('Newsletter-Anmeldung best\u00e4tigt','Empf\u00e4nger: '+esc(email))+
     DIV()+
-    '<p>Ihre E-Mail-Adresse wurde in unseren Verteiler aufgenommen. Sie erhalten k&uuml;nftig:</p>'+
-    '<table style="width:100%;font-size:12px;color:#444;margin:16px 0">'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0">Produktank&uuml;ndigungen und Verf&uuml;gbarkeitshinweise</td></tr>'+
-      '<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0">Preis&auml;nderungen und zeitlich begrenzte Angebote</td></tr>'+
-      '<tr><td style="padding:6px 0">Marktberichte und technische Analysen</td></tr>'+
-    '</table>'+
-    '<p style="font-size:11px;color:#888">Abmeldung jederzeit m&ouml;glich &uuml;ber den Link am Ende jeder Nachricht. '+
-    'Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). '+
-    'Weitere Informationen: <a href="'+O+'/privacy.html" style="color:#C5A059;text-decoration:none">Datenschutzerkl&auml;rung</a>.</p>'+
-    BTN('ZUM KATALOG &rarr;',O+'/catalog.html')
+    '<p>Ihre E-Mail-Adresse wurde in den Verteiler aufgenommen. Sie erhalten k&uuml;nftig:</p>'+
+    CARD_S(
+      '<table style="width:100%;font-size:13px;color:'+_warm+'">'+
+        '<tr><td style="padding:7px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;Produktank&uuml;ndigungen und Verf&uuml;gbarkeitshinweise</td></tr>'+
+        '<tr><td style="padding:7px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;Preis&auml;nderungen und zeitlich begrenzte Angebote</td></tr>'+
+        '<tr><td style="padding:7px 0">&bull; &nbsp;Marktberichte und technische Analysen</td></tr>'+
+      '</table>'
+    )+
+    '<p style="font-size:11px;color:'+_muted+'">Abmeldung jederzeit. Rechtsgrundlage: Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO. '+
+    '<a href="'+O+'/privacy.html" style="color:'+_gold+';text-decoration:none">Datenschutzerkl&auml;rung</a>.</p>'+
+    BTN('Katalog ansehen &rarr;',O+'/catalog.html')
   ),'Newsletter',null,
     'Newsletter-Anmeldung best\u00e4tigt.');
   _send(email,'Newsletter-Anmeldung best\u00e4tigt \u2014 '+LE.NAME,html,FM.NEWSLETTER);
+
+  /* → Admin */
+  _send(INBOX,'Newsletter-Abo: '+email,
+    W(BD(TITLE('Neuer Newsletter-Abonnent','')+
+      '<table style="width:100%;border-collapse:collapse">'+TR('E-Mail',esc(email),{mono:true})+TR('Datum',fD()+' '+fT())+'</table>'
+    ),'Admin \u2014 Newsletter'),email);
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 2: FINANZIELLE DOKUMENTATION
+   2 · FINANZIELLE DOKUMENTATION
    ══════════════════════════════════════════════════════ */
 
 
 /* ── 2.1 Bestellbestätigung / Rechnung ────────────── */
 function sendOrderConfirmation(order,email,name){
-  var a  = order.address||{};
-  var ba = order.billingAddress||a;
-  var cn = esc(name||a.name||'');
-  var oid= esc(order.id);
-
-  /* Items table */
+  var a=order.address||{};
+  var ba=order.billingAddress||a;
+  var cn=esc(name||a.name||'');
+  var oid=esc(order.id);
   var subtotal=0;
+
   var items=(order.items||[]).map(function(it,idx){
     var p=it.product||(typeof Aura!=='undefined'?Aura.getProductById(it.productId):null)||{};
     var price=((p.price||0)+(it.priceOffset||0))*(it.qty||1);
@@ -353,14 +427,14 @@ function sendOrderConfirmation(order,email,name){
     var sku=it.sku||p.sku||it.productId||'N/A';
     var sn=it.serialNumber||'Nach Aura Inspection';
     return '<tr>'+
-      '<td style="padding:10px 8px;border-bottom:1px solid #eee;font-size:10px;color:#888;text-align:center">'+(idx+1)+'</td>'+
-      '<td style="padding:10px 8px;border-bottom:1px solid #eee;font-size:12px">'+
-        '<strong>'+esc(p.name||it.productId)+'</strong>'+
-        (it.variant?'<br><span style="color:#888;font-size:11px">'+esc(it.variant)+'</span>':'')+
-        '<br><span style="color:#999;font-size:10px">SKU: '+esc(sku)+' &nbsp;|&nbsp; S/N (vorl.): '+esc(sn)+'</span>'+
+      '<td style="padding:12px 10px;border-bottom:1px solid #E8E5DF;font-size:11px;color:'+_muted+';text-align:center">'+(idx+1)+'</td>'+
+      '<td style="padding:12px 10px;border-bottom:1px solid #E8E5DF;font-size:13px">'+
+        '<strong style="color:'+_navy+'">'+esc(p.name||it.productId)+'</strong>'+
+        (it.variant?'<br><span style="color:'+_muted+';font-size:12px">'+esc(it.variant)+'</span>':'')+
+        '<br><span style="font-family:'+_mono+';color:'+_muted+';font-size:10px">SKU: '+esc(sku)+' &nbsp;|&nbsp; S/N (vorl.): '+esc(sn)+'</span>'+
       '</td>'+
-      '<td style="padding:10px 8px;border-bottom:1px solid #eee;text-align:center;font-size:12px">'+(it.qty||1)+'</td>'+
-      '<td style="padding:10px 8px;border-bottom:1px solid #eee;text-align:right;font-size:12px;font-family:monospace;font-weight:600">&euro;'+fP(price)+'</td>'+
+      '<td style="padding:12px 10px;border-bottom:1px solid #E8E5DF;text-align:center;font-size:13px">'+(it.qty||1)+'</td>'+
+      '<td style="padding:12px 10px;border-bottom:1px solid #E8E5DF;text-align:right;font-size:13px;font-family:'+_mono+';font-weight:700;color:'+_navy+'">&euro;'+fP(price)+'</td>'+
     '</tr>';
   }).join('');
 
@@ -368,14 +442,12 @@ function sendOrderConfirmation(order,email,name){
   var total=order.total||subtotal+shipping;
 
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Bestellbest&auml;tigung / Rechnung</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Finanzdokument zur Bestellung #'+oid+'</p>'+
+    TITLE('Bestellbest&auml;tigung &amp; Rechnung','Finanzdokument zur Bestellung #'+oid)+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-    '<p>nachfolgend die Best&auml;tigung Ihrer Bestellung. Dieses Dokument dient gleichzeitig als Rechnung.</p>'+
+    GREET(cn)+
+    '<p>Nachfolgend die Best&auml;tigung Ihrer Bestellung. Dieses Dokument dient gleichzeitig als Rechnung.</p>'+
 
-    /* Order metadata */
-    SEC('BESTELLDATEN')+
+    SEC('Bestelldaten')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Bestelldatum',fD(order.date||order.created))+
@@ -383,83 +455,77 @@ function sendOrderConfirmation(order,email,name){
       TR('Zahlungsstatus',BDG('Ausstehend','#DC2626','#fff'))+
     '</table>'+
 
-    /* Addresses side by side */
-    '<table style="width:100%;border-collapse:collapse;margin:20px 0"><tr>'+
-      '<td style="width:50%;vertical-align:top;padding-right:12px">'+
-        '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">RECHNUNGSADRESSE</div>'+
-        '<div style="font-size:12px;line-height:1.6">'+
-          esc(ba.name||cn)+'<br>'+esc(ba.street||'')+'<br>'+esc(ba.zip||'')+' '+esc(ba.city||'')+'<br>'+esc(ba.country||'Deutschland')+
-        '</div>'+
+    /* Addresses */
+    '<table style="width:100%;border-collapse:collapse;margin:24px 0"><tr>'+
+      '<td style="width:50%;vertical-align:top;padding-right:16px">'+
+        SEC('Rechnungsadresse')+
+        '<div style="font-size:13px;line-height:1.7">'+esc(ba.name||cn)+'<br>'+esc(ba.street||'')+'<br>'+esc(ba.zip||'')+' '+esc(ba.city||'')+'<br>'+esc(ba.country||'Deutschland')+'</div>'+
       '</td>'+
-      '<td style="width:50%;vertical-align:top;padding-left:12px">'+
-        '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">LIEFERADRESSE</div>'+
-        '<div style="font-size:12px;line-height:1.6">'+
-          esc(a.name||cn)+'<br>'+esc(a.street||'')+'<br>'+esc(a.zip||'')+' '+esc(a.city||'')+'<br>'+esc(a.country||'Deutschland')+
-        '</div>'+
+      '<td style="width:50%;vertical-align:top;padding-left:16px">'+
+        SEC('Lieferadresse')+
+        '<div style="font-size:13px;line-height:1.7">'+esc(a.name||cn)+'<br>'+esc(a.street||'')+'<br>'+esc(a.zip||'')+' '+esc(a.city||'')+'<br>'+esc(a.country||'Deutschland')+'</div>'+
       '</td>'+
     '</tr></table>'+
 
-    /* Items table */
-    SEC('BESTELLTE ARTIKEL')+
+    /* Items */
+    SEC('Bestellte Artikel')+
     '<table style="width:100%;border-collapse:collapse">'+
-      '<tr style="background:#0a0a0a">'+
-        '<th style="padding:10px 8px;text-align:center;font-size:8px;color:#C5A059;font-weight:700;letter-spacing:1px;width:30px">NR.</th>'+
-        '<th style="padding:10px 8px;text-align:left;font-size:8px;color:#C5A059;font-weight:700;letter-spacing:1px">ARTIKEL / SKU</th>'+
-        '<th style="padding:10px 8px;text-align:center;font-size:8px;color:#C5A059;font-weight:700;letter-spacing:1px;width:50px">MENGE</th>'+
-        '<th style="padding:10px 8px;text-align:right;font-size:8px;color:#C5A059;font-weight:700;letter-spacing:1px;width:80px">BETRAG</th>'+
+      '<tr style="background:'+_navy+'">'+
+        '<th style="padding:11px 10px;text-align:center;font-size:9px;color:'+_gold+';font-weight:600;letter-spacing:1px;width:30px">Nr.</th>'+
+        '<th style="padding:11px 10px;text-align:left;font-size:9px;color:'+_gold+';font-weight:600;letter-spacing:1px">Artikel / SKU</th>'+
+        '<th style="padding:11px 10px;text-align:center;font-size:9px;color:'+_gold+';font-weight:600;letter-spacing:1px;width:50px">Menge</th>'+
+        '<th style="padding:11px 10px;text-align:right;font-size:9px;color:'+_gold+';font-weight:600;letter-spacing:1px;width:80px">Betrag</th>'+
       '</tr>'+
       items+
     '</table>'+
 
     /* Totals */
-    '<table style="width:100%;max-width:260px;margin:4px 0 0 auto;border-collapse:collapse">'+
-      '<tr><td style="padding:4px 0;font-size:11px;color:#888">Zwischensumme (netto)</td><td style="padding:4px 0;text-align:right;font-size:11px;font-family:monospace">&euro;'+fP(subtotal)+'</td></tr>'+
-      '<tr><td style="padding:4px 0;font-size:11px;color:#888">MwSt. (0% — Ausfuhr UK)</td><td style="padding:4px 0;text-align:right;font-size:11px;font-family:monospace">&euro;0,00</td></tr>'+
-      '<tr><td style="padding:4px 0;font-size:11px;color:#888">Versandkosten</td><td style="padding:4px 0;text-align:right;font-size:11px;font-family:monospace">'+(shipping?'&euro;'+fP(shipping):'inkl.')+'</td></tr>'+
-      '<tr style="border-top:2px solid #C5A059"><td style="padding:10px 0;font-size:12px;font-weight:700">Gesamtbetrag</td><td style="padding:10px 0;text-align:right;font-size:15px;font-weight:700;font-family:monospace;color:#C5A059">&euro;'+fP(total)+'</td></tr>'+
+    '<table style="width:100%;max-width:280px;margin:6px 0 0 auto;border-collapse:collapse">'+
+      '<tr><td style="padding:5px 0;font-size:12px;color:'+_muted+'">Zwischensumme (netto)</td><td style="padding:5px 0;text-align:right;font-size:12px;font-family:'+_mono+'">&euro;'+fP(subtotal)+'</td></tr>'+
+      '<tr><td style="padding:5px 0;font-size:12px;color:'+_muted+'">MwSt. (0% \u2014 Ausfuhr UK)</td><td style="padding:5px 0;text-align:right;font-size:12px;font-family:'+_mono+'">&euro;0,00</td></tr>'+
+      '<tr><td style="padding:5px 0;font-size:12px;color:'+_muted+'">Versandkosten</td><td style="padding:5px 0;text-align:right;font-size:12px;font-family:'+_mono+'">'+(shipping?'&euro;'+fP(shipping):'inkl.')+'</td></tr>'+
+      '<tr style="border-top:2px solid '+_gold+'"><td style="padding:12px 0;font-size:14px;font-weight:700;color:'+_navy+'">Gesamtbetrag</td><td style="padding:12px 0;text-align:right;font-size:18px;font-weight:700;font-family:'+_mono+';color:'+_gold+'">&euro;'+fP(total)+'</td></tr>'+
     '</table>'+
 
-    /* VAT export notice */
+    /* VAT export */
     CARD(
-      '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">STEUERHINWEIS — VAT EXPORT NOTICE</div>'+
-      '<div style="font-size:11px;color:#666;line-height:1.7">'+
-        'Diese Lieferung erfolgt als Ausfuhrlieferung aus dem Vereinigten K&ouml;nigreich und ist gem&auml;&szlig; UK Value Added Tax Act 1994 '+
-        'von der britischen Umsatzsteuer (VAT) befreit (0%). Der Artikel ist im britischen Steuerregister (HMRC Export Registry) '+
-        'f&uuml;r den Export reserviert. Etwaige Einfuhrabgaben im Bestimmungsland gehen zu Lasten des Empf&auml;ngers, sofern nicht anders vereinbart.'+
+      '<div style="font-family:'+_serif+';font-size:11px;color:'+_muted+';font-weight:700;letter-spacing:0.5px;margin-bottom:8px">Steuerhinweis &mdash; VAT Export Notice</div>'+
+      '<div style="font-size:12px;color:'+_warm+';line-height:1.75">'+
+        'Ausfuhrlieferung aus dem Vereinigten K&ouml;nigreich. Gem&auml;&szlig; UK Value Added Tax Act 1994 von der britischen Umsatzsteuer befreit (0&nbsp;%). '+
+        'Registrierung im HMRC Export Registry best&auml;tigt. Etwaige Einfuhrabgaben im Bestimmungsland gehen zu Lasten des Empf&auml;ngers.'+
       '</div>'
     )+
 
     /* Widerrufsrecht */
     CARD(
-      '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">WIDERRUFSBELEHRUNG</div>'+
-      '<div style="font-size:11px;color:#666;line-height:1.7">'+
-        'Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gr&uuml;nden diesen Vertrag zu widerrufen (Widerrufsrecht gem. &sect; 355 BGB). '+
-        'Die Widerrufsfrist betr&auml;gt 14 Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter die Ware in Empfang genommen haben. '+
-        'Die vollst&auml;ndige Widerrufsbelehrung entnehmen Sie bitte unseren '+
-        '<a href="'+O+'/agb.html" style="color:#C5A059;text-decoration:none;font-weight:600">Allgemeinen Gesch&auml;ftsbedingungen (AGB)</a>.'+
+      '<div style="font-family:'+_serif+';font-size:11px;color:'+_muted+';font-weight:700;letter-spacing:0.5px;margin-bottom:8px">Widerrufsbelehrung</div>'+
+      '<div style="font-size:12px;color:'+_warm+';line-height:1.75">'+
+        'Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gr&uuml;nden diesen Vertrag zu widerrufen (&sect;&nbsp;355 BGB). '+
+        'Vollst&auml;ndige Widerrufsbelehrung: <a href="'+O+'/agb.html" style="color:'+_gold+';text-decoration:none;font-weight:600">AGB</a>.'+
       '</div>'
     )+
 
-    '<p style="font-size:11px;color:#888;margin-top:20px">Sie erhalten eine gesonderte Benachrichtigung, sobald Ihre Zahlung verarbeitet wurde.</p>'+
-    BTN_O('BESTELLUNG VERFOLGEN &rarr;',O+'/dashboard.html')
+    SIGN('Auftragsverwaltung')+
+    BTN_O('Bestellung verfolgen &rarr;',O+'/dashboard.html')
   ),'Bestellbest\u00e4tigung / Rechnung','#'+oid,
-    'Rechnung zu Bestellung #'+oid+' — '+LE.NAME);
+    'Rechnung zu Bestellung #'+oid);
 
   _send(email,'Bestellbest\u00e4tigung / Rechnung #'+order.id+' \u2014 '+LE.NAME,html,FM.ORDERS);
 
-  /* Admin notification */
+  /* → Admin (INBOX) */
   var aHtml=W(BD(
-    '<h2 style="font-family:'+_fs+';font-size:18px;color:#1a1a1a;margin:0 0 16px">Neue Bestellung eingegangen</h2>'+
+    TITLE('Neue Bestellung eingegangen','#'+oid+' \u2014 &euro;'+fP(total))+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Kunde',cn+' ('+esc(email)+')')+
       TR('Artikel',(order.items||[]).length+' Position(en)')+
       TR('Gesamtbetrag','&euro;'+fP(total),{bold:true})+
+      TR('Eingang',fD()+' '+fT())+
     '</table>'+
     '<table style="width:100%;border-collapse:collapse;margin:16px 0">'+items+'</table>'+
-    BTN('ADMIN PANEL &Ouml;FFNEN &rarr;',O+'/admin-hub.html')
-  ),'Neue Bestellung','#'+oid);
-  _send(FM.ORDERS,'Neue Bestellung #'+order.id+' \u2014 \u20AC'+fP(total),aHtml,email);
+    BTN('Admin Panel &ouml;ffnen &rarr;',O+'/admin-hub.html')
+  ),'Admin \u2014 Neue Bestellung','#'+oid);
+  _send(INBOX,'Neue Bestellung #'+order.id+' \u2014 \u20AC'+fP(total)+' \u2014 '+cn,aHtml,email);
 }
 
 
@@ -468,77 +534,87 @@ function sendPaymentConfirmation(order,email,name){
   var cn=esc(name||(order.address&&order.address.name)||'');
   var oid=esc(order.id);
   var txId=esc(order.stripeTransactionId||order.transactionId||'TX-'+Date.now());
+
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Zahlungsbest&auml;tigung</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Transaktion erfolgreich autorisiert</p>'+
+    TITLE('Zahlungsbest&auml;tigung','Transaktion erfolgreich autorisiert')+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-    '<p>Ihre Zahlung f&uuml;r Bestellung <strong>#'+oid+'</strong> wurde erfolgreich verarbeitet und autorisiert.</p>'+
-    SEC('TRANSAKTIONSDETAILS')+
+    GREET(cn)+
+    '<p>Ihre Zahlung f&uuml;r Bestellung <strong style="color:'+_navy+'">#'+oid+'</strong> wurde erfolgreich verarbeitet und autorisiert.</p>'+
+    SEC('Transaktionsdetails')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Transaktions-ID',txId,{mono:true})+
       TR('Betrag','&euro;'+fP(order.total),{bold:true})+
       TR('Zahlungsart',esc(order.paymentMethod||'Kreditkarte / Stripe'))+
-      TR('Datum / Uhrzeit',fD()+' '+fT())+
+      TR('Datum',fD()+', '+fT()+' Uhr')+
       TR('Status',BDG('Autorisiert','#059669'))+
     '</table>'+
     CARD(
-      '<div style="font-size:11px;color:#666;line-height:1.7">'+
-        'Ihr Artikel ist ab sofort reserviert und wird dem n&auml;chsten verf&uuml;gbaren Aura Hub zur 24-Punkt-Inspektion zugeteilt. '+
-        'Sie erhalten eine gesonderte Benachrichtigung, sobald die Inspektion beginnt.'+
+      '<div style="font-size:13px;color:'+_warm+';line-height:1.75">'+
+        'Ihr Artikel ist reserviert und wird dem n&auml;chsten verf&uuml;gbaren Aura Hub zur 24-Punkt-Inspektion zugewiesen. '+
+        'Gesonderte Benachrichtigung folgt bei Inspektionsbeginn.'+
       '</div>'
     )+
-    BTN_O('BESTELLUNG VERFOLGEN &rarr;',O+'/dashboard.html')
+    SIGN('Finanzbuchhaltung')+
+    BTN_O('Bestellung verfolgen &rarr;',O+'/dashboard.html')
   ),'Zahlungsbest\u00e4tigung','#'+oid,
-    'Zahlung f\u00fcr #'+oid+' erfolgreich autorisiert.');
-  _send(email,'Zahlungsbest\u00e4tigung #'+order.id+' \u2014 Transaktion autorisiert',html,FM.BILLING);
+    'Zahlung f\u00fcr #'+oid+' autorisiert.');
+  _send(email,'Zahlungsbest\u00e4tigung #'+order.id+' \u2014 '+LE.NAME,html,FM.BILLING);
+
+  /* → Admin */
+  _send(INBOX,'Zahlung eingegangen: #'+order.id+' \u2014 \u20AC'+fP(order.total),
+    W(BD(TITLE('Zahlung eingegangen','#'+oid)+
+      '<table style="width:100%;border-collapse:collapse">'+TR('TX-ID',txId,{mono:true})+TR('Betrag','&euro;'+fP(order.total),{bold:true})+TR('Kunde',cn+' ('+esc(email)+')')+'</table>'
+    ),'Admin \u2014 Zahlung','#'+oid),email);
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 3: VERIFIKATION & TRUST
+   3 · VERIFIKATION & TRUST
    ══════════════════════════════════════════════════════ */
 
 
-/* ── 3.1 Aura Inspection gestartet ───────────────── */
+/* ── 3.1 Inspection gestartet ─────────────────────── */
 function sendInspectionStarted(order,email,name){
   var cn=esc(name||(order.address&&order.address.name)||'');
   var oid=esc(order.id);
   var hub=esc(order.hubId||'London-Central / 001');
+
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Aura Inspection gestartet</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">24-Punkt-Pr&uuml;fprotokoll eingeleitet</p>'+
+    TITLE('Aura Inspection gestartet','24-Punkt-Pr&uuml;fprotokoll eingeleitet')+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-    '<p>Ihr Ger&auml;t aus Bestellung <strong>#'+oid+'</strong> wurde einem technischen Spezialisten im Aura Hub zugewiesen. '+
+    GREET(cn)+
+    '<p>Ihr Ger&auml;t aus Bestellung <strong style="color:'+_navy+'">#'+oid+'</strong> wurde einem technischen Spezialisten &uuml;bergeben. '+
     'Die Pr&uuml;fung nach dem 24-Punkt Aura Inspection Standard hat begonnen.</p>'+
-    SEC('INSPEKTIONSDATEN')+
+
+    SEC('Inspektionsdaten')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Hub-ID',hub,{mono:true})+
-      TR('Inspektionsbeginn',fD()+' '+fT())+
-      TR('Pr\u00fcfstandard','24-Punkt Aura Inspection Protocol')+
+      TR('Inspektionsbeginn',fD()+', '+fT()+' Uhr')+
+      TR('Pr&uuml;fstandard','24-Punkt Aura Inspection Protocol')+
       TR('Status',BDG('In Pr\u00fcfung','#7C3AED'))+
     '</table>'+
+
     CARD(
-      '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">PR&Uuml;FUMFANG</div>'+
-      '<div style="font-size:11px;color:#666;line-height:1.8">'+
-        'Display Integrity &middot; Touch-Responsivit&auml;t &middot; Akkuzustand &middot; Logic Board Diagnostik &middot; '+
-        'Kameramodule (Front/Rear) &middot; Lautsprecher &amp; Mikrofon &middot; Konnektivit&auml;t (WiFi/BT/NFC) &middot; '+
-        'Biometrische Sensoren &middot; Ladeanschluss &amp; Wireless Charging &middot; Wasserschaden-Indikatoren &middot; '+
-        'Kosmetische Bewertung &middot; IMEI/Seriennummer-Verifikation'+
+      '<div style="font-family:'+_serif+';font-size:11px;color:'+_muted+';font-weight:700;letter-spacing:0.5px;margin-bottom:10px">Pr&uuml;fumfang (12 Kernpunkte)</div>'+
+      '<div style="font-size:12px;color:'+_warm+';line-height:2">'+
+        'Display Integrity &nbsp;&bull;&nbsp; Touch-Responsivit&auml;t &nbsp;&bull;&nbsp; Akkuzustand &nbsp;&bull;&nbsp; Logic Board &nbsp;&bull;&nbsp; '+
+        'Kamera Front/Rear &nbsp;&bull;&nbsp; Lautsprecher &amp; Mikrofon &nbsp;&bull;&nbsp; WiFi/BT/NFC &nbsp;&bull;&nbsp; '+
+        'Biometrie &nbsp;&bull;&nbsp; Ladeanschluss &nbsp;&bull;&nbsp; Wasserschaden &nbsp;&bull;&nbsp; Kosmetik &nbsp;&bull;&nbsp; IMEI/S/N'+
       '</div>'
     )+
-    '<p style="font-size:11px;color:#888">Nach Abschluss der Pr&uuml;fung erhalten Sie einen pers&ouml;nlichen Video-Inspektionsbericht (Aura Verified&trade;).</p>'+
-    BTN_O('BESTELLUNG VERFOLGEN &rarr;',O+'/dashboard.html')
+
+    '<p style="font-size:12px;color:'+_muted+'">Nach Abschluss erhalten Sie einen pers&ouml;nlichen Video-Inspektionsbericht (Aura Verified&trade;).</p>'+
+    SIGN('Aura Inspection Team')+
+    BTN_O('Bestellung verfolgen &rarr;',O+'/dashboard.html')
   ),'Aura Inspection','#'+oid,
-    'Inspection f\u00fcr Bestellung #'+oid+' gestartet.');
+    'Inspection f\u00fcr #'+oid+' gestartet.');
   _send(email,'Aura Inspection gestartet \u2014 Bestellung #'+order.id,html,FM.INSPECT);
 }
 
 
-/* ── 3.2 Aura Verified™ — Video-Inspektionsbericht ─ */
+/* ── 3.2 Aura Verified™ ──────────────────────────── */
 function sendAuraVerified(order,email,name,ins){
   var cn=esc(name||(order.address&&order.address.name)||'');
   var oid=esc(order.id);
@@ -552,41 +628,39 @@ function sendAuraVerified(order,email,name,ins){
   var videoUrl=i.videoUrl||O+'/dashboard.html';
   var reportId='AV-'+YR+'-'+oid.replace('#','');
 
-  /* 12-point checklist */
   var checks=[
     {nr:'01',name:'Display Integrity',key:'display'},
     {nr:'02',name:'Touch-Responsivit&auml;t',key:'touch'},
     {nr:'03',name:'Akkuzustand (Battery Health)',key:'battery'},
     {nr:'04',name:'Logic Board Diagnostik',key:'logicBoard'},
-    {nr:'05',name:'Kamera &mdash; Front',key:'cameraFront'},
-    {nr:'06',name:'Kamera &mdash; Rear / Teleobjektiv',key:'cameraRear'},
+    {nr:'05',name:'Kamera \u2014 Front',key:'cameraFront'},
+    {nr:'06',name:'Kamera \u2014 Rear / Teleobjektiv',key:'cameraRear'},
     {nr:'07',name:'Lautsprecher &amp; Mikrofon',key:'speakers'},
-    {nr:'08',name:'Konnektivit&auml;t (WiFi / BT / NFC)',key:'connectivity'},
-    {nr:'09',name:'Biometrische Sensoren (Face ID / Touch ID)',key:'biometrics'},
+    {nr:'08',name:'Konnektivit&auml;t (WiFi/BT/NFC)',key:'connectivity'},
+    {nr:'09',name:'Biometrie (Face ID / Touch ID)',key:'biometrics'},
     {nr:'10',name:'Ladeanschluss &amp; Wireless Charging',key:'charging'},
     {nr:'11',name:'Wasserschaden-Indikatoren',key:'waterDamage'},
     {nr:'12',name:'Kosmetischer Zustand',key:'cosmetic'}
   ];
   var checkRows=checks.map(function(c){
     var v=cl[c.key]||'BESTANDEN';
-    var clr=(v==='KEINE'||v.indexOf('PASS')>-1||v.indexOf('BESTANDEN')>-1||v.indexOf('Grade')>-1)?'#059669':'#C5A059';
+    var clr=(v==='KEINE'||v.indexOf('PASS')>-1||v.indexOf('BESTANDEN')>-1||v.indexOf('Grade')>-1)?'#059669':_gold;
     return '<tr>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid #eee;font-size:10px;color:#888;text-align:center">'+c.nr+'</td>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid #eee;font-size:12px">'+c.name+'</td>'+
-      '<td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:center;font-size:10px;color:'+clr+';font-weight:700;letter-spacing:0.5px">'+esc(v)+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #E8E5DF;font-size:11px;color:'+_muted+';text-align:center;font-family:'+_mono+'">'+c.nr+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #E8E5DF;font-size:13px;color:'+_warm+'">'+c.name+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #E8E5DF;text-align:center;font-size:10px;color:'+clr+';font-weight:700;letter-spacing:0.5px">'+esc(v)+'</td>'+
     '</tr>';
   }).join('');
 
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Aura Verified&trade; &mdash; Inspektionsbericht</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Technischer Audit abgeschlossen. Ger&auml;t verifiziert.</p>'+
+    TITLE('Aura Verified&trade; \u2014 Inspektionsbericht','Technischer Audit abgeschlossen. Ger&auml;t verifiziert.')+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-    '<p>der technische Audit f&uuml;r Ihr Ger&auml;t aus Bestellung <strong>#'+oid+'</strong> ist abgeschlossen. '+
-    'Die Seriennummer <strong style="font-family:monospace">'+sn+'</strong> wurde best&auml;tigt. '+
-    'Das Ger&auml;t entspricht der Kategorie <strong style="color:#C5A059">'+grade+'</strong>.</p>'+
+    GREET(cn)+
+    '<p>Der technische Audit f&uuml;r Ihr Ger&auml;t ist abgeschlossen. '+
+    'Seriennummer <strong style="font-family:'+_mono+'">'+sn+'</strong> best&auml;tigt. '+
+    'Kategorie: <strong style="color:'+_gold+'">'+grade+'</strong>.</p>'+
 
-    SEC('INSPEKTIONSDATEN')+
+    SEC('Inspektionsdaten')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Pr&uuml;fbericht-Nr.',reportId,{mono:true,bold:true})+
       TR('Seriennummer',sn,{mono:true})+
@@ -596,40 +670,41 @@ function sendAuraVerified(order,email,name,ins){
       TR('Pr&uuml;fdatum',fD())+
     '</table>'+
 
-    SEC('12-PUNKT-PR&Uuml;FPROTOKOLL')+
+    SEC('12-Punkt-Pr&uuml;fprotokoll')+
     '<table style="width:100%;border-collapse:collapse">'+
-      '<tr style="background:#0a0a0a">'+
-        '<th style="padding:8px;text-align:center;font-size:8px;color:#C5A059;letter-spacing:1px;width:30px">NR.</th>'+
-        '<th style="padding:8px;text-align:left;font-size:8px;color:#C5A059;letter-spacing:1px">PR&Uuml;FPUNKT</th>'+
-        '<th style="padding:8px;text-align:center;font-size:8px;color:#C5A059;letter-spacing:1px;width:90px">ERGEBNIS</th>'+
+      '<tr style="background:'+_navy+'">'+
+        '<th style="padding:10px;text-align:center;font-size:9px;color:'+_gold+';letter-spacing:1px;width:36px">Nr.</th>'+
+        '<th style="padding:10px;text-align:left;font-size:9px;color:'+_gold+';letter-spacing:1px">Pr&uuml;fpunkt</th>'+
+        '<th style="padding:10px;text-align:center;font-size:9px;color:'+_gold+';letter-spacing:1px;width:100px">Ergebnis</th>'+
       '</tr>'+
       checkRows+
-      '<tr style="background:#0a0a0a">'+
-        '<td colspan="2" style="padding:10px 8px;font-size:10px;color:#C5A059;font-weight:700;letter-spacing:1px">GESAMTERGEBNIS</td>'+
-        '<td style="padding:10px 8px;text-align:center;font-size:10px;color:#059669;font-weight:700;letter-spacing:1px">AURA VERIFIED &#10003;</td>'+
+      '<tr style="background:'+_navy+'">'+
+        '<td colspan="2" style="padding:12px 10px;font-size:10px;color:'+_gold+';font-weight:700;letter-spacing:1px">Gesamtergebnis</td>'+
+        '<td style="padding:12px 10px;text-align:center;font-size:10px;color:#059669;font-weight:700;letter-spacing:1px">VERIFIED &#10003;</td>'+
       '</tr>'+
     '</table>'+
 
-    BTN('ZUM INSPEKTIONSVIDEO &#9654;',videoUrl)+
+    BTN('Inspektionsvideo ansehen &#9654;',videoUrl)+
 
     CARD(
-      '<div style="font-size:11px;color:#666;line-height:1.7">'+
-        '<strong style="color:#1a1a1a">Digitale Signatur:</strong> '+inspName+' &nbsp;|&nbsp; Inspector ID: '+inspId+'<br>'+
-        '<strong style="color:#1a1a1a">Hub-ID:</strong> '+hubId+' &nbsp;|&nbsp; Pr&uuml;fprotokoll-Nr.: '+reportId+
+      '<div style="font-size:12px;color:'+_warm+';line-height:1.75">'+
+        '<strong style="color:'+_navy+'">Digitale Signatur:</strong> '+inspName+' &nbsp;|&nbsp; ID: '+inspId+'<br>'+
+        '<strong style="color:'+_navy+'">Hub:</strong> '+hubId+' &nbsp;|&nbsp; Bericht: '+reportId+
       '</div>'
-    )
+    )+
+    SIGN('Aura Inspection Team')
   ),'Aura Verified\u2122','#'+oid,
-    'Aura Verified\u2122 \u2014 Ger\u00e4t verifiziert. Bericht verf\u00fcgbar.');
+    'Aura Verified\u2122 \u2014 Bericht verf\u00fcgbar.');
   _send(email,'Aura Verified\u2122 \u2014 Inspektionsbericht #'+order.id,html,FM.INSPECT);
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 4: VERSAND & LOGISTIK
+   4 · VERSAND & LOGISTIK
    ══════════════════════════════════════════════════════ */
 
 
-/* ── 4.1 Versandbestätigung (Shipping) ────────────── */
+/* ── 4.1 Versandbestätigung ───────────────────────── */
 function sendShippingConfirmation(order,email,name,ship){
   var cn=esc(name||(order.address&&order.address.name)||'');
   var oid=esc(order.id);
@@ -643,292 +718,259 @@ function sendShippingConfirmation(order,email,name,ship){
   var dims=esc(s.dimensions||'wird ermittelt');
   var packType=esc(s.packagingType||'Secure Seal');
   var insProvider=esc(s.insuranceProvider||"Lloyd's of London");
-  var insValue=esc(s.insuranceValue||'Gem. Warenwert');
+  var insValue=esc(s.insuranceValue||'Gem\u00e4\u00df Warenwert');
 
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Versandbest&auml;tigung</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Ihr Paket ist unterwegs.</p>'+
+    TITLE('Versandbest&auml;tigung','Ihr Paket ist unterwegs.')+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-    '<p>Ihre Bestellung <strong>#'+oid+'</strong> hat unser Lager verlassen und befindet sich im Versand.</p>'+
+    GREET(cn)+
+    '<p>Bestellung <strong style="color:'+_navy+'">#'+oid+'</strong> hat unser Lager verlassen.</p>'+
 
-    SEC('SENDUNGSDATEN')+
+    SEC('Sendungsdaten')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Versanddienstleister',carrier)+
-      TR('Sendungsnummer','<a href="'+trackUrl+'" style="color:#C5A059;text-decoration:none;font-family:monospace;font-weight:700">'+trackNum+'</a>')+
-      TR('Voraussichtliche Zustellung',eta)+
+      TR('Sendungsnummer','<a href="'+trackUrl+'" style="color:'+_gold+';text-decoration:none;font-family:'+_mono+';font-weight:700">'+trackNum+'</a>')+
+      TR('Voraussichtl. Zustellung',eta)+
       TR('Status',BDG('Versendet','#2563EB'))+
     '</table>'+
 
-    SEC('PAKETDETAILS')+
+    SEC('Paketdetails')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Gewicht',weight)+
       TR('Abmessungen',dims)+
       TR('Verpackungstyp',packType)+
-      TR('Versicherung',insProvider)+
+      TR('Transportversicherung',insProvider)+
       TR('Versicherungswert',insValue)+
     '</table>'+
 
-    BTN('AURA SENDUNGSVERFOLGUNG &rarr;',intUrl)+
-    '<div style="text-align:center;margin-top:-16px;margin-bottom:20px">'+
-      '<a href="'+trackUrl+'" style="font-size:10px;color:#888;text-decoration:none">Alternativ: Direkt bei '+carrier+' verfolgen &rarr;</a>'+
+    BTN('Sendungsverfolgung &rarr;',intUrl)+
+    '<div style="text-align:center;margin-top:-20px;margin-bottom:24px">'+
+      '<a href="'+trackUrl+'" style="font-size:11px;color:'+_muted+';text-decoration:none">Alternativ: Direkt bei '+carrier+' verfolgen &rarr;</a>'+
     '</div>'+
 
     CARD(
-      '<div style="font-size:9px;color:#888;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">ANNAHMEHINWEIS</div>'+
-      '<div style="font-size:11px;color:#666;line-height:1.7">'+
-        'Bitte pr&uuml;fen Sie bei Annahme des Pakets die Unversehrtheit der Sicherheitspflomben und der Verpackung. '+
-        'Dokumentieren Sie etwaige Besch&auml;digungen vor dem &Ouml;ffnen fotografisch und melden Sie diese innerhalb von 24 Stunden an '+
-        '<a href="mailto:'+FM.SUPPORT+'" style="color:#C5A059;text-decoration:none">'+FM.SUPPORT+'</a>. '+
-        'Die Originalverpackung ist f&uuml;r eine etwaige R&uuml;cksendung aufzubewahren.'+
+      '<div style="font-family:'+_serif+';font-size:11px;color:'+_muted+';font-weight:700;letter-spacing:0.5px;margin-bottom:8px">Annahmehinweis</div>'+
+      '<div style="font-size:12px;color:'+_warm+';line-height:1.75">'+
+        'Pr&uuml;fen Sie bei Annahme die Unversehrtheit der Sicherheitspflomben und Verpackung. '+
+        'Besch&auml;digungen vor dem &Ouml;ffnen fotografisch dokumentieren und innerhalb von 24&nbsp;Stunden an '+
+        '<a href="mailto:'+FM.SUPPORT+'" style="color:'+_gold+';text-decoration:none">'+FM.SUPPORT+'</a> melden. '+
+        'Originalverpackung f&uuml;r etwaige R&uuml;cksendung aufbewahren.'+
       '</div>'
-    )
+    )+
+    SIGN('Logistikabteilung')
   ),'Versand &amp; Logistik','#'+oid,
-    'Bestellung #'+oid+' versendet \u2014 Sendungsnummer: '+trackNum);
-  _send(email,'Versandbest\u00e4tigung #'+order.id+' \u2014 Sendungsnr. '+trackNum,html,FM.LOGISTICS);
+    '#'+oid+' versendet \u2014 Sendungsnr. '+trackNum);
+  _send(email,'Versandbest\u00e4tigung #'+order.id+' \u2014 '+trackNum,html,FM.LOGISTICS);
 }
 
 
-/* ── 4.2 Generischer Status-Update ────────────────── */
+/* ── 4.2 Status-Update (generic) ──────────────────── */
 function sendStatusUpdate(order,status){
   var email=order.address&&order.address.email;
-  if(!email){
-    var users=typeof Aura!=='undefined'?Aura.getUsers():[];
-    var u=users.find(function(x){return x.id===order.userId;});
-    if(u) email=u.email;
-  }
+  if(!email){var users=typeof Aura!=='undefined'?Aura.getUsers():[];var u=users.find(function(x){return x.id===order.userId;});if(u)email=u.email;}
   if(!email) return;
   var cn=esc((order.address&&order.address.name)||'');
   var oid=esc(order.id);
 
   var map={
-    'paid':       {de:'Zahlung best\u00e4tigt',     color:'#059669', desc:'Ihre Zahlung wurde erfolgreich verarbeitet. Der Artikel ist reserviert und wird dem n&auml;chsten verf&uuml;gbaren Aura Hub zugewiesen.'},
-    'sourcing':   {de:'Sourcing eingeleitet',        color:'#D97706', desc:'Unser Sourcing-Team hat Ihren Artikel lokalisiert. Der Beschaffungsprozess wurde eingeleitet.'},
-    'inspection': {de:'Aura Inspection gestartet',   color:'#7C3AED', desc:'Ihr Ger&auml;t wurde einem technischen Spezialisten &uuml;bergeben. Die 24-Punkt-Pr&uuml;fung l&auml;uft.'},
-    'verified':   {de:'Aura Verified',               color:'#059669', desc:'Der technische Audit ist abgeschlossen. Ihr Ger&auml;t hat das 24-Punkt-Pr&uuml;fprotokoll bestanden.'},
-    'shipped':    {de:'Versendet',                   color:'#2563EB', desc:'Ihr Paket hat unser Lager verlassen und befindet sich im Versand.'},
-    'delivered':  {de:'Zugestellt',                  color:'#059669', desc:'Ihr Paket wurde zugestellt. Bitte pr&uuml;fen Sie die Unversehrtheit der Sicherheitspflomben bei Annahme.'},
-    'cancelled':  {de:'Storniert',                   color:'#DC2626', desc:'Ihre Bestellung wurde storniert. Die R&uuml;ckerstattung wird innerhalb von 3\u20135 Werktagen auf das urspr&uuml;ngliche Zahlungsmittel veranlasst.'},
-    'returned':   {de:'Retoure registriert',         color:'#6B7280', desc:'Ihre Retoure wurde erfasst. Bitte senden Sie den Artikel in der Originalverpackung an die angegebene Retouradresse zur&uuml;ck.'}
+    'paid':       {de:'Zahlung best\u00e4tigt',   color:'#059669',desc:'Zahlung verarbeitet. Artikel reserviert. Zuweisung an Aura Hub erfolgt.'},
+    'sourcing':   {de:'Sourcing eingeleitet',      color:'#D97706',desc:'Artikel lokalisiert. Beschaffungsprozess eingeleitet.'},
+    'inspection': {de:'Inspection gestartet',      color:'#7C3AED',desc:'Ger\u00e4t dem technischen Spezialisten \u00fcbergeben. 24-Punkt-Pr\u00fcfung l\u00e4uft.'},
+    'verified':   {de:'Aura Verified',             color:'#059669',desc:'Technischer Audit abgeschlossen. Ger\u00e4t hat das Pr\u00fcfprotokoll bestanden.'},
+    'shipped':    {de:'Versendet',                 color:'#2563EB',desc:'Paket hat das Lager verlassen.'},
+    'delivered':  {de:'Zugestellt',                color:'#059669',desc:'Paket zugestellt. Sicherheitspflomben bei Annahme pr\u00fcfen.'},
+    'cancelled':  {de:'Storniert',                 color:'#DC2626',desc:'Bestellung storniert. R\u00fcckerstattung innerhalb von 3\u20135 Werktagen.'},
+    'returned':   {de:'Retoure registriert',       color:'#6B7280',desc:'Retoure erfasst. Artikel in Originalverpackung zur\u00fccksenden.'}
   };
-  var s=map[status]||{de:status,color:'#1a1a1a',desc:'Der Status Ihrer Bestellung wurde aktualisiert.'};
+  var s=map[status]||{de:status,color:_navy,desc:'Status aktualisiert.'};
 
   var tracking='';
   if(order.trackingNumber&&(status==='shipped'||status==='delivered')){
-    tracking=SEC('SENDUNGSVERFOLGUNG')+
+    tracking=SEC('Sendungsverfolgung')+
       '<table style="width:100%;border-collapse:collapse">'+
-        TR('Sendungsnummer','<a href="https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode='+esc(order.trackingNumber)+'" style="color:#C5A059;text-decoration:none;font-family:monospace;font-weight:700">'+esc(order.trackingNumber)+'</a>')+
-      '</table>';
+      TR('Sendungsnummer','<a href="https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode='+esc(order.trackingNumber)+'" style="color:'+_gold+';text-decoration:none;font-family:'+_mono+';font-weight:700">'+esc(order.trackingNumber)+'</a>')+'</table>';
   }
 
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Status-Aktualisierung</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Bestellung #'+oid+'</p>'+
+    TITLE('Status-Aktualisierung','Bestellung #'+oid)+
     DIV()+
-    '<p>Sehr geehrte/r '+cn+',</p>'+
-
-    '<div style="text-align:center;margin:20px 0">'+BDG(s.de,s.color)+'</div>'+
-
+    GREET(cn)+
+    '<div style="text-align:center;margin:24px 0">'+BDG(s.de,s.color)+'</div>'+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bestellnummer','#'+oid,{mono:true,bold:true})+
       TR('Neuer Status',s.de)+
-      TR('Aktualisiert am',fD()+' '+fT())+
+      TR('Aktualisiert',fD()+', '+fT()+' Uhr')+
     '</table>'+
-
-    CARD('<div style="font-size:12px;color:#444;line-height:1.7">'+s.desc+'</div>')+
+    CARD('<div style="font-size:13px;color:'+_warm+';line-height:1.75">'+s.desc+'</div>')+
     tracking+
-    BTN_O('BESTELLUNG ANSEHEN &rarr;',O+'/dashboard.html')
+    SIGN('Auftragsverwaltung')+
+    BTN_O('Bestellung ansehen &rarr;',O+'/dashboard.html')
   ),'Status-Update','#'+oid,
-    'Bestellung #'+oid+' \u2014 '+s.de);
+    '#'+oid+' \u2014 '+s.de);
   _send(email,'Bestellung #'+order.id+' \u2014 '+s.de,html,FM.ORDERS);
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 5: KUNDENKOMMUNIKATION
+   5 · KUNDENKOMMUNIKATION
    ══════════════════════════════════════════════════════ */
 
-
-/* ── 5.1 Kontaktformular ─────────────────────────── */
 function sendContactForm(data){
   var refId=data.refId||'KA-'+Date.now().toString(36).toUpperCase();
 
-  /* Admin notification */
+  /* → Admin (INBOX) — incoming customer request */
   var aHtml=W(BD(
-    '<h2 style="font-family:'+_fs+';font-size:18px;color:#1a1a1a;margin:0 0 16px">Kontaktanfrage eingegangen</h2>'+
+    TITLE('Kontaktanfrage eingegangen','Von: '+esc(data.name))+
     '<table style="width:100%;border-collapse:collapse">'+
-      TR('Absender',esc(data.name)+' (<a href="mailto:'+esc(data.email)+'" style="color:#C5A059;text-decoration:none">'+esc(data.email)+'</a>)')+
+      TR('Absender',esc(data.name)+' &lt;'+esc(data.email)+'&gt;')+
       TR('Betreff',esc(data.subject),{bold:true})+
-      TR('Bestellnummer',data.orderNumber?esc(data.orderNumber):'&mdash;')+
+      TR('Bestellnr.',data.orderNumber?esc(data.orderNumber):'&mdash;')+
       TR('Referenz',refId,{mono:true})+
-      TR('Eingang',fD()+' '+fT())+
+      TR('Eingang',fD()+', '+fT()+' Uhr')+
     '</table>'+
-    SEC('NACHRICHT')+
-    '<div style="background:#f8f8f8;padding:16px;border-radius:2px;white-space:pre-wrap;font-size:12px;color:#333;line-height:1.7;border-left:3px solid #C5A059">'+esc(data.message)+'</div>'
-  ),'Kontaktanfrage',refId);
-  _send(FM.SUPPORT,'Kontaktanfrage: '+data.subject+' ['+refId+']',aHtml,data.email);
+    SEC('Nachricht')+
+    '<div style="background:#fff;padding:18px;border-radius:3px;white-space:pre-wrap;font-size:13px;color:'+_warm+';line-height:1.8;border-left:3px solid '+_gold+'">'+esc(data.message)+'</div>'+
+    '<p style="font-size:12px;color:'+_muted+';margin-top:16px">Antwort direkt an: <a href="mailto:'+esc(data.email)+'" style="color:'+_gold+';text-decoration:none">'+esc(data.email)+'</a></p>'
+  ),'Eingehend \u2014 Kontaktanfrage',refId);
+  _send(INBOX,'Kontaktanfrage: '+data.subject+' \u2014 '+data.name+' ['+refId+']',aHtml,data.email);
 
-  /* Customer auto-reply */
+  /* → Customer auto-reply */
   var rHtml=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Anfrage erhalten</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Referenz: '+refId+'</p>'+
+    TITLE('Ihre Anfrage wurde erfasst','Referenz: '+refId)+
     DIV()+
-    '<p>Sehr geehrte/r '+esc(data.name)+',</p>'+
-    '<p>Ihre Anfrage wurde erfasst und an die zust&auml;ndige Abteilung weitergeleitet.</p>'+
+    GREET(data.name)+
+    '<p>Ihre Nachricht wurde empfangen und an die zust&auml;ndige Abteilung weitergeleitet.</p>'+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Referenznummer',refId,{mono:true,bold:true})+
       TR('Bearbeitungszeit','24\u201348 Stunden (Werktage)')+
     '</table>'+
-    '<p style="font-size:12px;color:#666;margin-top:20px">Mit freundlichen Gr&uuml;&szlig;en,<br><strong style="color:#1a1a1a">Kundendienst &mdash; '+LE.NAME+'</strong></p>'
+    SIGN('Kundendienst')
   ),'Ihre Anfrage',refId,
-    'Ihre Kontaktanfrage ['+refId+'] wurde erfasst.');
+    'Kontaktanfrage ['+refId+'] erfasst.');
   _send(data.email,'Anfrage erhalten ['+refId+'] \u2014 '+LE.NAME,rHtml,FM.SUPPORT);
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 6: SICHERHEIT & AUTHENTIFIZIERUNG
+   6 · SICHERHEIT & AUTHENTIFIZIERUNG
    ══════════════════════════════════════════════════════ */
 
-
-/* ── 6.1 Passwort zurücksetzen ────────────────────── */
 function sendPasswordReset(email){
   var code=genCode();
-  localStorage.setItem('aura_reset_code',JSON.stringify({
-    code:code,email:email,expires:Date.now()+15*60*1000,type:'reset'
-  }));
+  localStorage.setItem('aura_reset_code',JSON.stringify({code:code,email:email,expires:Date.now()+15*60*1000,type:'reset'}));
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Passwort zur&uuml;cksetzen</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Sicherheitsbenachrichtigung</p>'+
+    TITLE('Passwort zur&uuml;cksetzen','Sicherheitsbenachrichtigung')+
     DIV()+
-    '<p>F&uuml;r Ihr Konto ('+esc(email)+') wurde das Zur&uuml;cksetzen des Passworts angefordert. Verwenden Sie den folgenden Code:</p>'+
+    '<p>F&uuml;r das Konto <strong style="font-family:'+_mono+'">'+esc(email)+'</strong> wurde ein Zur&uuml;cksetzen angefordert.</p>'+
     CODE(code)+
     '<table style="width:100%;border-collapse:collapse">'+
-      TR('G&uuml;ltigkeit','15 Minuten ab Ausstellung')+
-      TR('Ausgestellt am',fD()+' '+fT())+
+      TR('G&uuml;ltigkeit','15 Minuten')+
+      TR('Ausgestellt',fD()+', '+fT()+' Uhr')+
     '</table>'+
-    '<p style="font-size:11px;color:#888;margin-top:20px">Falls Sie diese Anforderung nicht veranlasst haben, ignorieren Sie diese Nachricht. Ihr Konto bleibt gesch&uuml;tzt.</p>'
-  ),'Sicherheit',null,
-    'Ihr Passwort-Reset-Code: '+code);
+    '<p style="font-size:12px;color:'+_muted+';margin-top:20px">Nicht angefordert? Ignorieren Sie diese Nachricht. Ihr Konto bleibt gesch&uuml;tzt.</p>'
+  ),'Sicherheit',null,'Passwort-Reset-Code: '+code);
   _send(email,'Passwort zur\u00fccksetzen \u2014 Code: '+code,html,FM.NOREPLY);
   return code;
 }
 
-function verifyResetCode(inputCode){
-  var raw=localStorage.getItem('aura_reset_code');
-  if(!raw) return{ok:false,error:'Kein Code angefordert'};
-  var d=JSON.parse(raw);
+function verifyResetCode(c){
+  var r=localStorage.getItem('aura_reset_code');if(!r)return{ok:false,error:'Kein Code angefordert'};
+  var d=JSON.parse(r);
   if(Date.now()>d.expires){localStorage.removeItem('aura_reset_code');return{ok:false,error:'Code abgelaufen'};}
-  if(d.code!==inputCode) return{ok:false,error:'Ung\u00fcltiger Code'};
-  localStorage.removeItem('aura_reset_code');
-  return{ok:true,email:d.email};
+  if(d.code!==c)return{ok:false,error:'Ung\u00fcltiger Code'};
+  localStorage.removeItem('aura_reset_code');return{ok:true,email:d.email};
 }
 
-
-/* ── 6.2 Passwort geändert ────────────────────────── */
 function sendPasswordChanged(email,name){
   var n=esc(name||email.split('@')[0]);
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Passwort ge&auml;ndert</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Sicherheitsbenachrichtigung f&uuml;r Ihr Konto</p>'+
+    TITLE('Passwort ge&auml;ndert','Sicherheitsbenachrichtigung')+
     DIV()+
-    '<p>Sehr geehrte/r '+n+',</p>'+
-    '<p>das Passwort f&uuml;r Ihr Konto bei '+LE.NAME+' wurde soeben ge&auml;ndert.</p>'+
+    GREET(n)+
+    '<p>Das Passwort f&uuml;r Ihr Konto wurde ge&auml;ndert.</p>'+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Konto',esc(email),{mono:true})+
-      TR('&Auml;nderung am',fD()+' '+fT())+
-      TR('IP-Adresse','Protokolliert')+
+      TR('Ge&auml;ndert am',fD()+', '+fT()+' Uhr')+
     '</table>'+
     CARD(
-      '<div style="font-size:12px;color:#856404;line-height:1.7">'+
-        '<strong>Nicht von Ihnen veranlasst?</strong> Kontaktieren Sie umgehend unseren Sicherheitsdienst: '+
-        '<a href="mailto:'+FM.SUPPORT+'" style="color:#C5A059;text-decoration:none">'+FM.SUPPORT+'</a>'+
+      '<div style="font-size:13px;color:#856404;line-height:1.75">'+
+        '<strong>Nicht von Ihnen veranlasst?</strong> Kontaktieren Sie umgehend: '+
+        '<a href="mailto:'+FM.SUPPORT+'" style="color:'+_gold+';text-decoration:none">'+FM.SUPPORT+'</a>'+
       '</div>'
-    )
-  ),'Sicherheit',null,
-    'Passwort f\u00fcr '+email+' wurde ge\u00e4ndert.');
+    )+
+    SIGN('Sicherheitsteam')
+  ),'Sicherheit',null,'Passwort f\u00fcr '+email+' ge\u00e4ndert.');
   _send(email,'Passwort ge\u00e4ndert \u2014 '+LE.NAME,html,FM.SUPPORT);
 }
 
-
-/* ── 6.3 E-Mail-Bestätigungscode ─────────────────── */
 function sendVerificationCode(email,name){
   var code=genCode();
-  localStorage.setItem('aura_verify_code',JSON.stringify({
-    code:code,email:email,expires:Date.now()+5*60*1000
-  }));
+  localStorage.setItem('aura_verify_code',JSON.stringify({code:code,email:email,expires:Date.now()+5*60*1000}));
   var n=esc(name||email.split('@')[0]);
   var html=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Best&auml;tigungscode</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">E-Mail-Verifizierung f&uuml;r '+esc(email)+'</p>'+
+    TITLE('Best&auml;tigungscode','E-Mail-Verifizierung')+
     DIV()+
-    '<p>Sehr geehrte/r '+n+', hier ist Ihr Best&auml;tigungscode:</p>'+
+    '<p>Sehr geehrte/r '+n+', hier ist Ihr Code:</p>'+
     CODE(code)+
     '<table style="width:100%;border-collapse:collapse">'+
-      TR('G&uuml;ltigkeit','5 Minuten ab Ausstellung')+
-      TR('Ausgestellt am',fD()+' '+fT())+
+      TR('G&uuml;ltigkeit','5 Minuten')+
+      TR('Ausgestellt',fD()+', '+fT()+' Uhr')+
     '</table>'+
-    '<p style="font-size:11px;color:#888;margin-top:16px">Geben Sie diesen Code niemals an Dritte weiter.</p>'
-  ),'Verifizierung',null,
-    'Ihr Best\u00e4tigungscode: '+code);
+    '<p style="font-size:12px;color:'+_muted+'">Diesen Code niemals an Dritte weitergeben.</p>'
+  ),'Verifizierung',null,'Code: '+code);
   _send(email,'Best\u00e4tigungscode: '+code+' \u2014 '+LE.NAME,html,FM.NOREPLY);
   return code;
 }
 
-function verifyCode(inputCode){
-  var raw=localStorage.getItem('aura_verify_code');
-  if(!raw) return{ok:false,error:'Kein Code angefordert'};
-  var d=JSON.parse(raw);
-  if(Date.now()>d.expires){localStorage.removeItem('aura_verify_code');return{ok:false,error:'Code abgelaufen. Bitte erneut anfordern.'};}
-  if(d.code!==inputCode) return{ok:false,error:'Ung\u00fcltiger Code'};
-  localStorage.removeItem('aura_verify_code');
-  return{ok:true,email:d.email};
+function verifyCode(c){
+  var r=localStorage.getItem('aura_verify_code');if(!r)return{ok:false,error:'Kein Code angefordert'};
+  var d=JSON.parse(r);
+  if(Date.now()>d.expires){localStorage.removeItem('aura_verify_code');return{ok:false,error:'Code abgelaufen'};}
+  if(d.code!==c)return{ok:false,error:'Ung\u00fcltiger Code'};
+  localStorage.removeItem('aura_verify_code');return{ok:true,email:d.email};
 }
 
 
 /* ══════════════════════════════════════════════════════
-   CATEGORY 7: HR & OPERATIONS
+   7 · HR & OPERATIONS
    ══════════════════════════════════════════════════════ */
 
-
-/* ── 7.1 Bewerbungseingang ────────────────────────── */
 function sendCareerApplication(data){
   var refId=data.refId||'BW-'+Date.now().toString(36).toUpperCase();
 
-  /* HR notification */
+  /* → Admin (INBOX) — incoming application */
   var hrHtml=W(BD(
-    '<h2 style="font-family:'+_fs+';font-size:18px;color:#1a1a1a;margin:0 0 16px">Bewerbungseingang</h2>'+
+    TITLE('Bewerbungseingang','Position: '+esc(data.position))+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Bewerber/in',esc(data.firstname)+' '+esc(data.lastname||''))+
-      TR('E-Mail','<a href="mailto:'+esc(data.email)+'" style="color:#C5A059;text-decoration:none">'+esc(data.email)+'</a>')+
+      TR('E-Mail','<a href="mailto:'+esc(data.email)+'" style="color:'+_gold+';text-decoration:none">'+esc(data.email)+'</a>')+
       TR('Messenger',data.messenger?esc(data.messenger):'&mdash;')+
       TR('Position',esc(data.position),{bold:true})+
       TR('Referenz',refId,{mono:true})+
-      TR('Eingang',fD()+' '+fT())+
+      TR('Eingang',fD()+', '+fT()+' Uhr')+
     '</table>'+
-    SEC('ANSCHREIBEN')+
-    '<div style="background:#f8f8f8;padding:16px;border-radius:2px;white-space:pre-wrap;font-size:12px;color:#333;line-height:1.7;border-left:3px solid #C5A059">'+esc(data.message||'\u2014')+'</div>'+
-    BTN('IM ADMIN PANEL PR\u00dcFEN &rarr;',O+'/admin-hub.html')
-  ),'HR \u2014 Bewerbung',refId);
-  _send(FM.HR,'Bewerbung: '+data.position+' \u2014 '+data.firstname+' ['+refId+']',hrHtml,data.email);
+    SEC('Anschreiben')+
+    '<div style="background:#fff;padding:18px;border-radius:3px;white-space:pre-wrap;font-size:13px;color:'+_warm+';line-height:1.8;border-left:3px solid '+_gold+'">'+esc(data.message||'\u2014')+'</div>'+
+    BTN('Im Admin Panel pr&uuml;fen &rarr;',O+'/admin-hub.html')
+  ),'Eingehend \u2014 Bewerbung',refId);
+  _send(INBOX,'Bewerbung: '+data.position+' \u2014 '+data.firstname+' ['+refId+']',hrHtml,data.email);
 
-  /* Applicant confirmation */
+  /* → Applicant confirmation */
   var rHtml=W(BD(
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:0 0 4px">Bewerbung eingegangen</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px">Referenz: '+refId+'</p>'+
+    TITLE('Bewerbung eingegangen','Referenz: '+refId)+
     DIV()+
-    '<p>Sehr geehrte/r '+esc(data.firstname)+',</p>'+
-    '<p>Ihre Bewerbung f&uuml;r die Position <strong>'+esc(data.position)+'</strong> bei '+LE.NAME+' wurde erfasst und an die Personalabteilung weitergeleitet.</p>'+
+    GREET(data.firstname)+
+    '<p>Ihre Bewerbung f&uuml;r die Position <strong style="color:'+_navy+'">'+esc(data.position)+'</strong> wurde erfasst.</p>'+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Referenznummer',refId,{mono:true,bold:true})+
       TR('Position',esc(data.position))+
       TR('Status',BDG('In Pr\u00fcfung','#D97706','#fff'))+
       TR('Bearbeitungszeit','5\u20137 Werktage')+
     '</table>'+
-    '<p style="font-size:12px;color:#666;margin-top:20px">Mit freundlichen Gr&uuml;&szlig;en,<br><strong style="color:#1a1a1a">Personalabteilung &mdash; '+LE.NAME+'</strong></p>'
+    SIGN('Personalabteilung')
   ),'Ihre Bewerbung',refId,
-    'Bewerbung f\u00fcr '+data.position+' eingegangen ['+refId+'].');
+    'Bewerbung f\u00fcr '+data.position+' ['+refId+'] eingegangen.');
   _send(data.email,'Bewerbung eingegangen \u2014 '+data.position+' ['+refId+']',rHtml,FM.HR);
 }
 
@@ -951,54 +993,55 @@ function sendOnboarding(data){
   var secEmail=esc(data.securityOfficerEmail||'security@auraglobal-merchants.com');
 
   var html=W(BD(
-    '<div style="text-align:center;margin-bottom:8px">'+BDG('OFFICIAL APPOINTMENT','#0a0a0a','#C5A059')+'</div>'+
-    '<h1 style="font-family:'+_fs+';font-size:22px;color:#1a1a1a;margin:8px 0 4px;text-align:center">Offizielle Ernennung</h1>'+
-    '<p style="color:#888;font-size:11px;margin:0 0 24px;text-align:center">Personal-ID: '+empId+'</p>'+
+    '<div style="text-align:center;margin-bottom:12px">'+BDG('Official Appointment',_navy,_gold)+'</div>'+
+    TITLE('Offizielle Ernennung','Personal-ID: '+empId)+
     DIV()+
+    GREET(fullName)+
+    '<p>Hiermit best&auml;tigen wir Ihre Ernennung als <strong style="color:'+_navy+'">'+pos+'</strong> bei '+LE.NAME+'.</p>'+
 
-    '<p>Sehr geehrte/r '+fullName+',</p>'+
-    '<p>hiermit best&auml;tigen wir Ihre offizielle Ernennung als <strong style="color:#1a1a1a">'+pos+'</strong> bei '+LE.NAME+'.</p>'+
-
-    SEC('PERSONALDATEN')+
+    SEC('Personaldaten')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Personalnummer',empId,{mono:true,bold:true})+
       TR('Position',pos,{bold:true})+
       TR('Dienstantritt',startDate)+
       TR('Standort',esc(data.location||'Remote'))+
-      TR('Vorgesetzter',supName+' (<a href="mailto:'+supEmail+'" style="color:#C5A059;text-decoration:none">'+supEmail+'</a>)')+
+      TR('Vorgesetzter',supName+' (<a href="mailto:'+supEmail+'" style="color:'+_gold+';text-decoration:none">'+supEmail+'</a>)')+
     '</table>'+
 
-    SEC('ZUGANGSDATEN')+
+    SEC('Zugangsdaten')+
     '<table style="width:100%;border-collapse:collapse">'+
-      TR('Aura Hub Portal','<a href="'+hubUrl+'" style="color:#C5A059;text-decoration:none;font-weight:700">'+hubUrl+'</a>')+
-      TR('SOP-Handbuch','<a href="'+sopUrl+'" style="color:#C5A059;text-decoration:none">Standard Operating Procedures</a>')+
+      TR('Aura Hub Portal','<a href="'+hubUrl+'" style="color:'+_gold+';text-decoration:none;font-weight:700">Portal &ouml;ffnen</a>')+
+      TR('SOP-Handbuch','<a href="'+sopUrl+'" style="color:'+_gold+';text-decoration:none">Standard Operating Procedures</a>')+
     '</table>'+
 
-    SEC('COMPLIANCE-DOKUMENTE')+
-    '<p style="font-size:12px;color:#444;margin-bottom:12px">Die folgenden Dokumente sind <strong>vor Dienstantritt</strong> zu pr&uuml;fen und digital zu unterzeichnen:</p>'+
-    '<table style="width:100%;font-size:12px;color:#444">'+
-      '<tr><td style="padding:8px 0;border-bottom:1px solid #eee">&#9744; <a href="'+ndaUrl+'" style="color:#C5A059;text-decoration:none;font-weight:600">Geheimhaltungsvereinbarung (NDA)</a></td></tr>'+
-      '<tr><td style="padding:8px 0">&#9744; <a href="'+cocUrl+'" style="color:#C5A059;text-decoration:none;font-weight:600">Verhaltenskodex (Code of Conduct)</a></td></tr>'+
-    '</table>'+
+    SEC('Compliance-Dokumente')+
+    '<p style="font-size:13px;color:'+_warm+'"><strong>Vor Dienstantritt</strong> zu pr&uuml;fen und digital zu unterzeichnen:</p>'+
+    CARD_S(
+      '<table style="width:100%;font-size:13px;color:'+_warm+'">'+
+        '<tr><td style="padding:10px 0;border-bottom:1px solid #E8E5DF">&#9744; &nbsp;<a href="'+ndaUrl+'" style="color:'+_gold+';text-decoration:none;font-weight:600">Geheimhaltungsvereinbarung (NDA)</a></td></tr>'+
+        '<tr><td style="padding:10px 0">&#9744; &nbsp;<a href="'+cocUrl+'" style="color:'+_gold+';text-decoration:none;font-weight:600">Verhaltenskodex (Code of Conduct)</a></td></tr>'+
+      '</table>'
+    )+
 
-    SEC('SICHERHEITSKONTAKT')+
+    SEC('Sicherheitskontakt')+
     '<table style="width:100%;border-collapse:collapse">'+
       TR('Security Officer',secName)+
-      TR('E-Mail','<a href="mailto:'+secEmail+'" style="color:#C5A059;text-decoration:none">'+secEmail+'</a>')+
-      TR('Meldefrist','Sofortige Meldung innerhalb von 4 Stunden bei Sicherheitsvorf&auml;llen')+
+      TR('E-Mail','<a href="mailto:'+secEmail+'" style="color:'+_gold+';text-decoration:none">'+secEmail+'</a>')+
+      TR('Meldefrist','4 Stunden bei Sicherheitsvorf&auml;llen')+
     '</table>'+
 
     CARD(
-      '<div style="font-size:11px;color:#DC2626;line-height:1.7;font-weight:600">'+
-        'HINWEIS: Jeder Versto&szlig; gegen die Geheimhaltungsvereinbarung oder den Verhaltenskodex f&uuml;hrt zur sofortigen '+
-        'Beendigung des Vertragsverh&auml;ltnisses und gegebenenfalls zur zivil- und strafrechtlichen Verfolgung.'+
+      '<div style="font-size:12px;color:#DC2626;line-height:1.75;font-weight:600">'+
+        'Hinweis: Verst&ouml;&szlig;e gegen NDA oder Verhaltenskodex f&uuml;hren zur sofortigen Beendigung des Vertragsverh&auml;ltnisses '+
+        'und gegebenenfalls zivil- und strafrechtlicher Verfolgung.'+
       '</div>'
     )+
-
-    '<p style="font-size:12px;color:#666;margin-top:24px">Mit vorz&uuml;glicher Hochachtung,<br><strong style="color:#1a1a1a">Personalabteilung &mdash; '+LE.NAME+'</strong></p>'
+    '<p style="font-size:13px;color:'+_warm+';margin-top:28px;line-height:1.6">Mit vorz&uuml;glicher Hochachtung,<br>'+
+      '<strong style="color:'+_navy+'">Personalabteilung</strong><br>'+
+      '<span style="font-size:11px;color:'+_muted+'">'+LE.NAME+'</span></p>'
   ),'Official Appointment',empId,
-    'Offizielle Ernennung \u2014 '+pos+' | '+LE.NAME);
-  _send(data.email,'Offizielle Ernennung als '+data.position+' \u2014 '+LE.NAME+' ['+empId+']',html,FM.HR);
+    'Ernennung als '+pos+' \u2014 '+LE.NAME);
+  _send(data.email,'Offizielle Ernennung: '+data.position+' \u2014 '+LE.NAME+' ['+empId+']',html,FM.HR);
 }
 
 
@@ -1007,39 +1050,40 @@ function sendOnboarding(data){
    ══════════════════════════════════════════════════════ */
 
 window.AuraEmail = {
-  CONFIG:  C,
-  LEGAL:   LE,
-  init:    init,
-  test:    testEmail,
+  CONFIG: C,
+  LEGAL:  LE,
+  INBOX:  INBOX,
+  init:   init,
+  test:   testEmail,
 
-  /* Customer */
+  /* 1 · Customer */
   sendWelcome:              sendWelcome,
   sendPrimeWelcome:         sendPrimeWelcome,
   sendNewsletterWelcome:    sendNewsletterWelcome,
 
-  /* Finance */
+  /* 2 · Finance */
   sendOrderConfirmation:    sendOrderConfirmation,
   sendPaymentConfirmation:  sendPaymentConfirmation,
 
-  /* Verification & Trust */
+  /* 3 · Verification */
   sendInspectionStarted:    sendInspectionStarted,
   sendAuraVerified:         sendAuraVerified,
 
-  /* Logistics */
+  /* 4 · Logistics */
   sendShippingConfirmation: sendShippingConfirmation,
   sendStatusUpdate:         sendStatusUpdate,
 
-  /* Communication */
+  /* 5 · Communication */
   sendContactForm:          sendContactForm,
 
-  /* Security */
+  /* 6 · Security */
   sendPasswordReset:        sendPasswordReset,
   verifyResetCode:          verifyResetCode,
   sendPasswordChanged:      sendPasswordChanged,
   sendVerificationCode:     sendVerificationCode,
   verifyCode:               verifyCode,
 
-  /* HR */
+  /* 7 · HR */
   sendCareerApplication:    sendCareerApplication,
   sendOnboarding:           sendOnboarding
 };
