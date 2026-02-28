@@ -1,0 +1,932 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth overflow-x-hidden">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Produkt — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<style>
+html{scrollbar-gutter:stable}
+.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
+.tab-btn.active{color:#001A3D;border-color:#C5A059}.tab-btn{color:#9ca3af;border-color:transparent}
+/* Gallery zoom */
+.gallery-main{position:relative;overflow:hidden;cursor:crosshair}
+.gallery-main .zoom-lens{position:absolute;pointer-events:none;width:180px;height:180px;border:2px solid rgba(197,160,89,.5);border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(1px);opacity:0;transition:opacity .15s;z-index:10}
+.gallery-main:hover .zoom-lens{opacity:1}
+.gallery-main .zoom-result{position:absolute;top:0;left:0;width:100%;height:100%;background-repeat:no-repeat;pointer-events:none;opacity:0;z-index:5}
+.gallery-main:hover .zoom-result{opacity:1}
+.gallery-main:hover .gallery-base{opacity:0}
+/* Thumbnail */
+.thumb-item{border:2px solid transparent;transition:all .2s}.thumb-item.active,.thumb-item:hover{border-color:#C5A059}
+.thumb-item.video-thumb{position:relative}.thumb-item.video-thumb::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+/* Countdown pulse */
+@keyframes pulse-ship{0%,100%{opacity:1}50%{opacity:.6}}
+.ship-countdown{animation:pulse-ship 2s ease-in-out infinite}
+/* Variant btn */
+.var-btn{transition:all .15s}.var-btn.selected{border-color:#C5A059;background:rgba(197,160,89,.08);color:#001A3D;font-weight:600}
+/* Protocol check */
+.protocol-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #f3f4f6}
+.protocol-item:last-child{border-bottom:none}
+.protocol-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* Video overlay */
+.video-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center}
+.video-overlay video{max-height:85vh;max-width:90vw;border-radius:16px;width:auto}
+</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased overflow-x-hidden">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p></div>
+
+<!-- HEADER -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group"><img src="/logo.svg" alt="Aura Global" class="w-9 h-9"><div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div></a>
+  <div class="flex-1 max-w-2xl relative"><div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white"><i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i><input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter')window.location='/catalog.html?q='+encodeURIComponent(this.value)"></div></div>
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb"><i data-lucide="shopping-bag" class="w-5 h-5"></i><span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span></button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100"><div class="max-w-[1400px] mx-auto px-8 flex items-center">
+  <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+  <div class="nav-cat relative">
+    <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+    <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+      <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_electronics">Elektronik</p>
+      <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple</a>
+      <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony</a>
+      <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung</a>
+      <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose</a>
+      <a href="/catalog.html?cat=electronics&brand=Dyson" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+      <a href="/catalog.html?cat=electronics" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_el">Alle Elektronik →</a>
+    </div>
+  </div>
+  <div class="nav-cat relative">
+    <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+    <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+      <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_fashion">Mode</p>
+      <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+      <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+      <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+      <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+      <a href="/catalog.html?cat=fashion" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_fa">Alle Mode →</a>
+    </div>
+  </div>
+  <div class="nav-cat relative">
+    <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+    <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+      <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+      <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+      <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs</a>
+      <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad</a>
+      <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring</a>
+      <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee</a>
+      <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+    </div>
+  </div>
+  <div class="nav-cat relative">
+    <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+    <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+      <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+      <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+      <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+      <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+      <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+    </div>
+  </div>
+  <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+  <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+</div></nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded" data-i18n="nav_all">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_electronics">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_fashion_long">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_home">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_travel">Reise & Outdoor</a>
+    <a href="/catalog.html?badge=express" class="block py-3 px-3 text-sm text-red-500 font-semibold hover:bg-red-50 rounded" data-i18n="nav_sale">Sale %</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span data-i18n="mob_login">Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="mob_orders">Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<!-- STICKY BUY BAR (appears on scroll) -->
+<div id="sticky-buy-bar" class="fixed top-0 left-0 right-0 z-[45] bg-white border-b border-gray-100 shadow-md translate-y-[-100%] transition-transform duration-300" style="pointer-events:none">
+  <div class="max-w-[1400px] mx-auto px-4 lg:px-8 flex items-center justify-between h-14 gap-4">
+    <div class="flex items-center gap-3 min-w-0">
+      <div id="sticky-img" class="w-10 h-10 bg-gray-50 flex items-center justify-center flex-shrink-0 rounded-sm"></div>
+      <div class="min-w-0"><p id="sticky-name" class="text-sm font-semibold text-navy truncate"></p><p id="sticky-brand" class="text-[10px] text-gold font-bold tracking-wider uppercase"></p></div>
+    </div>
+    <div class="flex items-center gap-4 flex-shrink-0">
+      <span id="sticky-price" class="text-lg font-bold text-navy"></span>
+      <button onclick="addToCartPDP()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-[0.12em] transition-colors rounded-sm">IN DEN WARENKORB</button>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-[1400px] mx-auto px-4 lg:px-8 py-6 sm:py-8">
+  <!-- Breadcrumb -->
+  <nav id="breadcrumb" class="flex items-center gap-2 text-xs text-gray-400 mb-6 sm:mb-8 flex-wrap"></nav>
+
+  <div class="flex flex-col lg:flex-row gap-6 lg:gap-14">
+
+    <!-- ══════════════ 1. GALLERY (Left) ══════════════ -->
+    <div class="lg:w-[55%] lg:flex-shrink-0">
+      <!-- Main Image with Zoom -->
+      <div class="gallery-main aspect-square bg-gray-50 flex items-center justify-center border border-gray-100 rounded-sm" id="main-image">
+        <div class="zoom-lens" id="zoom-lens"></div>
+        <div class="zoom-result" id="zoom-result"></div>
+        <div class="gallery-base w-full h-full flex items-center justify-center" id="gallery-base"></div>
+      </div>
+
+      <!-- Thumbnail Reel -->
+      <div class="flex gap-2 sm:gap-3 mt-3 sm:mt-4 overflow-x-auto hide-scrollbar pb-1" id="thumb-reel">
+        <!-- Filled by JS: video thumb, main images, seal photo -->
+      </div>
+    </div>
+
+    <!-- ══════════════ 2. PRODUCT INFO (Right) ══════════════ -->
+    <div class="lg:w-[45%] lg:pt-2">
+      <!-- Brand -->
+      <p id="p-brand" class="text-gold text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase"></p>
+      <!-- Name -->
+      <h1 id="p-name" class="font-serif text-2xl sm:text-3xl lg:text-[2.2rem] font-bold mt-2 leading-tight"></h1>
+      <!-- Rating -->
+      <div id="p-rating" class="flex items-center gap-2 mt-3"></div>
+
+      <!-- ── Condition Tag (Hub Geprüft Badge) ── -->
+      <div id="condition-tag" class="mt-4 p-3 sm:p-4 border border-emerald-200 bg-emerald-50/50 rounded-lg">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+          <div>
+            <span id="cond-label" class="text-xs font-bold text-emerald-700 tracking-wide">Geprüft</span>
+            <p id="cond-desc" class="text-[11px] text-gray-500 mt-0.5">Manuell kontrolliert in unserem Londoner Hub. 100% Original.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Price Block ── -->
+      <div class="mt-5 sm:mt-6">
+        <div class="flex items-baseline gap-3 flex-wrap">
+          <span id="p-price" class="text-3xl sm:text-4xl font-bold text-navy"></span>
+          <span id="p-old" class="text-gray-300 text-lg sm:text-xl line-through"></span>
+        </div>
+        <div id="p-saving" class="hidden mt-1.5">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-50 border border-green-200 rounded-sm text-green-700 text-xs font-semibold">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17l9.2-9.2M17 17V7.8M17 7.8H7.8"/></svg>
+            <span id="saving-text">Sie sparen: €150 (12%)</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Variant / Size Selector ── -->
+      <div id="variant-selector" class="mt-5 hidden">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2" id="variant-label">Speicher</p>
+        <div class="flex flex-wrap gap-2" id="variant-btns"></div>
+      </div>
+
+      <!-- ── Shipping Countdown ── -->
+      <div class="mt-5 p-3 bg-navy-dark/[0.03] border border-navy/5 rounded-sm">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="clock" class="w-4 h-4 text-gold flex-shrink-0"></i>
+          <p class="text-[12px] sm:text-[13px] text-navy">
+            <span class="ship-countdown font-semibold text-gold" id="countdown-timer">02:45:00</span>
+            <span class="text-gray-500"> — Bestellen Sie jetzt für Lieferung am</span>
+            <span class="font-semibold" id="delivery-date">Donnerstag</span>
+            <span class="text-gray-400 text-[11px]">(Berlin Hub)</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Quantity ── -->
+      <div class="flex items-center gap-3 mt-5">
+        <span class="text-sm font-medium" data-i18n="prd_qty">Menge:</span>
+        <div class="flex items-center border border-gray-200 rounded-sm">
+          <button onclick="changeQty(-1)" class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-navy hover:bg-gray-50 text-lg transition-colors">−</button>
+          <span id="qty-val" class="w-12 h-10 flex items-center justify-center text-sm font-semibold border-x border-gray-200">1</span>
+          <button onclick="changeQty(1)" class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-navy hover:bg-gray-50 text-lg transition-colors">+</button>
+        </div>
+        <span id="stock-hint" class="text-[11px] text-gray-400 ml-1"></span>
+      </div>
+
+      <!-- ── Action Buttons ── -->
+      <div class="mt-5 space-y-3">
+        <div class="flex gap-3">
+          <button onclick="addToCartPDP()" class="flex-1 py-4 bg-navy hover:bg-navy-light text-white font-bold tracking-[0.15em] transition-colors flex items-center justify-center gap-2.5 rounded-sm text-sm sm:text-base">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span data-i18n="prd_add">IN DEN WARENKORB</span>
+          </button>
+          <button id="pdp-wish-btn" onclick="toggleWishPDP()" class="w-14 h-auto border-2 border-gray-200 hover:border-red-300 hover:bg-red-50 rounded-sm flex items-center justify-center transition-colors" title="Wunschliste">
+            <svg id="pdp-wish-icon" class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+        </div>
+        <!-- Express Checkout -->
+        <button class="w-full py-3.5 bg-black hover:bg-gray-900 text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white"><path d="M17.05 12.54c-.03-2.56 2.09-3.8 2.18-3.85-1.19-1.74-3.04-1.98-3.7-2.01-1.57-.16-3.07.93-3.87.93-.8 0-2.04-.91-3.35-.88-1.73.03-3.32 1-4.21 2.55-1.8 3.12-.46 7.73 1.29 10.26.86 1.24 1.88 2.63 3.22 2.58 1.29-.05 1.78-.84 3.34-.84 1.56 0 2.01.84 3.38.81 1.39-.02 2.28-1.26 3.13-2.51.99-1.44 1.39-2.83 1.42-2.9-.03-.01-2.72-1.04-2.75-4.14z"/><path d="M14.53 4.15c.71-.87 1.19-2.07 1.06-3.27-1.03.04-2.27.69-3.01 1.55-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.46z"/></svg>
+          Apple Pay
+        </button>
+        <button class="w-full py-3.5 bg-[#FFC439] hover:bg-[#f0b828] text-[#003087] text-sm font-bold rounded-lg flex items-center justify-center gap-1 transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#003087"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 00-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 00-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 00.554.647h3.882c.46 0 .85-.334.922-.788l.038-.2.73-4.627.047-.256a.925.925 0 01.914-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+          PayPal
+        </button>
+      </div>
+
+      <!-- ══ 5. AURA INSPECTION PROTOCOL (dynamic from product.inspection) ══ -->
+      <div class="mt-7 border border-gray-100 rounded-sm overflow-hidden">
+        <div class="bg-navy-dark/[0.02] px-4 py-3 border-b border-gray-100">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 bg-gold/10 rounded-full flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="text-xs font-bold tracking-[0.15em] uppercase text-navy">Aura Inspection Protocol</h3>
+            <span id="insp-score-badge" class="ml-auto px-2 py-0.5 text-[10px] font-bold border bg-green-50 text-green-700 border-green-200"></span>
+          </div>
+        </div>
+        <div class="px-4 py-1" id="protocol-items">
+          <!-- Filled by JS from product.inspection -->
+        </div>
+      </div>
+
+    </div><!-- /info -->
+  </div><!-- /flex -->
+
+  <!-- ══ "WAS IST IN DER BOX?" TRUST BLOCK ══ -->
+  <div class="mt-10 sm:mt-12 max-w-4xl">
+    <h2 class="font-serif text-xl sm:text-2xl font-bold mb-5">Was ist in der Box?</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
+        <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="package" class="w-5 h-5 text-navy/60"></i></div>
+        <p class="text-sm font-semibold text-navy" id="box-product">Originalprodukt</p>
+        <p class="text-[11px] text-gray-400 mt-1">Versiegelt & geprüft</p>
+      </div>
+      <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
+        <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="file-text" class="w-5 h-5 text-navy/60"></i></div>
+        <p class="text-sm font-semibold text-navy">Aura Zertifikat</p>
+        <p class="text-[11px] text-gray-400 mt-1">Inspektionsprotokoll</p>
+      </div>
+      <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
+        <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="shield-check" class="w-5 h-5 text-navy/60"></i></div>
+        <p class="text-sm font-semibold text-navy">Garantiekarte</p>
+        <p class="text-[11px] text-gray-400 mt-1">12 Monate Schutz</p>
+      </div>
+      <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
+        <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="undo-2" class="w-5 h-5 text-navy/60"></i></div>
+        <p class="text-sm font-semibold text-navy">Rücksendeetikett</p>
+        <p class="text-[11px] text-gray-400 mt-1">30-Tage-Rückgaberecht</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ 6. TABS ══════════════ -->
+  <div class="mt-14 sm:mt-20 border-t border-gray-100 pt-8">
+    <div class="flex gap-0 border-b border-gray-100 mb-8 overflow-x-auto hide-scrollbar">
+      <button class="tab-btn active px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('desc',this)">Beschreibung</button>
+      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('specs',this)">Technische Daten</button>
+      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('shipping',this)">Versand & Rückgabe</button>
+    </div>
+    <!-- Tab: Description -->
+    <div id="tab-desc" class="tab-panel max-w-3xl">
+      <div id="tab-desc-content" class="prose prose-sm text-gray-600 leading-relaxed space-y-4"></div>
+    </div>
+    <!-- Tab: Technical Specs -->
+    <div id="tab-specs" class="tab-panel hidden max-w-2xl">
+      <table id="specs-table" class="w-full text-sm">
+        <tbody></tbody>
+      </table>
+    </div>
+    <!-- Tab: Shipping & Returns -->
+    <div id="tab-shipping" class="tab-panel hidden max-w-3xl">
+      <div class="space-y-6">
+        <div class="flex gap-4">
+          <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="truck" class="w-5 h-5 text-blue-600"></i></div>
+          <div>
+            <h4 class="text-sm font-bold text-navy">Versand aus Berlin / London</h4>
+            <p class="text-sm text-gray-500 mt-1">Alle Bestellungen werden aus unserem Berliner oder Londoner Lager versendet. Standard-Lieferung (3-5 Werktage) ist ab €99 kostenlos. Express-Versand (1-2 Werktage) für €9,90.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="refresh-cw" class="w-5 h-5 text-green-600"></i></div>
+          <div>
+            <h4 class="text-sm font-bold text-navy">30-Tage-Rückgaberecht</h4>
+            <p class="text-sm text-gray-500 mt-1">Rückgabe innerhalb von 30 Tagen möglich, wenn der Artikel nicht der Aura-Inspektionsbeschreibung entspricht. Kostenlose Rücksendung mit vorfrankiertem Etikett.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="shield" class="w-5 h-5 text-gold"></i></div>
+          <div>
+            <h4 class="text-sm font-bold text-navy">Aura Buyer Protection</h4>
+            <p class="text-sm text-gray-500 mt-1">Jeder Kauf ist durch unser Aura-Käuferschutzprogramm abgesichert. Bei Problemen erhalten Sie eine volle Erstattung oder einen Ersatz.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REVIEWS SECTION ══ -->
+  <div class="mt-14 sm:mt-16 border-t border-gray-100 pt-8">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+      <h2 class="font-serif text-xl sm:text-2xl font-bold">Kundenbewertungen</h2>
+      <div class="flex items-center gap-3">
+        <div id="avg-rating" class="flex items-center gap-2"></div>
+
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl" id="reviews-list"></div>
+  </div>
+
+  <!-- ══ CROSS SELL ══ -->
+  <div class="mt-14 sm:mt-16">
+    <h2 class="font-serif text-xl sm:text-2xl font-bold mb-6" data-i18n="prd_related">Das könnte Ihnen auch gefallen</h2>
+    <div id="cross-sell" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"></div>
+  </div>
+</main>
+
+<!-- VIDEO OVERLAY (dynamic: shows video if videoUrl available) -->
+<div id="video-overlay" class="video-overlay hidden" onclick="closeVideo()">
+  <button class="absolute top-6 right-6 text-white/70 hover:text-white z-10" onclick="closeVideo()"><svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="text-center" onclick="event.stopPropagation()" id="video-content">
+    <!-- Filled by JS: if videoUrl → iframe/video; else → placeholder -->
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark mt-16">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+    <div><div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div><p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3><ul class="space-y-3"><li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white">Alle Produkte</a></li><li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white">Elektronik</a></li><li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white">Mode</a></li><li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white">Haus & Wohnen</a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3><ul class="space-y-3"><li><a href="/dashboard.html" class="text-white/40 text-sm hover:text-white">Kontakt</a></li><li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white">Bestellung verfolgen</a></li><li><a href="/returns.html" class="text-white/40 text-sm hover:text-white">Rückgabe & Erstattung</a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3><ul class="space-y-3"><li><a href="/story.html" class="text-white/40 text-sm hover:text-white">Unsere Geschichte</a></li><li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white">Nachhaltigkeit</a></li><li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white">How we Source</a></li><li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white">Karriere</a></li><li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white">Datenschutz</a></li><li><a href="/terms.html" class="text-white/40 text-sm hover:text-white">AGB</a></li><li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white">Impressum</a></li></ul><div class="mt-6 pt-5 border-t border-white/5"><p class="text-white/15 text-[11px]">Company No. 15847293</p></div></div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4"><p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p><div class="flex items-center gap-2"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span></div></div>
+</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2><button onclick="toggleCart()" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden"><div class="flex items-center justify-between mb-4"><span class="font-semibold" data-i18n="cart_total">Gesamt</span><span id="cart-total" class="text-lg font-bold"></span></div><a href="/checkout.html" class="block w-full py-3.5 bg-gold hover:bg-gold-dark text-white text-center text-sm font-bold tracking-wider transition-colors" data-i18n="cart_checkout">ZUR KASSE</a></div>
+</aside>
+</div>
+
+<script>
+(function(){
+'use strict';
+var pid=new URLSearchParams(window.location.search).get('id')||'p1';
+var product=Aura.getProductById(pid);
+if(!product){product=Aura.getProducts()[0];pid=product.id;}
+var catNames={electronics:Aura.t('nav_electronics'),fashion:Aura.t('nav_fashion_long'),home:Aura.t('nav_home'),travel:Aura.t('nav_travel')};
+var qty=1;
+
+/* ── Sourcing shop map ── */
+var sourcingMap={
+  'Apple':'Amazon','Samsung':'Currys','Sony':'John Lewis','Dyson':'Currys','Nike':'JD Sports',
+  'Adidas':'JD Sports','Bose':'HifiKlubben','Gucci':'Farfetch','Hermès':'Farfetch',
+  'Louis Vuitton':'Farfetch','Rimowa':'Farfetch','Puma':'Snipes',
+  'Coach':'Saks Fifth Avenue','Michael Kors':'Nordstrom','Ralph Lauren':'Nordstrom',
+  'Ray-Ban':'Misterspex','Pandora':'Sephora','Dell':'Staples','HP':'Staples','Lenovo':'Staples',
+  'Logitech':'Amazon','Google':'Amazon','Meta':'Amazon','GoPro':'Amazon',
+  'Under Armour':'SportsDirect','New Era':'Fanatics','Patagonia':'REI',
+  'North Face':'REI','Arc\'teryx':'REI','Carhartt':'Bass Pro','Lululemon':'Nordstrom',
+  'H&M':'Zalando','Zara':'Zalando','Uniqlo':'Zalando','Mango':'AboutYou',
+  'Ecovacs':'Amazon','HexClad':'Wayfair','Govee':'Amazon','Sephora':'Sephora',
+  'Rituals':'Notino','Tesla':'Amazon','Nothing':'Amazon','OnePlus':'Amazon',
+  'Oura':'Amazon','Ring':'Amazon','XREAL':'Amazon','Trezor':'Amazon'
+};
+
+/* ── Fill page ── */
+document.title=product.name+' — Aura Global Merchants';
+document.getElementById('breadcrumb').innerHTML='<a href="/index.html" class="hover:text-navy">Startseite</a><i data-lucide="chevron-right" class="w-3 h-3"></i><a href="/catalog.html?cat='+product.cat+'" class="hover:text-navy">'+(catNames[product.cat]||product.cat)+'</a><i data-lucide="chevron-right" class="w-3 h-3"></i><a href="/catalog.html?brand='+encodeURIComponent(product.brand)+'" class="hover:text-navy">'+product.brand+'</a><i data-lucide="chevron-right" class="w-3 h-3"></i><span class="text-navy font-medium truncate max-w-[200px] inline-block align-bottom">'+product.name+'</span>';
+
+/* ── Gallery ── */
+var isUrl=Aura.isImgUrl(product.img);
+var galleryBase=document.getElementById('gallery-base');
+if(isUrl){
+  galleryBase.innerHTML='<img src="'+product.img+'" alt="'+product.name+'" class="w-full h-full object-contain p-4">';
+}else{
+  galleryBase.innerHTML='<div class="w-full h-full flex flex-col items-center justify-center"><svg class="w-24 h-24 text-navy/10" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="text-xs font-bold text-navy/15 tracking-[0.15em] mt-2">'+product.brand+'</span></div>';
+}
+
+/* Zoom on hover — only for URL images */
+var mainImg=document.getElementById('main-image');
+var zoomLens=document.getElementById('zoom-lens');
+var zoomResult=document.getElementById('zoom-result');
+var currentZoomUrl = isUrl ? product.img : '';
+mainImg.addEventListener('mousemove',function(e){
+  if(!currentZoomUrl){return;}
+  var rect=mainImg.getBoundingClientRect();
+  var x=e.clientX-rect.left, y=e.clientY-rect.top;
+  var px=x/rect.width*100, py=y/rect.height*100;
+  zoomLens.style.left=(x-90)+'px';
+  zoomLens.style.top=(y-90)+'px';
+  zoomResult.style.backgroundImage='url('+currentZoomUrl+')';
+  zoomResult.style.backgroundSize='250%';
+  zoomResult.style.backgroundPosition=px+'% '+py+'%';
+});
+mainImg.addEventListener('mouseleave',function(){
+  zoomResult.style.backgroundImage='none';
+});
+if(!isUrl){
+  mainImg.style.cursor='default';
+  zoomLens.style.display='none';
+}
+
+/* Thumbnail reel — uses product.gallery[] if available */
+var thumbReel=document.getElementById('thumb-reel');
+var thumbs=[];
+var galleryPhotos=(product.gallery&&product.gallery.length)?product.gallery:[];
+// 1 — Main product image
+thumbs.push('<button onclick="switchGallery(0)" class="thumb-item active w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center">'+( isUrl ? '<img src="'+product.img+'" class="w-full h-full object-contain p-1">' : '<svg class="w-6 h-6 text-navy/15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>' )+'</button>');
+// 3 — Gallery photos from data
+galleryPhotos.forEach(function(gUrl,idx){
+  thumbs.push('<button onclick="switchGallery('+(idx+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><img src="'+gUrl+'" class="w-full h-full object-contain p-1"></button>');
+});
+// 4 — Seal photo placeholder
+thumbs.push('<button onclick="switchGallery('+(galleryPhotos.length+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-0.5"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[7px] text-gold font-bold leading-none">SEAL</span></div></button>');
+thumbReel.innerHTML=thumbs.join('');
+
+/* Gallery switching */
+var galleryViews=[];
+// 0: main image
+galleryViews.push(function(){ if(isUrl){galleryBase.innerHTML='<img src="'+product.img+'" alt="" class="w-full h-full object-contain p-4">';}else{galleryBase.innerHTML='<div class="w-full h-full flex flex-col items-center justify-center"><svg class="w-24 h-24 text-navy/10" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="text-xs font-bold text-navy/15 tracking-[0.15em] mt-2">'+product.brand+'</span></div>';}});
+// 1..N: gallery photos
+galleryPhotos.forEach(function(gUrl){
+  galleryViews.push(function(){ galleryBase.innerHTML='<img src="'+gUrl+'" alt="" class="w-full h-full object-contain p-4">'; });
+});
+// N+1: seal
+galleryViews.push(function(){ galleryBase.innerHTML='<div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-4 p-8"><div class="w-24 h-24 border-2 border-gold/30 rounded-full flex items-center justify-center"><svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-center"><p class="font-serif text-lg font-bold text-navy">Aura Seal of Quality</p><p class="text-xs text-gray-400 mt-1 max-w-xs">Jedes Produkt wird mit einer Aura-Prüfplombe versiegelt. Ihr Zeichen der Authentizität.</p></div><div class="flex items-center gap-2 mt-2"><div class="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center"><svg class="w-3 h-3 text-gold" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><span class="text-xs font-medium text-navy">Geprüft & versiegelt im London Warehouse</span></div></div>';});
+
+window.switchGallery=function(idx){
+  if(galleryViews[idx]) galleryViews[idx]();
+  if(idx===0) currentZoomUrl=isUrl?product.img:'';
+  else if(idx<=galleryPhotos.length) currentZoomUrl=galleryPhotos[idx-1];
+  else currentZoomUrl='';
+  mainImg.style.cursor=currentZoomUrl?'crosshair':'default';
+  zoomLens.style.display=currentZoomUrl?'':'none';
+  thumbReel.querySelectorAll('.thumb-item').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+};
+
+/* Video overlay — dynamic content */
+var vidCont=document.getElementById('video-content');
+function buildVideoContent(){
+  if(product.videoUrl){
+    // If IndexedDB key (starts with vid_), load from DB
+    if(product.videoUrl.indexOf('vid_')===0){
+      vidCont.innerHTML='<div class="max-w-[90vw] max-h-[85vh] bg-navy-dark rounded-2xl flex items-center justify-center p-12"><div class="animate-spin w-8 h-8 border-2 border-gold border-t-transparent rounded-full"></div></div>';
+      if(window._auraGetVideo){
+        window._auraGetVideo(product.videoUrl, function(dataUrl){
+          if(dataUrl){
+            try{
+              var arr=dataUrl.split(','),mime=(arr[0].match(/:(.*?);/)||[])[1]||'video/mp4';
+              var bstr=atob(arr[1]),n=bstr.length,u8=new Uint8Array(n);
+              for(var i=0;i<n;i++) u8[i]=bstr.charCodeAt(i);
+              var blob=new Blob([u8],{type:mime});
+              var blobUrl=URL.createObjectURL(blob);
+              vidCont.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+blobUrl+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[90vw]" type="'+mime+'"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+            }catch(ex){
+              vidCont.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+dataUrl+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[90vw]"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+            }
+          }else{
+            vidCont.innerHTML='<div class="max-w-[90vw] bg-navy-dark rounded-2xl p-12 text-center"><p class="text-white/50 text-sm">Video wird geladen…</p></div>';
+          }
+        });
+      }else{
+        // Inline DB access for pages without admin
+        (function(){
+          var req=indexedDB.open('aura_media',1);
+          req.onupgradeneeded=function(e){e.target.result.createObjectStore('videos');};
+          req.onsuccess=function(e){
+            var db=e.target.result;
+            var tx=db.transaction('videos','readonly');
+            var r=tx.objectStore('videos').get(product.videoUrl);
+            r.onsuccess=function(){
+              if(r.result){
+                try{
+                  var arr=r.result.split(','),mime=(arr[0].match(/:(.*?);/)||[])[1]||'video/mp4';
+                  var bstr=atob(arr[1]),n=bstr.length,u8=new Uint8Array(n);
+                  for(var i=0;i<n;i++) u8[i]=bstr.charCodeAt(i);
+                  var blob=new Blob([u8],{type:mime});
+                  var blobUrl=URL.createObjectURL(blob);
+                  vidCont.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+blobUrl+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[90vw]" type="'+mime+'"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+                }catch(ex){
+                  vidCont.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+r.result+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[90vw]"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+                }
+              }
+              else vidCont.innerHTML='<div class="max-w-[90vw] bg-navy-dark rounded-2xl p-12 text-center"><p class="text-white/50 text-sm">Video nicht verfügbar</p></div>';
+            };
+          };
+        })();
+      }
+      return;
+    }
+    // Check if YouTube
+    var ytMatch=product.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if(ytMatch){
+      vidCont.innerHTML='<iframe src="https://www.youtube.com/embed/'+ytMatch[1]+'?autoplay=1" class="w-[90vw] max-w-[800px] aspect-video rounded-2xl" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
+    } else {
+      vidCont.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+product.videoUrl+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[90vw]"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+    }
+  } else {
+    vidCont.innerHTML='<div class="max-w-[90vw] bg-navy-dark rounded-2xl p-12 text-center"><p class="text-white/50 text-sm font-medium">Kein Video verfügbar</p></div>';
+  }
+}
+window.openVideo=function(){buildVideoContent();document.getElementById('video-overlay').classList.remove('hidden');document.body.style.overflow='hidden';};
+window.closeVideo=function(){document.getElementById('video-overlay').classList.add('hidden');document.body.style.overflow='';vidCont.innerHTML='';};
+
+/* ── Brand & Name ── */
+document.getElementById('p-brand').textContent=product.brand;
+document.getElementById('p-name').textContent=product.name;
+
+/* ── Rating ── */
+document.getElementById('p-rating').innerHTML=Aura.starsHtml(product.rating||4.5)+'<span class="text-sm font-medium text-navy">'+product.rating+'</span><span class="text-sm text-gray-400">('+product.reviews+' Bewertungen)</span>';
+
+/* ── Condition Badge (auto from video) ── */
+var bdg=Aura.getProductBadge(product);
+var isVerified=!!product.videoUrl;
+if(!isVerified){
+  document.getElementById('cond-label').textContent='Originalware';
+  document.getElementById('cond-desc').textContent='Manuell kontrolliert und gepr\u00fcft. Schneller Versand aus dem Hub.';
+  document.getElementById('condition-tag').classList.remove('border-emerald-200','bg-emerald-50/50');
+  document.getElementById('condition-tag').classList.add('border-gray-200','bg-gray-50');
+  var condIcon=document.getElementById('condition-tag').querySelector('.bg-emerald-100');
+  if(condIcon){condIcon.classList.remove('bg-emerald-100');condIcon.classList.add('bg-gray-200');}
+  var condSvg=document.getElementById('condition-tag').querySelector('.text-emerald-600');
+  if(condSvg){condSvg.classList.remove('text-emerald-600');condSvg.classList.add('text-gray-500');}
+  var condLbl=document.getElementById('cond-label');
+  if(condLbl){condLbl.classList.remove('text-emerald-700');condLbl.classList.add('text-navy');}
+} else {
+  document.getElementById('cond-label').textContent='Gepr\u00fcft';
+  document.getElementById('cond-desc').textContent='Manuell kontrolliert mit Video-Inspektion. 100% Original.';
+}
+
+/* ── Price + Savings ── */
+document.getElementById('p-price').textContent=Aura.formatPrice(product.price);
+if(product.oldPrice && product.oldPrice>product.price){
+  document.getElementById('p-old').textContent=Aura.formatPrice(product.oldPrice);
+  var savingAmt=product.oldPrice-product.price;
+  var savingPct=Math.round(savingAmt/product.oldPrice*100);
+  document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(savingAmt)+' ('+savingPct+'%)';
+  document.getElementById('p-saving').classList.remove('hidden');
+}
+
+/* ── Variant selector (dynamic from product data or fallback by category) ── */
+var vd=null;
+if(product.variants&&product.variants.length){
+  vd={label:product.variantLabel||'Variante',options:product.variants.map(function(v){return {l:v.label,d:v.price||0,stock:v.stock||0};})};
+}else{
+  var variantData={
+    electronics:{label:'Speicher',options:[{l:'128 GB',d:0},{l:'256 GB',d:0},{l:'512 GB',d:100},{l:'1 TB',d:250}]},
+    fashion:{label:'Größe',options:[{l:'S',d:0},{l:'M',d:0},{l:'L',d:0},{l:'XL',d:0}]},
+    home:{label:'Variante',options:[{l:'Standard',d:0},{l:'Pro',d:80}]},
+    travel:{label:'Größe',options:[{l:'Cabin',d:0},{l:'Medium',d:150},{l:'Large',d:280}]}
+  };
+  vd=variantData[product.cat];
+}
+if(vd && vd.options.length>1){
+  document.getElementById('variant-selector').classList.remove('hidden');
+  document.getElementById('variant-label').textContent=vd.label;
+  var basePrice=product.price;
+  document.getElementById('variant-btns').innerHTML=vd.options.map(function(o,i){
+    var pr=basePrice+o.d;
+    return '<button class="var-btn px-4 py-2.5 border border-gray-200 rounded-sm text-sm hover:border-gold/50'+(i===0?' selected':'')+'" onclick="selectVariant(this,'+o.d+')"><span class="font-medium">'+o.l+'</span>'+(o.d>0?'<span class="block text-[10px] text-gray-400 mt-0.5">+'+Aura.formatPrice(o.d)+'</span>':'')+'</button>';
+  }).join('');
+}
+var priceOffset=0;
+var selectedVariantLabel='';
+window.selectVariant=function(btn,delta){
+  priceOffset=delta;
+  selectedVariantLabel=btn.querySelector('.font-medium').textContent||'';
+  document.querySelectorAll('.var-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  document.getElementById('p-price').textContent=Aura.formatPrice(product.price+delta);
+  if(product.oldPrice && product.oldPrice>product.price){
+    var sav=product.oldPrice-(product.price+delta);
+    if(sav>0){
+      var pct=Math.round(sav/product.oldPrice*100);
+      document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(sav)+' ('+pct+'%)';
+      document.getElementById('p-saving').classList.remove('hidden');
+    } else { document.getElementById('p-saving').classList.add('hidden'); }
+  }
+};
+
+/* ── Shipping countdown ── */
+function updateCountdown(){
+  var now=new Date();
+  var end=new Date(now);
+  end.setHours(23,59,59,999);
+  var diff=end-now;
+  var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+  document.getElementById('countdown-timer').textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  var days=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  var delDay=new Date(now.getTime()+3*86400000);
+  if(delDay.getDay()===0) delDay=new Date(delDay.getTime()+86400000);
+  if(delDay.getDay()===6) delDay=new Date(delDay.getTime()+2*86400000);
+  document.getElementById('delivery-date').textContent=days[delDay.getDay()]+', '+delDay.getDate()+'.'+(delDay.getMonth()+1)+'.';
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* ── Stock hint with urgency ── */
+if(product.stock<=3){
+  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-bold animate-pulse">⚠ Nur noch '+product.stock+' Stück!</span>';
+} else if(product.stock<=5){
+  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-medium">Nur noch '+product.stock+' verfügbar!</span>';
+} else if(product.stock<=15){
+  document.getElementById('stock-hint').innerHTML='<span class="text-orange-500 font-medium">Noch '+product.stock+' auf Lager</span>';
+} else {
+  document.getElementById('stock-hint').textContent=''+product.stock+' auf Lager';
+}
+
+/* ── Sourcing & Inspection Protocol (dynamic) ── */
+var shop=sourcingMap[product.brand]||'Amazon';
+var insp=product.inspection||{authentic:true,functional:true,sealed:true};
+var iScore=(insp.authentic?1:0)+(insp.functional?1:0)+(insp.sealed?1:0);
+
+// Score badge
+var iscBadge=document.getElementById('insp-score-badge');
+if(iscBadge){
+  iscBadge.textContent='Protokoll: '+iScore+'/3 bestanden';
+  if(iScore===3){iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-green-50 text-green-700 border-green-200';}
+  else if(iScore>=2){iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-yellow-50 text-yellow-700 border-yellow-200';}
+  else{iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-red-50 text-red-700 border-red-200';}
+}
+
+// Build protocol items
+var protItems='';
+var checkSvg='<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
+var failSvg='<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.authentic?'bg-green-50':'bg-red-50')+'">'+(insp.authentic?checkSvg:failSvg)+'</div><div><p class="text-sm font-semibold text-navy">Authenticity</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.authentic?'Seriennummer beim Hersteller verifiziert.':'Authentizität konnte nicht vollständig bestätigt werden.')+'</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.functional?'bg-blue-50':'bg-red-50')+'">'+(insp.functional?'<svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">Functionality</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.functional?'Batterie, Sensoren & Display vollständig getestet.':'Funktionstest ausstehend oder teilweise bestanden.')+'</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon bg-purple-50"><svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div><p class="text-sm font-semibold text-navy">Sourcing</p><p id="sourcing-text" class="text-[11px] text-gray-500 mt-0.5">Direkt aus '+shop+' bezogen & in London geprüft.</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.sealed?'bg-gold/10':'bg-red-50')+'">'+(insp.sealed?'<svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">'+(insp.sealed?'Sealed & Warranty':'Warranty')+'</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.sealed?'Versiegelt mit Aura Seal. 12 Monate Garantie.':'12 Monate Garantie (ohne Originalversiegelung).')+'</p></div></div>';
+
+document.getElementById('protocol-items').innerHTML=protItems;
+
+/* ── Description tab ── */
+var descHtml='<p>'+product.desc+'</p>';
+descHtml+='<div class="mt-6 p-4 bg-gray-50 border border-gray-100 rounded-sm"><div class="flex items-center gap-2 mb-3"><div class="w-7 h-7 bg-gold/10 rounded-full flex items-center justify-center"><svg class="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="text-xs font-bold tracking-wide uppercase text-navy">Warum Aura Global?</span></div>';
+descHtml+='<ul class="space-y-2 text-sm text-gray-600"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Jedes Produkt durchläuft unser 47-Punkte-Inspektionsprotokoll</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Bezogen von autorisierten Händlern ('+ shop +')</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>12 Monate Aura-Garantie inklusive</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Kostenloser Versand & 30-Tage-Rückgabe</li></ul></div>';
+document.getElementById('tab-desc-content').innerHTML=descHtml;
+
+/* ── Specs table ── */
+function buildSpecs(){
+  var cN={electronics:Aura.t('nav_electronics'),fashion:Aura.t('nav_fashion_long'),home:Aura.t('nav_home'),travel:Aura.t('nav_travel')};
+  var rows=[];
+  rows.push(['Marke',product.brand]);
+  rows.push(['Kategorie',cN[product.cat]||product.cat]);
+  rows.push(['Zustand',product.videoUrl?'Hub Geprüft — Neu mit Video':'Aura Check — Geprüft']);
+  rows.push(['Bewertung',product.rating+'/5 ('+product.reviews+' Bewertungen)']);
+  rows.push(['Verfügbarkeit',product.stock+' auf Lager']);
+  rows.push(['Versand','Kostenlos ab €99, DHL Express']);
+  rows.push(['Garantie','12 Monate Aura Global']);
+  rows.push(['Bezugsquelle','Autorisierter Händler ('+shop+')']);
+  rows.push(['Inspektion','Protokoll: '+iScore+'/3 bestanden — London Warehouse']);
+  return rows;
+}
+document.querySelector('#specs-table tbody').innerHTML=buildSpecs().map(function(r){return '<tr class="border-b border-gray-50 hover:bg-gray-50/50"><td class="py-3 pr-6 text-gray-400 w-[40%]">'+r[0]+'</td><td class="py-3 font-medium">'+r[1]+'</td></tr>';}).join('');
+
+/* ── Reviews (real from localStorage + seeded + fake fallback) ── */
+var fakeReviews=[
+  {name:'Sarah M.',date:'12.02.2026',stars:5,text:'Absolut begeistert! Produkt kam perfekt verpackt mit Aura-Siegel. Das Inspektionsvideo hat mich sofort überzeugt. Schneller als erwartet geliefert.',verified:true,photos:[]},
+  {name:'Thomas K.',date:'05.02.2026',stars:4,text:'Sehr gute Qualität, genau wie beschrieben. Lieferung aus Berlin war in 2 Tagen da. Einziger Punkt: Ich hätte mir mehr Farboptionen gewünscht.',verified:true,photos:[]},
+  {name:'Anna L.',date:'28.01.2026',stars:5,text:'Top Service! Das Inspektionsvideo war ein großes Plus. Man sieht sofort, dass alles geprüft wurde. Kaufe hier definitiv wieder.',verified:true,photos:[]},
+  {name:'Maximilian R.',date:'15.01.2026',stars:5,text:'Habe den Artikel bestellt — absolut einwandfreier Zustand. Deutlich günstiger als im Originalshop. Aura macht\'s richtig!',verified:true,photos:[]},
+  {name:'Laura W.',date:'10.01.2026',stars:4,text:'Schnelle Lieferung, sicherer Versand. Das Produkt war genau wie im 47-Punkte-Check beschrieben. Empfehlenswert!',verified:false,photos:[]}
+];
+// getProductReviews now includes seeded reviews from reviews-data.js
+var realReviews=Aura.getProductReviews?Aura.getProductReviews(pid,true):[];
+var allReviews=realReviews.map(function(r){
+  var dateStr=r.date;
+  try{ if(r.date&&r.date.indexOf('-')>-1) dateStr=new Date(r.date).toLocaleDateString('de-DE'); } catch(e){}
+  return {name:r.name,date:dateStr,stars:r.stars,text:r.text,verified:r.verified!==false,photos:r.photos||[]};
+});
+// Only use fake reviews as fallback if no seeded/real reviews exist
+if(allReviews.length<3) allReviews=allReviews.concat(fakeReviews);
+
+// Calculate average from all
+var totalStars=allReviews.reduce(function(s,r){return s+r.stars;},0);
+var avgRating=allReviews.length?Math.round(totalStars/allReviews.length*10)/10:product.rating;
+
+document.getElementById('avg-rating').innerHTML=Aura.starsHtml(avgRating)+'<span class="text-lg font-bold text-navy ml-1">'+avgRating+'</span><span class="text-sm text-gray-400">/5 ('+allReviews.length+' Bewertungen)</span>';
+
+var _photoFilterOn=false;
+window.togglePhotoFilter=function(){
+  _photoFilterOn=!_photoFilterOn;
+  var btn=document.getElementById('photo-filter-btn');
+  btn.classList.toggle('border-gold',_photoFilterOn);
+  btn.classList.toggle('text-gold',_photoFilterOn);
+  btn.classList.toggle('bg-gold/5',_photoFilterOn);
+  renderReviews();
+};
+
+function renderReviews(){
+  var filtered=_photoFilterOn?allReviews.filter(function(r){return r.photos&&r.photos.length;}):allReviews;
+  var videoReviewCard='';
+  if(product.videoUrl){
+    videoReviewCard='<div class="p-4 border border-gold/20 bg-gold/[0.02] rounded-sm md:col-span-2">'
+      +'<div class="flex items-center gap-3 mb-3">'
+      +'<div class="w-9 h-9 bg-gold/10 rounded-full flex items-center justify-center"><svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>'
+      +'<div class="flex-1"><p class="text-sm font-semibold">Aura Inspection Video <span class="inline-flex items-center text-[10px] text-green-600 font-medium ml-1"><svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Gepr\u00fcft</span></p>'
+      +'<p class="text-[11px] text-gray-400">Offizielles Pr\u00fcfvideo aus dem London Hub</p></div></div>'
+      +'<div id="review-video-container" class="rounded-lg overflow-hidden bg-black aspect-video flex items-center justify-center">'
+      +'<div class="animate-spin w-8 h-8 border-2 border-gold border-t-transparent rounded-full"></div>'
+      +'</div></div>';
+  }
+  document.getElementById('reviews-list').innerHTML=videoReviewCard+filtered.map(function(r){
+    var photosHtml='';
+    if(r.photos&&r.photos.length){
+      photosHtml='<div class="flex gap-2 mt-3">'+r.photos.map(function(p){return '<img src="'+p+'" class="w-16 h-16 object-cover rounded border border-gray-100">';}).join('')+'</div>';
+    }
+    return '<div class="p-4 border border-gray-100 rounded-sm hover:border-gray-200 transition-colors">'
+      +'<div class="flex items-center gap-3 mb-3">'
+      +'<div class="w-9 h-9 bg-navy/5 rounded-full flex items-center justify-center text-xs font-bold text-navy">'+r.name[0]+'</div>'
+      +'<div class="flex-1 min-w-0"><p class="text-sm font-semibold">'+r.name+(r.verified?' <span class="inline-flex items-center text-[10px] text-green-600 font-medium ml-1"><svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Verifiziert</span>':'')+'</p>'
+      +'<p class="text-[11px] text-gray-400">'+r.date+'</p></div>'
+      +'<div class="flex">'+Aura.starsHtml(r.stars)+'</div></div>'
+      +'<p class="text-sm text-gray-600 leading-relaxed">'+r.text+'</p>'
+      +photosHtml+'</div>';
+  }).join('');
+  // Re-load video into review card if present
+  loadReviewVideo();
+  if(typeof lucide!=='undefined')lucide.createIcons();
+}
+
+function loadReviewVideo(){
+  if(!product.videoUrl)return;
+  var vc=document.getElementById('review-video-container');
+  if(!vc)return;
+  var vu=product.videoUrl;
+  var ytM=vu.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if(ytM){vc.innerHTML='<iframe src="https://www.youtube.com/embed/'+ytM[1]+'" class="w-full aspect-video rounded-lg" allow="encrypted-media" allowfullscreen></iframe>';return;}
+  if(vu.indexOf('vid_')===0){
+    var rq=indexedDB.open('aura_media',1);
+    rq.onupgradeneeded=function(e){e.target.result.createObjectStore('videos');};
+    rq.onsuccess=function(e){var db=e.target.result;var tx=db.transaction('videos','readonly');var gr=tx.objectStore('videos').get(vu);gr.onsuccess=function(){
+      if(gr.result){
+        /* Convert data URL to blob for better playback */
+        try{
+          var arr=gr.result.split(','),mime=(arr[0].match(/:(.*?);/)||[])[1]||'video/mp4';
+          var bstr=atob(arr[1]),n=bstr.length,u8=new Uint8Array(n);
+          for(var i=0;i<n;i++) u8[i]=bstr.charCodeAt(i);
+          var blob=new Blob([u8],{type:mime});
+          var blobUrl=URL.createObjectURL(blob);
+          vc.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+blobUrl+'" playsinline preload="auto" style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="w-full" type="'+mime+'"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .2s;pointer-events:none"><svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+        }catch(ex){
+          vc.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+gr.result+'" playsinline preload="auto" style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="w-full"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .2s;pointer-events:none"><svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+        }
+      } else vc.innerHTML='<p class="text-white/50 text-sm py-8 text-center">Video nicht verfügbar</p>';
+    };};
+    return;
+  }
+  vc.innerHTML='<div style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+vu+'" playsinline preload="auto" style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="w-full"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .2s;pointer-events:none"><svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+}
+
+renderReviews();
+
+/* ── Cross sell ── */
+var others=Aura.getProducts().filter(function(p){return p.id!==pid && p.cat===product.cat;});
+if(others.length<4) others=others.concat(Aura.getProducts().filter(function(p){return p.id!==pid && p.cat!==product.cat;}));
+others=others.slice(0,4);
+document.getElementById('cross-sell').innerHTML=others.map(function(p){
+  return Aura.productCardHtml(p,{linkOnly:true});
+}).join('');
+
+/* ── Interactive ── */
+window.changeQty=function(d){qty=Math.max(1,qty+d);document.getElementById('qty-val').textContent=qty;};
+window.addToCartPDP=function(){
+  var variant=selectedVariantLabel||null;
+  Aura.addToCart(pid,qty,variant,priceOffset);
+  Aura.showToast(product.name+(variant?' ('+variant+')':'')+' '+Aura.t('added_cart'));
+  toggleCart();
+};
+window.toggleWishPDP=function(){
+  var added=Aura.toggleWishlist(pid);
+  var icon=document.getElementById('pdp-wish-icon');
+  var btn=document.getElementById('pdp-wish-btn');
+  if(!icon) return;
+  icon.setAttribute('fill',added?'currentColor':'none');
+  icon.classList.toggle('text-red-500',added);
+  icon.classList.toggle('text-gray-400',!added);
+  btn.classList.toggle('border-red-300',added);
+  btn.classList.toggle('bg-red-50',added);
+};
+function initWishBtnState(){
+  if(!Aura.getSession()) return;
+  var active=Aura.isInWishlist(pid);
+  var icon=document.getElementById('pdp-wish-icon');
+  var btn=document.getElementById('pdp-wish-btn');
+  if(!icon) return;
+  icon.setAttribute('fill',active?'currentColor':'none');
+  icon.classList.toggle('text-red-500',active);
+  icon.classList.toggle('text-gray-400',!active);
+  btn.classList.toggle('border-red-300',active);
+  btn.classList.toggle('bg-red-50',active);
+}
+initWishBtnState();
+window.switchTab=function(id,el){
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.add('hidden');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.remove('hidden');
+  el.classList.add('active');
+};
+
+/* ── Cart drawer ── */
+var cartOpen=false;
+window.toggleCart=function(){
+  cartOpen=!cartOpen;
+  var d=document.getElementById('cart-drawer'),p=document.getElementById('cart-panel'),o=document.getElementById('cart-overlay');
+  if(cartOpen){d.style.pointerEvents='auto';o.style.pointerEvents='auto';requestAnimationFrame(function(){p.style.transform='translateX(0)';o.style.opacity='1';});document.body.style.overflow='hidden';renderCartDrawer();}
+  else{p.style.transform='translateX(100%)';o.style.opacity='0';o.style.pointerEvents='none';setTimeout(function(){d.style.pointerEvents='none';},300);document.body.style.overflow='';}
+};
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){body.innerHTML='<div class="flex flex-col items-center justify-center h-full"><i data-lucide="shopping-bag" class="w-12 h-12 text-gray-200 mb-4"></i><p class="text-gray-400 text-sm">'+Aura.t('cart_empty')+'</p></div>';footer.classList.add('hidden');if(typeof lucide!=='undefined')lucide.createIcons();return;}
+  footer.classList.remove('hidden');
+  body.innerHTML=items.map(function(it){var unitPrice=it.product.price+(it.priceOffset||0);return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">−</button><span class="text-sm w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice(unitPrice*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-xs text-red-400 mt-1">×</button></div></div>';}).join('');
+  document.getElementById('cart-total').textContent=Aura.formatPrice(Aura.getCartTotal().total);
+  if(typeof lucide!=='undefined')lucide.createIcons();
+}
+window.renderCartDrawer=renderCartDrawer;
+
+window.addEventListener('scroll',function(){document.getElementById('site-header').classList.toggle('shadow-md',window.scrollY>40);},{passive:true});
+
+/* ── Sticky Buy Bar ── */
+(function(){
+  var bar=document.getElementById('sticky-buy-bar');
+  if(!bar)return;
+  var sImg=document.getElementById('sticky-img');
+  var sName=document.getElementById('sticky-name');
+  var sBrand=document.getElementById('sticky-brand');
+  var sPrice=document.getElementById('sticky-price');
+  sName.textContent=product.name;
+  sBrand.textContent=product.brand;
+  sPrice.textContent=Aura.formatPrice(product.price);
+  if(Aura.isImgUrl(product.img)){sImg.innerHTML='<img src="'+product.img+'" class="w-full h-full object-contain p-0.5">';}
+  else{sImg.innerHTML='<span class="text-lg">'+product.img+'</span>';}
+  var triggerY=600;
+  var shown=false;
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>triggerY&&!shown){
+      shown=true;bar.style.pointerEvents='auto';bar.style.transform='translateY(0)';
+    }else if(window.scrollY<=triggerY&&shown){
+      shown=false;bar.style.pointerEvents='none';bar.style.transform='translateY(-100%)';
+    }
+  },{passive:true});
+  // Update sticky price when variant changes
+  var origSelectVariant=window.selectVariant;
+  window.selectVariant=function(btn,delta){
+    origSelectVariant(btn,delta);
+    sPrice.textContent=Aura.formatPrice(product.price+delta);
+  };
+})();
+
+/* ── Locale change re-render ── */
+document.addEventListener('locale-change',function(){
+  document.getElementById('p-price').textContent=Aura.formatPrice(product.price+priceOffset);
+  if(product.oldPrice) document.getElementById('p-old').textContent=Aura.formatPrice(product.oldPrice);
+  if(product.oldPrice && product.oldPrice>product.price){
+    var sav=product.oldPrice-(product.price+priceOffset);
+    if(sav>0){
+      document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(sav)+' ('+Math.round(sav/product.oldPrice*100)+'%)';
+    }
+  }
+  document.querySelector('#specs-table tbody').innerHTML=buildSpecs().map(function(r){return '<tr class="border-b border-gray-50 hover:bg-gray-50/50"><td class="py-3 pr-6 text-gray-400 w-[40%]">'+r[0]+'</td><td class="py-3 font-medium">'+r[1]+'</td></tr>';}).join('');
+  var otrs=Aura.getProducts().filter(function(p){return p.id!==pid && p.cat===product.cat;});
+  if(otrs.length<4) otrs=otrs.concat(Aura.getProducts().filter(function(p){return p.id!==pid && p.cat!==product.cat;}));
+  document.getElementById('cross-sell').innerHTML=otrs.slice(0,4).map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+});
+if(typeof lucide!=='undefined') lucide.createIcons();
+})();
+</script>
+</body>
+</html>

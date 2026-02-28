@@ -1,0 +1,788 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Karriere — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+<style>
+.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
+@keyframes countUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.stat-animate{animation:countUp .6s ease-out forwards}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 15px rgba(197,160,89,.25)}50%{box-shadow:0 0 30px rgba(197,160,89,.45)}}
+@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.7}}
+.job-hero-card{transition:all .5s cubic-bezier(.4,0,.2,1);position:relative}
+.job-hero-card.focused{border:2px solid #C5A059;animation:pulseGlow 2.5s ease-in-out infinite;transform:scale(1.01)}
+.job-hero-card.dimmed{opacity:.45;filter:grayscale(.15);pointer-events:auto}
+.zone2-card{transition:all .4s ease}
+.zone2-card.dimmed{opacity:.35;filter:grayscale(.2)}
+.hot-badge{animation:badgePulse 2s ease-in-out infinite}
+.reward-card{transition:all .3s ease}.reward-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> Garantie</p></div>
+
+<!-- HEADER -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Reise & Outdoor</a>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors">Sale %</a>
+  </div>
+</nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Reise & Outdoor</a>
+  </nav>
+</div>
+</div>
+
+<!-- HERO -->
+<section class="bg-gradient-to-br from-navy via-navy-dark to-navy-light py-16 sm:py-24 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-5" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect fill=%22none%22 width=%2260%22 height=%2260%22/><path d=%22M0 30h60M30 0v60%22 stroke=%22%23C5A059%22 stroke-width=%220.5%22/></svg>');"></div>
+  <div class="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-gold/20 px-5 py-2 mb-6">
+      <i data-lucide="briefcase" class="w-4 h-4 text-gold"></i>
+      <span class="text-[11px] text-gold font-semibold tracking-[0.2em] uppercase">Karriere bei Aura Global Merchants Ltd.</span>
+    </div>
+    <h1 class="font-serif text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">Werde Teil eines<br><span class="text-gold">globalen Operations-Teams</span></h1>
+    <p class="text-white/50 text-sm sm:text-base max-w-2xl mx-auto mb-8">London. Berlin. München. New York. — Wir suchen operative Talente, die internationale Warenflüsse steuern und Premiummarken auf den Weg zum Endkunden bringen.</p>
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+      <a href="#zone1" class="px-8 py-3.5 bg-gold text-navy font-bold text-sm tracking-wider hover:bg-gold-light transition-colors inline-flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i>AKTIVE STELLEN ANSEHEN</a>
+      <a href="#apply" class="px-8 py-3 border-2 border-white/20 text-white font-bold text-sm tracking-wider hover:bg-white/5 transition-colors">DIREKT BEWERBEN</a>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
+      <div class="stat-animate"><div class="text-3xl sm:text-4xl font-bold text-gold font-serif">47</div><div class="text-white/40 text-xs mt-1">Mitarbeiter weltweit</div></div>
+      <div class="stat-animate" style="animation-delay:.15s"><div class="text-3xl sm:text-4xl font-bold text-gold font-serif">5</div><div class="text-white/40 text-xs mt-1">Standorte</div></div>
+      <div class="stat-animate" style="animation-delay:.3s"><div class="text-3xl sm:text-4xl font-bold text-gold font-serif">14</div><div class="text-white/40 text-xs mt-1">Offene Stellen</div></div>
+      <div class="stat-animate" style="animation-delay:.45s"><div class="text-3xl sm:text-4xl font-bold text-gold font-serif">100%</div><div class="text-white/40 text-xs mt-1">Remote-freundlich</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY AURA — TRUST BUILDER -->
+<section class="py-12 sm:py-16 bg-gray-50">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-3">Warum Aura Global?</h2>
+      <p class="text-gray-500 text-sm max-w-xl mx-auto">Eine registrierte britische Handelsgesellschaft mit globaler Infrastruktur.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
+        <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="building-2" class="w-6 h-6 text-gold"></i></div>
+        <h3 class="font-semibold text-sm mb-2">Londoner Hauptsitz</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">71-75 Shelton Street, London WC2H 9JQ. Company No. 15847293. Registriert in England & Wales.</p>
+      </div>
+      <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
+        <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="globe" class="w-6 h-6 text-gold"></i></div>
+        <h3 class="font-semibold text-sm mb-2">5 Standorte, 1 Team</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">London, Berlin, München, Hamburg, New York — ein internationales Netzwerk für Logistik und Qualitätssicherung.</p>
+      </div>
+      <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
+        <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="wallet" class="w-6 h-6 text-gold"></i></div>
+        <h3 class="font-semibold text-sm mb-2">Pünktliche Zahlung</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Transparente Vergütungsmodelle mit wöchentlicher Auszahlung. Bank-Überweisung oder USDT — Ihre Wahl.</p>
+      </div>
+      <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
+        <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="trending-up" class="w-6 h-6 text-gold"></i></div>
+        <h3 class="font-semibold text-sm mb-2">Karrierepfad</h3>
+        <p class="text-gray-500 text-xs leading-relaxed">Vom Koordinator zum Head of Operations in 6–12 Monaten. Wir fördern Eigeninitiative und belohnen Ergebnisse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- ZONE 1: GLOBALE OPERATIONEN — TOP-TIER HERO CARDS             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="zone1" class="py-14 sm:py-20 scroll-mt-24">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 bg-red-50 border border-red-200 px-4 py-1.5 mb-4">
+        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+        <span class="text-[11px] text-red-600 font-bold tracking-wider uppercase">Active Recruitment — Sofort verfügbar</span>
+      </div>
+      <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-navy mb-2">Globale Operationen</h2>
+      <p class="text-gray-500 text-sm max-w-lg mx-auto">Unsere zwei strategischen Kernrollen für den DACH-Raum. Hohe Eigenverantwortung, attraktive Vergütung, 100% remote.</p>
+    </div>
+    <div class="space-y-8">
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- CARD 1: LOGISTIK-KOORDINATOR (id="linguist") -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div id="linguist" data-role="hero" class="job-hero-card bg-white border-2 border-gray-100 relative overflow-hidden scroll-mt-32">
+        <!-- HOT badge -->
+        <div class="absolute top-4 right-4 z-10">
+          <span class="hot-badge inline-flex items-center gap-1.5 bg-gold text-navy-dark px-4 py-1.5 text-[11px] font-black tracking-wider uppercase shadow-lg">
+            <i data-lucide="flame" class="w-3.5 h-3.5"></i>STRATEGISCHE ROLLE
+          </span>
+        </div>
+        <div class="p-6 sm:p-8 lg:p-10">
+          <!-- Header -->
+          <div class="mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 bg-navy text-white text-[10px] font-bold tracking-wider">REMOTE — DACH</span>
+              <span class="px-2.5 py-0.5 bg-gold/10 text-gold-dark text-[10px] font-bold tracking-wider">VOLLZEIT / FREELANCE</span>
+              <span class="px-2.5 py-0.5 bg-green-50 text-green-700 text-[10px] font-bold tracking-wider">SOFORT VERFÜGBAR</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-1">Logistik-Koordinator (m/w/d)</h3>
+            <p class="text-gray-400 text-sm">DACH Region — Remote</p>
+          </div>
+          <!-- Earnings Block -->
+          <div class="bg-gradient-to-r from-navy to-navy-light p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p class="text-gold/60 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Vergütung</p>
+              <p class="text-gold text-2xl sm:text-[28px] font-bold font-serif">€1.800 – €3.500+ <span class="text-gold/50 text-base font-normal">/ Monat</span></p>
+              <p class="text-white/40 text-xs mt-0.5">Basis + Performance-Boni · Wöchentliche Auszahlung</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-5 h-5 text-gold/60"></i>
+              <span class="text-white/50 text-xs">Offizielle Kooperation<br>mit Aura Global Merchants Ltd.</span>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-8">
+            <!-- LEFT COL -->
+            <div class="space-y-6">
+              <!-- Ihre Rolle -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="briefcase" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Ihre Rolle</h4></div>
+                <p class="text-gray-600 text-sm leading-relaxed">Sie sind das <strong class="text-navy">operationelle Herz</strong> von Aura Global. Sie steuern die Qualitätssicherung und Logistik premium Waren (Apple, Dyson, Sony, High-End Fashion) auf dem Weg zum Endverbraucher in Deutschland, Österreich und der Schweiz.</p>
+              </div>
+              <!-- Kernaufgaben -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="check-circle" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Ihre Kernaufgaben</h4></div>
+                <ul class="space-y-2.5">
+                  <li class="flex items-start gap-3"><span class="mt-1 w-5 h-5 bg-gold/10 flex items-center justify-center flex-shrink-0"><i data-lucide="radio-tower" class="w-3 h-3 text-gold"></i></span><div><p class="text-sm font-semibold text-navy">Hub-Steuerung</p><p class="text-xs text-gray-500">Distanzielle Koordination und Audit der regionalen Partner (Brand Ambassadors) in Ihrem zugewiesenen Sektor.</p></div></li>
+                  <li class="flex items-start gap-3"><span class="mt-1 w-5 h-5 bg-gold/10 flex items-center justify-center flex-shrink-0"><i data-lucide="scan-eye" class="w-3 h-3 text-gold"></i></span><div><p class="text-sm font-semibold text-navy">Quality Verification</p><p class="text-xs text-gray-500">Finaler Check der Video-Inspektionsprotokolle: Abgleich der Seriennummern, Verifizierung der Originalität und Integrität der Aura-Siegel.</p></div></li>
+                  <li class="flex items-start gap-3"><span class="mt-1 w-5 h-5 bg-gold/10 flex items-center justify-center flex-shrink-0"><i data-lucide="layout-dashboard" class="w-3 h-3 text-gold"></i></span><div><p class="text-sm font-semibold text-navy">Logistik-Management</p><p class="text-xs text-gray-500">Arbeit im internen CRM «Aura Hub»: Monitoring der Lieferfristen, Statusverwaltung aller Bestellungen in Echtzeit.</p></div></li>
+                  <li class="flex items-start gap-3"><span class="mt-1 w-5 h-5 bg-gold/10 flex items-center justify-center flex-shrink-0"><i data-lucide="bar-chart-3" class="w-3 h-3 text-gold"></i></span><div><p class="text-sm font-semibold text-navy">Reporting</p><p class="text-xs text-gray-500">Direktes Reporting an die Operations-Abteilung in London zur Optimierung regionaler Lieferketten.</p></div></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- RIGHT COL -->
+            <div class="space-y-6">
+              <!-- Ihr Profil -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="graduation-cap" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Ihr Profil</h4></div>
+                <ul class="space-y-2 text-sm text-gray-600">
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span><strong>Fließendes Deutsch (C1+)</strong> und verhandlungssicheres Englisch (B2+)</span></li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Hohes Maß an Detailgenauigkeit und Selbstorganisation</span></li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Erfahrung in E-Commerce, internationaler Logistik oder Projektmanagement</span></li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Souveräner Umgang mit digitalen Tools (CRM, Messenger, Video)</span></li>
+                </ul>
+              </div>
+              <!-- Was wir bieten -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="gift" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Was wir bieten</h4></div>
+                <div class="space-y-3">
+                  <div class="flex items-start gap-3 bg-green-50/50 border border-green-100 p-3">
+                    <i data-lucide="banknote" class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-sm font-semibold text-navy">Wöchentliche Auszahlung</p><p class="text-xs text-gray-500">Geld ohne Verzögerungen — per Banküberweisung oder USDT. Jede Woche.</p></div>
+                  </div>
+                  <div class="flex items-start gap-3 bg-gold/5 border border-gold/15 p-3">
+                    <i data-lucide="rocket" class="w-5 h-5 text-gold flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-sm font-semibold text-navy">Karriere-Boost</p><p class="text-xs text-gray-500">Reales Wachstumspotenzial bis zur Position Head of Operations innerhalb von 6–12 Monaten.</p></div>
+                  </div>
+                  <div class="flex items-start gap-3 bg-navy/5 border border-navy/10 p-3">
+                    <i data-lucide="award" class="w-5 h-5 text-navy flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-sm font-semibold text-navy">Global Status</p><p class="text-xs text-gray-500">Offizielle Zusammenarbeit in der Struktur der britischen Aura Global Merchants Ltd.</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-xs text-gray-400">
+              <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i>DACH / Remote</span>
+              <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i>Gepostet: Heute</span>
+              <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5"></i>12 Bewerbungen</span>
+            </div>
+            <button onclick="scrollToForm('logistik-koordinator')" class="w-full sm:w-auto px-10 py-3.5 bg-gold hover:bg-gold-dark text-navy font-black text-sm tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-gold/20">
+              <i data-lucide="send" class="w-4 h-4"></i>JETZT BEWERBEN
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!-- CARD 2: BRAND AMBASSADOR (id="ambassador")       -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <div id="ambassador" data-role="hero" class="job-hero-card bg-white border-2 border-gray-100 relative overflow-hidden scroll-mt-32">
+        <div class="absolute top-4 right-4 z-10">
+          <span class="hot-badge inline-flex items-center gap-1.5 bg-red-500 text-white px-4 py-1.5 text-[11px] font-black tracking-wider uppercase shadow-lg">
+            <i data-lucide="flame" class="w-3.5 h-3.5"></i>HOT — AKTIVE SUCHE
+          </span>
+        </div>
+        <div class="p-6 sm:p-8 lg:p-10">
+          <!-- Header -->
+          <div class="mb-6">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 bg-navy text-white text-[10px] font-bold tracking-wider">DEUTSCHLANDWEIT</span>
+              <span class="px-2.5 py-0.5 bg-gold/10 text-gold-dark text-[10px] font-bold tracking-wider">FLEXIBEL / FREELANCE</span>
+              <span class="px-2.5 py-0.5 bg-green-50 text-green-700 text-[10px] font-bold tracking-wider">SOFORT STARTEN</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-1">Aura Brand Ambassador & Verified Content Creator (m/w/d)</h3>
+            <p class="text-gray-400 text-sm">Regionaler Partner — Deutschlandweit</p>
+          </div>
+          <!-- Earnings Block -->
+          <div class="bg-gradient-to-r from-navy to-navy-light p-5 mb-8">
+            <p class="text-gold/60 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Vergütung pro Inspektion</p>
+            <p class="text-gold text-2xl sm:text-[28px] font-bold font-serif">€20,00 <span class="text-gold/50 text-base font-normal">/ pro Einheit</span></p>
+            <p class="text-white/40 text-xs mt-0.5">Möglichkeit des Vorkaufsrechts zu bis zu 50% Rabatt auf Marktpreis · Sofortige Auszahlung</p>
+          </div>
+
+          <!-- HOOK: Concept -->
+          <div class="bg-navy/5 border-l-4 border-gold p-5 mb-8">
+            <p class="text-sm text-navy leading-relaxed"><strong>Ihr «First Impression» zählt.</strong> Sie sind nicht einfach ein Logistiker — Sie sind der erste Mensch in Ihrer Region, der Innovationen öffnet. Ihr Unboxing-Erlebnis bildet das Fundament des Kundenvertrauens bei Aura Global.</p>
+          </div>
+
+          <!-- TRIPLE REWARD -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4"><i data-lucide="trophy" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Triple Reward — 3 Ebenen pro Einheit</h4></div>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="reward-card bg-green-50 border border-green-200 p-5 text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-green-100 rounded-full flex items-center justify-center"><i data-lucide="banknote" class="w-6 h-6 text-green-600"></i></div>
+                <p class="font-bold text-navy text-lg mb-1">€20,00</p>
+                <p class="text-[10px] font-bold text-green-700 tracking-wider uppercase mb-2">Cash-Back</p>
+                <p class="text-xs text-gray-500">Pro technische Inspektion und Video-Report. Direkte Auszahlung.</p>
+              </div>
+              <div class="reward-card bg-gold/5 border border-gold/20 p-5 text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-gold/15 rounded-full flex items-center justify-center"><i data-lucide="ticket" class="w-6 h-6 text-gold"></i></div>
+                <p class="font-bold text-navy text-lg mb-1">€50 – €100</p>
+                <p class="text-[10px] font-bold text-gold-dark tracking-wider uppercase mb-2">Aura Voucher</p>
+                <p class="text-xs text-gray-500">Zusätzlicher Gutschein für unseren exklusiven internen Store.</p>
+              </div>
+              <div class="reward-card bg-navy/5 border border-navy/10 p-5 text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-navy/10 rounded-full flex items-center justify-center"><i data-lucide="shopping-bag" class="w-6 h-6 text-navy"></i></div>
+                <p class="font-bold text-navy text-lg mb-1">bis 50% Rabatt</p>
+                <p class="text-[10px] font-bold text-navy tracking-wider uppercase mb-2">Vorkaufsrecht</p>
+                <p class="text-xs text-gray-500">Sie sehen das Produkt zuerst. Sie dürfen es zum Aura-Spezialpreis behalten.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-8">
+            <!-- LEFT COL -->
+            <div class="space-y-6">
+              <!-- Ihr Prozess -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="list-ordered" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Ihr Algorithmus des Erfolgs</h4></div>
+                <div class="space-y-4">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-gold text-navy font-black text-sm flex items-center justify-center">1</div>
+                    <div><p class="text-sm font-semibold text-navy">Unboxing Experience</p><p class="text-xs text-gray-500">Drehen Sie ein Video des «Ersten Kontakts» (First Impression) nach dem Aura-Standard für unsere sozialen Medien.</p></div>
+                  </div>
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-gold text-navy font-black text-sm flex items-center justify-center">2</div>
+                    <div><p class="text-sm font-semibold text-navy">Live Check-In</p><p class="text-xs text-gray-500">Kurzer Videoanruf mit Ihrem Koordinator (Logistik-Koordinator) zur finalen Verifizierung der Inspektion.</p></div>
+                  </div>
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-gold text-navy font-black text-sm flex items-center justify-center">3</div>
+                    <div><p class="text-sm font-semibold text-navy">Decision Point</p><p class="text-xs text-gray-500">Sie entscheiden: Produkt zum Aura-Spezialpreis behalten <strong>oder</strong> ins nächste Hub senden (DHL-Versandkosten übernehmen wir).</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COL -->
+            <div class="space-y-6">
+              <!-- Warum Brand Ambassador  -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="star" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Warum diese Rolle?</h4></div>
+                <ul class="space-y-3 text-sm text-gray-600">
+                  <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0 mt-0.5"></i><span>Sie bauen sich eine <strong>persönliche Marke</strong> innerhalb des Aura Global Netzwerks auf.</span></li>
+                  <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0 mt-0.5"></i><span>Zugang zu Apple, Dyson, Sony und Premium-Fashion <strong>vor allen anderen</strong> — zu internen Preisen.</span></li>
+                  <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0 mt-0.5"></i><span>Teil eines technologiegetriebenen Community, die den Retail-Markt fairer gestaltet.</span></li>
+                  <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0 mt-0.5"></i><span>Kein Eigenkapital erforderlich. Kein Risiko. Reiner Mehrwert für Sie.</span></li>
+                </ul>
+              </div>
+              <!-- Profil -->
+              <div>
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="user-check" class="w-5 h-5 text-gold"></i><h4 class="font-bold text-sm text-navy uppercase tracking-wider">Was Sie mitbringen</h4></div>
+                <ul class="space-y-2 text-sm text-gray-600">
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Smartphone mit Kamera und stabiler Internetverbindung</span></li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Sorgfalt und Zuverlässigkeit im Umgang mit Premiumware</span></li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-gold flex-shrink-0"></i><span>Deutsch (min. B2), Erreichbarkeit per Telegram/WhatsApp</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-xs text-gray-400">
+              <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i>Deutschlandweit</span>
+              <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i>Gepostet: Heute</span>
+              <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5"></i>23 Bewerbungen</span>
+            </div>
+            <button onclick="scrollToForm('brand-ambassador')" class="w-full sm:w-auto px-10 py-3.5 bg-gold hover:bg-gold-dark text-navy font-black text-sm tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-gold/20">
+              <i data-lucide="send" class="w-4 h-4"></i>JETZT BEWERBEN
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- ZONE 2: CORPORATE STRUCTURE — MIDDLE-TIER GRID                 -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="zone2" class="py-14 sm:py-20 bg-gray-50 scroll-mt-24">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-2">Weitere Stellen im Unternehmen</h2>
+      <p class="text-gray-500 text-sm max-w-lg mx-auto">Aura Global wächst — in allen Abteilungen. Von Tech bis Legal, von Marketing bis Operations.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <!-- Z2: Warehouse Team Lead -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="package" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Warehouse Team Lead</h3><p class="text-[10px] text-gray-400">London Hub · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Leitung des Fulfillment-Teams (8-12 MA). Qualitätskontrolle, KPI-Reporting an Head of Ops.</p>
+        <button onclick="scrollToForm('warehouse-lead')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Inventory Controller -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="clipboard-list" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Inventory Controller</h3><p class="text-[10px] text-gray-400">Berlin · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Bestandsoptimierung über alle Kanäle, Inventuren und Demand-Forecasting.</p>
+        <button onclick="scrollToForm('inventory-controller')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Junior Data Analyst -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Junior Data Analyst</h3><p class="text-[10px] text-gray-400">London / Remote · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Dashboards, A/B-Tests, ETL-Pipelines (Python/SQL). Erste BI-Erfahrung erwünscht.</p>
+        <button onclick="scrollToForm('data-analyst')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Frontend Developer -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="code-2" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Frontend Developer</h3><p class="text-[10px] text-gray-400">Full Remote · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Shopify/Liquid, Tailwind CSS, Core Web Vitals. Theme-Entwicklung und Landingpages.</p>
+        <button onclick="scrollToForm('frontend-dev')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: QA Automation Engineer -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="test-tubes" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">QA Automation Engineer</h3><p class="text-[10px] text-gray-400">London · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Cypress/Playwright, CI/CD-Integration, API-Tests. ISTQB ein Plus.</p>
+        <button onclick="scrollToForm('qa-engineer')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Cybersecurity Specialist -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="shield" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Cybersecurity Specialist</h3><p class="text-[10px] text-gray-400">Full Remote · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Pentests, WAF/SIEM/DLP, DSGVO-Compliance. CISSP oder CEH von Vorteil.</p>
+        <button onclick="scrollToForm('cybersecurity')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Compliance Manager -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="scale" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Compliance & Anti-Fraud Manager</h3><p class="text-[10px] text-gray-400">London · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">KYC-Prozesse, Chargeback-Monitoring, Compliance-Framework (UK/EU).</p>
+        <button onclick="scrollToForm('compliance-manager')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: International Trade Lawyer -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="gavel" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">International Trade Lawyer</h3><p class="text-[10px] text-gray-400">London / Remote · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Grenzüberschreitende Handels-/Zollvorschriften, Lieferantenverträge, Markenrecht.</p>
+        <button onclick="scrollToForm('trade-lawyer')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: VAT Specialist -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="calculator" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">VAT & Taxation Specialist</h3><p class="text-[10px] text-gray-400">London · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">VAT-Registrierungen UK/DE/FR/NL, OSS-Verfahren, Xero/Avalara.</p>
+        <button onclick="scrollToForm('vat-specialist')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Customer Support Lead -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="headphones" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Customer Support Lead (DE)</h3><p class="text-[10px] text-gray-400">Berlin · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Teamleitung (5 MA), Zendesk/Freshdesk, CSAT/NPS-Tracking. Muttersprachler Deutsch.</p>
+        <button onclick="scrollToForm('support-lead')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Growth Manager -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="megaphone" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">E-Commerce Growth Manager</h3><p class="text-[10px] text-gray-400">New York · Vollzeit</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">US-Markteintritt, Paid Ads (Google/Meta/TikTok), DTC-Skalierung.</p>
+        <button onclick="scrollToForm('growth-manager')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+      <!-- Z2: Copywriter -->
+      <div data-role="z2" class="zone2-card bg-white border border-gray-100 hover:border-gold/30 p-5 transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 bg-navy/5 flex items-center justify-center"><i data-lucide="pen-tool" class="w-4 h-4 text-gold"></i></div>
+          <div><h3 class="font-semibold text-sm text-navy">Copywriter DE/EN</h3><p class="text-[10px] text-gray-400">Full Remote · VZ/TZ</p></div>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Produkttexte, Blog, Newsletter, SEO-Content. Deutsch + Englisch C2.</p>
+        <button onclick="scrollToForm('copywriter')" class="text-xs text-gold font-bold hover:underline">Bewerben →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="bg-navy py-12 sm:py-16">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-3">Deine Rolle nicht dabei?</h2>
+    <p class="text-white/50 text-sm max-w-lg mx-auto mb-6">Schick uns eine Initiativbewerbung — wir suchen immer nach außergewöhnlichen Talenten.</p>
+    <a href="#apply" class="inline-block px-10 py-3 bg-gold text-navy font-bold text-sm tracking-wider hover:bg-gold-light transition-colors">INITIATIVBEWERBUNG SENDEN</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- BOTTOM-TIER: SMART APPLICATION FORM                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="apply" class="py-14 sm:py-20 bg-gray-50 scroll-mt-16">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <div class="w-14 h-14 mx-auto mb-4 bg-navy/5 rounded-full flex items-center justify-center"><i data-lucide="file-text" class="w-7 h-7 text-gold"></i></div>
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-2">Bewerbungsformular</h2>
+      <p class="text-gray-500 text-sm">Schnell, unkompliziert, vertraulich. Wir melden uns innerhalb von 48 Stunden.</p>
+    </div>
+    <form id="career-form" class="bg-white border border-gray-100 shadow-sm" onsubmit="submitCareer(event)">
+      <div class="px-6 sm:px-8 py-5 bg-navy">
+        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4 text-gold"></i>Ihre Bewerbung</h3>
+      </div>
+      <div class="p-6 sm:p-8 space-y-5">
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vorname *</label>
+          <input type="text" id="cr-firstname" required placeholder="Max" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail Adresse *</label>
+          <input type="email" id="cr-email" required placeholder="ihre@email.de" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider flex items-center gap-1">
+            Telegram / WhatsApp *
+            <span class="text-[10px] text-gold font-normal normal-case">(Pflichtfeld — für schnelle Kommunikation)</span>
+          </label>
+          <input type="text" id="cr-messenger" required placeholder="@username oder +49 170 1234567" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Gewünschte Position *</label>
+          <select id="cr-position" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors bg-white">
+            <option value="">Bitte wählen...</option>
+            <optgroup label="⚡ Globale Operationen (Aktiv)">
+              <option value="logistik-koordinator">Logistik-Koordinator (DACH / Remote)</option>
+              <option value="brand-ambassador">Brand Ambassador & Content Creator (Deutschlandweit)</option>
+            </optgroup>
+            <optgroup label="Logistik & Supply Chain">
+              <option value="warehouse-lead">Warehouse Team Lead</option>
+              <option value="inventory-controller">Inventory Controller</option>
+            </optgroup>
+            <optgroup label="Technology & Data">
+              <option value="data-analyst">Junior Data Analyst</option>
+              <option value="frontend-dev">Frontend Developer</option>
+              <option value="qa-engineer">QA Automation Engineer</option>
+              <option value="cybersecurity">Cybersecurity Specialist</option>
+            </optgroup>
+            <optgroup label="Legal & Compliance">
+              <option value="compliance-manager">Compliance & Anti-Fraud Manager</option>
+              <option value="trade-lawyer">International Trade Lawyer</option>
+              <option value="vat-specialist">VAT & Taxation Specialist</option>
+            </optgroup>
+            <optgroup label="Customer Success & Marketing">
+              <option value="support-lead">Customer Support Lead (DE)</option>
+              <option value="growth-manager">E-Commerce Growth Manager</option>
+              <option value="copywriter">Copywriter DE/EN</option>
+            </optgroup>
+            <option value="initiativ">Initiativbewerbung</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Kurze Nachricht <span class="text-gray-300 normal-case">(optional)</span></label>
+          <textarea id="cr-message" rows="3" placeholder="Warum interessiert Sie diese Rolle?" class="w-full px-4 py-3 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors resize-none"></textarea>
+        </div>
+        <label class="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" required class="mt-1 w-4 h-4 border-gray-300 text-navy focus:ring-navy">
+          <span class="text-xs text-gray-500 leading-relaxed">Ich stimme der Verarbeitung meiner Daten gemäß der <a href="/privacy.html" class="text-gold underline">Datenschutzerklärung</a> zu.</span>
+        </label>
+        <button type="submit" class="w-full py-3.5 bg-gold text-navy font-bold text-sm tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-4 h-4"></i>BEWERBUNG ABSENDEN
+        </button>
+      </div>
+    </form>
+    <div id="career-success" class="hidden bg-white border border-green-200 p-8 text-center">
+      <div class="w-16 h-16 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center"><i data-lucide="check-circle" class="w-8 h-8 text-green-500"></i></div>
+      <h3 class="font-serif text-xl font-bold text-navy mb-2">Bewerbung eingegangen!</h3>
+      <p class="text-gray-500 text-sm mb-1">Referenz: <span id="cr-ref" class="font-mono font-bold text-navy">—</span></p>
+      <p class="text-gray-400 text-xs">Wir melden uns innerhalb von 48 Stunden bei Ihnen. Viel Erfolg!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark mt-auto">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div>
+      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/contact.html" class="text-white/40 text-sm hover:text-white transition-colors">Kontakt</a></li>
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+      <div class="mt-6 pt-5 border-t border-white/5">
+        <p class="text-white/15 text-[11px]">Company No. 15847293</p>
+        <p class="text-white/15 text-[11px]">Registered in England &amp; Wales</p>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">&copy; 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform pointer-events-auto">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold">Warenkorb</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4" style="max-height:calc(100vh - 160px)"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden"><div class="flex justify-between mb-4"><span class="font-medium">Gesamt</span><span id="cart-total-price" class="font-bold text-lg"></span></div><a href="/checkout.html" class="block w-full py-3 bg-navy text-white text-center text-sm font-bold tracking-wider hover:bg-navy-light transition-colors">ZUR KASSE</a></div>
+</aside>
+</div>
+
+<script>
+var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';if(cartOpen)renderCartDrawer();}
+function renderCartDrawer(){var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}footer.classList.remove('hidden');body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p></div></div>';}).join('');document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);}
+
+// ═══════════════════════════════════════════════
+// SMART FUNNEL LOGIC
+// ═══════════════════════════════════════════════
+
+// 1. scrollToForm: auto-select position + smooth scroll
+function scrollToForm(posValue) {
+  var sel = document.getElementById('cr-position');
+  if (sel) {
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === posValue) { sel.selectedIndex = i; break; }
+    }
+    // Visual pulse on the select
+    sel.style.borderColor = '#C5A059';
+    sel.style.boxShadow = '0 0 0 3px rgba(197,160,89,0.25)';
+    setTimeout(function(){ sel.style.borderColor = ''; sel.style.boxShadow = ''; }, 2000);
+  }
+  document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Focus on first empty field after scroll
+  setTimeout(function(){
+    var fn = document.getElementById('cr-firstname');
+    if (fn && !fn.value) fn.focus();
+  }, 600);
+}
+window.scrollToForm = scrollToForm;
+
+// 2. Anchor highlight logic (The Visual Beacon)
+function handleAnchorHighlight() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var target = document.getElementById(hash);
+  if (!target) return;
+
+  // Smooth scroll to target
+  setTimeout(function() {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
+
+  // Apply focus effect to target card
+  setTimeout(function() {
+    if (target.classList.contains('job-hero-card')) {
+      target.classList.add('focused');
+      // Dim all other cards (both hero and z2)
+      document.querySelectorAll('.job-hero-card').forEach(function(card) {
+        if (card !== target) card.classList.add('dimmed');
+      });
+      document.querySelectorAll('.zone2-card').forEach(function(card) {
+        card.classList.add('dimmed');
+      });
+      // Remove highlight after 8 seconds
+      setTimeout(function() {
+        target.classList.remove('focused');
+        document.querySelectorAll('.dimmed').forEach(function(el) {
+          el.classList.remove('dimmed');
+        });
+      }, 8000);
+    }
+  }, 800);
+}
+
+// 3. Submit handler
+function submitCareer(e) {
+  e.preventDefault();
+  var ref = 'BEW-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('cr-ref').textContent = ref;
+  document.getElementById('career-form').style.display = 'none';
+  document.getElementById('career-success').classList.remove('hidden');
+  var apps = JSON.parse(localStorage.getItem('aura_career_apps') || '[]');
+  apps.push({
+    id: ref,
+    firstname: document.getElementById('cr-firstname').value,
+    email: document.getElementById('cr-email').value,
+    messenger: document.getElementById('cr-messenger').value,
+    position: document.getElementById('cr-position').value,
+    message: (document.getElementById('cr-message').value || ''),
+    date: new Date().toISOString()
+  });
+  localStorage.setItem('aura_career_apps', JSON.stringify(apps));
+  // Send email to HR + auto-reply to applicant
+  if(typeof AuraEmail!=='undefined') AuraEmail.sendCareerApplication({
+    firstname: document.getElementById('cr-firstname').value,
+    email: document.getElementById('cr-email').value,
+    messenger: document.getElementById('cr-messenger').value,
+    position: document.getElementById('cr-position').value,
+    message: (document.getElementById('cr-message').value || ''),
+    refId: ref
+  });
+  window.scrollTo({ top: document.getElementById('apply').offsetTop - 80, behavior: 'smooth' });
+}
+window.submitCareer = submitCareer;
+
+// 4. URL param: ?position=logistik-koordinator auto-selects in form
+function handlePositionParam() {
+  var params = new URLSearchParams(window.location.search);
+  var pos = params.get('position');
+  if (pos) {
+    var sel = document.getElementById('cr-position');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === pos) { sel.selectedIndex = i; break; }
+    }
+  }
+}
+
+// Init
+handlePositionParam();
+handleAnchorHighlight();
+// Also handle hash changes (SPA-like navigation)
+window.addEventListener('hashchange', handleAnchorHighlight);
+
+if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
+</body>
+</html>

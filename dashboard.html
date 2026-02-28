@@ -1,0 +1,1382 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mein Konto — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+<style>
+.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
+.product-card:hover .prod-img{transform:scale(1.05)}.product-card:hover .quick-act{opacity:1;transform:translateY(0)}
+.quick-act{opacity:0;transform:translateY(8px);transition:all .25s ease}
+/* Dashboard sidebar nav */
+.dash-nav-btn{color:#6b7280;border-left-color:transparent;}
+.dash-nav-btn.active,.dash-nav-btn:hover{color:#0a1628;background:#f9fafb;}
+.dash-nav-btn.active{border-left-color:#0a1628;background:rgba(10,22,40,0.03);font-weight:600;}
+/* Toggle switch */
+.peer:checked~div:first-of-type{background-color:#0a1628}
+.peer:checked~div:last-of-type{transform:translateX(1.25rem)}
+</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p></div>
+
+<!-- HEADER -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_electronics">Elektronik</p>
+        <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple</a>
+        <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony</a>
+        <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung</a>
+        <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose</a>
+        <a href="/catalog.html?cat=electronics&brand=Dyson" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=electronics" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_el">Alle Elektronik →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_fashion">Mode</p>
+        <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+        <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+        <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+        <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+        <a href="/catalog.html?cat=fashion" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_fa">Alle Mode →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+        <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs</a>
+        <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad</a>
+        <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring</a>
+        <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee</a>
+        <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+        <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+        <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+        <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+        <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+      </div>
+    </div>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+  </div>
+</nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded" data-i18n="nav_all">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_electronics">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_fashion_long">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_home">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_travel">Reise & Outdoor</a>
+    <a href="/catalog.html?badge=express" class="block py-3 px-3 text-sm text-red-500 font-semibold hover:bg-red-50 rounded" data-i18n="nav_sale">Sale %</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span data-i18n="mob_login">Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="mob_orders">Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<main class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-[1400px] mx-auto">
+  <!-- Not logged in -->
+  <div id="no-auth" class="text-center py-16" style="display:none">
+    <i data-lucide="user-x" class="w-16 h-16 text-gray-200 mx-auto mb-4"></i>
+    <h2 class="font-serif text-2xl font-bold mb-3" data-i18n="ds_noauth">Nicht angemeldet</h2>
+    <p class="text-gray-400 text-sm mb-6" data-i18n="ds_noauth_d">Bitte melden Sie sich an, um Ihr Konto zu sehen.</p>
+    <a href="/login.html" class="px-8 py-3 bg-navy text-white text-sm font-bold tracking-wider" data-i18n="ds_login">ANMELDEN</a>
+  </div>
+
+  <!-- Logged in -->
+  <div id="auth-content" style="display:none">
+    <!-- Welcome Header -->
+    <div class="mb-8 rounded-xl overflow-hidden bg-navy">
+      <div class="px-6 sm:px-8 py-6 sm:py-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+          <!-- Left: Avatar + Info -->
+          <div class="flex items-center gap-5">
+            <div class="relative">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold rounded-xl flex items-center justify-center">
+                <span id="d-initial" class="text-navy text-2xl font-bold font-sans"></span>
+              </div>
+              <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-2 border-navy flex items-center justify-center">
+                <i data-lucide="check" class="w-2.5 h-2.5 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-white"><span data-i18n="ds_hello">Hallo,</span> <span id="d-name"></span></h1>
+              <p class="text-white/40 text-sm mt-0.5" id="d-email"></p>
+            </div>
+          </div>
+          <!-- Right: Member info + Logout -->
+          <div class="flex flex-col items-start sm:items-end gap-2.5">
+            <div class="flex items-center gap-2 text-white/40 text-xs">
+              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              <span>Mitglied seit <span id="d-member-since" class="text-white/60 font-medium"></span></span>
+            </div>
+            <button onclick="Aura.logout();window.location='/login.html'" class="px-4 py-2 border border-white/10 hover:border-red-400/40 hover:text-red-400 text-white/50 text-xs font-medium transition-colors flex items-center gap-2 rounded-lg">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i><span data-i18n="ds_logout">Abmelden</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR + CONTENT LAYOUT -->
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- SIDEBAR NAV -->
+      <div class="lg:w-[260px] flex-shrink-0">
+        <nav class="bg-white border border-gray-100 rounded-xl overflow-hidden lg:sticky lg:top-[80px]">
+          <button onclick="showDashTab('orders')" id="dt-orders" class="dash-nav-btn active w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="package" class="w-4.5 h-4.5"></i><span>Meine Bestellungen</span>
+          </button>
+          <button onclick="showDashTab('profile')" id="dt-profile" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="user" class="w-4.5 h-4.5"></i><span>Persönliche Daten</span>
+          </button>
+          <button onclick="showDashTab('addresses')" id="dt-addresses" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="map-pin" class="w-4.5 h-4.5"></i><span>Adressen</span>
+          </button>
+          <button onclick="showDashTab('wishlist')" id="dt-wishlist" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="heart" class="w-4.5 h-4.5"></i><span>Wunschliste</span><span id="wishlist-count" class="ml-auto text-[10px] bg-gold/10 text-gold font-bold px-2 py-0.5 rounded-full"></span>
+          </button>
+          <button onclick="showDashTab('payments')" id="dt-payments" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="credit-card" class="w-4.5 h-4.5"></i><span>Zahlungsmethoden</span>
+          </button>
+          <button onclick="showDashTab('notifications')" id="dt-notifications" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="bell" class="w-4.5 h-4.5"></i><span>Benachrichtigungen</span>
+          </button>
+          <button onclick="showDashTab('security')" id="dt-security" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="shield" class="w-4.5 h-4.5"></i><span>Sicherheit</span>
+          </button>
+          <button onclick="showDashTab('settings')" id="dt-settings" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
+            <i data-lucide="settings" class="w-4.5 h-4.5"></i><span>Kontoeinstellungen</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- CONTENT AREA -->
+      <div class="flex-1 min-w-0">
+
+    <!-- ORDERS -->
+    <div id="dtab-orders">
+      <div id="orders-list" class="space-y-4"></div>
+      <div id="orders-empty" class="text-center py-12" style="display:none">
+        <i data-lucide="package" class="w-12 h-12 text-gray-200 mx-auto mb-4"></i>
+        <p class="text-gray-400 text-sm mb-4" data-i18n="ds_empty">Sie haben noch keine Bestellungen.</p>
+        <a href="/catalog.html" class="px-6 py-3 bg-navy text-white text-sm font-bold tracking-wider" data-i18n="ds_shop">JETZT EINKAUFEN</a>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="dtab-profile" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-gold"></i>Persönliche Daten</h3>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vorname</label><input type="text" id="set-firstname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Nachname</label><input type="text" id="set-lastname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+            </div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail</label><input type="email" id="set-email" class="w-full h-11 px-4 border-2 border-gray-200 bg-gray-50 text-gray-400 outline-none text-sm rounded-lg" disabled></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Telefon</label><input type="tel" id="set-phone" placeholder="+49 123 456 789" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Geburtsdatum</label><input type="date" id="set-dob" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Sprache</label>
+              <select id="set-lang" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg bg-white">
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="en">🇬🇧 English</option>
+              </select>
+            </div>
+          </div>
+          <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
+            <button onclick="saveProfile()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADDRESSES -->
+    <div id="dtab-addresses" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-gold"></i>Gespeicherte Adressen</h3>
+          <button onclick="addAddress()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i>Neue Adresse</button>
+        </div>
+        <div id="addresses-list" class="space-y-4"></div>
+        <div id="addresses-empty" class="text-center py-12 border-2 border-dashed border-gray-200 rounded-xl" style="display:none">
+          <i data-lucide="map-pin-off" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
+          <p class="text-gray-400 text-sm mb-1">Keine Adressen gespeichert</p>
+          <p class="text-gray-300 text-xs">Fügen Sie eine Lieferadresse hinzu für schnelleres Bestellen</p>
+        </div>
+      </div>
+      <!-- Address Form Modal -->
+      <div id="address-form" class="hidden max-w-2xl mt-6 border border-gray-100 rounded-xl overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+          <h3 class="font-semibold text-navy text-sm" id="address-form-title">Neue Adresse</h3>
+          <button onclick="cancelAddress()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <div class="p-6 space-y-4">
+          <input type="hidden" id="addr-id" value="">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vorname</label><input type="text" id="addr-fname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Nachname</label><input type="text" id="addr-lname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          </div>
+          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Straße & Hausnummer</label><input type="text" id="addr-street" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Adresszusatz</label><input type="text" id="addr-extra" placeholder="Apartment, Etage, etc." class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">PLZ</label><input type="text" id="addr-zip" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Stadt</label><input type="text" id="addr-city" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Land</label>
+              <select id="addr-country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg bg-white">
+                <option value="DE">🇩🇪 Deutschland</option>
+                <option value="AT">🇦🇹 Österreich</option>
+                <option value="CH">🇨🇭 Schweiz</option>
+                <option value="GB">🇬🇧 Großbritannien</option>
+                <option value="US">🇺🇸 USA</option>
+              </select>
+            </div>
+          </div>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="addr-default" class="accent-navy w-4 h-4"><span class="text-sm text-gray-600">Als Standardadresse verwenden</span></label>
+        </div>
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3">
+          <button onclick="saveAddress()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+          <button onclick="cancelAddress()" class="px-4 py-2.5 border border-gray-200 text-gray-500 text-sm font-medium rounded-lg hover:border-navy transition-colors">ABBRECHEN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WISHLIST -->
+    <div id="dtab-wishlist" class="hidden">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="heart" class="w-4 h-4 text-gold"></i>Meine Wunschliste</h3>
+      </div>
+      <div id="wishlist-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+      <div id="wishlist-empty" class="text-center py-12 border-2 border-dashed border-gray-200 rounded-xl" style="display:none">
+        <i data-lucide="heart" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
+        <p class="text-gray-400 text-sm mb-1">Ihre Wunschliste ist leer</p>
+        <p class="text-gray-300 text-xs mb-4">Speichern Sie Ihre Lieblingsprodukte</p>
+        <a href="/catalog.html" class="px-6 py-2.5 bg-navy text-white text-xs font-bold tracking-wider rounded-lg">PRODUKTE ENTDECKEN</a>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div id="dtab-payments" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="credit-card" class="w-4 h-4 text-gold"></i>Zahlungsmethoden</h3>
+          <button onclick="openPaymentForm()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i>Hinzufügen</button>
+        </div>
+        <div id="payments-list" class="space-y-3"></div>
+        <div id="payments-empty" class="text-center py-10 hidden">
+          <i data-lucide="credit-card" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
+          <p class="text-sm text-gray-400">Keine Zahlungsmethoden hinterlegt</p>
+        </div>
+        <!-- Payment Form (hidden by default) -->
+        <div id="payment-form" class="hidden border border-gray-200 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+            <h4 id="payment-form-title" class="text-sm font-semibold text-navy">Neue Zahlungsmethode</h4>
+            <button onclick="closePaymentForm()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-4 h-4"></i></button>
+          </div>
+          <div class="p-6 space-y-4">
+            <input type="hidden" id="pay-edit-idx" value="">
+            <div>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Typ</label>
+              <select id="pay-type" onchange="onPayTypeChange()" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg bg-white">
+                <option value="visa">VISA</option>
+                <option value="mastercard">Mastercard</option>
+                <option value="amex">American Express</option>
+                <option value="paypal">PayPal</option>
+                <option value="applepay">Apple Pay</option>
+                <option value="googlepay">Google Pay</option>
+                <option value="klarna">Klarna</option>
+                <option value="sepa">SEPA Lastschrift</option>
+              </select>
+            </div>
+            <div id="pay-card-fields">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Karteninhaber</label><input type="text" id="pay-holder" placeholder="Max Mustermann" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Kartennummer (letzte 4)</label><input type="text" id="pay-last4" maxlength="4" placeholder="4242" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
+                <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Ablaufdatum</label><input type="text" id="pay-exp" placeholder="MM/YY" maxlength="5" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
+              </div>
+            </div>
+            <div id="pay-email-field" class="hidden">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail / Konto</label>
+              <input type="text" id="pay-email" placeholder="email@example.com" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg">
+            </div>
+            <label class="flex items-center gap-2 mt-2 cursor-pointer"><input type="checkbox" id="pay-default" class="w-4 h-4 accent-navy"><span class="text-sm">Als Standard festlegen</span></label>
+          </div>
+          <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3">
+            <button onclick="savePaymentForm()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+            <button onclick="closePaymentForm()" class="px-6 py-2.5 border border-gray-200 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Abbrechen</button>
+          </div>
+        </div>
+        <div class="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
+          <div class="flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></i>
+            <p class="text-xs text-blue-600 leading-relaxed">Ihre Zahlungsdaten werden sicher verschlüsselt gespeichert. Wir verwenden SSL/TLS-Verschlüsselung und sind PCI-DSS-zertifiziert.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="dtab-notifications" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="bell" class="w-4 h-4 text-gold"></i>Benachrichtigungseinstellungen</h3>
+          </div>
+          <div class="divide-y divide-gray-50">
+            <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div><p class="text-sm font-medium">Bestellstatus</p><p class="text-xs text-gray-400 mt-0.5">Updates zu Ihren Bestellungen per E-Mail</p></div>
+              <div class="relative"><input type="checkbox" id="notif-orders" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </label>
+            <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div><p class="text-sm font-medium">Angebote & Aktionen</p><p class="text-xs text-gray-400 mt-0.5">Exklusive Deals und Sales direkt per E-Mail</p></div>
+              <div class="relative"><input type="checkbox" id="notif-deals" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </label>
+            <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div><p class="text-sm font-medium">Preisalarme</p><p class="text-xs text-gray-400 mt-0.5">Benachrichtigung bei Preisnachlässen auf Wunschliste</p></div>
+              <div class="relative"><input type="checkbox" id="notif-price" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </label>
+            <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div><p class="text-sm font-medium">Newsletter</p><p class="text-xs text-gray-400 mt-0.5">Wöchentliche Neuheiten und Empfehlungen</p></div>
+              <div class="relative"><input type="checkbox" id="notif-news" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </label>
+            <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div><p class="text-sm font-medium">Push-Benachrichtigungen</p><p class="text-xs text-gray-400 mt-0.5">Browser-Benachrichtigungen für wichtige Updates</p></div>
+              <div class="relative"><input type="checkbox" id="notif-push" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </label>
+          </div>
+          <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
+            <button onclick="saveNotifications()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div id="dtab-security" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-gold"></i>Passwort ändern</h3>
+          </div>
+          <div class="p-6 space-y-4">
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Aktuelles Passwort</label><input type="password" id="sec-current-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Neues Passwort</label><input type="password" id="sec-new-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Passwort bestätigen</label><input type="password" id="sec-confirm-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          </div>
+          <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
+            <button onclick="changePassword()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">PASSWORT ÄNDERN</button>
+          </div>
+        </div>
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-gold"></i>Zwei-Faktor-Authentifizierung</h3>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between">
+              <div><p class="text-sm font-medium">2FA Status</p><p class="text-xs text-gray-400 mt-0.5">Erhöhen Sie die Sicherheit mit einer zusätzlichen Verifizierung</p></div>
+              <div class="relative"><input type="checkbox" id="sec-2fa" class="sr-only peer" onchange="toggle2FA(this.checked)"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-emerald-500 transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="monitor" class="w-4 h-4 text-gold"></i>Aktive Sitzungen</h3>
+          </div>
+          <div class="divide-y divide-gray-50">
+            <div class="p-5 flex items-center gap-4">
+              <div class="w-10 h-10 bg-navy/5 rounded-lg flex items-center justify-center"><i data-lucide="monitor" class="w-5 h-5 text-navy"></i></div>
+              <div class="flex-1"><p class="text-sm font-medium">Dieser Browser</p><p class="text-xs text-gray-400">Windows · Chrome · Berlin, DE</p></div>
+              <span class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded">Aktiv</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS (Account) -->
+    <div id="dtab-settings" class="hidden">
+      <div class="max-w-2xl space-y-6">
+        <div class="border border-gray-100 rounded-xl overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-gold"></i>Kontoeinstellungen</h3>
+          </div>
+          <div class="divide-y divide-gray-50">
+            <div class="p-5 flex items-center justify-between">
+              <div><p class="text-sm font-medium">Konto-ID</p><p class="text-xs text-gray-400 mt-0.5" id="set-account-id">—</p></div>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('set-account-id').textContent);Aura.showToast('Kopiert','success')" class="text-xs text-navy hover:underline">Kopieren</button>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+              <div><p class="text-sm font-medium">Mitgliedschaft</p><p class="text-xs text-gray-400 mt-0.5">Aura Standard</p></div>
+              <span class="px-2.5 py-1 text-[10px] font-bold bg-gold/10 text-gold rounded">STANDARD</span>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+              <div><p class="text-sm font-medium">Währung</p><p class="text-xs text-gray-400 mt-0.5">EUR (€)</p></div>
+              <select id="set-currency" class="h-9 px-3 border border-gray-200 rounded-lg text-sm" onchange="Aura.showToast('Währung gespeichert','success')">
+                <option value="EUR">€ EUR</option>
+                <option value="USD">$ USD</option>
+                <option value="GBP">£ GBP</option>
+              </select>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div><p class="text-sm font-medium">Datenexport</p><p class="text-xs text-gray-400 mt-0.5">Laden Sie all Ihre persönlichen Daten herunter</p></div>
+                <button onclick="Aura.showToast('Export wird vorbereitet…','success')" class="px-4 py-2 border border-gray-200 text-xs font-semibold rounded-lg hover:border-navy transition-colors">EXPORTIEREN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-red-50 border border-red-100 p-6 rounded-xl">
+          <h3 class="font-semibold text-red-600 mb-2">Konto löschen</h3>
+          <p class="text-sm text-red-400 mb-4">Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden unwiderruflich gelöscht.</p>
+          <button onclick="if(confirm('Sind Sie sicher? Alle Daten werden gelöscht.')){Aura.logout();window.location='/index.html'}" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors rounded-lg">KONTO LÖSCHEN</button>
+        </div>
+      </div>
+    </div>
+
+      </div><!-- /.flex-1 content area -->
+    </div><!-- /.flex sidebar+content -->
+  </div>
+</div><!-- /.max-w-[1400px] -->
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark mt-auto">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
+        <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
+      </div>
+      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- REVIEW MODAL -->
+<div id="review-modal" class="fixed inset-0 z-[110] flex items-center justify-center" style="display:none" onclick="if(event.target===this)closeReviewModal()">
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+  <div class="relative w-full max-w-[520px] mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] overflow-y-auto">
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-gray-100">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gold/10 border border-gold/20 flex items-center justify-center rounded-xl">
+            <i data-lucide="star" class="w-5 h-5 text-gold"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-navy">Bewertung abgeben</h2>
+            <p class="text-xs text-gray-400">Teilen Sie Ihre Erfahrung</p>
+          </div>
+        </div>
+        <button onclick="closeReviewModal()" class="w-9 h-9 flex items-center justify-center text-gray-300 hover:text-navy hover:bg-gray-100 rounded-lg transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Products to review -->
+    <div id="review-items" class="px-6 py-4 space-y-6"></div>
+    <!-- Footer -->
+    <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
+      <button onclick="submitAllReviews()" class="w-full py-3 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="send" class="w-4 h-4"></i>
+        <span>Bewertungen absenden</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2><button onclick="toggleCart()" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden"><div class="flex items-center justify-between mb-4"><span class="font-semibold" data-i18n="cart_total">Gesamt</span><span id="cart-total" class="text-lg font-bold"></span></div><a href="/checkout.html" class="block w-full py-3.5 bg-gold hover:bg-gold-dark text-white text-center text-sm font-bold tracking-wider transition-colors" data-i18n="cart_checkout">ZUR KASSE</a></div>
+</aside>
+</div>
+
+<script>
+(function(){
+'use strict';
+var session=Aura.getSession();
+if(!session){
+  document.getElementById('no-auth').style.display='block';
+  if(typeof lucide!=='undefined') lucide.createIcons();
+  return;
+}
+// normalize: session stores userId, dashboard code uses .id
+if(!session.id && session.userId) session.id = session.userId;
+document.getElementById('auth-content').style.display='block';
+
+/* Auto-fix orders with null/undefined status (from previous bug) */
+(function(){
+  var orders=JSON.parse(localStorage.getItem('aura_orders'))||[];
+  var fixed=false;
+  orders.forEach(function(o){
+    if(!o.status){o.status='paid';fixed=true;}
+  });
+  if(fixed) localStorage.setItem('aura_orders',JSON.stringify(orders));
+})();
+
+var statusLabels={pending:Aura.t('st_pending'),paid:Aura.t('st_paid'),sourcing:Aura.t('st_sourcing'),inspection:Aura.t('st_inspection'),shipped:Aura.t('st_shipped'),delivered:Aura.t('st_delivered')};
+var statusColors={pending:'yellow',paid:'green',sourcing:'orange',inspection:'blue',shipped:'purple',delivered:'green'};
+
+/* Timeline steps mapping */
+var STEPS=[
+  {key:'paid',     icon:'credit-card', label:'Bezahlt'},
+  {key:'sourcing', icon:'warehouse',   label:'Versandfertig'},
+  {key:'inspection',icon:'shield-check',label:'Geprüft'},
+  {key:'shipped',  icon:'truck',       label:'Versendet'}
+];
+var STATUS_ORDER={paid:0.5,sourcing:1.5,inspection:2.5,shipped:3.5,delivered:4};
+
+/* Member since date */
+var currentUser = Aura.getCurrentUser ? Aura.getCurrentUser() : null;
+var memberDate = '—';
+try{
+  var mRaw = (currentUser && currentUser.created) || session.created || '';
+  if(mRaw){ var md=new Date(mRaw); if(!isNaN(md.getTime())) memberDate=md.toLocaleDateString('de-DE',{month:'long',year:'numeric'}); }
+}catch(e){}
+
+document.getElementById('d-initial').textContent=(session.name||'U')[0].toUpperCase();
+document.getElementById('d-name').textContent=session.name||'User';
+document.getElementById('d-email').textContent=session.email;
+document.getElementById('d-member-since').textContent=memberDate;
+if(document.getElementById('set-email')) document.getElementById('set-email').value=session.email||'';
+
+/* Download receipt as blob (fixes Chrome data: URL block) */
+window.downloadReceiptBlob=function downloadReceiptBlob(orderId){
+  // Always read fresh from localStorage
+  var orders=JSON.parse(localStorage.getItem('aura_orders'))||[];
+  var o=orders.find(function(x){return x.id===orderId;});
+  if(!o||!o.receiptUrl){ Aura.showToast('Rechnung noch nicht verfügbar','error'); return; }
+  try{
+    var dataUrl=o.receiptUrl;
+    var arr=dataUrl.split(','),mime=arr[0].match(/:(.*?);/)[1];
+    var bstr=atob(arr[1]),n=bstr.length,u8=new Uint8Array(n);
+    for(var i=0;i<n;i++) u8[i]=bstr.charCodeAt(i);
+    var blob=new Blob([u8],{type:mime});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download='Rechnung_'+orderId.slice(0,8)+(mime.indexOf('pdf')!==-1?'.pdf':'.png');
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }catch(err){window.open(o.receiptUrl);}
+}
+
+/* Build timeline HTML for an order */
+function buildTimeline(o){
+  var progress=STATUS_ORDER[o.status]!==undefined ? STATUS_ORDER[o.status] : 0;
+  var isDelivered = o.status==='delivered';
+  var html='<div class="relative mt-4 mb-2">';
+  /* Progress bar bg — thin 2px line */
+  html+='<div class="absolute top-[14px] left-[36px] right-[36px] h-[2px] bg-gray-200"></div>';
+  /* Active progress fill — solid gold */
+  var pct = isDelivered ? 100 : Math.min(100, (progress/4)*100);
+  html+='<div class="absolute top-[14px] left-[36px] h-[2px] bg-gold transition-all duration-500" style="width:calc((100% - 72px) * '+pct/100+')"></div>';
+  html+='<div class="flex justify-between relative">';
+  STEPS.forEach(function(step,i){
+    var active = progress > i;
+    var current = Math.floor(progress)===i;
+    var done = isDelivered || progress > i+0.9;
+    var dotCls = done ? 'bg-navy text-white' :
+                 current ? 'bg-gold text-navy' :
+                 'bg-gray-100 text-gray-300 border border-gray-200';
+    var lblCls = done ? 'text-navy font-semibold' : current ? 'text-gold font-medium' : 'text-gray-400';
+    html+='<div class="flex flex-col items-center w-[72px]">'
+      +'<div class="w-7 h-7 rounded-full flex items-center justify-center '+dotCls+' z-10">'
+        +(done?'<i data-lucide="check" class="w-3.5 h-3.5"></i>':'<i data-lucide="'+step.icon+'" class="w-3.5 h-3.5"></i>')
+      +'</div>'
+      +'<span class="text-[10px] mt-1.5 '+lblCls+' text-center leading-tight">'+step.label+'</span>'
+    +'</div>';
+  });
+  html+='</div>';
+  /* Delivered badge */
+  if(isDelivered){
+    html+='<div class="flex items-center justify-center gap-2 mt-3 py-1.5 px-4 bg-emerald-50 rounded-lg mx-auto w-fit">'
+      +'<i data-lucide="package-check" class="w-3.5 h-3.5 text-emerald-600"></i>'
+      +'<span class="text-xs font-semibold text-emerald-700">Zugestellt</span>'
+    +'</div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+/* Check if any product in order has a video */
+function getOrderVideoUrl(o){
+  var products = Aura.getProducts ? Aura.getProducts() : [];
+  for(var i=0;i<o.items.length;i++){
+    var it=o.items[i];
+    var pid = it.productId || (it.product && it.product.id);
+    if(pid){
+      var p = products.find(function(pr){return pr.id===pid;});
+      if(p && p.videoUrl) return p.videoUrl;
+    }
+  }
+  return '';
+}
+
+/* Open video from IndexedDB or URL */
+function openOrderVideo(videoKey){
+  if(videoKey.indexOf('vid_')===0){
+    // Load from IndexedDB
+    var req=indexedDB.open('aura_media',1);
+    req.onupgradeneeded=function(e){e.target.result.createObjectStore('videos');};
+    req.onsuccess=function(e){
+      var db=e.target.result;
+      var tx=db.transaction('videos','readonly');
+      var r=tx.objectStore('videos').get(videoKey);
+      r.onsuccess=function(){
+        if(r.result){
+          var overlay=document.createElement('div');
+          overlay.id='dash-video-overlay';
+          overlay.className='fixed inset-0 z-[200] bg-black/90 flex items-center justify-center';
+          overlay.onclick=function(){document.body.removeChild(overlay);document.body.style.overflow='';};
+          overlay.innerHTML='<button class="absolute top-6 right-6 text-white/70 hover:text-white z-10"><svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>'
+            +'<div onclick="event.stopPropagation()" style="position:relative;cursor:pointer" onclick="var v=this.querySelector(\'video\');if(v.paused){v.play();this.querySelector(\'span\').style.opacity=\'0\';}else{v.pause();this.querySelector(\'span\').style.opacity=\'1\';}" ><video src="'+r.result+'" autoplay playsinline style="object-fit:contain;background:#001A3D;border:1px solid #C5A059;border-radius:12px" class="max-h-[85vh] max-w-[400px]"></video><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none"><svg width="64" height="64" fill="white" viewBox="0 0 24 24"><path d="M6 4l15 8-15 8V4z"/></svg></span></div>';
+          document.body.appendChild(overlay);
+          document.body.style.overflow='hidden';
+        }else{
+          Aura.showToast('Video nicht gefunden','error');
+        }
+      };
+    };
+  }else if(videoKey.indexOf('data:')===0){
+    window.open(videoKey);
+  }else{
+    window.open(videoKey,'_blank');
+  }
+}
+
+/* ═══ REVIEW MODAL FUNCTIONS ═══ */
+var _reviewOrderId = null;
+var _reviewItems = []; // [{productId, stars, text, photos[]}]
+
+window.openReviewModal = function(orderId){
+  var orders = Aura.getUserOrders(session.id);
+  var order = orders.find(function(o){ return o.id === orderId; });
+  if(!order) return;
+  _reviewOrderId = orderId;
+  var products = Aura.getProducts ? Aura.getProducts() : [];
+  var allReviews = Aura.getReviews ? Aura.getReviews() : [];
+
+  // Build items to review (skip already reviewed)
+  _reviewItems = [];
+  var container = document.getElementById('review-items');
+  container.innerHTML = '';
+
+  order.items.forEach(function(it, idx){
+    var pid = it.productId || (it.product && it.product.id);
+    if(!pid) return;
+    var already = allReviews.some(function(r){ return r.productId===pid && r.userId===session.id; });
+    if(already) return;
+    var prod = products.find(function(p){ return p.id===pid; }) || it.product || {};
+    _reviewItems.push({productId: pid, stars: 0, text: '', photos: []});
+    var riIdx = _reviewItems.length - 1;
+
+    var html = '<div class="pb-4 '+(idx>0?'border-t border-gray-100 pt-4':'')+'" data-ri="'+riIdx+'">'
+      // Product header
+      +'<div class="flex items-center gap-3 mb-4">'
+        +'<div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-100">'+(prod.img ? Aura.imgHtml(prod.img,'text-2xl') : '<span class="text-2xl">📦</span>')+'</div>'
+        +'<div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">'+(prod.name||'Artikel')+'</p><p class="text-xs text-gray-400">'+(prod.brand||'')+'</p></div>'
+      +'</div>'
+      // Star rating
+      +'<div class="mb-3">'
+        +'<p class="text-xs font-semibold text-gray-500 mb-2">Bewertung</p>'
+        +'<div class="flex gap-1" id="rv-stars-'+riIdx+'">'
+          +'<button type="button" onclick="setReviewStars('+riIdx+',1)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="1"><i data-lucide="star" class="w-5 h-5"></i></button>'
+          +'<button type="button" onclick="setReviewStars('+riIdx+',2)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="2"><i data-lucide="star" class="w-5 h-5"></i></button>'
+          +'<button type="button" onclick="setReviewStars('+riIdx+',3)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="3"><i data-lucide="star" class="w-5 h-5"></i></button>'
+          +'<button type="button" onclick="setReviewStars('+riIdx+',4)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="4"><i data-lucide="star" class="w-5 h-5"></i></button>'
+          +'<button type="button" onclick="setReviewStars('+riIdx+',5)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="5"><i data-lucide="star" class="w-5 h-5"></i></button>'
+        +'</div>'
+      +'</div>'
+      // Text
+      +'<div class="mb-3">'
+        +'<textarea id="rv-text-'+riIdx+'" rows="3" placeholder="Erzählen Sie uns von Ihrer Erfahrung..." class="w-full px-4 py-3 border-2 border-gray-200 focus:border-navy rounded-xl outline-none text-sm resize-none transition-colors"></textarea>'
+      +'</div>'
+      // Photo upload
+      +'<div>'
+        +'<p class="text-xs font-semibold text-gray-500 mb-2">Fotos (max. 3)</p>'
+        +'<div class="flex items-center gap-2" id="rv-photos-'+riIdx+'">'
+          +'<label class="w-16 h-16 border-2 border-dashed border-gray-200 hover:border-gold rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors">'
+            +'<i data-lucide="camera" class="w-5 h-5 text-gray-300"></i>'
+            +'<span class="text-[9px] text-gray-300 mt-0.5">Hinzufügen</span>'
+            +'<input type="file" accept="image/*" multiple class="hidden" onchange="addReviewPhotos('+riIdx+',this)">'
+          +'</label>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+    container.insertAdjacentHTML('beforeend', html);
+  });
+
+  if(_reviewItems.length === 0){
+    container.innerHTML = '<div class="text-center py-8"><i data-lucide="check-circle" class="w-12 h-12 text-emerald-300 mx-auto mb-3"></i><p class="text-gray-400 text-sm">Alle Produkte bereits bewertet!</p></div>';
+  }
+
+  document.getElementById('review-modal').style.display = '';
+  document.body.style.overflow = 'hidden';
+  if(typeof lucide!=='undefined') lucide.createIcons();
+};
+
+window.closeReviewModal = function(){
+  document.getElementById('review-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  _reviewOrderId = null;
+  _reviewItems = [];
+};
+
+window.setReviewStars = function(riIdx, count){
+  _reviewItems[riIdx].stars = count;
+  var wrap = document.getElementById('rv-stars-'+riIdx);
+  if(!wrap) return;
+  var btns = wrap.querySelectorAll('.rv-star');
+  btns.forEach(function(btn){
+    var s = parseInt(btn.getAttribute('data-star'));
+    if(s <= count){
+      btn.classList.remove('border-gray-200','text-gray-300');
+      btn.classList.add('border-gold','bg-gold/10','text-gold');
+    } else {
+      btn.classList.remove('border-gold','bg-gold/10','text-gold');
+      btn.classList.add('border-gray-200','text-gray-300');
+    }
+  });
+};
+
+window.addReviewPhotos = function(riIdx, input){
+  var files = input.files;
+  if(!files || !files.length) return;
+  var maxPhotos = 3;
+  var currentCount = _reviewItems[riIdx].photos.length;
+  var remaining = maxPhotos - currentCount;
+  if(remaining <= 0){ Aura.showToast('Max. 3 Fotos','error'); return; }
+
+  var toProcess = Math.min(files.length, remaining);
+  for(var i=0; i<toProcess; i++){
+    (function(file, idx){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        // Compress to max 200KB
+        var img = new Image();
+        img.onload = function(){
+          var canvas = document.createElement('canvas');
+          var maxW = 800, maxH = 800;
+          var w = img.width, h = img.height;
+          if(w > maxW || h > maxH){
+            var ratio = Math.min(maxW/w, maxH/h);
+            w = Math.round(w*ratio); h = Math.round(h*ratio);
+          }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          _reviewItems[riIdx].photos.push(dataUrl);
+          renderReviewPhotoPreviews(riIdx);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    })(files[i], i);
+  }
+  input.value = '';
+};
+
+window.renderReviewPhotoPreviews = function(riIdx){
+  var wrap = document.getElementById('rv-photos-'+riIdx);
+  if(!wrap) return;
+  // Keep label, remove old previews
+  var label = wrap.querySelector('label');
+  wrap.innerHTML = '';
+  _reviewItems[riIdx].photos.forEach(function(src, pi){
+    wrap.insertAdjacentHTML('beforeend',
+      '<div class="relative w-16 h-16 rounded-xl overflow-hidden border border-gray-200 flex-shrink-0">'
+        +'<img src="'+src+'" class="w-full h-full object-cover">'
+        +'<button type="button" onclick="removeReviewPhoto('+riIdx+','+pi+')" class="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs leading-none hover:bg-red-600">×</button>'
+      +'</div>'
+    );
+  });
+  if(_reviewItems[riIdx].photos.length < 3){
+    wrap.appendChild(label);
+  }
+};
+
+window.removeReviewPhoto = function(riIdx, photoIdx){
+  _reviewItems[riIdx].photos.splice(photoIdx, 1);
+  renderReviewPhotoPreviews(riIdx);
+};
+
+window.submitAllReviews = function(){
+  if(!_reviewItems.length){ closeReviewModal(); return; }
+  var hasError = false;
+  _reviewItems.forEach(function(ri){
+    if(ri.stars < 1){ hasError = true; }
+  });
+  if(hasError){
+    Aura.showToast('Bitte vergeben Sie mindestens 1 Stern für jedes Produkt','error');
+    return;
+  }
+  _reviewItems.forEach(function(ri){
+    var textEl = document.querySelector('[data-ri="'+_reviewItems.indexOf(ri)+'"] textarea');
+    ri.text = textEl ? textEl.value.trim() : '';
+    Aura.addReview({
+      productId: ri.productId,
+      userId: session.id,
+      name: session.name || 'Kunde',
+      stars: ri.stars,
+      text: ri.text || '',
+      photos: ri.photos,
+      approved: true
+    });
+  });
+  Aura.showToast('Vielen Dank für Ihre Bewertung!','success');
+  closeReviewModal();
+  // Re-render orders to show "Bewertet" badge
+  setTimeout(function(){ window.location.reload(); }, 600);
+};
+
+// --- Render orders ---
+var orders=Aura.getUserOrders(session.id);
+if(!orders.length){
+  document.getElementById('orders-empty').style.display='block';
+}else{
+  document.getElementById('orders-list').innerHTML=orders.slice().reverse().map(function(o){
+    var c=statusColors[o.status]||'gray';
+    var dateStr='—';
+    try{ var d=new Date(o.created||o.date); if(!isNaN(d.getTime())) dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}); }catch(e){}
+    var trackUrl='/tracking.html?id='+encodeURIComponent(o.id)+'&email='+encodeURIComponent(session.email);
+
+    var videoBtn = '';
+
+    /* Rechnung / Support buttons */
+    /* Rechnung / Support buttons — always re-check receipt from localStorage on click */
+    var receiptBtn = '<button onclick="downloadReceiptBlob(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 '+(o.receiptUrl?'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600':'bg-gray-50/50 border border-gray-100 text-gray-300')+' text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Rechnung</button>';
+    var supportBtn = '<a href="/contact.html" class="inline-flex items-center gap-1.5 px-3 py-2 bg-navy/5 hover:bg-navy/10 border border-navy/10 text-navy text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>Support</a>';
+
+    /* Review button — only for delivered orders */
+    var reviewBtn = '';
+    if(o.status==='delivered'){
+      var allReviews = Aura.getReviews ? Aura.getReviews() : [];
+      var orderPids = o.items.map(function(it){ return it.productId || (it.product && it.product.id); }).filter(Boolean);
+      var alreadyReviewed = orderPids.length > 0 && orderPids.every(function(pid){
+        return allReviews.some(function(r){ return r.productId===pid && r.userId===session.id; });
+      });
+      if(alreadyReviewed){
+        reviewBtn = '<span class="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-600 text-[11px] font-semibold rounded-lg"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Bewertet</span>';
+      } else {
+        reviewBtn = '<button onclick="openReviewModal(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 text-gold-dark text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="star" class="w-3.5 h-3.5"></i>Bewerten</button>';
+      }
+    }
+
+    /* Tracking link — only show for shipped/delivered */
+    var trackingLink='';
+    if(o.trackingNumber && (o.status==='shipped'||o.status==='delivered')){
+      var tn=o.trackingNumber;
+      var isUrl=/^https?:\/\//i.test(tn);
+      var displayNum=isUrl?tn.replace(/^https?:\/\//i,'').split('/').pop().split('=').pop().slice(0,18):tn.slice(0,18);
+      trackingLink='<div class="flex items-center gap-2 mt-1"><i data-lucide="truck" class="w-3.5 h-3.5 text-purple-500"></i>'
+        +(isUrl?'<a href="'+tn+'" target="_blank" class="text-xs text-navy hover:underline font-mono font-medium">Sendungsnr: '+displayNum+'</a>'
+               :'<span class="text-xs text-gray-500">Sendungsnr: <span class="font-mono font-medium text-navy">'+displayNum+'</span></span>')
+        +'</div>';
+    }
+
+    return '<div class="border border-gray-100 bg-white rounded-xl overflow-hidden">'
+      /* Header bar */
+      +'<div class="flex flex-wrap items-center justify-between px-5 sm:px-6 py-4 border-b border-gray-100 gap-4 bg-gray-50">'
+        +'<div class="flex items-center gap-5 sm:gap-8 flex-wrap">'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Bestellnr.</p><p class="font-mono text-sm font-bold text-navy">'+o.id+'</p></div>'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Datum</p><p class="text-sm text-gray-700">'+dateStr+'</p></div>'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Gesamt</p><p class="text-sm font-bold text-navy">€'+o.total.toFixed(2)+'</p></div>'
+        +'</div>'
+        +'<div class="flex items-center gap-2">'
+          +'<a href="'+trackUrl+'" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-navy bg-white border border-gray-200 hover:border-navy rounded-lg transition-colors"><i data-lucide="map-pin" class="w-3 h-3"></i>Verfolgen</a>'
+        +'</div>'
+      +'</div>'
+      /* Timeline row */
+      +'<div class="px-5 sm:px-6 pt-4 pb-2">'
+        +buildTimeline(o)
+      +'</div>'
+      /* Products list */
+      +'<div class="px-5 sm:px-6 py-3 space-y-3 border-t border-gray-50">'
+        +o.items.map(function(it){
+          return '<div class="flex items-center gap-4">'
+            +'<div class="w-12 h-12 sm:w-14 sm:h-14 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-gray-100">'+(it.product?Aura.imgHtml(it.product.img,'text-2xl'):'<span class="text-2xl">📦</span>')+'</div>'
+            +'<div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+(it.product?it.product.name:'Artikel')+'</p><p class="text-xs text-gray-400">'+(it.product?it.product.brand:'')+(it.qty>1?' · ×'+it.qty:'')+'</p></div>'
+            +'<p class="text-sm font-bold flex-shrink-0">'+(it.product?Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty):'—')+'</p>'
+          +'</div>';
+        }).join('')
+        +trackingLink
+      +'</div>'
+      /* Action bar */
+      +'<div class="px-5 sm:px-6 py-3 border-t border-gray-100 bg-gray-50 flex flex-wrap items-center gap-3">'
+        +reviewBtn
+        +receiptBtn
+        +supportBtn
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+window.showDashTab=function(id){
+  var tabs=['orders','profile','addresses','wishlist','payments','notifications','security','settings'];
+  tabs.forEach(function(t){
+    var panel=document.getElementById('dtab-'+t);
+    var btn=document.getElementById('dt-'+t);
+    if(panel) panel.classList.toggle('hidden',t!==id);
+    if(btn) btn.classList.toggle('active',t===id);
+  });
+  // Load section data
+  if(id==='profile') loadProfile();
+  if(id==='addresses') renderAddresses();
+  if(id==='wishlist') renderWishlist();
+  if(id==='payments') renderPayments();
+  if(id==='notifications') loadNotifications();
+  if(id==='settings') loadAccountSettings();
+  if(typeof lucide!=='undefined') lucide.createIcons();
+};
+
+/* ── PROFILE ── */
+function loadProfile(){
+  var users=Aura.getUsers();
+  var u=users.find(function(u){return u.id===session.id;});
+  if(!u) return;
+  var profile=JSON.parse(localStorage.getItem('aura_profile_'+session.id)||'{}');
+  var parts=(u.name||'').split(' ');
+  document.getElementById('set-firstname').value=profile.firstname||parts[0]||'';
+  document.getElementById('set-lastname').value=profile.lastname||parts.slice(1).join(' ')||'';
+  document.getElementById('set-email').value=u.email||'';
+  document.getElementById('set-phone').value=profile.phone||'';
+  document.getElementById('set-dob').value=profile.dob||'';
+  document.getElementById('set-lang').value=profile.lang||'de';
+}
+window.saveProfile=function(){
+  var fn=document.getElementById('set-firstname').value.trim();
+  var ln=document.getElementById('set-lastname').value.trim();
+  var fullName=(fn+' '+ln).trim();
+  if(!fullName){Aura.showToast('Bitte Name eingeben','error');return;}
+  var profile={
+    firstname:fn,lastname:ln,
+    phone:document.getElementById('set-phone').value.trim(),
+    dob:document.getElementById('set-dob').value,
+    lang:document.getElementById('set-lang').value
+  };
+  localStorage.setItem('aura_profile_'+session.id,JSON.stringify(profile));
+  // Update user name
+  var users=Aura.getUsers();
+  users.forEach(function(u){if(u.id===session.id) u.name=fullName;});
+  localStorage.setItem('aura_users',JSON.stringify(users));
+  var s=JSON.parse(localStorage.getItem('aura_session'));
+  s.name=fullName;
+  localStorage.setItem('aura_session',JSON.stringify(s));
+  document.getElementById('d-name').textContent=fullName;
+  document.getElementById('d-initial').textContent=fullName[0].toUpperCase();
+  Aura.showToast('Profil gespeichert','success');
+};
+
+/* ── ADDRESSES ── */
+function getAddresses(){return JSON.parse(localStorage.getItem('aura_addresses_'+session.id)||'[]');}
+function saveAddressesData(arr){localStorage.setItem('aura_addresses_'+session.id,JSON.stringify(arr));}
+function renderAddresses(){
+  var list=getAddresses();
+  var el=document.getElementById('addresses-list');
+  var empty=document.getElementById('addresses-empty');
+  if(!list.length){el.innerHTML='';empty.style.display='';return;}
+  empty.style.display='none';
+  el.innerHTML=list.map(function(a,i){
+    return '<div class="border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-colors'+(a.isDefault?' ring-1 ring-navy/20':'')+'">'
+      +'<div class="flex items-start justify-between mb-2">'
+      +'<div><p class="text-sm font-semibold">'+esc(a.fname)+' '+esc(a.lname)+'</p>'
+      +(a.isDefault?'<span class="text-[10px] bg-navy/5 text-navy font-bold px-2 py-0.5 rounded ml-1">Standard</span>':'')+'</div>'
+      +'<div class="flex gap-2"><button onclick="editAddress('+i+')" class="text-xs text-navy hover:underline">Bearbeiten</button>'
+      +'<button onclick="deleteAddress('+i+')" class="text-xs text-red-400 hover:underline">Löschen</button></div></div>'
+      +'<p class="text-sm text-gray-600">'+esc(a.street)+(a.extra?', '+esc(a.extra):'')+'</p>'
+      +'<p class="text-sm text-gray-600">'+esc(a.zip)+' '+esc(a.city)+', '+esc(a.country)+'</p>'
+      +(a.isDefault?'':'<button onclick="setDefaultAddress('+i+')" class="text-xs text-gray-400 hover:text-navy mt-2">Als Standard festlegen</button>')
+      +'</div>';
+  }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+window.addAddress=function(){
+  document.getElementById('addr-id').value='';
+  document.getElementById('address-form-title').textContent='Neue Adresse';
+  ['addr-fname','addr-lname','addr-street','addr-extra','addr-zip','addr-city'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('addr-country').value='DE';
+  document.getElementById('addr-default').checked=false;
+  document.getElementById('address-form').classList.remove('hidden');
+};
+window.editAddress=function(idx){
+  var list=getAddresses(),a=list[idx];
+  if(!a) return;
+  document.getElementById('addr-id').value=idx;
+  document.getElementById('address-form-title').textContent='Adresse bearbeiten';
+  document.getElementById('addr-fname').value=a.fname||'';
+  document.getElementById('addr-lname').value=a.lname||'';
+  document.getElementById('addr-street').value=a.street||'';
+  document.getElementById('addr-extra').value=a.extra||'';
+  document.getElementById('addr-zip').value=a.zip||'';
+  document.getElementById('addr-city').value=a.city||'';
+  document.getElementById('addr-country').value=a.country||'DE';
+  document.getElementById('addr-default').checked=!!a.isDefault;
+  document.getElementById('address-form').classList.remove('hidden');
+};
+window.cancelAddress=function(){document.getElementById('address-form').classList.add('hidden');};
+window.saveAddress=function(){
+  var fname=document.getElementById('addr-fname').value.trim();
+  var lname=document.getElementById('addr-lname').value.trim();
+  var street=document.getElementById('addr-street').value.trim();
+  var zip=document.getElementById('addr-zip').value.trim();
+  var city=document.getElementById('addr-city').value.trim();
+  if(!fname||!street||!zip||!city){Aura.showToast('Bitte Pflichtfelder ausfüllen','error');return;}
+  var obj={fname:fname,lname:lname,street:street,extra:document.getElementById('addr-extra').value.trim(),zip:zip,city:city,country:document.getElementById('addr-country').value,isDefault:document.getElementById('addr-default').checked};
+  var list=getAddresses();
+  var editIdx=document.getElementById('addr-id').value;
+  if(obj.isDefault) list.forEach(function(a){a.isDefault=false;});
+  if(editIdx!==''){list[+editIdx]=obj;}else{list.push(obj);}
+  if(list.length===1) list[0].isDefault=true;
+  saveAddressesData(list);
+  document.getElementById('address-form').classList.add('hidden');
+  renderAddresses();
+  Aura.showToast('Adresse gespeichert','success');
+};
+window.deleteAddress=function(idx){
+  if(!confirm('Adresse löschen?')) return;
+  var list=getAddresses();list.splice(idx,1);
+  if(list.length&&!list.some(function(a){return a.isDefault;})) list[0].isDefault=true;
+  saveAddressesData(list);renderAddresses();
+  Aura.showToast('Adresse gelöscht','success');
+};
+window.setDefaultAddress=function(idx){
+  var list=getAddresses();
+  list.forEach(function(a,i){a.isDefault=(i===idx);});
+  saveAddressesData(list);renderAddresses();
+  Aura.showToast('Standardadresse aktualisiert','success');
+};
+
+/* ── WISHLIST ── */
+function getWishlist(){return JSON.parse(localStorage.getItem('aura_wishlist_'+session.id)||'[]');}
+function saveWishlistData(arr){localStorage.setItem('aura_wishlist_'+session.id,JSON.stringify(arr));}
+function renderWishlist(){
+  var ids=getWishlist();
+  var products=Aura.getProducts();
+  var countEl=document.getElementById('wishlist-count');
+  if(countEl) countEl.textContent=ids.length||'';
+  var grid=document.getElementById('wishlist-grid');
+  var empty=document.getElementById('wishlist-empty');
+  if(!ids.length){grid.innerHTML='';empty.style.display='';return;}
+  empty.style.display='none';
+  grid.innerHTML=ids.map(function(pid){
+    var p=products.find(function(x){return x.id===pid;});
+    if(!p) return '';
+    return '<div class="border border-gray-100 rounded-xl overflow-hidden group hover:border-gray-200 transition-colors">'
+      +'<div class="relative aspect-square bg-gray-50 flex items-center justify-center">'
+      +'<a href="/product.html?id='+p.id+'">'+Aura.imgHtml(p.img,'text-4xl')+'</a>'
+      +'<button onclick="removeWishlist(\''+p.id+'\')" class="absolute top-2 right-2 w-8 h-8 bg-white/90 hover:bg-red-50 rounded-full flex items-center justify-center shadow-sm transition-colors"><i data-lucide="x" class="w-4 h-4 text-gray-400 hover:text-red-500"></i></button>'
+      +'</div>'
+      +'<div class="p-3">'
+      +'<p class="text-xs text-gray-400">'+esc(p.brand)+'</p>'
+      +'<a href="/product.html?id='+p.id+'" class="text-sm font-medium hover:text-navy line-clamp-2 leading-tight mt-0.5">'+esc(p.name)+'</a>'
+      +'<div class="flex items-center justify-between mt-2">'
+      +'<span class="text-sm font-bold text-navy">'+Aura.formatPrice(p.price)+'</span>'
+      +'<button onclick="Aura.addToCart(\''+p.id+'\');Aura.showToast(\'Zum Warenkorb hinzugefügt\',\'success\')" class="w-8 h-8 bg-navy/5 hover:bg-navy text-navy hover:text-white rounded-lg flex items-center justify-center transition-colors"><i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i></button>'
+      +'</div></div></div>';
+  }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+window.removeWishlist=function(pid){
+  var ids=getWishlist().filter(function(x){return x!==pid;});
+  saveWishlistData(ids);renderWishlist();
+  Aura.showToast('Von Wunschliste entfernt','success');
+};
+window.toggleWishlistItem=function(pid){
+  var ids=getWishlist();
+  var idx=ids.indexOf(pid);
+  if(idx>=0) ids.splice(idx,1); else ids.push(pid);
+  saveWishlistData(ids);
+  renderWishlist();
+};
+
+/* ── PAYMENTS ── */
+var PAY_ICONS={
+  visa:'<div class="w-12 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded flex items-center justify-center text-white text-[9px] font-bold tracking-wider">VISA</div>',
+  mastercard:'<div class="w-12 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded flex items-center justify-center text-white text-[9px] font-bold tracking-wider">MC</div>',
+  amex:'<div class="w-12 h-8 bg-gradient-to-r from-blue-400 to-blue-600 rounded flex items-center justify-center text-white text-[8px] font-bold">AMEX</div>',
+  paypal:'<div class="w-12 h-8 bg-[#003087] rounded flex items-center justify-center text-white text-[8px] font-bold">PayPal</div>',
+  applepay:'<div class="w-12 h-8 bg-black rounded flex items-center justify-center text-white text-[9px] font-bold"> Pay</div>',
+  googlepay:'<div class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center text-[9px] font-bold text-gray-700">GPay</div>',
+  klarna:'<div class="w-12 h-8 bg-[#FFB3C7] rounded flex items-center justify-center text-[#17120F] text-[8px] font-bold">Klarna</div>',
+  sepa:'<div class="w-12 h-8 bg-navy rounded flex items-center justify-center text-white text-[8px] font-bold">SEPA</div>'
+};
+var PAY_LABELS={visa:'VISA',mastercard:'Mastercard',amex:'American Express',paypal:'PayPal',applepay:'Apple Pay',googlepay:'Google Pay',klarna:'Klarna',sepa:'SEPA Lastschrift'};
+var PAY_CARD_TYPES=['visa','mastercard','amex','sepa'];
+function renderPayments(){
+  var list=Aura.getPayments();
+  var el=document.getElementById('payments-list');
+  var empty=document.getElementById('payments-empty');
+  if(!list.length){el.innerHTML='';empty.style.display='';return;}
+  empty.style.display='none';
+  el.innerHTML=list.map(function(p,i){
+    var icon=PAY_ICONS[p.type]||PAY_ICONS.visa;
+    var desc='';
+    if(PAY_CARD_TYPES.indexOf(p.type)>=0){
+      desc='<p class="text-sm font-medium">'+(p.holder?esc(p.holder)+' · ':'')+'•••• '+esc(p.last4||'****')+'</p>'
+        +'<p class="text-xs text-gray-400">'+(p.exp?'Läuft ab '+esc(p.exp):'')+'</p>';
+    } else {
+      desc='<p class="text-sm font-medium">'+esc(PAY_LABELS[p.type]||p.type)+'</p>'
+        +'<p class="text-xs text-gray-400">'+(p.email?esc(p.email):'Verbunden')+'</p>';
+    }
+    return '<div class="border border-gray-100 rounded-xl p-5 flex items-center gap-4 hover:border-gray-200 transition-colors'+(p.isDefault?' ring-1 ring-navy/20':'')+'">'
+      +icon
+      +'<div class="flex-1">'+desc+'</div>'
+      +'<div class="flex items-center gap-2">'
+      +(p.isDefault?'<span class="px-2 py-0.5 text-[10px] font-bold bg-navy/5 text-navy rounded">Standard</span>':'<button onclick="setPayDefault('+i+')" class="text-[10px] text-gray-400 hover:text-navy">Standard</button>')
+      +'<button onclick="editPayment('+i+')" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy rounded-lg hover:bg-gray-50 transition-colors"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>'
+      +'<button onclick="deletePaymentItem('+i+')" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>'
+      +'</div></div>';
+  }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+window.openPaymentForm=function(idx){
+  var form=document.getElementById('payment-form');
+  document.getElementById('pay-edit-idx').value=idx!=null?idx:'';
+  document.getElementById('payment-form-title').textContent=idx!=null?'Zahlungsmethode bearbeiten':'Neue Zahlungsmethode';
+  if(idx!=null){
+    var list=Aura.getPayments(),p=list[idx];
+    if(!p) return;
+    document.getElementById('pay-type').value=p.type||'visa';
+    document.getElementById('pay-holder').value=p.holder||'';
+    document.getElementById('pay-last4').value=p.last4||'';
+    document.getElementById('pay-exp').value=p.exp||'';
+    document.getElementById('pay-email').value=p.email||'';
+    document.getElementById('pay-default').checked=!!p.isDefault;
+  } else {
+    document.getElementById('pay-type').value='visa';
+    document.getElementById('pay-holder').value='';
+    document.getElementById('pay-last4').value='';
+    document.getElementById('pay-exp').value='';
+    document.getElementById('pay-email').value='';
+    document.getElementById('pay-default').checked=false;
+  }
+  onPayTypeChange();
+  form.classList.remove('hidden');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+};
+window.closePaymentForm=function(){document.getElementById('payment-form').classList.add('hidden');};
+window.onPayTypeChange=function(){
+  var t=document.getElementById('pay-type').value;
+  var isCard=PAY_CARD_TYPES.indexOf(t)>=0;
+  document.getElementById('pay-card-fields').style.display=isCard?'':'none';
+  document.getElementById('pay-email-field').style.display=isCard?'none':'';
+};
+window.savePaymentForm=function(){
+  var t=document.getElementById('pay-type').value;
+  var isCard=PAY_CARD_TYPES.indexOf(t)>=0;
+  var obj={type:t,isDefault:document.getElementById('pay-default').checked};
+  if(isCard){
+    obj.holder=document.getElementById('pay-holder').value.trim();
+    obj.last4=document.getElementById('pay-last4').value.trim();
+    obj.exp=document.getElementById('pay-exp').value.trim();
+    if(!obj.last4||obj.last4.length<4){Aura.showToast('Bitte letzte 4 Ziffern eingeben','error');return;}
+  } else {
+    obj.email=document.getElementById('pay-email').value.trim();
+    obj.label=PAY_LABELS[t]||t;
+  }
+  var idx=document.getElementById('pay-edit-idx').value;
+  if(idx!==''){Aura.updatePayment(+idx,obj);}else{Aura.addPayment(obj);}
+  closePaymentForm();
+  renderPayments();
+  Aura.showToast('Zahlungsmethode gespeichert','success');
+};
+window.editPayment=function(idx){openPaymentForm(idx);};
+window.deletePaymentItem=function(idx){
+  if(!confirm('Zahlungsmethode löschen?')) return;
+  Aura.deletePayment(idx);
+  renderPayments();
+  Aura.showToast('Zahlungsmethode gelöscht','success');
+};
+window.setPayDefault=function(idx){
+  Aura.setDefaultPayment(idx);
+  renderPayments();
+  Aura.showToast('Standard aktualisiert','success');
+};
+
+/* ── NOTIFICATIONS ── */
+function getNotifPrefs(){return JSON.parse(localStorage.getItem('aura_notif_'+session.id)||'{"orders":true,"deals":true,"price":false,"news":false,"push":false}');}
+function loadNotifications(){
+  var prefs=getNotifPrefs();
+  ['orders','deals','price','news','push'].forEach(function(k){
+    var el=document.getElementById('notif-'+k);
+    if(el) el.checked=!!prefs[k];
+  });
+}
+window.saveNotifications=function(){
+  var prefs={};
+  ['orders','deals','price','news','push'].forEach(function(k){
+    var el=document.getElementById('notif-'+k);
+    prefs[k]=el?el.checked:false;
+  });
+  localStorage.setItem('aura_notif_'+session.id,JSON.stringify(prefs));
+  Aura.showToast('Einstellungen gespeichert','success');
+};
+
+/* ── SECURITY ── */
+window.changePassword=function(){
+  var cur=document.getElementById('sec-current-pw').value;
+  var np=document.getElementById('sec-new-pw').value;
+  var cp=document.getElementById('sec-confirm-pw').value;
+  if(!cur||!np){Aura.showToast('Bitte alle Felder ausfüllen','error');return;}
+  if(np!==cp){Aura.showToast('Passwörter stimmen nicht überein','error');return;}
+  if(np.length<6){Aura.showToast('Mindestens 6 Zeichen','error');return;}
+  // Update password  
+  var users=Aura.getUsers();
+  var found=false;
+  users.forEach(function(u){
+    if(u.id===session.id){
+      if(u.password!==cur){return;}
+      u.password=np;found=true;
+    }
+  });
+  if(!found){Aura.showToast('Aktuelles Passwort falsch','error');return;}
+  localStorage.setItem('aura_users',JSON.stringify(users));
+  // Notify by email
+  if(typeof AuraEmail!=='undefined') AuraEmail.sendPasswordChanged(session.email, session.name);
+  document.getElementById('sec-current-pw').value='';
+  document.getElementById('sec-new-pw').value='';
+  document.getElementById('sec-confirm-pw').value='';
+  Aura.showToast('Passwort geändert','success');
+};
+window.toggle2FA=function(on){
+  Aura.showToast(on?'2FA aktiviert':'2FA deaktiviert','success');
+};
+
+/* ── ACCOUNT SETTINGS ── */
+function loadAccountSettings(){
+  document.getElementById('set-account-id').textContent=session.id||'—';
+  var ppEl=document.getElementById('paypal-email-display');
+  if(ppEl) ppEl.textContent=session.email||'Verbunden';
+}
+
+/* ── BACKWARD COMPAT ── */
+window.saveSettings=function(){window.saveProfile();};
+
+
+// Cart drawer
+var cartOpen=false;
+window.toggleCart=function(){
+  cartOpen=!cartOpen;
+  var d=document.getElementById('cart-drawer'),p=document.getElementById('cart-panel'),o=document.getElementById('cart-overlay');
+  if(cartOpen){d.style.pointerEvents='auto';o.style.pointerEvents='auto';requestAnimationFrame(function(){p.style.transform='translateX(0)';o.style.opacity='1';});document.body.style.overflow='hidden';renderCartDrawer();}
+  else{p.style.transform='translateX(100%)';o.style.opacity='0';o.style.pointerEvents='none';setTimeout(function(){d.style.pointerEvents='none';},300);document.body.style.overflow='';}
+};
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){body.innerHTML='<div class="flex flex-col items-center justify-center h-full"><i data-lucide="shopping-bag" class="w-12 h-12 text-gray-200 mb-4"></i><p class="text-gray-400 text-sm">'+Aura.t('cart_empty')+'</p></div>';footer.classList.add('hidden');if(typeof lucide!=='undefined')lucide.createIcons();return;}
+  footer.classList.remove('hidden');
+  body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">−</button><span class="text-sm w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-xs text-red-400 mt-1">×</button></div></div>';}).join('');
+  document.getElementById('cart-total').textContent=Aura.formatPrice(Aura.getCartTotal().total);
+  if(typeof lucide!=='undefined')lucide.createIcons();
+}
+window.renderCartDrawer=renderCartDrawer;
+
+if(typeof lucide!=='undefined') lucide.createIcons();
+})();
+</script>
+</body>
+</html>

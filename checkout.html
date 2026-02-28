@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kasse — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+</head>
+<body class="font-sans bg-gray-50 text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- HEADER -->
+<header class="bg-white border-b border-gray-100">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex items-center gap-2.5 group"><img src="/logo.svg" alt="Aura Global" class="w-9 h-9"><div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div></a>
+  <div class="flex-1"></div>
+  <div data-locale-picker class="hidden sm:flex mr-4"></div>
+  <!-- Steps -->
+  <div class="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+    <span id="step-lab-1" class="font-bold text-navy whitespace-nowrap" data-i18n="ck_s1">1. Lieferung</span>
+    <i data-lucide="chevron-right" class="w-3 h-3 text-gray-300 flex-shrink-0"></i>
+    <span id="step-lab-2" class="text-gray-400 whitespace-nowrap" data-i18n="ck_s2">2. Zahlung</span>
+    <i data-lucide="chevron-right" class="w-3 h-3 text-gray-300 flex-shrink-0"></i>
+    <span id="step-lab-3" class="text-gray-400 whitespace-nowrap" data-i18n="ck_s3">3. Bestätigung</span>
+  </div>
+</div>
+</header>
+
+<main class="flex-1 max-w-[1100px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+  <!-- STEP 1: CART + SHIPPING -->
+  <div id="step-1">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- LEFT: shipping form -->
+      <div class="lg:w-3/5 space-y-4 sm:space-y-6">
+        <div class="bg-white p-4 sm:p-6 border border-gray-100">
+          <h2 class="font-serif text-lg font-bold mb-5" data-i18n="ck_addr">Lieferadresse</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_first">Vorname</label>
+              <input type="text" id="s-first" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_last">Nachname</label>
+              <input type="text" id="s-last" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail</label>
+              <input type="email" id="s-email" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_street">Straße & Hausnummer</label>
+              <input type="text" id="s-street" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_zip">PLZ</label>
+              <input type="text" id="s-zip" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_city">Stadt</label>
+              <input type="text" id="s-city" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_country">Land</label>
+              <select id="s-country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm bg-white">
+                <option value="DE">Deutschland</option>
+                <option value="AT">Österreich</option>
+                <option value="CH">Schweiz</option>
+                <option value="GB">Großbritannien</option>
+                <option value="US">Vereinigte Staaten</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Shipping method -->
+        <div class="bg-white p-6 border border-gray-100">
+          <h2 class="font-serif text-lg font-bold mb-4" data-i18n="ck_ship">Versandart</h2>
+          <label class="flex items-center gap-4 p-4 border-2 border-navy cursor-pointer mb-3">
+            <input type="radio" name="ship" value="standard" checked class="accent-navy w-4 h-4">
+            <div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_std">Standard-Versand</p><p class="text-xs text-gray-400" data-i18n="ck_std_d">3–5 Werktage</p></div>
+            <span class="text-sm font-bold" data-i18n="ck_free">Kostenlos</span>
+          </label>
+          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer">
+            <input type="radio" name="ship" value="express" class="accent-navy w-4 h-4">
+            <div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_exp">Express-Versand</p><p class="text-xs text-gray-400" data-i18n="ck_exp_d">1–2 Werktage</p></div>
+            <span class="text-sm font-bold">€9,99</span>
+          </label>
+        </div>
+        <button onclick="goToStep(2)" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="ck_next">WEITER ZUR ZAHLUNG</button>
+      </div>
+      <!-- RIGHT: order summary -->
+      <div class="lg:w-2/5">
+        <div class="bg-white border border-gray-100 p-6 sticky top-20">
+          <h2 class="font-serif text-lg font-bold mb-5" data-i18n="ck_summary">Bestellübersicht</h2>
+          <div id="summary-items" class="space-y-4 mb-4"></div>
+          <div class="border-t border-gray-100 pt-4 space-y-2">
+            <div class="flex items-center justify-between text-sm"><span class="text-gray-400" data-i18n="ck_sub">Zwischensumme</span><span id="sum-sub" class="font-medium"></span></div>
+            <div class="flex items-center justify-between text-sm"><span class="text-gray-400" data-i18n="ck_shipping">Versand</span><span id="sum-ship" class="font-medium">Kostenlos</span></div>
+            <div class="flex items-center justify-between text-base font-bold pt-2 border-t border-gray-100"><span data-i18n="ck_total">Gesamt</span><span id="sum-total"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: PAYMENT -->
+  <div id="step-2" class="hidden">
+    <div class="max-w-lg mx-auto space-y-6">
+      <div class="bg-white p-6 border border-gray-100">
+        <h2 class="font-serif text-lg font-bold mb-5" data-i18n="ck_pay">Zahlungsmethode</h2>
+        <div class="space-y-3">
+          <label class="flex items-center gap-4 p-4 border-2 border-navy cursor-pointer"><input type="radio" name="pay" value="card" checked class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_card">Kreditkarte / Debitkarte</p></div><div class="flex gap-1"><span class="px-2 py-0.5 border text-[10px] font-mono">VISA</span><span class="px-2 py-0.5 border text-[10px] font-mono">MC</span></div></label>
+          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="paypal" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold">PayPal</p></div><span class="text-sm font-bold text-[#003087]">Pay<span class="text-[#009cde]">Pal</span></span></label>
+          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="klarna" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold">Klarna — Rechnung</p><p class="text-xs text-gray-400">Bezahlen in 14 Tagen</p></div><span class="text-sm font-bold text-pink-500">Klarna.</span></label>
+        </div>
+        <!-- Card form (shown if card selected) -->
+        <div id="card-form" class="mt-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_cardnum">Kartennummer</label>
+            <input type="text" id="card-num" placeholder="0000 0000 0000 0000" maxlength="19" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm font-mono">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_cardexp">Gültig bis</label><input type="text" id="card-exp" placeholder="MM/JJ" maxlength="5" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm font-mono"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">CVV</label><input type="text" id="card-cvv" placeholder="123" maxlength="4" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm font-mono"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <button onclick="goToStep(1)" class="flex-1 py-4 border-2 border-gray-200 hover:border-navy text-sm font-bold transition-colors" data-i18n="ck_back">← ZURÜCK</button>
+        <button onclick="placeOrder()" class="flex-1 py-4 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-[0.1em] transition-colors" data-i18n="ck_place">BESTELLUNG AUFGEBEN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: CONFIRMATION -->
+  <div id="step-3" class="hidden">
+    <div class="max-w-lg mx-auto text-center py-16">
+      <div class="w-20 h-20 bg-green-50 border-2 border-green-200 rounded-full flex items-center justify-center mx-auto mb-6"><i data-lucide="check" class="w-8 h-8 text-green-600"></i></div>
+      <h1 class="font-serif text-3xl font-bold mb-3" data-i18n="ck_done">Bestellung bestätigt!</h1>
+      <p class="text-gray-500 mb-2" data-i18n="ck_thanks">Vielen Dank für Ihre Bestellung bei Aura Global Merchants.</p>
+      <p class="text-sm text-gray-400 mb-8"><span data-i18n="ck_ordernum">Bestellnummer:</span> <span id="order-id" class="font-mono font-bold text-navy"></span></p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/dashboard.html" class="px-8 py-3 bg-navy text-white text-sm font-bold tracking-wider" data-i18n="ck_myorders">MEINE BESTELLUNGEN</a>
+        <a href="/catalog.html" class="px-8 py-3 border-2 border-gray-200 hover:border-navy text-sm font-bold transition-colors" data-i18n="ck_continue">WEITER EINKAUFEN</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER MINI -->
+<footer class="bg-navy-dark py-6 mt-auto">
+  <div class="max-w-[1400px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p>
+    <div class="flex items-center gap-4 text-[11px] text-white/20"><span>SSL verschlüsselt</span><span>·</span><span>PCI DSS konform</span></div>
+    <div class="flex items-center gap-2"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var items=Aura.getCartItems();
+if(!items.length){window.location.replace('/catalog.html');return;}
+
+var session=Aura.getSession();
+var shipCost=0;
+
+function renderSummary(){
+  var totals=Aura.getCartTotal();
+  document.getElementById('summary-items').innerHTML=items.map(function(it){
+    return '<div class="flex gap-3"><div class="w-14 h-14 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-2xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+(it.variant?' <span class=\"text-gray-400\">('+it.variant+')</span>':'')+'</p><p class="text-xs text-gray-400">×'+it.qty+'</p></div><p class="text-sm font-bold flex-shrink-0">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p></div>';
+  }).join('');
+  document.getElementById('sum-sub').textContent=Aura.formatPrice(totals.total);
+  var shipRadios=document.querySelectorAll('input[name="ship"]');
+  shipCost=0;
+  shipRadios.forEach(function(r){if(r.checked&&r.value==='express')shipCost=9.99;});
+  document.getElementById('sum-ship').textContent=shipCost?Aura.formatPrice(shipCost):Aura.t('ck_free');
+  document.getElementById('sum-total').textContent=Aura.formatPrice(totals.total+shipCost);
+}
+renderSummary();
+
+// Listen for ship method change
+document.querySelectorAll('input[name="ship"]').forEach(function(r){r.addEventListener('change',function(){
+  renderSummary();
+  // style
+  document.querySelectorAll('input[name="ship"]').forEach(function(ri){ri.closest('label').classList.toggle('border-navy',ri.checked);ri.closest('label').classList.toggle('border-gray-200',!ri.checked);});
+});});
+// Listen for payment method change
+document.querySelectorAll('input[name="pay"]').forEach(function(r){r.addEventListener('change',function(){
+  document.querySelectorAll('input[name="pay"]').forEach(function(ri){ri.closest('label').classList.toggle('border-navy',ri.checked);ri.closest('label').classList.toggle('border-gray-200',!ri.checked);});
+  document.getElementById('card-form').style.display=document.querySelector('input[name="pay"]:checked').value==='card'?'block':'none';
+});});
+
+// Pre-fill from session
+if(session){
+  document.getElementById('s-email').value=session.email||'';
+  var parts=(session.name||'').split(' ');
+  document.getElementById('s-first').value=parts[0]||'';
+  document.getElementById('s-last').value=parts.slice(1).join(' ')||'';
+}
+
+window.goToStep=function(n){
+  if(n===2){
+    // validate step 1
+    var reqFields=['s-first','s-last','s-email','s-street','s-zip','s-city'];
+    var ok=true;
+    reqFields.forEach(function(f){var el=document.getElementById(f);if(!el.value.trim()){el.style.borderColor='#ef4444';ok=false;}else{el.style.borderColor='';}});
+    if(!ok){Aura.showToast(Aura.t('fill_all'),'error');return;}
+  }
+  [1,2,3].forEach(function(s){document.getElementById('step-'+s).classList.toggle('hidden',s!==n);});
+  ['step-lab-1','step-lab-2','step-lab-3'].forEach(function(id,i){
+    var el=document.getElementById(id);
+    el.classList.toggle('font-bold',i+1<=n);el.classList.toggle('text-navy',i+1<=n);el.classList.toggle('text-gray-400',i+1>n);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+window.placeOrder=function(){
+  var userId=session?(session.userId||session.id):('guest-'+Date.now());
+  var address={
+    name:document.getElementById('s-first').value+' '+document.getElementById('s-last').value,
+    email:document.getElementById('s-email').value,
+    street:document.getElementById('s-street').value,
+    zip:document.getElementById('s-zip').value,
+    city:document.getElementById('s-city').value,
+    country:document.getElementById('s-country').value
+  };
+  var totals=Aura.getCartTotal();
+  var order=Aura.createOrder(userId,items,address,totals.total+shipCost);
+  // Send order confirmation email
+  if(typeof AuraEmail!=='undefined') AuraEmail.sendOrderConfirmation(order, address.email, address.name);
+  document.getElementById('order-id').textContent=order.id;
+  goToStep(3);
+  Aura.showToast(Aura.t('order_placed'),'success');
+};
+
+if(typeof lucide!=='undefined') lucide.createIcons();
+})();
+</script>
+</body>
+</html>

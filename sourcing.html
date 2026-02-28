@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>How we Source — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<style>.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}.step-connector{position:relative}.step-connector::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:40px;background:linear-gradient(to bottom,#C5A059,transparent);transform:translateX(-50%)}@media(min-width:1024px){.timeline-line{position:absolute;top:0;bottom:0;left:50%;width:2px;background:linear-gradient(to bottom,#C5A059 0%,#C5A059 90%,transparent 100%);transform:translateX(-50%)}}</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> Garantie</p></div>
+
+<!-- HEADER -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors">Reise & Outdoor</a>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors">Sale %</a>
+  </div>
+</nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Reise & Outdoor</a>
+  </nav>
+</div>
+</div>
+
+<!-- HERO -->
+<section class="bg-gradient-to-br from-navy to-navy-light py-16 sm:py-24 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-5" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect fill=%22none%22 width=%2260%22 height=%2260%22/><path d=%22M15 0v60M45 0v60M0 15h60M0 45h60%22 stroke=%22%23C5A059%22 stroke-width=%220.3%22/></svg>');"></div>
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-gold/20 px-5 py-2 mb-6">
+      <i data-lucide="route" class="w-4 h-4 text-gold"></i>
+      <span class="text-[11px] text-gold font-semibold tracking-[0.2em] uppercase">Transparenz & Herkunft</span>
+    </div>
+    <h1 class="font-serif text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">How we <span class="text-gold">Source</span></h1>
+    <p class="text-white/50 text-sm sm:text-base max-w-2xl mx-auto mb-10">Jedes Produkt in unserem Shop hat eine nachvollziehbare Geschichte. Wir zeigen dir den kompletten Weg — von der Liquidation bis zu deiner Haustür.</p>
+    <div class="flex flex-wrap justify-center gap-8">
+      <div class="text-center">
+        <div class="text-3xl font-bold text-gold font-serif">4</div>
+        <div class="text-white/40 text-xs mt-1">Schritte bis zu dir</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl font-bold text-gold font-serif">100%</div>
+        <div class="text-white/40 text-xs mt-1">Transparent</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl font-bold text-gold font-serif">0%</div>
+        <div class="text-white/40 text-xs mt-1">Fälschungen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="flex-1">
+
+<!-- INTRO -->
+<section class="py-14 sm:py-20">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-4">Woher kommt unsere Ware?</h2>
+    <p class="text-gray-600 text-sm leading-relaxed mb-4">Aura Global Merchants kauft Liquidationsbestände, Kundenretouren und Überproduktionen direkt von zugelassenen Großhändlern und Retail-Giganten. Wir arbeiten ausschließlich mit verifizierten, legalen Quellen — keine Grauimporte, keine Fälschungen, keine gestohlene Ware.</p>
+    <p class="text-gray-500 text-xs">Unsere Lieferanten: Autorisierte Liquidatoren großer Einzelhandelsketten in den USA, UK und der EU.</p>
+  </div>
+</section>
+
+<!-- 4-STEP JOURNEY -->
+<section class="py-14 sm:py-20 bg-gray-50">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">Der Weg des Produkts</span>
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mt-2 mb-3">4 Schritte. Volle Transparenz.</h2>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 lg:mb-24">
+      <div class="order-2 lg:order-1">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-navy flex items-center justify-center flex-shrink-0"><span class="text-gold font-bold text-lg font-serif">01</span></div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy">Liquidationsankauf</h3>
+            <p class="text-gray-400 text-xs">Einkauf bei autorisierten Retail-Partnern</p>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Große Einzelhändler wie <strong>Macy's, Zalando, Walmart, Amazon, John Lewis</strong> und andere verkaufen regelmäßig retournierte oder überschüssige Ware in Großpaletten über lizenzierte Liquidationskanäle.</p>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Aura Global nimmt an diesen B2B-Auktionen teil und erwirbt Chargen von Elektronik, Mode, Haushaltsware und Outdoor-Ausrüstung — direkt von der Quelle, mit vollständiger Dokumentation.</p>
+        <div class="bg-white border border-gray-100 p-4">
+          <h4 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Unsere Quellen</h4>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">Zalando</span></div>
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">Amazon</span></div>
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">Walmart</span></div>
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">Macy's</span></div>
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">John Lewis</span></div>
+            <div class="text-center py-2 bg-gray-50"><span class="text-xs font-semibold text-gray-600">Target</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <div class="bg-navy/[0.03] border border-gray-100 p-8 lg:p-12 text-center">
+          <div class="w-24 h-24 mx-auto bg-navy/5 rounded-full flex items-center justify-center mb-4"><i data-lucide="shopping-cart" class="w-12 h-12 text-gold/60"></i></div>
+          <p class="text-navy font-serif text-lg font-bold">Liquidation Auktions-Plattformen</p>
+          <p class="text-gray-400 text-xs mt-2">B2B.Stock, Direct Liquidation, BULQ, Via Trading</p>
+          <div class="mt-6 flex flex-wrap justify-center gap-2">
+            <span class="px-3 py-1 bg-gold/10 text-gold-dark text-[10px] font-semibold">MANIFEST VERIFIED</span>
+            <span class="px-3 py-1 bg-navy/5 text-navy text-[10px] font-semibold">ORIGINAL RECEIPTS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 lg:mb-24">
+      <div>
+        <div class="bg-navy/[0.03] border border-gray-100 p-8 lg:p-12 text-center">
+          <div class="w-24 h-24 mx-auto bg-navy/5 rounded-full flex items-center justify-center mb-4"><i data-lucide="container" class="w-12 h-12 text-gold/60"></i></div>
+          <p class="text-navy font-serif text-lg font-bold">Internationaler Transport</p>
+          <p class="text-gray-400 text-xs mt-2">DHL Freight, FedEx Trade Networks, Maersk Logistics</p>
+          <div class="mt-6 grid grid-cols-3 gap-3 text-center">
+            <div><span class="block text-xl font-bold text-navy font-serif">USA</span><span class="text-[10px] text-gray-400">New Jersey Hub</span></div>
+            <div><span class="block text-xl font-bold text-gold font-serif">→</span><span class="text-[10px] text-gray-400">Seeweg / Luft</span></div>
+            <div><span class="block text-xl font-bold text-navy font-serif">UK</span><span class="text-[10px] text-gray-400">London Hub</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-navy flex items-center justify-center flex-shrink-0"><span class="text-gold font-bold text-lg font-serif">02</span></div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy">Transport zum Hub</h3>
+            <p class="text-gray-400 text-xs">Logistik-Kette mit voller Zolldokumentation</p>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Die gekauften Paletten werden über internationale Speditionen in unser zentrales Fulfillment-Center in <strong>London, England</strong> transportiert. Jede Lieferung ist zollrechtlich dokumentiert, inkl. Handelsrechnung, Ursprungszeugnis und Manifest.</p>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Bei EU-Sendungen erfolgt die Verzollung nach UK-Importrecht. Wir arbeiten mit lizenzierten Zollagenten zusammen, die eine lückenlose Compliance sicherstellen.</p>
+        <div class="bg-white border border-gray-100 p-4">
+          <h4 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Dokumente pro Lieferung</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 bg-gray-50 text-xs text-gray-600 flex items-center gap-1.5"><i data-lucide="file-text" class="w-3 h-3 text-gold"></i>Commercial Invoice</span>
+            <span class="px-3 py-1.5 bg-gray-50 text-xs text-gray-600 flex items-center gap-1.5"><i data-lucide="file-text" class="w-3 h-3 text-gold"></i>Packing List</span>
+            <span class="px-3 py-1.5 bg-gray-50 text-xs text-gray-600 flex items-center gap-1.5"><i data-lucide="file-text" class="w-3 h-3 text-gold"></i>Bill of Lading</span>
+            <span class="px-3 py-1.5 bg-gray-50 text-xs text-gray-600 flex items-center gap-1.5"><i data-lucide="file-text" class="w-3 h-3 text-gold"></i>Certificate of Origin</span>
+            <span class="px-3 py-1.5 bg-gray-50 text-xs text-gray-600 flex items-center gap-1.5"><i data-lucide="file-text" class="w-3 h-3 text-gold"></i>Customs Declaration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 lg:mb-24">
+      <div class="order-2 lg:order-1">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-navy flex items-center justify-center flex-shrink-0"><span class="text-gold font-bold text-lg font-serif">03</span></div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy">Aura Inspection</h3>
+            <p class="text-gray-400 text-xs">Mehrstufige Qualitätskontrolle im Londoner Hub</p>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Jedes einzelne Produkt durchläuft unser mehrstufiges Prüfprotokoll. Unser geschultes Team kontrolliert:</p>
+        <div class="space-y-3 mb-4">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="eye" class="w-3 h-3 text-gold"></i></div>
+            <div>
+              <p class="text-sm font-semibold text-navy">Visuelle Prüfung</p>
+              <p class="text-xs text-gray-500">Zustand von Gehäuse, Display, Anschlüssen. Kratzer, Dellen, Farbabweichungen dokumentiert.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="zap" class="w-3 h-3 text-gold"></i></div>
+            <div>
+              <p class="text-sm font-semibold text-navy">Funktionsprüfung</p>
+              <p class="text-xs text-gray-500">Einschalten, Reset, Konnektivität, alle Buttons/Ports. Bei Kleidung: Nähte, Reißverschlüsse, Stoffqualität.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="video" class="w-3 h-3 text-gold"></i></div>
+            <div>
+              <p class="text-sm font-semibold text-navy">Video-Dokumentation</p>
+              <p class="text-xs text-gray-500">360°-Video der Inspektion wird für jedes Produkt erstellt und im Shop hinterlegt.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="star" class="w-3 h-3 text-gold"></i></div>
+            <div>
+              <p class="text-sm font-semibold text-navy">Condition Grading</p>
+              <p class="text-xs text-gray-500">Einstufung: A+ (Wie Neu) / A (Minimal) / B (Sichtbare Spuren). Nur A+ und A kommen in den Shop.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <div class="bg-navy p-8 lg:p-12 text-center">
+          <div class="w-24 h-24 mx-auto bg-white/5 rounded-full flex items-center justify-center mb-4"><i data-lucide="shield-check" class="w-12 h-12 text-gold/60"></i></div>
+          <p class="text-white font-serif text-lg font-bold mb-2">Aura Verified</p>
+          <p class="text-white/40 text-xs mb-6">Nur geprüfte Ware erhält unser Qualitätssiegel</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-white/60">Bestehensquote</span>
+              <span class="text-gold font-bold">87%</span>
+            </div>
+            <div class="h-2 bg-white/10 overflow-hidden"><div class="h-full bg-gold" style="width:87%"></div></div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-white/60">Durchschnittliche Prüfzeit</span>
+              <span class="text-gold font-bold">12 Min.</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-white/60">Prüfpunkte pro Artikel</span>
+              <span class="text-gold font-bold">23</span>
+            </div>
+          </div>
+          <div class="mt-6 pt-5 border-t border-white/10">
+            <p class="text-white/30 text-[10px]">Nicht bestandene Artikel werden an zertifizierte Recycling-Partner weitergegeben.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <div class="bg-gold/5 border border-gold/20 p-8 lg:p-12 text-center">
+          <div class="w-24 h-24 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-4"><i data-lucide="tag" class="w-12 h-12 text-gold/60"></i></div>
+          <p class="text-navy font-serif text-lg font-bold mb-2">Bis zu 40% günstiger</p>
+          <p class="text-gray-400 text-xs mb-6">Im Vergleich zum UVP über den Fachhandel</p>
+          <div class="space-y-2">
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-gray-500">Einzelhandel (UVP)</span><span class="font-bold text-gray-600">100%</span></div>
+              <div class="h-3 bg-gray-100 overflow-hidden"><div class="h-full bg-gray-400" style="width:100%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-gold-dark font-semibold">Aura Direct</span><span class="font-bold text-gold-dark">60-75%</span></div>
+              <div class="h-3 bg-gray-100 overflow-hidden"><div class="h-full bg-gradient-to-r from-gold-dark to-gold" style="width:75%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-navy flex items-center justify-center flex-shrink-0"><span class="text-gold font-bold text-lg font-serif">04</span></div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-navy">Verkauf mit Diszcount</h3>
+            <p class="text-gray-400 text-xs">Markenqualität zu fairen Preisen</p>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Nach bestandener Inspektion wird das Produkt professionell fotografiert, beschrieben und mit dem Aura Verified Siegel in unserem Shop gelistet. Der Preis reflektiert den Zustand und liegt <strong>25-40% unter dem UVP</strong>.</p>
+        <p class="text-gray-600 text-sm leading-relaxed mb-4">Du siehst zu jedem Artikel: Condition Grade, Inspektionsvideo, Original-Einzelhändler, und einen ehrlichen Zustandsbericht — kein Kleingedrucktes, keine versteckten Mängel.</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white border border-gray-100 p-4 text-center">
+            <i data-lucide="shield" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+            <p class="text-xs font-semibold">30 Tage Rückgabe</p>
+          </div>
+          <div class="bg-white border border-gray-100 p-4 text-center">
+            <i data-lucide="lock" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+            <p class="text-xs font-semibold">Sichere Zahlung</p>
+          </div>
+          <div class="bg-white border border-gray-100 p-4 text-center">
+            <i data-lucide="truck" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+            <p class="text-xs font-semibold">Versand ab €99 frei</p>
+          </div>
+          <div class="bg-white border border-gray-100 p-4 text-center">
+            <i data-lucide="headphones" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+            <p class="text-xs font-semibold">DE Support-Team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LEGALITY NOTE -->
+<section class="py-14 sm:py-20 bg-navy">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-5 py-2 mb-6">
+      <i data-lucide="scale" class="w-4 h-4 text-gold"></i>
+      <span class="text-[11px] text-gold font-semibold tracking-[0.2em] uppercase">100% Legal</span>
+    </div>
+    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">Legaler Handel, volle Transparenz</h2>
+    <p class="text-white/50 text-sm leading-relaxed mb-6">Aura Global Merchants Ltd. ist als Company No. <strong class="text-white/70">15847293</strong> in England & Wales registriert. Jede Transaktion wird dokumentiert, jede Lieferung zollrechtlich abgewickelt, und jedes Produkt stammt aus legalen Handelskanälen.</p>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="bg-white/5 border border-white/10 p-4">
+        <i data-lucide="building" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+        <p class="text-white text-xs font-semibold">Companies House UK</p>
+        <p class="text-white/30 text-[10px]">Registered & Active</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 p-4">
+        <i data-lucide="file-check" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+        <p class="text-white text-xs font-semibold">Import-Lizenzen</p>
+        <p class="text-white/30 text-[10px]">HMRC-registriert</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 p-4">
+        <i data-lucide="lock" class="w-5 h-5 text-gold mx-auto mb-2"></i>
+        <p class="text-white text-xs font-semibold">DSGVO / UK GDPR</p>
+        <p class="text-white/30 text-[10px]">ICO-konform</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-14 sm:py-20">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy mb-3">Überzeuge dich selbst</h2>
+    <p class="text-gray-500 text-sm max-w-lg mx-auto mb-8">Stöbere in unserem Sortiment und entdecke geprüfte Markenware mit voller Transparenz — zu Preisen, die Sinn machen.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/catalog.html" class="px-8 py-3 bg-gold text-navy font-bold text-sm tracking-wider hover:bg-gold-light transition-colors">JETZT SHOPPEN</a>
+      <a href="/nachhaltigkeit.html" class="px-8 py-3 border-2 border-navy text-navy font-bold text-sm tracking-wider hover:bg-navy hover:text-white transition-colors">NACHHALTIGKEIT →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark mt-auto">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div>
+      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/contact.html" class="text-white/40 text-sm hover:text-white transition-colors">Kontakt</a></li>
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+      <div class="mt-6 pt-5 border-t border-white/5">
+        <p class="text-white/15 text-[11px]">Company No. 15847293</p>
+        <p class="text-white/15 text-[11px]">Registered in England &amp; Wales</p>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">&copy; 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform pointer-events-auto">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold">Warenkorb</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4" style="max-height:calc(100vh - 160px)"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden"><div class="flex justify-between mb-4"><span class="font-medium">Gesamt</span><span id="cart-total-price" class="font-bold text-lg"></span></div><a href="/checkout.html" class="block w-full py-3 bg-navy text-white text-center text-sm font-bold tracking-wider hover:bg-navy-light transition-colors">ZUR KASSE</a></div>
+</aside>
+</div>
+
+<script>
+var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';if(cartOpen)renderCartDrawer();}
+function renderCartDrawer(){var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}footer.classList.remove('hidden');body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p></div></div>';}).join('');document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);}
+if(typeof lucide!=='undefined')lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<style>.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}</style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4">
+<p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p>
+</div>
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Smartphones & Tablets</p>
+            <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple iPhone & iPad</a>
+            <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung Galaxy</a>
+            <a href="/catalog.html?cat=electronics&brand=Google" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Google Pixel</a>
+            <a href="/catalog.html?cat=electronics&brand=OnePlus" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">OnePlus</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Laptops & Audio</p>
+            <a href="/catalog.html?cat=electronics&brand=Dell" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dell</a>
+            <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony Audio</a>
+            <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Gaming & VR</p>
+            <a href="/catalog.html?cat=electronics&q=playstation" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">PlayStation</a>
+            <a href="/catalog.html?cat=electronics&brand=Meta" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Meta Quest VR</a>
+            <a href="/catalog.html?cat=electronics&brand=Logitech" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Logitech</a>
+            <a href="/catalog.html?cat=electronics&brand=XREAL" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">XREAL AR</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=electronics" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Elektronik →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schuhe & Sneaker</p>
+            <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+            <a href="/catalog.html?cat=fashion&brand=Adidas" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Adidas</a>
+            <a href="/catalog.html?cat=fashion&brand=New+Balance" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">New Balance</a>
+            <a href="/catalog.html?cat=fashion&brand=Puma" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Puma</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Designer & Luxus</p>
+            <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+            <a href="/catalog.html?cat=fashion&brand=Louis+Vuitton" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Louis Vuitton</a>
+            <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+            <a href="/catalog.html?cat=fashion&brand=Prada" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Prada</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schmuck & Uhren</p>
+            <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+            <a href="/catalog.html?cat=fashion&brand=Omega" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Omega</a>
+            <a href="/catalog.html?cat=fashion&brand=Pandora" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Pandora</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Kleidung & Accessoires</p>
+            <a href="/catalog.html?cat=fashion&brand=Ralph+Lauren" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ralph Lauren</a>
+            <a href="/catalog.html?cat=fashion&brand=Coach" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Coach</a>
+            <a href="/catalog.html?cat=fashion&brand=Ray-Ban" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ray-Ban</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=fashion" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Mode →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+        <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs</a>
+        <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad</a>
+        <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring</a>
+        <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee</a>
+        <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+        <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+        <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+        <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+        <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+      </div>
+    </div>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+  </div>
+</nav>
+</header>
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Reise & Outdoor</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span>Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span>Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <!-- HERO -->
+  <section class="bg-gradient-to-br from-navy to-navy-light py-16 sm:py-20">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i data-lucide="building" class="w-8 h-8 text-gold"></i>
+      </div>
+      <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Impressum</h1>
+      <p class="text-white/50 text-sm sm:text-base max-w-xl mx-auto">Gesetzliche Pflichtangaben gemäß § 5 TMG</p>
+    </div>
+  </section>
+
+  <!-- IMPRESSUM CONTENT -->
+  <section class="py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Company Information Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-6">Angaben gemäß § 5 TMG</h2>
+        <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Firmenname</span>
+            <span>Aura Global Merchants Ltd.</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Rechtsform</span>
+            <span>Private Limited Company (Ltd.), eingetragen in England & Wales</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Company Number</span>
+            <span>15847293</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Registered Office</span>
+            <span>71-75 Shelton Street, Covent Garden, London WC2H 9JQ, United Kingdom</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Geschäftsführer (Director)</span>
+            <span>Ethan Walker</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">E-Mail</span>
+            <a href="mailto:contact@auraglobal.co.uk" class="text-gold hover:underline">contact@auraglobal.co.uk</a>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">Telefon</span>
+            <span>+44 20 7946 0842</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3 border-b border-gray-50">
+            <span class="font-semibold text-navy">USt-IdNr.</span>
+            <span>GB 438 291 756 <span class="text-xs text-gray-400">(Beantragt)</span></span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-3">
+            <span class="font-semibold text-navy">Aufsichtsbehörde</span>
+            <span>Companies House, Crown Way, Cardiff CF14 3UZ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verantwortlich Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Verantwortlich für den Inhalt</h2>
+        <p class="text-sm text-gray-700 leading-relaxed">
+          Verantwortlich für den Inhalt gemäß § 55 Abs. 2 RStV:<br><br>
+          <strong class="text-navy">Ethan Walker</strong><br>
+          Aura Global Merchants Ltd.<br>
+          71-75 Shelton Street, Covent Garden<br>
+          London WC2H 9JQ, United Kingdom<br><br>
+          E-Mail: <a href="mailto:contact@auraglobal.co.uk" class="text-gold hover:underline">contact@auraglobal.co.uk</a>
+        </p>
+      </div>
+
+      <!-- Streitbeilegung Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Streitbeilegung</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <p>
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">https://ec.europa.eu/consumers/odr/</a>
+          </p>
+          <p>
+            Unsere E-Mail-Adresse finden Sie oben im Impressum.
+          </p>
+          <p>
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+          </p>
+        </div>
+      </div>
+
+      <!-- Haftungsausschluss Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Haftungsausschluss</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Haftung für Inhalte</h3>
+            <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Haftung für Links</h3>
+            <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Urheberrecht</h3>
+            <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- EU-Streitbeilegung Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">EU-Streitbeilegung</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">https://ec.europa.eu/consumers/odr/</a></p>
+          <p>Unsere E-Mail-Adresse finden Sie oben im Impressum. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+          <p>Gemäß der Verordnung (EU) Nr. 524/2013 des Europäischen Parlaments und des Rates sind Online-Händler verpflichtet, einen Link zur OS-Plattform bereitzustellen. Diese Plattform dient als Anlaufstelle für die außergerichtliche Beilegung von Streitigkeiten aus Online-Kaufverträgen oder Online-Dienstleistungsverträgen.</p>
+        </div>
+      </div>
+
+      <!-- Aufsichtsbehörden Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Regulatorische Informationen</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Companies House (UK)</h3>
+            <p>Aura Global Merchants Ltd. ist beim Companies House des Vereinigten Königreichs unter der Registrierungsnummer eingetragen. Die Firmeninformationen können öffentlich über <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer" class="text-gold hover:underline">Companies House</a> eingesehen werden.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-navy mb-1">ICO-Registrierung (Datenschutz)</h3>
+            <p>Als im Vereinigten Königreich ansässiges Unternehmen unterliegen wir der UK General Data Protection Regulation (UK GDPR) und dem Data Protection Act 2018. Die zuständige Aufsichtsbehörde ist das Information Commissioner's Office (ICO), Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF, United Kingdom.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Umsatzsteuer</h3>
+            <p>Aura Global Merchants Ltd. ist umsatzsteuerrechtlich im Vereinigten Königreich registriert. Bei Lieferungen in EU-Länder kann die Einfuhrumsatzsteuer des jeweiligen Bestimmungslandes anfallen. Details zu Preisen und Steuern finden Sie in unseren <a href="/terms.html" class="text-gold hover:underline">Allgemeinen Geschäftsbedingungen</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEE & Batteriehinweis Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">WEEE &amp; Batteriehinweis</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Elektro- und Elektronikaltgeräte (WEEE)</h3>
+            <p>Gemäß der WEEE-Richtlinie (Waste Electrical and Electronic Equipment) sind Verbraucher verpflichtet, Elektro- und Elektronikaltgeräte getrennt vom Hausmüll zu entsorgen. Das Symbol der durchgestrichenen Mülltonne auf dem Produkt weist darauf hin, dass das Gerät nicht über den normalen Hausmüll entsorgt werden darf.</p>
+            <p class="mt-2">Altgeräte können kostenfrei bei kommunalen Sammelstellen oder beim Händler zurückgegeben werden. Wir informieren Sie gerne über Rückgabemöglichkeiten in Ihrer Region.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-navy mb-1">Batterien und Akkumulatoren</h3>
+            <p>Gemäß dem Batteriegesetz (BattG) dürfen Batterien und Akkumulatoren nicht über den Hausmüll entsorgt werden. Sie sind als Endverbraucher gesetzlich verpflichtet, gebrauchte Batterien zurückzugeben. Sie können Batterien an kommunalen Sammelstellen oder im Handel vor Ort abgeben. Schadstoffhaltige Batterien sind mit den chemischen Symbolen Cd (Cadmium), Hg (Quecksilber) oder Pb (Blei) gekennzeichnet.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Markenrecht Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Markenrechtlicher Hinweis</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <p>Alle auf dieser Website verwendeten Markennamen, Produktnamen und Logos sind Eigentum der jeweiligen Inhaber. Die Verwendung dieser Marken erfolgt ausschließlich zur Identifizierung der angebotenen Originalwaren und stellt keine Zugehörigkeit zu, Billigung durch oder Empfehlung seitens der Markeninhaber dar.</p>
+          <p>Aura Global Merchants Ltd. ist ein unabhängiger Händler und kein autorisierter Vertragshändler, Lizenznehmer oder Tochterunternehmen der auf dieser Website genannten Marken, sofern nicht ausdrücklich anders angegeben.</p>
+          <p>Die Darstellung von Markenware auf dieser Website erfolgt im Rahmen des Erschöpfungsgrundsatzes (Art. 15 Abs. 1 UMV) und dient der Information des Verbrauchers über das Warenangebot.</p>
+        </div>
+      </div>
+
+      <!-- Kontaktdaten Card -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-navy mb-4">Kontakt &amp; Erreichbarkeit</h2>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-4">
+          <table class="w-full">
+            <tbody>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-semibold text-navy w-1/3">E-Mail (allgemein)</td>
+                <td class="py-3"><a href="mailto:contact@auraglobal.co.uk" class="text-gold hover:underline">contact@auraglobal.co.uk</a></td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-semibold text-navy">E-Mail (Datenschutz)</td>
+                <td class="py-3"><a href="mailto:privacy@auraglobal.co.uk" class="text-gold hover:underline">privacy@auraglobal.co.uk</a></td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-semibold text-navy">Kontaktformular</td>
+                <td class="py-3"><a href="/contact.html" class="text-gold hover:underline">www.auraglobal.co.uk/contact</a></td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-semibold text-navy">Servicezeiten</td>
+                <td class="py-3">Mo–Fr, 09:00–18:00 Uhr (MEZ)</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-semibold text-navy">Antwortzeit</td>
+                <td class="py-3">In der Regel innerhalb von 24 Stunden</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
+        <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
+      </div>
+      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform pointer-events-auto">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4" style="max-height:calc(100vh - 160px)"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden">
+    <div class="flex justify-between mb-4"><span class="font-medium" data-i18n="cart_total">Gesamt</span><span id="cart-total-price" class="font-bold text-lg"></span></div>
+    <a href="/checkout.html" class="block w-full py-3 bg-navy text-white text-center text-sm font-bold tracking-wider hover:bg-navy-light transition-colors" data-i18n="cart_checkout">ZUR KASSE</a>
+  </div>
+</aside>
+</div>
+
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script>
+var cartOpen=false;
+function toggleCart(){
+  cartOpen=!cartOpen;
+  document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);
+  document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);
+  document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';
+  if(cartOpen) renderCartDrawer();
+}
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}
+  body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">−</button><span class="text-sm w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-[10px] text-red-400 hover:text-red-600 mt-1">✕</button></div></div>';}).join('');
+  footer.classList.remove('hidden');
+  document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);
+}
+document.addEventListener('DOMContentLoaded',function(){if(typeof lucide!=='undefined')lucide.createIcons();});
+</script>
+</body>
+</html>

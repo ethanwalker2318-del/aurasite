@@ -1,0 +1,1990 @@
+﻿<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Панель управления — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+<style>
+.sidebar-link{@apply flex items-center gap-3 px-4 py-3 text-sm transition-colors cursor-pointer;color:rgba(255,255,255,0.85)}
+.sidebar-link:hover{background:rgba(255,255,255,0.1);color:#fff}
+.sidebar-link.active{background:rgba(255,255,255,0.1);color:#fff;border-left:2px solid #C5A059}
+.stat-card{@apply bg-white border border-gray-100 p-4}
+@media(min-width:640px){.stat-card{padding:1.25rem}}
+.table-head{@apply text-[10px] font-bold text-gray-400 uppercase tracking-wider py-2 px-3 text-left}
+@media(min-width:640px){.table-head{padding:0.75rem 1rem}}
+.table-cell{@apply py-2 px-3 text-xs}
+@media(min-width:640px){.table-cell{padding:0.75rem 1rem;font-size:0.875rem;line-height:1.25rem}}
+.badge-paid{@apply px-2 py-0.5 bg-green-50 text-green-600 text-xs font-medium rounded}
+.badge-sourcing{@apply px-2 py-0.5 bg-orange-50 text-orange-600 text-xs font-medium rounded}
+.badge-pending{@apply px-2 py-0.5 bg-yellow-50 text-yellow-600 text-xs font-medium rounded}
+.badge-inspection{@apply px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded}
+.badge-shipped{@apply px-2 py-0.5 bg-purple-50 text-purple-600 text-xs font-medium rounded}
+.badge-delivered{@apply px-2 py-0.5 bg-green-50 text-green-600 text-xs font-medium rounded}
+.form-input{@apply w-full h-10 px-3 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors}
+.form-label{@apply block text-xs font-semibold mb-1 text-gray-500 uppercase tracking-wider}
+.btn-primary{@apply px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors}
+.btn-danger{@apply px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors}
+.btn-ghost{@apply px-4 py-2 border border-gray-200 hover:border-navy text-sm font-medium transition-colors}
+</style>
+</head>
+<body class="font-sans bg-gray-50 text-navy antialiased">
+
+<!-- ACCESS GATE -->
+<div id="access-gate" class="fixed inset-0 z-50 bg-navy-dark flex items-center justify-center" style="display:none">
+  <div class="text-center"><p class="text-sm mb-4" style="color:rgba(255,255,255,0.6)" data-i18n="no_access">Нет доступа</p><a href="/login.html" class="px-6 py-3 bg-gold text-white text-sm font-bold" data-i18n="go_login">Войти</a></div>
+</div>
+
+<div id="app-shell" class="flex min-h-screen" style="display:none">
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="w-64 bg-navy-dark flex-shrink-0 flex flex-col fixed lg:relative h-screen z-40 -translate-x-full lg:translate-x-0 transition-transform">
+    <div class="px-6 py-5 border-b border-white/5">
+      <a href="/index.html" class="flex items-center gap-2.5"><img src="/logo-outline.svg" alt="Aura Global" class="w-8 h-8"><div><span class="block font-serif text-white text-[13px] font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[7px] text-gold/50 tracking-[0.2em]">ADMIN PANEL</span></div></a>
+    </div>
+    <nav class="flex-1 py-4">
+      <div class="px-4 mb-2"><span class="text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.5)" data-i18n="nav_main">ОСНОВНОЕ</span></div>
+      <a class="sidebar-link active" data-section="dashboard" onclick="showSection('dashboard')"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span data-i18n="nav_dashboard">Обзор</span></a>
+      <a class="sidebar-link" data-section="orders" onclick="showSection('orders')"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="nav_orders">Заказы</span></a>
+      <a class="sidebar-link admin-only" data-section="products" onclick="showSection('products')"><i data-lucide="box" class="w-4 h-4"></i><span data-i18n="nav_products">Товары</span></a>
+      <div class="px-4 mt-6 mb-2 admin-only"><span class="text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.5)" data-i18n="nav_manage">УПРАВЛЕНИЕ</span></div>
+      <a class="sidebar-link admin-only" data-section="linguists" onclick="showSection('linguists')"><i data-lucide="users" class="w-4 h-4"></i><span data-i18n="nav_linguists">Лингвисты</span></a>
+      <a class="sidebar-link admin-only" data-section="profit" onclick="showSection('profit')"><i data-lucide="trending-up" class="w-4 h-4"></i><span data-i18n="nav_profit">Прибыль</span></a>
+    </nav>
+    <div class="p-4 border-t border-white/5">
+      <!-- Language toggle -->
+      <div class="flex items-center gap-1.5 mb-3">
+        <button id="lang-ru" onclick="setLang('ru')" class="flex-1 py-1.5 text-xs font-bold text-center bg-white/10 text-white rounded">RU</button>
+        <button id="lang-en" onclick="setLang('en')" class="flex-1 py-1.5 text-xs font-bold text-center rounded" style="color:rgba(255,255,255,0.6)">EN</button>
+        <button id="lang-de" onclick="setLang('de')" class="flex-1 py-1.5 text-xs font-bold text-center rounded" style="color:rgba(255,255,255,0.6)">DE</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-gold/20 rounded-full flex items-center justify-center"><span id="user-initial" class="text-gold text-xs font-bold">A</span></div>
+        <div class="flex-1 min-w-0"><p id="user-name" class="text-white text-xs font-medium truncate">Admin</p><p id="user-role" class="text-[10px]" style="color:rgba(255,255,255,0.55)">admin</p></div>
+        <button onclick="Aura.logout();window.location='/login.html'" class="hover:text-red-400" style="color:rgba(255,255,255,0.4)"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MOBILE SIDEBAR TOGGLE -->
+  <button id="mobile-sidebar-toggle" class="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-navy text-white flex items-center justify-center shadow-lg" onclick="toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 min-w-0">
+    <div class="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
+
+      <!-- DASHBOARD -->
+      <section id="sec-dashboard" class="section">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="font-serif text-2xl font-bold" data-i18n="dash_title">Обзор</h1>
+          <div class="flex gap-2">
+            <button onclick="exportOrdersCSV()" class="btn-ghost text-xs flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i><span data-i18n="btn_csv">CSV экспорт</span></button>
+          </div>
+        </div>
+        <!-- STATS ROW -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div class="stat-card"><p class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1" data-i18n="stat_products">Товары</p><p id="stat-prod" class="text-xl sm:text-2xl font-bold">0</p><p id="stat-prod-delta" class="text-[10px] text-green-500 mt-0.5"></p></div>
+          <div class="stat-card"><p class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1" data-i18n="stat_orders">Заказы</p><p id="stat-orders" class="text-xl sm:text-2xl font-bold">0</p><p id="stat-orders-today" class="text-[10px] text-blue-500 mt-0.5"></p></div>
+          <div class="stat-card"><p class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1" data-i18n="stat_revenue">Выручка</p><p id="stat-revenue" class="text-xl sm:text-2xl font-bold">€0</p><p id="stat-revenue-usdt" class="text-[10px] text-gray-400 mt-0.5"></p></div>
+          <div class="stat-card"><p class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1" data-i18n="stat_profit_net">Чистая прибыль</p><p id="stat-net-profit" class="text-xl sm:text-2xl font-bold text-green-600">€0</p><p id="stat-net-margin" class="text-[10px] text-green-500 mt-0.5"></p></div>
+        </div>
+
+        <!-- REVENUE CHART -->
+        <div class="bg-white border border-gray-100 p-4 sm:p-6 mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-sm" data-i18n="chart_revenue">Выручка за 30 дней</h2>
+            <div class="flex gap-1" id="chart-period-pills">
+              <button class="px-2 py-1 text-[10px] font-bold rounded text-gray-400 hover:bg-gray-100" onclick="setChartPeriod(7,this)">7T</button>
+              <button class="px-2 py-1 text-[10px] font-bold rounded bg-navy text-white" onclick="setChartPeriod(30,this)">30T</button>
+              <button class="px-2 py-1 text-[10px] font-bold rounded text-gray-400 hover:bg-gray-100" onclick="setChartPeriod(90,this)">90T</button>
+            </div>
+          </div>
+          <div id="revenue-chart" class="h-[160px] sm:h-[200px] flex items-end gap-[2px] sm:gap-1"></div>
+          <div id="revenue-chart-labels" class="flex justify-between mt-2 text-[9px] text-gray-300"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
+          <!-- TOP PRODUCTS -->
+          <div class="bg-white border border-gray-100 p-4 sm:p-6">
+            <h2 class="font-semibold text-sm mb-4" data-i18n="dash_top_products">Топ-5 товаров</h2>
+            <div id="dash-top-products" class="space-y-3"></div>
+          </div>
+          <!-- LOW STOCK ALERTS -->
+          <div class="bg-white border border-gray-100 p-4 sm:p-6">
+            <h2 class="font-semibold text-sm mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i><span data-i18n="dash_low_stock">Мало на складе</span></h2>
+            <div id="dash-low-stock" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- ORDER STATUS BREAKDOWN -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
+          <div class="bg-white border border-gray-100 p-4 sm:p-6">
+            <h2 class="font-semibold text-sm mb-4" data-i18n="dash_order_status">Статусы заказов</h2>
+            <div id="dash-status-bars" class="space-y-3"></div>
+          </div>
+          <div class="bg-white border border-gray-100 p-4 sm:p-6">
+            <h2 class="font-semibold text-sm mb-4" data-i18n="dash_recent">Последние заказы</h2>
+            <div class="overflow-x-auto"><table class="w-full"><thead><tr>
+              <th class="table-head" data-i18n="th_id">ID</th>
+              <th class="table-head" data-i18n="th_date">Дата</th>
+              <th class="table-head" data-i18n="th_total">Сумма</th>
+              <th class="table-head" data-i18n="th_status">Статус</th>
+            </tr></thead><tbody id="dash-orders-body"></tbody></table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDERS -->
+      <section id="sec-orders" class="section hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h1 class="font-serif text-2xl font-bold" data-i18n="orders_title">Заказы</h1>
+          <div class="flex items-center gap-2">
+            <span id="orders-count" class="text-sm text-gray-400"></span>
+            <button onclick="exportOrdersCSV()" class="btn-ghost text-xs flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i>CSV</button>
+          </div>
+        </div>
+        <!-- BATCH ACTIONS -->
+        <div id="batch-bar" class="hidden bg-navy/5 border border-navy/10 p-3 mb-3 flex flex-wrap items-center gap-3 rounded-lg">
+          <span id="batch-count" class="text-xs font-bold text-navy">0 выбрано</span>
+          <select id="batch-status" class="text-xs border border-gray-200 px-2 py-1.5 rounded bg-white">
+            <option value="paid">→ Bezahlt</option>
+            <option value="sourcing">→ Sourcing</option>
+            <option value="shipped">→ Versendet</option>
+            <option value="delivered">→ Geliefert</option>
+          </select>
+          <button onclick="applyBatchStatus()" class="px-3 py-1.5 bg-navy text-white text-xs font-bold rounded" data-i18n="btn_apply">Применить</button>
+          <button onclick="clearBatchSelection()" class="text-xs text-gray-400 hover:text-navy" data-i18n="btn_clear_sel">Отменить выбор</button>
+        </div>
+        <!-- SMART FILTERS -->
+        <div class="bg-white border border-gray-100 p-3 mb-4 flex flex-wrap items-center gap-2">
+          <div class="flex gap-1" id="time-pills">
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white" data-time="all" onclick="setOrderFilter('time','all',this)">Alle</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-gray-400 hover:bg-gray-100" data-time="today" onclick="setOrderFilter('time','today',this)">Heute</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-gray-400 hover:bg-gray-100" data-time="7d" onclick="setOrderFilter('time','7d',this)">7T</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-gray-400 hover:bg-gray-100" data-time="30d" onclick="setOrderFilter('time','30d',this)">30T</button>
+          </div>
+          <span class="w-px h-6 bg-gray-200"></span>
+          <select id="filter-country" onchange="refreshOrders()" class="text-xs border border-gray-200 px-2 py-1.5 rounded bg-white">
+            <option value="">🌍 Alle</option>
+            <option value="DE">🇩🇪 DE</option><option value="AT">🇦🇹 AT</option><option value="CH">🇨🇭 CH</option><option value="GB">🇬🇧 GB</option><option value="US">🇺🇸 US</option>
+          </select>
+          <span class="w-px h-6 bg-gray-200"></span>
+          <div class="flex gap-1" id="status-pills">
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white" data-st="all" onclick="setOrderFilter('status','all',this)">Alle</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-green-600 bg-green-50" data-st="paid" onclick="setOrderFilter('status','paid',this)">Bezahlt</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-orange-600 bg-orange-50" data-st="sourcing" onclick="setOrderFilter('status','sourcing',this)">Sourcing</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-purple-600 bg-purple-50" data-st="shipped" onclick="setOrderFilter('status','shipped',this)">Versendet</button>
+            <button class="px-3 py-1.5 text-[11px] font-bold rounded text-emerald-600 bg-emerald-50" data-st="delivered" onclick="setOrderFilter('status','delivered',this)">Geliefert</button>
+          </div>
+          <span class="w-px h-6 bg-gray-200 hidden sm:block"></span>
+          <div class="relative flex-1 min-w-[160px]">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-300"></i>
+            <input type="text" id="filter-search" placeholder="ID, Name, Email..." class="w-full text-xs border border-gray-200 pl-8 pr-3 py-1.5 rounded" oninput="refreshOrders()">
+          </div>
+        </div>
+        <!-- ORDERS TABLE -->
+        <div class="bg-white border border-gray-100">
+          <div class="overflow-x-auto"><table class="w-full"><thead><tr>
+            <th class="table-head w-8"><input type="checkbox" id="orders-select-all" onchange="toggleAllOrders(this.checked)" class="accent-navy"></th>
+            <th class="table-head">ID</th>
+            <th class="table-head">Datum</th>
+            <th class="table-head">Kunde</th>
+            <th class="table-head text-right">Betrag</th>
+            <th class="table-head">Status</th>
+            <th class="table-head text-center">Details</th>
+          </tr></thead><tbody id="orders-body"></tbody></table></div>
+          <div id="orders-empty" class="p-8 text-center text-gray-400 text-sm hidden" data-i18n="orders_empty">Заказов пока нет</div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="sec-products" class="section hidden admin-only">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h1 class="font-serif text-2xl font-bold" data-i18n="products_title">Товары</h1>
+          <button onclick="openProductModal()" class="btn-primary flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i><span data-i18n="btn_add_product">Добавить товар</span></button>
+        </div>
+        <!-- PRODUCT FILTERS -->
+        <div class="bg-white border border-gray-100 p-3 mb-4 flex flex-wrap items-center gap-2">
+          <div class="relative flex-1 min-w-[180px]">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-300"></i>
+            <input type="text" id="prod-search" placeholder="Название, бренд, ID..." class="w-full text-xs border border-gray-200 pl-8 pr-3 py-1.5 rounded" oninput="prodPage=1;refreshProducts()">
+          </div>
+          <select id="prod-filter-cat" onchange="prodPage=1;refreshProducts()" class="text-xs border border-gray-200 px-2 py-1.5 rounded bg-white">
+            <option value="">Все категории</option>
+            <option value="electronics">Elektronik</option>
+            <option value="fashion">Mode</option>
+            <option value="home">Haus & Wohnen</option>
+            <option value="travel">Reise & Outdoor</option>
+          </select>
+          <select id="prod-filter-stock" onchange="prodPage=1;refreshProducts()" class="text-xs border border-gray-200 px-2 py-1.5 rounded bg-white">
+            <option value="">Весь склад</option>
+            <option value="low">⚠ Мало (&lt;5)</option>
+            <option value="out">❌ Нет (0)</option>
+            <option value="ok">✓ В наличии</option>
+          </select>
+          <span id="prod-count" class="text-xs text-gray-400"></span>
+        </div>
+        <div class="bg-white border border-gray-100">
+          <div class="overflow-x-auto"><table class="w-full"><thead><tr>
+            <th class="table-head"></th>
+            <th class="table-head" data-i18n="th_name">Название</th>
+            <th class="table-head" data-i18n="th_brand">Бренд</th>
+            <th class="table-head" data-i18n="th_price">Aura / UVP</th>
+            <th class="table-head" data-i18n="th_cost">Cost</th>
+            <th class="table-head" data-i18n="th_profit_col">Profit</th>
+            <th class="table-head" data-i18n="th_badge">Badge</th>
+            <th class="table-head" data-i18n="th_protocol">Protocol</th>
+            <th class="table-head" data-i18n="th_stock">Склад</th>
+            <th class="table-head" data-i18n="th_actions">Действия</th>
+          </tr></thead><tbody id="products-body"></tbody></table></div>
+          <!-- PAGINATION -->
+          <div id="prod-pagination" class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+            <span id="prod-page-info" class="text-xs text-gray-400"></span>
+            <div class="flex gap-1">
+              <button id="prod-prev" onclick="prodPage--;refreshProducts()" class="px-3 py-1.5 text-xs font-bold border border-gray-200 rounded hover:bg-gray-50 disabled:opacity-30" disabled>←</button>
+              <span id="prod-page-btns" class="flex gap-1"></span>
+              <button id="prod-next" onclick="prodPage++;refreshProducts()" class="px-3 py-1.5 text-xs font-bold border border-gray-200 rounded hover:bg-gray-50 disabled:opacity-30" disabled>→</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LINGUISTS -->
+      <section id="sec-linguists" class="section hidden admin-only">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="font-serif text-2xl font-bold" data-i18n="linguists_title">Лингвисты</h1>
+        </div>
+        <div class="bg-white border border-gray-100 p-6 max-w-lg mb-6">
+          <h3 class="font-semibold mb-3" data-i18n="add_linguist">Добавить лингвиста</h3>
+          <div class="flex gap-3">
+            <input type="email" id="ling-email" placeholder="email@example.com" class="form-input flex-1">
+            <button onclick="addLinguistAction()" class="btn-primary" data-i18n="btn_add">Добавить</button>
+          </div>
+        </div>
+        <div class="bg-white border border-gray-100">
+          <table class="w-full"><thead><tr>
+            <th class="table-head" data-i18n="th_name">Имя</th>
+            <th class="table-head">Email</th>
+            <th class="table-head" data-i18n="th_role">Роль</th>
+          </tr></thead><tbody id="linguists-body"></tbody></table>
+        </div>
+      </section>
+
+      <!-- PROFIT -->
+      <section id="sec-profit" class="section hidden admin-only">
+        <h1 class="font-serif text-2xl font-bold mb-6" data-i18n="profit_title">Калькулятор прибыли</h1>
+        <div class="bg-white border border-gray-100 p-6 max-w-lg space-y-4">
+          <div><label class="form-label" data-i18n="profit_cost">Себестоимость (€)</label><input type="number" id="prof-cost" value="0" class="form-input" oninput="calcProfit()"></div>
+          <div><label class="form-label" data-i18n="profit_sell">Цена продажи (€)</label><input type="number" id="prof-sell" value="0" class="form-input" oninput="calcProfit()"></div>
+          <div><label class="form-label" data-i18n="profit_qty">Количество</label><input type="number" id="prof-qty" value="1" class="form-input" oninput="calcProfit()"></div>
+          <div class="border-t pt-4 space-y-2">
+            <div class="flex justify-between text-sm"><span data-i18n="profit_margin">Маржа</span><span id="prof-margin" class="font-bold">0%</span></div>
+            <div class="flex justify-between text-sm"><span data-i18n="profit_per_unit">За штуку</span><span id="prof-unit" class="font-bold">€0</span></div>
+            <div class="flex justify-between text-base font-bold"><span data-i18n="profit_total">Итого</span><span id="prof-total" class="text-green-600">€0</span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL — Multi-section with Internal / Public / Media / Inspection -->
+<!-- ═══════════════════════════════════════════════════════════
+     PRODUCT MODAL — DARK MODE 3-BLOCK EDITOR
+     ═══════════════════════════════════════════════════════════ -->
+<div id="product-modal" class="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto" style="display:none" onclick="if(event.target===this)closeProductModal()">
+  <div class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+  <div class="relative w-full max-w-[1280px] mx-4 my-6 bg-[#0f1117] shadow-2xl rounded-2xl border border-white/[0.06]">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between px-8 py-5 border-b border-white/[0.06] sticky top-0 bg-[#0f1117]/95 backdrop-blur z-10 rounded-t-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-gold/10 border border-gold/20 flex items-center justify-center rounded-lg"><span class="font-serif text-gold text-lg font-bold">A</span></div>
+        <div>
+          <h2 id="modal-title" class="text-white text-lg font-bold tracking-tight" data-i18n="modal_add_product">Добавить товар</h2>
+          <span class="text-[10px] text-white/25 tracking-wider uppercase">Product Editor</span>
+        </div>
+      </div>
+      <button onclick="closeProductModal()" class="w-9 h-9 flex items-center justify-center text-white/30 hover:text-white hover:bg-white/10 rounded-lg transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+
+    <!-- FORM -->
+    <form id="product-form" onsubmit="return saveProduct(event)" class="p-6 lg:p-8">
+      <input type="hidden" id="pf-id" value="">
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- ══════════════════════════════════════════════════════
+             BLOCK 1 — INTERNAL OPS (RED ZONE)
+             ══════════════════════════════════════════════════════ -->
+        <div class="space-y-5">
+          <div class="bg-[#1a1020] border border-red-500/20 rounded-xl p-5 space-y-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-pulse"></div>
+              <span class="text-[10px] font-bold text-red-400 uppercase tracking-[0.25em]">INTERNAL OPS</span>
+              <span class="ml-auto px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-[8px] text-red-400/80 uppercase tracking-wider rounded-full font-bold">PRIVATE</span>
+            </div>
+
+            <!-- Sourcing Link -->
+            <div>
+              <label class="block text-[10px] font-semibold text-red-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_sourcing">Sourcing Link</label>
+              <input type="text" id="pf-sourcing" placeholder="https://amazon.de/dp/..." class="w-full h-10 px-3 bg-[#0f0a14] border border-red-500/15 rounded-lg text-sm text-white/80 placeholder:text-white/15 focus:border-red-400/60 outline-none transition-colors font-mono text-[13px]">
+            </div>
+
+            <!-- Cost + Logistics -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[10px] font-semibold text-red-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_cost">Cost Price (€)</label>
+                <input type="number" id="pf-cost" step="0.01" value="0" class="w-full h-10 px-3 bg-[#0f0a14] border border-red-500/15 rounded-lg text-sm text-white/80 focus:border-red-400/60 outline-none transition-colors font-mono" oninput="calcModalProfit()">
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-red-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_logistics">Logistics Fee (€)</label>
+                <input type="number" id="pf-logistics" step="0.01" value="0" class="w-full h-10 px-3 bg-[#0f0a14] border border-red-500/15 rounded-lg text-sm text-white/80 focus:border-red-400/60 outline-none transition-colors font-mono" oninput="calcModalProfit()">
+              </div>
+            </div>
+          </div>
+
+          <!-- ▓▓ ESTIMATED PROFIT — Big widget ▓▓ -->
+          <div id="pf-profit-card" class="bg-[#0a1a0f] border-2 border-green-500/30 rounded-xl p-6 relative overflow-hidden transition-all">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-500/[0.04] via-transparent to-emerald-500/[0.02] pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-24 h-24 bg-green-500/[0.03] rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="trending-up" class="w-4 h-4 text-green-400"></i>
+                <span class="text-[10px] font-bold text-green-400/60 uppercase tracking-[0.25em]">ESTIMATED PROFIT</span>
+              </div>
+              <div id="pf-profit-eur" class="text-4xl font-extrabold text-green-400 font-mono leading-none tracking-tight">€0.00</div>
+              <div id="pf-profit-usdt" class="text-xl font-bold text-green-300/40 font-mono mt-1.5">≈ 0 USDT</div>
+              <div class="mt-4 pt-3 border-t border-green-500/10 flex items-center justify-between">
+                <span id="pf-profit-margin" class="text-[10px] text-green-400/40 uppercase tracking-wider font-bold">Margin: 0%</span>
+                <span id="pf-profit-label" class="text-[10px] text-green-400/30 font-mono">1 EUR ≈ 1.08 USDT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             BLOCK 2 — PUBLIC STOREFRONT (BLUE ZONE)
+             ══════════════════════════════════════════════════════ -->
+        <div class="space-y-5">
+          <div class="bg-[#101520] border border-blue-500/20 rounded-xl p-5 space-y-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]"></div>
+              <span class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.25em]">PUBLIC STOREFRONT</span>
+              <span class="ml-auto px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 text-[8px] text-blue-300/70 uppercase tracking-wider rounded-full font-bold">LIVE</span>
+            </div>
+
+            <!-- Name -->
+            <div>
+              <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_name">Produktname</label>
+              <input type="text" id="pf-name" required placeholder="iPhone 16 Pro Max 256 GB..." class="w-full h-10 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/90 placeholder:text-white/15 focus:border-blue-400/60 outline-none transition-colors">
+            </div>
+
+            <!-- Brand + Category -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_brand">Marke</label>
+                <select id="pf-brand" required class="w-full h-10 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/80 focus:border-blue-400/60 outline-none transition-colors" onchange="onBrandSelect()">
+                  <option value="" class="bg-[#0a0f18]">— Wählen —</option>
+                  <option class="bg-[#0a0f18]">Apple</option><option class="bg-[#0a0f18]">Samsung</option><option class="bg-[#0a0f18]">Sony</option><option class="bg-[#0a0f18]">Bose</option>
+                  <option class="bg-[#0a0f18]">Dyson</option><option class="bg-[#0a0f18]">Nike</option><option class="bg-[#0a0f18]">Adidas</option><option class="bg-[#0a0f18]">New Balance</option>
+                  <option class="bg-[#0a0f18]">Gucci</option><option class="bg-[#0a0f18]">Hermès</option><option class="bg-[#0a0f18]">Prada</option><option class="bg-[#0a0f18]">Dior</option>
+                  <option class="bg-[#0a0f18]">Balenciaga</option><option class="bg-[#0a0f18]">Chanel</option><option class="bg-[#0a0f18]">Louis Vuitton</option>
+                  <option class="bg-[#0a0f18]">Rolex</option><option class="bg-[#0a0f18]">Omega</option><option class="bg-[#0a0f18]">Rimowa</option>
+                  <option value="_custom" class="bg-[#0a0f18]">Другой…</option>
+                </select>
+                <input type="text" id="pf-brand-custom" placeholder="Marke eingeben…" class="w-full h-10 px-3 mt-2 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/80 focus:border-blue-400/60 outline-none transition-colors hidden">
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_cat">Kategorie</label>
+                <select id="pf-cat" class="w-full h-10 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/80 focus:border-blue-400/60 outline-none transition-colors">
+                  <option value="electronics" class="bg-[#0a0f18]">Elektronik</option>
+                  <option value="fashion" class="bg-[#0a0f18]">Mode</option>
+                  <option value="home" class="bg-[#0a0f18]">Haus & Wohnen</option>
+                  <option value="travel" class="bg-[#0a0f18]">Reise & Outdoor</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Prices -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_price">Aura Price (€)</label>
+                <input type="number" id="pf-price" required step="0.01" class="w-full h-11 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-[15px] text-white/95 focus:border-blue-400/60 outline-none transition-colors font-mono font-bold" oninput="calcModalProfit();calcSavings()">
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_oldprice">Retail / UVP (€)</label>
+                <input type="number" id="pf-oldprice" step="0.01" class="w-full h-11 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-[15px] text-white/40 focus:border-blue-400/60 outline-none transition-colors font-mono line-through" oninput="calcSavings()">
+              </div>
+            </div>
+
+            <!-- Savings Badge -->
+            <div id="pf-savings-badge" class="hidden flex px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/25 rounded-lg text-emerald-400 text-sm font-medium items-center gap-2">
+              <i data-lucide="badge-percent" class="w-4 h-4"></i>
+              <span>Sie sparen: <strong id="pf-savings-amount" class="font-mono">€0 (0%)</strong></span>
+            </div>
+
+            <!-- Stock -->
+            <div>
+              <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_stock">Lagerbestand</label>
+              <input type="number" id="pf-stock" value="10" class="w-full h-10 px-3 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/80 focus:border-blue-400/60 outline-none transition-colors">
+            </div>
+
+            <!-- VARIANTS -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider">Varianten</label>
+                <button type="button" onclick="addVariantRow()" class="text-[10px] text-blue-400 hover:text-blue-300 font-bold">+ Hinzufügen</button>
+              </div>
+              <div class="mb-2">
+                <input type="text" id="pf-variant-label" placeholder="Label (z.B. Speicher, Größe)" class="w-full h-8 px-3 bg-[#0a0f18] border border-blue-500/10 rounded-lg text-[11px] text-white/60 placeholder:text-white/15 outline-none">
+              </div>
+              <div id="pf-variants-list" class="space-y-1.5"></div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-[10px] font-semibold text-blue-300/60 uppercase tracking-wider mb-1.5" data-i18n="pf_desc">Beschreibung</label>
+              <textarea id="pf-desc" rows="3" class="w-full px-3 py-2.5 bg-[#0a0f18] border border-blue-500/15 rounded-lg text-sm text-white/70 placeholder:text-white/15 focus:border-blue-400/60 outline-none transition-colors resize-none" placeholder="Kurze Produktbeschreibung..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             BLOCK 3 — MEDIA & INSPECTION (GOLD TRUST ZONE)
+             ══════════════════════════════════════════════════════ -->
+        <div class="space-y-5">
+
+          <!-- MEDIA CARD -->
+          <div class="bg-[#15130e] border border-gold/20 rounded-xl p-5 space-y-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_rgba(197,160,89,0.5)]"></div>
+              <span class="text-[10px] font-bold text-gold uppercase tracking-[0.25em]">MEDIA</span>
+              <span class="ml-auto px-2 py-0.5 bg-gold/10 border border-gold/20 text-[8px] text-gold/70 uppercase tracking-wider rounded-full font-bold">TRUST CENTER</span>
+            </div>
+
+            <!-- Main Image — Drag & Drop -->
+            <div>
+              <label class="block text-[10px] font-semibold text-gold/60 uppercase tracking-wider mb-1.5" data-i18n="pf_img">Hauptbild</label>
+              <div id="pf-img-dropzone" class="border-2 border-dashed border-gold/15 rounded-xl p-4 text-center cursor-pointer hover:border-gold/40 transition-all group" ondragover="event.preventDefault();this.classList.add('border-gold/60','bg-gold/5')" ondragleave="this.classList.remove('border-gold/60','bg-gold/5')" ondrop="handleMainImgDrop(event)" onclick="document.getElementById('pf-img-file').click()">
+                <input type="file" accept="image/*" id="pf-img-file" class="hidden" onchange="uploadMainImage(this)">
+                <input type="hidden" id="pf-img" value="">
+                <div id="pf-img-preview" class="flex flex-col items-center gap-2 py-2">
+                  <div class="w-14 h-14 bg-white/[0.03] rounded-xl flex items-center justify-center border border-white/5">
+                    <i data-lucide="image-plus" class="w-6 h-6 text-gold/25 group-hover:text-gold/50 transition-colors"></i>
+                  </div>
+                  <span class="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Drop image or click</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery — Drag & Drop -->
+            <div>
+              <label class="block text-[10px] font-semibold text-gold/60 uppercase tracking-wider mb-1.5" data-i18n="pf_gallery">Galerie</label>
+              <div id="pf-gallery-list" class="flex flex-wrap gap-2 mb-2"></div>
+              <div id="pf-gallery-dropzone" class="border-2 border-dashed border-gold/10 rounded-lg p-3 text-center cursor-pointer hover:border-gold/30 transition-all" ondragover="event.preventDefault();this.classList.add('border-gold/50','bg-gold/5')" ondragleave="this.classList.remove('border-gold/50','bg-gold/5')" ondrop="handleGalleryDrop(event)" onclick="document.getElementById('pf-gallery-file').click()">
+                <input type="file" accept="image/*" multiple id="pf-gallery-file" class="hidden" onchange="uploadGalleryPhotos(this)">
+                <span class="text-[10px] text-white/15">+ Drop or click to add photos</span>
+              </div>
+            </div>
+
+            <!-- Video — Drag & Drop + Status -->
+            <div>
+              <label class="block text-[10px] font-semibold text-gold/60 uppercase tracking-wider mb-1.5" data-i18n="pf_video">Inspektions-Video</label>
+              <div id="pf-video-dropzone" class="border-2 border-dashed border-gold/10 rounded-xl p-4 text-center cursor-pointer hover:border-gold/30 transition-all group" ondragover="event.preventDefault();this.classList.add('border-gold/50','bg-gold/5')" ondragleave="this.classList.remove('border-gold/50','bg-gold/5')" ondrop="handleVideoDrop(event)" onclick="document.getElementById('pf-video-file').click()">
+                <input type="file" accept="video/*,.mov,.avi,.mkv,.wmv,.flv,.webm,.mp4,.m4v,.3gp,.ts" id="pf-video-file" class="hidden" onchange="uploadVideo(this)">
+                <input type="hidden" id="pf-video" value="">
+                <div id="pf-video-preview" class="flex flex-col items-center gap-2 py-1">
+                  <i data-lucide="video" class="w-6 h-6 text-gold/20 group-hover:text-gold/40 transition-colors"></i>
+                  <span class="text-[10px] text-white/15 group-hover:text-white/30">Drop video or click to upload</span>
+                </div>
+              </div>
+              <!-- Video verification status -->
+              <div id="pf-badge-preview" class="mt-3 flex items-center gap-2.5">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-white/30 text-[10px] font-bold tracking-widest rounded-full uppercase">
+                  <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span> INCOMING
+                </span>
+                <span class="text-[10px] text-white/20">Kein Video hochgeladen</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- INSPECTION PROTOCOL CARD -->
+          <div class="bg-[#15130e] border border-gold/15 rounded-xl p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-gold/50"></i>
+                <span class="text-[10px] font-bold text-gold/70 uppercase tracking-[0.2em]" data-i18n="sec_inspect">AURA PROTOCOL</span>
+              </div>
+              <span id="pf-insp-score" class="px-3 py-1 bg-green-500/10 text-green-400 text-[10px] font-bold rounded-full border border-green-500/20 tracking-wider">3/3 ✓</span>
+            </div>
+
+            <!-- Toggle: Original -->
+            <label class="flex items-center justify-between p-3.5 bg-white/[0.02] rounded-xl cursor-pointer hover:bg-white/[0.05] transition-all border border-transparent hover:border-white/[0.04]" id="chk-auth-wrap">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="shield" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <span class="text-[13px] font-semibold text-white/90 block leading-tight">Original</span>
+                  <span class="text-[10px] text-white/25">Echtheitsprüfung</span>
+                </div>
+              </div>
+              <div class="relative flex-shrink-0">
+                <input type="checkbox" id="pf-chk-authentic" checked onchange="updateInspScore()" class="sr-only peer">
+                <div class="w-12 h-7 bg-white/10 rounded-full peer-checked:bg-green-500 transition-colors"></div>
+                <div class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-lg peer-checked:translate-x-5 transition-transform"></div>
+              </div>
+            </label>
+
+            <!-- Toggle: Functions -->
+            <label class="flex items-center justify-between p-3.5 bg-white/[0.02] rounded-xl cursor-pointer hover:bg-white/[0.05] transition-all border border-transparent hover:border-white/[0.04]" id="chk-func-wrap">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <span class="text-[13px] font-semibold text-white/90 block leading-tight">Functions</span>
+                  <span class="text-[10px] text-white/25">Funktionalität geprüft</span>
+                </div>
+              </div>
+              <div class="relative flex-shrink-0">
+                <input type="checkbox" id="pf-chk-functions" checked onchange="updateInspScore()" class="sr-only peer">
+                <div class="w-12 h-7 bg-white/10 rounded-full peer-checked:bg-green-500 transition-colors"></div>
+                <div class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-lg peer-checked:translate-x-5 transition-transform"></div>
+              </div>
+            </label>
+
+            <!-- Toggle: Seal -->
+            <label class="flex items-center justify-between p-3.5 bg-white/[0.02] rounded-xl cursor-pointer hover:bg-white/[0.05] transition-all border border-transparent hover:border-white/[0.04]" id="chk-seal-wrap">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="lock" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <span class="text-[13px] font-semibold text-white/90 block leading-tight">Seal</span>
+                  <span class="text-[10px] text-white/25">Qualitätsplombe intakt</span>
+                </div>
+              </div>
+              <div class="relative flex-shrink-0">
+                <input type="checkbox" id="pf-chk-sealed" checked onchange="updateInspScore()" class="sr-only peer">
+                <div class="w-12 h-7 bg-white/10 rounded-full peer-checked:bg-green-500 transition-colors"></div>
+                <div class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-lg peer-checked:translate-x-5 transition-transform"></div>
+              </div>
+            </label>
+          </div>
+
+        </div>
+      </div><!-- /grid -->
+
+      <!-- ═══ REVIEWS MANAGEMENT ═══ -->
+      <div id="pf-reviews-section" class="mt-6 bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden" style="display:none">
+        <button type="button" onclick="toggleReviewsPanel()" class="w-full flex items-center justify-between px-5 py-4 hover:bg-white/[0.03] transition-colors">
+          <div class="flex items-center gap-2.5">
+            <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+            <span class="text-[10px] font-bold text-amber-300 uppercase tracking-[0.25em]">BEWERTUNGEN</span>
+            <span id="pf-reviews-count" class="text-[10px] text-white/25 font-mono">(0)</span>
+          </div>
+          <i data-lucide="chevron-down" id="pf-reviews-chevron" class="w-4 h-4 text-white/25 transition-transform"></i>
+        </button>
+        <div id="pf-reviews-body" class="px-5 pb-5" style="display:none">
+          <!-- Existing reviews list -->
+          <div id="pf-reviews-list" class="space-y-3 mb-4"></div>
+          <!-- Add manual review form -->
+          <div class="border-t border-white/[0.06] pt-4">
+            <p class="text-[10px] font-bold text-white/30 uppercase tracking-wider mb-3">MANUELLE BEWERTUNG ERSTELLEN</p>
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <input type="text" id="rv-admin-name" placeholder="Kundenname" class="h-10 px-3 bg-white/[0.04] border border-white/[0.08] rounded-lg text-white/80 text-sm outline-none focus:border-gold/40 placeholder:text-white/15 transition-colors">
+              <div class="flex items-center gap-1" id="rv-admin-stars-wrap">
+                <button type="button" onclick="setAdminReviewStar(1)" class="adm-rv-star w-8 h-8 flex items-center justify-center rounded border border-white/10 text-white/20 hover:text-gold hover:border-gold/30 transition-all" data-s="1">★</button>
+                <button type="button" onclick="setAdminReviewStar(2)" class="adm-rv-star w-8 h-8 flex items-center justify-center rounded border border-white/10 text-white/20 hover:text-gold hover:border-gold/30 transition-all" data-s="2">★</button>
+                <button type="button" onclick="setAdminReviewStar(3)" class="adm-rv-star w-8 h-8 flex items-center justify-center rounded border border-white/10 text-white/20 hover:text-gold hover:border-gold/30 transition-all" data-s="3">★</button>
+                <button type="button" onclick="setAdminReviewStar(4)" class="adm-rv-star w-8 h-8 flex items-center justify-center rounded border border-white/10 text-white/20 hover:text-gold hover:border-gold/30 transition-all" data-s="4">★</button>
+                <button type="button" onclick="setAdminReviewStar(5)" class="adm-rv-star w-8 h-8 flex items-center justify-center rounded border border-white/10 text-white/20 hover:text-gold hover:border-gold/30 transition-all" data-s="5">★</button>
+              </div>
+            </div>
+            <textarea id="rv-admin-text" rows="2" placeholder="Bewertungstext..." class="w-full px-3 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-white/80 text-sm outline-none focus:border-gold/40 placeholder:text-white/15 resize-none transition-colors mb-3"></textarea>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="addAdminReview()" class="px-4 py-2 bg-gold/20 hover:bg-gold/30 border border-gold/30 text-gold text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Hinzufügen
+              </button>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="rv-admin-approved" checked class="accent-gold w-4 h-4">
+                <span class="text-xs text-white/40">Sofort genehmigen</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SUBMIT ROW ═══ -->
+      <div class="flex gap-4 mt-8 pt-6 border-t border-white/[0.06]">
+        <button type="submit" class="flex-1 py-3.5 bg-gradient-to-r from-gold to-gold-light hover:from-gold-light hover:to-gold text-navy font-bold text-sm tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-gold/10">
+          <i data-lucide="save" class="w-4 h-4"></i>
+          <span data-i18n="btn_save">Сохранить</span>
+        </button>
+        <button type="button" onclick="closeProductModal()" class="px-8 py-3.5 border border-white/10 text-white/40 hover:text-white hover:border-white/25 text-sm font-medium rounded-xl transition-all" data-i18n="btn_cancel">Отмена</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ORDER DETAIL MODAL — 4-BLOCK DARK MODE
+     ═══════════════════════════════════════════════════════════ -->
+<div id="order-modal" class="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto" style="display:none" onclick="if(event.target===this)closeOrderModal()">
+  <div class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+  <div class="relative w-full max-w-[1100px] mx-4 my-6 bg-[#0f1117] shadow-2xl rounded-2xl border border-white/[0.06]">
+    <!-- HEADER -->
+    <div class="flex items-center justify-between px-8 py-5 border-b border-white/[0.06] sticky top-0 bg-[#0f1117]/95 backdrop-blur z-10 rounded-t-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-gold/10 border border-gold/20 flex items-center justify-center rounded-lg"><i data-lucide="package" class="w-5 h-5 text-gold"></i></div>
+        <div>
+          <h2 id="om-title" class="text-white text-lg font-bold tracking-tight">Bestelldetails</h2>
+          <span id="om-id" class="text-[10px] text-white/25 tracking-wider uppercase font-mono"></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="om-status-badge" class="px-3 py-1 text-xs font-bold rounded-full"></span>
+        <button onclick="closeOrderModal()" class="w-9 h-9 flex items-center justify-center text-white/30 hover:text-white hover:bg-white/10 rounded-lg transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <!-- 4 BLOCKS -->
+    <div class="p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- BLOCK 1 — LOGISTICS -->
+      <div class="bg-[#101520] border border-blue-500/20 rounded-xl p-5 space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+          <span class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.25em]">LOGISTIK / VERSAND</span>
+        </div>
+        <div class="space-y-3">
+          <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Empfänger</span><p id="om-name" class="text-white/80 text-sm font-medium"></p></div>
+          <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Adresse</span><p id="om-address" class="text-white/60 text-sm"></p></div>
+          <div class="grid grid-cols-3 gap-3">
+            <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Land</span><p id="om-country" class="text-white/80 text-sm font-medium"></p></div>
+            <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Datum</span><p id="om-date" class="text-white/60 text-sm font-mono"></p></div>
+            <div><span class="text-[10px] text-blue-300/50 uppercase tracking-wider block mb-0.5">Status</span>
+              <select id="om-status-select" onchange="updateOrderFromModal('status')" class="w-full text-xs bg-[#0a0f18] border border-blue-500/20 text-white/80 px-2 py-1.5 rounded-lg outline-none">
+                <option value="paid" class="bg-[#0a0f18]">Bezahlt</option>
+                <option value="sourcing" class="bg-[#0a0f18]">Sourcing</option>
+                <option value="shipped" class="bg-[#0a0f18]">Versendet</option>
+                <option value="delivered" class="bg-[#0a0f18]">Geliefert</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- BLOCK 2 — PRODUCT / SOURCING -->
+      <div class="bg-[#1a1020] border border-red-500/20 rounded-xl p-5 space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+          <span class="text-[10px] font-bold text-red-400 uppercase tracking-[0.25em]">PRODUKT / SOURCING</span>
+          <span class="ml-auto px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-[8px] text-red-400/80 uppercase tracking-wider rounded-full font-bold">PRIVATE</span>
+        </div>
+        <div id="om-items" class="space-y-2 max-h-[180px] overflow-y-auto"></div>
+        <div class="pt-3 border-t border-red-500/10 space-y-2">
+          <div class="flex justify-between text-xs"><span class="text-red-300/50">Gesamt-Einkauf</span><span id="om-cost-total" class="text-red-400 font-mono font-bold">€0</span></div>
+        </div>
+      </div>
+      <!-- BLOCK 3 — CONTENT / TRACKING -->
+      <div class="bg-[#15130e] border border-gold/20 rounded-xl p-5 space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2 h-2 rounded-full bg-gold"></div>
+          <span class="text-[10px] font-bold text-gold uppercase tracking-[0.25em]">CONTENT / TRACKING</span>
+        </div>
+        <div>
+          <label class="text-[10px] text-gold/60 uppercase tracking-wider block mb-1.5">Tracking Nummer / URL</label>
+          <div class="flex gap-2">
+            <input type="text" id="om-tracking" placeholder="Tracking-Nummer..." class="flex-1 h-9 px-3 bg-[#0f0a14] border border-gold/15 rounded-lg text-sm text-white/80 placeholder:text-white/15 outline-none font-mono text-[12px]">
+            <button onclick="updateOrderFromModal('tracking')" class="px-4 h-9 bg-gold/10 border border-gold/20 text-gold text-[10px] font-bold rounded-lg hover:bg-gold/20 transition-colors">SAVE</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[10px] text-gold/60 uppercase tracking-wider block mb-1.5">Kaufbeleg</label>
+          <div id="om-receipt-zone" class="flex items-center gap-3">
+            <label class="px-4 py-2 bg-gold/10 border border-gold/20 text-gold text-[10px] font-bold rounded-lg cursor-pointer hover:bg-gold/20 transition-colors">
+              UPLOAD <input type="file" accept="image/*,.pdf" class="hidden" onchange="uploadReceiptFromModal(this)">
+            </label>
+            <span id="om-receipt-status" class="text-[11px] text-white/30">Kein Beleg</span>
+          </div>
+        </div>
+        <div id="om-video-link" class="hidden">
+          <label class="text-[10px] text-gold/60 uppercase tracking-wider block mb-1.5">Inspektions-Video</label>
+          <button onclick="openOrderVideo()" class="flex items-center gap-2 text-gold/70 hover:text-gold text-xs transition-colors"><i data-lucide="play-circle" class="w-4 h-4"></i><span>Video ansehen</span></button>
+        </div>
+      </div>
+      <!-- BLOCK 4 — FINANCES / USDT -->
+      <div class="bg-[#0a1a0f] border border-green-500/20 rounded-xl p-5 space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2 h-2 rounded-full bg-green-400"></div>
+          <span class="text-[10px] font-bold text-green-400 uppercase tracking-[0.25em]">FINANZEN / USDT</span>
+        </div>
+        <div class="space-y-3">
+          <div class="flex justify-between items-baseline"><span class="text-xs text-green-300/40">Umsatz (Aura Price)</span><span id="om-revenue" class="text-lg font-bold text-green-400 font-mono">€0</span></div>
+          <div class="flex justify-between items-baseline"><span class="text-xs text-red-300/40">Einkauf + Logistik</span><span id="om-expense" class="text-lg font-bold text-red-400 font-mono">−€0</span></div>
+          <div class="border-t border-green-500/10 pt-3">
+            <div class="flex justify-between items-baseline"><span class="text-xs text-green-300/60 font-bold">NET PROFIT</span><span id="om-profit-eur" class="text-2xl font-extrabold text-green-400 font-mono">€0</span></div>
+            <div class="flex justify-between items-baseline mt-1"><span class="text-xs text-green-300/30">USDT</span><span id="om-profit-usdt" class="text-lg font-bold text-green-300/50 font-mono">≈ 0 USDT</span></div>
+            <div class="mt-2"><span id="om-margin" class="text-[10px] text-green-400/40 uppercase tracking-wider font-bold">Margin: 0%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── AUTH CHECK ──────────────────────────────────────────────
+var session=Aura.getSession();
+if(!session||(!Aura.isAdmin()&&!Aura.isLinguist())){
+  document.getElementById('access-gate').style.display='flex';
+  return;
+}
+document.getElementById('app-shell').style.display='flex';
+var isAdmin=Aura.isAdmin();
+document.getElementById('user-initial').textContent=(session.name||'A')[0].toUpperCase();
+document.getElementById('user-name').textContent=session.name||session.email;
+document.getElementById('user-role').textContent=session.role;
+
+if(!isAdmin){
+  document.querySelectorAll('.admin-only').forEach(function(el){el.style.display='none';});
+}
+
+// ── I18N ────────────────────────────────────────────────────
+var lang='ru';
+var dict={
+  ru:{
+    no_access:'Нет доступа',go_login:'Войти',
+    nav_main:'ОСНОВНОЕ',nav_dashboard:'Обзор',nav_orders:'Заказы',nav_products:'Товары',nav_manage:'УПРАВЛЕНИЕ',nav_linguists:'Лингвисты',nav_profit:'Прибыль',
+    dash_title:'Обзор',stat_products:'Товары',stat_orders:'Заказы',stat_revenue:'Выручка',stat_users:'Пользователи',stat_profit_net:'Чистая прибыль',dash_recent:'Последние заказы',
+    chart_revenue:'Выручка за 30 дней',dash_top_products:'Топ-5 товаров',dash_low_stock:'Мало на складе',dash_order_status:'Статусы заказов',
+    th_id:'ID',th_date:'Дата',th_total:'Сумма',th_status:'Статус',th_customer:'Клиент',th_items:'Товары',th_actions:'Действия',th_name:'Название',th_brand:'Бренд',th_cat:'Категория',th_price:'Aura / UVP',th_stock:'Склад',th_role:'Роль',th_cost:'Себест.',th_profit_col:'Прибыль',th_badge:'Значок',th_protocol:'Протокол',
+    orders_title:'Заказы',orders_empty:'Заказов пока нет',
+    products_title:'Товары',btn_add_product:'Добавить товар',
+    modal_add_product:'Добавить товар',modal_edit_product:'Редактировать товар',
+    sec_internal:'INTERNAL INFO — PRIVATE',sec_basic:'Основная информация',sec_media:'Контент & Медиа',sec_inspect:'Aura Inspection Protocol',
+    pf_name:'Название',pf_brand:'Бренд',pf_cat:'Категория',pf_price:'Aura Цена (€)',pf_oldprice:'Retail / UVP (€)',pf_stock:'Склад',pf_img:'Главное фото (URL / эмодзи)',pf_desc:'Описание',
+    pf_sourcing:'Sourcing Link',pf_cost:'Cost Price (€)',pf_logistics:'Logistics Fee (€)',pf_net:'Net Profit',
+    pf_gallery:'Галерея фото (URL)',pf_video:'Видео инспекции',
+    btn_save:'Сохранить',btn_cancel:'Отмена',btn_add:'Добавить',btn_upload_file:'Загрузить файл',btn_upload_video:'Загрузить видео',btn_csv:'CSV экспорт',btn_apply:'Применить',btn_clear_sel:'Отменить выбор',
+    linguists_title:'Лингвисты',add_linguist:'Добавить лингвиста',
+    profit_title:'Калькулятор прибыли',profit_cost:'Себестоимость (€)',profit_sell:'Цена продажи (€)',profit_qty:'Количество',profit_margin:'Маржа',profit_per_unit:'За штуку',profit_total:'Итого',
+    status_paid:'Оплачено',status_sourcing:'Закуп',status_shipped:'Отправлен',status_delivered:'Доставлен',status_pending:'Ожидает',status_inspection:'Проверка',
+    th_tracking:'Трек-номер',btn_receipt:'Загрузить чек',btn_save_track:'Сохранить',
+    btn_edit:'Ред.',btn_delete:'Удал.',
+  },
+  en:{
+    no_access:'Access denied',go_login:'Login',
+    nav_main:'MAIN',nav_dashboard:'Dashboard',nav_orders:'Orders',nav_products:'Products',nav_manage:'MANAGEMENT',nav_linguists:'Linguists',nav_profit:'Profit',
+    dash_title:'Dashboard',stat_products:'Products',stat_orders:'Orders',stat_revenue:'Revenue',stat_users:'Users',stat_profit_net:'Net Profit',dash_recent:'Recent Orders',
+    chart_revenue:'Revenue (30 days)',dash_top_products:'Top 5 Products',dash_low_stock:'Low Stock Alert',dash_order_status:'Order Status',
+    th_id:'ID',th_date:'Date',th_total:'Total',th_status:'Status',th_customer:'Customer',th_items:'Items',th_actions:'Actions',th_name:'Name',th_brand:'Brand',th_cat:'Category',th_price:'Aura / RRP',th_stock:'Stock',th_role:'Role',th_cost:'Cost',th_profit_col:'Profit',th_badge:'Badge',th_protocol:'Protocol',
+    orders_title:'Orders',orders_empty:'No orders yet',
+    products_title:'Products',btn_add_product:'Add Product',
+    modal_add_product:'Add Product',modal_edit_product:'Edit Product',
+    sec_internal:'INTERNAL INFO — PRIVATE',sec_basic:'Basic Information',sec_media:'Content & Media',sec_inspect:'Aura Inspection Protocol',
+    pf_name:'Name',pf_brand:'Brand',pf_cat:'Category',pf_price:'Aura Price (€)',pf_oldprice:'Retail / RRP (€)',pf_stock:'Stock',pf_img:'Main Photo (URL / emoji)',pf_desc:'Description',
+    pf_sourcing:'Sourcing Link',pf_cost:'Cost Price (€)',pf_logistics:'Logistics Fee (€)',pf_net:'Net Profit',
+    pf_gallery:'Gallery (URL)',pf_video:'Inspection Video',
+    btn_save:'Save',btn_cancel:'Cancel',btn_add:'Add',btn_upload_file:'Upload file',btn_upload_video:'Upload video',btn_csv:'CSV Export',btn_apply:'Apply',btn_clear_sel:'Clear selection',
+    linguists_title:'Linguists',add_linguist:'Add Linguist',
+    profit_title:'Profit Calculator',profit_cost:'Cost (€)',profit_sell:'Sell Price (€)',profit_qty:'Quantity',profit_margin:'Margin',profit_per_unit:'Per unit',profit_total:'Total',
+    status_paid:'Paid',status_sourcing:'Sourcing',status_shipped:'Shipped',status_delivered:'Delivered',status_pending:'Pending',status_inspection:'Inspection',
+    th_tracking:'Tracking',btn_receipt:'Upload receipt',btn_save_track:'Save',
+    btn_edit:'Edit',btn_delete:'Del.',
+  },
+  de:{
+    no_access:'Kein Zugang',go_login:'Anmelden',
+    nav_main:'HAUPT',nav_dashboard:'Übersicht',nav_orders:'Bestellungen',nav_products:'Produkte',nav_manage:'VERWALTUNG',nav_linguists:'Linguisten',nav_profit:'Gewinn',
+    dash_title:'Übersicht',stat_products:'Produkte',stat_orders:'Bestellungen',stat_revenue:'Umsatz',stat_users:'Benutzer',stat_profit_net:'Nettogewinn',dash_recent:'Letzte Bestellungen',
+    chart_revenue:'Umsatz (30 Tage)',dash_top_products:'Top-5 Produkte',dash_low_stock:'Geringer Bestand',dash_order_status:'Bestellstatus',
+    th_id:'ID',th_date:'Datum',th_total:'Betrag',th_status:'Status',th_customer:'Kunde',th_items:'Artikel',th_actions:'Aktionen',th_name:'Name',th_brand:'Marke',th_cat:'Kategorie',th_price:'Aura / UVP',th_stock:'Lager',th_role:'Rolle',th_cost:'Einkauf',th_profit_col:'Gewinn',th_badge:'Badge',th_protocol:'Protokoll',
+    orders_title:'Bestellungen',orders_empty:'Noch keine Bestellungen',
+    products_title:'Produkte',btn_add_product:'Produkt hinzufügen',
+    modal_add_product:'Produkt hinzufügen',modal_edit_product:'Produkt bearbeiten',
+    sec_internal:'INTERNAL INFO — PRIVAT',sec_basic:'Grundinformationen',sec_media:'Inhalt & Medien',sec_inspect:'Aura Inspection Protocol',
+    pf_name:'Name',pf_brand:'Marke',pf_cat:'Kategorie',pf_price:'Aura Preis (€)',pf_oldprice:'UVP (€)',pf_stock:'Lager',pf_img:'Hauptbild (URL / Emoji)',pf_desc:'Beschreibung',
+    pf_sourcing:'Sourcing Link',pf_cost:'Einkaufspreis (€)',pf_logistics:'Logistik (€)',pf_net:'Nettogewinn',
+    pf_gallery:'Galerie (URL)',pf_video:'Inspektions-Video',
+    btn_save:'Speichern',btn_cancel:'Abbrechen',btn_add:'Hinzufügen',btn_upload_file:'Datei hochladen',btn_upload_video:'Video hochladen',btn_csv:'CSV Export',btn_apply:'Anwenden',btn_clear_sel:'Auswahl aufheben',
+    linguists_title:'Linguisten',add_linguist:'Linguist hinzufügen',
+    profit_title:'Gewinnrechner',profit_cost:'Einkauf (€)',profit_sell:'Verkauf (€)',profit_qty:'Menge',profit_margin:'Marge',profit_per_unit:'Pro Stück',profit_total:'Gesamt',
+    status_paid:'Bezahlt',status_sourcing:'Beschaffung',status_shipped:'Versendet',status_delivered:'Geliefert',status_pending:'Ausstehend',status_inspection:'Prüfung',
+    th_tracking:'Tracking',btn_receipt:'Beleg hochladen',btn_save_track:'Speichern',
+    btn_edit:'Edit',btn_delete:'Lösch.',
+  }
+};
+
+window.setLang=function(l){
+  lang=l;
+  ['ru','en','de'].forEach(function(code){
+    var btn=document.getElementById('lang-'+code);
+    if(!btn) return;
+    if(l===code){btn.style.background='rgba(255,255,255,0.1)';btn.style.color='#fff';}
+    else{btn.style.background='';btn.style.color='rgba(255,255,255,0.6)';}
+  });
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    if(dict[l]&&dict[l][key]) el.textContent=dict[l][key];
+  });
+  document.documentElement.lang=l==='ru'?'ru':l==='de'?'de':'en';
+  refreshAll();
+};
+
+function t(key){return dict[lang][key]||key;}
+
+// ── NAVIGATION ──────────────────────────────────────────────
+window.showSection=function(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.add('hidden');});
+  document.getElementById('sec-'+id).classList.remove('hidden');
+  document.querySelectorAll('.sidebar-link').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-section')===id);});
+  refreshAll();
+  document.getElementById('sidebar').classList.add('-translate-x-full');
+};
+
+window.toggleSidebar=function(){document.getElementById('sidebar').classList.toggle('-translate-x-full');};
+
+// ── EUR→USDT ────────────────────────────────────────────────
+var EUR_USDT=1.08;
+
+// ── DATA REFRESH ────────────────────────────────────────────
+var _chartPeriod=30;
+var prodPage=1;
+var PROD_PER_PAGE=25;
+var _selectedOrders=[];
+Object.defineProperty(window,'prodPage',{get:function(){return prodPage;},set:function(v){prodPage=v;},configurable:true});
+
+window.setChartPeriod=function(days,btn){
+  _chartPeriod=days;
+  document.getElementById('chart-period-pills').querySelectorAll('button').forEach(function(b){
+    b.className='px-2 py-1 text-[10px] font-bold rounded '+(b===btn?'bg-navy text-white':'text-gray-400 hover:bg-gray-100');
+  });
+  renderRevenueChart(Aura.getOrders());
+};
+
+function refreshAll(){
+  var products=Aura.getProducts();
+  var orders=Aura.getOrders();
+  var users=Aura.getUsers();
+  var revenue=orders.reduce(function(s,o){return s+(o.total||0);},0);
+
+  // ── STAT CARDS ──
+  document.getElementById('stat-prod').textContent=products.length;
+  document.getElementById('stat-orders').textContent=orders.length;
+  document.getElementById('stat-revenue').textContent='€'+revenue.toFixed(2);
+
+  // Products delta — low stock count
+  var lowCount=products.filter(function(p){return (p.stock||0)<=5;}).length;
+  var pdEl=document.getElementById('stat-prod-delta');
+  pdEl.textContent=lowCount>0?(lowCount+' '+(lang==='ru'?'мало на складе':lang==='de'?'niedriger Bestand':'low stock')):'';
+  pdEl.className='text-[10px] mt-0.5 '+(lowCount>0?'text-amber-500':'text-green-500');
+  // Orders today
+  var now=new Date();
+  var today=orders.filter(function(o){return (now-new Date(o.date||o.created))<86400000;});
+  document.getElementById('stat-orders-today').textContent=today.length>0?'+'+today.length+' '+(lang==='ru'?'сегодня':lang==='de'?'heute':'today'):'';
+  document.getElementById('stat-revenue-usdt').textContent='≈ '+(revenue*EUR_USDT).toFixed(0)+' USDT';
+
+  // Net profit
+  var totalCost=0;
+  orders.forEach(function(o){
+    (o.items||[]).forEach(function(it){
+      var p=it.product||Aura.getProductById(it.productId)||{};
+      totalCost+=((p._costPrice||0)+(p._logisticsFee||0))*(it.qty||1);
+    });
+  });
+  var netProfit=revenue-totalCost;
+  document.getElementById('stat-net-profit').textContent=(netProfit>=0?'€':'−€')+Math.abs(netProfit).toFixed(2);
+  document.getElementById('stat-net-profit').className='text-xl sm:text-2xl font-bold '+(netProfit>=0?'text-green-600':'text-red-500');
+  document.getElementById('stat-net-margin').textContent=revenue>0?'Margin: '+((netProfit/revenue)*100).toFixed(1)+'%':'';
+
+  // ── REVENUE CHART ──
+  renderRevenueChart(orders);
+
+  // ── TOP PRODUCTS ──
+  renderTopProducts(orders,products);
+
+  // ── LOW STOCK ALERTS ──
+  renderLowStock(products);
+
+  // ── ORDER STATUS BREAKDOWN ──
+  renderStatusBars(orders);
+
+  // ── DASHBOARD RECENT ORDERS ──
+  var recent=orders.slice().sort(function(a,b){return new Date(b.date||b.created)-new Date(a.date||a.created);}).slice(0,5);
+  document.getElementById('dash-orders-body').innerHTML=recent.length?recent.map(function(o){
+    return '<tr class="border-t border-gray-50 cursor-pointer hover:bg-gray-50/50" onclick="showSection(\'orders\');setTimeout(function(){openOrderModal(\''+o.id+'\')},100)"><td class="table-cell font-mono text-xs">'+o.id.slice(0,12)+'</td><td class="table-cell text-xs text-gray-400">'+new Date(o.date||o.created).toLocaleDateString()+'</td><td class="table-cell font-bold">€'+(o.total||0).toFixed(2)+'</td><td class="table-cell"><span class="badge-'+(o.status||'pending')+'">'+t('status_'+(o.status||'pending'))+'</span></td></tr>';
+  }).join(''):'<tr><td colspan="4" class="table-cell text-center text-gray-400">—</td></tr>';
+
+  // ── ORDERS LIST ──
+  refreshOrders();
+
+  // ── PRODUCTS LIST ──
+  if(isAdmin) refreshProducts();
+
+  // ── LINGUISTS ──
+  if(isAdmin){
+    var linguists=users.filter(function(u){return u.role==='linguist';});
+    document.getElementById('linguists-body').innerHTML=linguists.length?linguists.map(function(u){
+      return '<tr class="border-t border-gray-50"><td class="table-cell font-medium">'+u.name+'</td><td class="table-cell text-gray-400">'+u.email+'</td><td class="table-cell"><span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded">linguist</span></td></tr>';
+    }).join(''):'<tr><td colspan="3" class="table-cell text-center text-gray-400">—</td></tr>';
+  }
+
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+
+// ── REVENUE CHART (pure CSS bars) ───────────────────────────
+function renderRevenueChart(orders){
+  var days=_chartPeriod;
+  var now=new Date(); now.setHours(0,0,0,0);
+  var buckets=[];
+  for(var d=days-1;d>=0;d--){
+    var day=new Date(now); day.setDate(day.getDate()-d); day.setHours(0,0,0,0);
+    buckets.push({date:day,total:0});
+  }
+  orders.forEach(function(o){
+    var od=new Date(o.date||o.created); od.setHours(0,0,0,0);
+    var diff=Math.round((now-od)/86400000);
+    var idx=days-1-diff;
+    if(idx>=0&&idx<buckets.length) buckets[idx].total+=(o.total||0);
+  });
+  var maxVal=Math.max.apply(null,buckets.map(function(b){return b.total;}))||1;
+  var chart=document.getElementById('revenue-chart');
+  chart.innerHTML=buckets.map(function(b,i){
+    var h=Math.max(2,Math.round(b.total/maxVal*100));
+    var color=b.total>0?'bg-navy hover:bg-navy-light':'bg-gray-100';
+    return '<div class="flex-1 flex flex-col justify-end items-center group cursor-default" title="€'+b.total.toFixed(2)+'">'
+      +'<div class="relative w-full"><div class="hidden group-hover:block absolute -top-7 left-1/2 -translate-x-1/2 bg-navy text-white text-[9px] px-2 py-1 rounded whitespace-nowrap z-10">€'+b.total.toFixed(0)+'</div></div>'
+      +'<div class="w-full rounded-t '+color+' transition-colors" style="height:'+h+'%"></div></div>';
+  }).join('');
+  // Labels
+  var labels=document.getElementById('revenue-chart-labels');
+  if(days<=7){
+    labels.innerHTML=buckets.map(function(b){return '<span>'+b.date.toLocaleDateString('de-DE',{weekday:'short'})+'</span>';}).join('');
+  }else{
+    var step=Math.ceil(days/6);
+    labels.innerHTML=buckets.map(function(b,i){
+      return i%step===0||i===buckets.length-1?'<span>'+b.date.toLocaleDateString('de-DE',{day:'numeric',month:'short'})+'</span>':'<span></span>';
+    }).join('');
+  }
+}
+
+// ── TOP PRODUCTS (by order frequency) ───────────────────────
+function renderTopProducts(orders,products){
+  var counts={};
+  orders.forEach(function(o){
+    (o.items||[]).forEach(function(it){
+      var pid=it.productId||(it.product&&it.product.id);
+      if(pid) counts[pid]=(counts[pid]||0)+(it.qty||1);
+    });
+  });
+  var sorted=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];}).slice(0,5);
+  var box=document.getElementById('dash-top-products');
+  if(!sorted.length){box.innerHTML='<p class="text-gray-400 text-xs text-center py-4">—</p>';return;}
+  var maxCount=counts[sorted[0]]||1;
+  box.innerHTML=sorted.map(function(pid){
+    var p=Aura.getProductById(pid)||{name:'–',brand:'–',price:0};
+    var pct=Math.round(counts[pid]/maxCount*100);
+    return '<div class="flex items-center gap-3"><div class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 text-sm overflow-hidden">'+(Aura.isImgUrl&&Aura.isImgUrl(p.img)?'<img src="'+p.img+'" class="w-full h-full object-cover">':'<span class="text-gray-300">📦</span>')+'</div>'
+      +'<div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">'+p.name+'</p><div class="flex items-center gap-2 mt-1"><div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-navy rounded-full" style="width:'+pct+'%"></div></div><span class="text-[10px] text-gray-400 font-mono">'+counts[pid]+'×</span></div></div>'
+      +'<span class="text-xs font-bold ml-2">€'+p.price.toFixed(0)+'</span></div>';
+  }).join('');
+}
+
+// ── LOW STOCK ALERTS ────────────────────────────────────────
+function renderLowStock(products){
+  var low=products.filter(function(p){return (p.stock||0)<=5;}).sort(function(a,b){return (a.stock||0)-(b.stock||0);}).slice(0,8);
+  var box=document.getElementById('dash-low-stock');
+  if(!low.length){box.innerHTML='<p class="text-green-500 text-xs text-center py-4 flex items-center justify-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>'+(lang==='ru'?'Всё в порядке':lang==='de'?'Alles in Ordnung':'All good')+'</p>';return;}
+  box.innerHTML=low.map(function(p){
+    var cls=p.stock===0?'text-red-500 bg-red-50':'text-amber-600 bg-amber-50';
+    return '<div class="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0"><div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">'+p.name+'</p><p class="text-[10px] text-gray-400">'+p.brand+'</p></div><span class="px-2 py-0.5 text-[10px] font-bold rounded '+cls+'">'+(p.stock===0?(lang==='ru'?'Нет':lang==='de'?'Leer':'Out'):p.stock+' '+(lang==='ru'?'шт':'Stk'))+'</span></div>';
+  }).join('');
+}
+
+// ── ORDER STATUS BARS ───────────────────────────────────────
+function renderStatusBars(orders){
+  var counts={paid:0,sourcing:0,shipped:0,delivered:0};
+  orders.forEach(function(o){if(counts[o.status]!==undefined) counts[o.status]++;});
+  var total=orders.length||1;
+  var colors={paid:'bg-green-500',sourcing:'bg-orange-500',shipped:'bg-purple-500',delivered:'bg-emerald-500'};
+  var box=document.getElementById('dash-status-bars');
+  box.innerHTML=Object.keys(counts).map(function(st){
+    var pct=Math.round(counts[st]/total*100);
+    return '<div class="flex items-center gap-3"><span class="text-xs w-20 text-gray-500 font-medium">'+t('status_'+st)+'</span><div class="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full '+colors[st]+' rounded-full transition-all" style="width:'+pct+'%"></div></div><span class="text-xs text-gray-400 font-mono w-12 text-right">'+counts[st]+'</span></div>';
+  }).join('');
+}
+
+// ── ORDER FILTERS & SMART TABLE ─────────────────────────────
+var orderFilters={time:'all',status:'all'};
+var _currentOrderId=null;
+
+window.setOrderFilter=function(type,value,btn){
+  orderFilters[type]=value;
+  var containerId=type==='time'?'time-pills':'status-pills';
+  var attr=type==='time'?'data-time':'data-st';
+  document.getElementById(containerId).querySelectorAll('button').forEach(function(b){
+    if(b.getAttribute(attr)===value){
+      b.className='px-3 py-1.5 text-[11px] font-bold rounded bg-navy text-white';
+    }else{
+      var st=b.getAttribute(attr);
+      if(type==='status'&&st!=='all'){
+        var cm={paid:'text-green-600 bg-green-50',sourcing:'text-orange-600 bg-orange-50',shipped:'text-purple-600 bg-purple-50',delivered:'text-emerald-600 bg-emerald-50'};
+        b.className='px-3 py-1.5 text-[11px] font-bold rounded '+(cm[st]||'text-gray-400 hover:bg-gray-100');
+      }else{
+        b.className='px-3 py-1.5 text-[11px] font-bold rounded text-gray-400 hover:bg-gray-100';
+      }
+    }
+  });
+  refreshOrders();
+};
+
+window.refreshOrders=function(){
+  var orders=Aura.getOrders();
+  var now=new Date();
+  var countryF=document.getElementById('filter-country')?document.getElementById('filter-country').value:'';
+  var searchF=document.getElementById('filter-search')?document.getElementById('filter-search').value.trim().toLowerCase():'';
+  var filtered=orders.filter(function(o){
+    if(orderFilters.time!=='all'){
+      var d=new Date(o.date||o.created);var diff=(now-d)/86400000;
+      if(orderFilters.time==='today'&&diff>1)return false;
+      if(orderFilters.time==='7d'&&diff>7)return false;
+      if(orderFilters.time==='30d'&&diff>30)return false;
+    }
+    if(orderFilters.status!=='all'&&o.status!==orderFilters.status)return false;
+    var oc=o.country||(o.address?o.address.country:'')||'';
+    if(countryF&&oc!==countryF)return false;
+    if(searchF){
+      var nm=(o.address?o.address.name:'').toLowerCase();
+      var em=(o.address?(o.address.email||''):'').toLowerCase();
+      if(o.id.toLowerCase().indexOf(searchF)===-1&&nm.indexOf(searchF)===-1&&em.indexOf(searchF)===-1)return false;
+    }
+    return true;
+  });
+  filtered.sort(function(a,b){return new Date(b.date||b.created)-new Date(a.date||a.created);});
+  document.getElementById('orders-count').textContent=filtered.length+' / '+orders.length+(lang==='ru'?' заказов':' Bestellungen');
+  _selectedOrders=[];
+  updateBatchBar();
+  var selAll=document.getElementById('orders-select-all');
+  if(selAll) selAll.checked=false;
+  if(!filtered.length){
+    document.getElementById('orders-empty').classList.remove('hidden');
+    document.getElementById('orders-body').innerHTML='';
+  }else{
+    document.getElementById('orders-empty').classList.add('hidden');
+    document.getElementById('orders-body').innerHTML=filtered.map(function(o){
+      var nm=o.address?(o.address.name||'—'):'—';
+      var ds=new Date(o.date||o.created).toLocaleDateString('de-DE');
+      return '<tr class="border-t border-gray-50 hover:bg-gray-50/50 cursor-pointer" onclick="openOrderModal(\''+o.id+'\')">'
+        +'<td class="table-cell" onclick="event.stopPropagation()"><input type="checkbox" class="order-chk accent-[#0a1628]" data-oid="'+o.id+'" onchange="toggleOrderCheck(this)"></td>'
+        +'<td class="table-cell font-mono text-xs">'+o.id.slice(0,10)+'</td>'
+        +'<td class="table-cell text-xs text-gray-400">'+ds+'</td>'
+        +'<td class="table-cell text-sm">'+nm+'</td>'
+        +'<td class="table-cell text-right font-bold">€'+(o.total||0).toFixed(2)+'</td>'
+        +'<td class="table-cell"><span class="badge-'+o.status+'">'+t('status_'+o.status)+'</span></td>'
+        +'<td class="table-cell text-center"><button class="w-8 h-8 flex items-center justify-center mx-auto text-gray-400 hover:text-navy hover:bg-gray-100 rounded transition-colors" onclick="event.stopPropagation();openOrderModal(\''+o.id+'\')"><i data-lucide="eye" class="w-4 h-4"></i></button></td>'
+        +'</tr>';
+    }).join('');
+  }
+  if(typeof lucide!=='undefined')lucide.createIcons();
+};
+
+// ── BATCH ORDER OPERATIONS ──────────────────────────────────
+window.toggleOrderCheck=function(cb){
+  var oid=cb.dataset.oid;
+  if(cb.checked){
+    if(_selectedOrders.indexOf(oid)===-1) _selectedOrders.push(oid);
+  }else{
+    _selectedOrders=_selectedOrders.filter(function(x){return x!==oid;});
+  }
+  updateBatchBar();
+};
+window.toggleAllOrders=function(checked){
+  _selectedOrders=[];
+  document.querySelectorAll('.order-chk').forEach(function(cb){
+    cb.checked=checked;
+    if(checked) _selectedOrders.push(cb.dataset.oid);
+  });
+  updateBatchBar();
+};
+function updateBatchBar(){
+  var bar=document.getElementById('batch-bar');
+  if(!bar)return;
+  if(_selectedOrders.length>0){
+    bar.classList.remove('hidden');
+    document.getElementById('batch-count').textContent=_selectedOrders.length+' '+(lang==='ru'?'выбрано':lang==='de'?'ausgewählt':'selected');
+  }else{
+    bar.classList.add('hidden');
+  }
+}
+window.applyBatchStatus=function(){
+  var status=document.getElementById('batch-status').value;
+  if(!status){alert(lang==='ru'?'Выберите статус':'Wählen Sie einen Status');return;}
+  _selectedOrders.forEach(function(oid){
+    Aura.updateOrderStatus(oid,status);
+    // Send email notification
+    var o=Aura.getOrderById(oid);
+    if(o && typeof AuraEmail!=='undefined') AuraEmail.sendStatusUpdate(o,status);
+  });
+  _selectedOrders=[];
+  refreshAll();
+};
+window.clearBatchSelection=function(){
+  _selectedOrders=[];
+  document.querySelectorAll('.order-chk').forEach(function(cb){cb.checked=false;});
+  var selAll=document.getElementById('orders-select-all');
+  if(selAll) selAll.checked=false;
+  updateBatchBar();
+};
+
+// ── CSV EXPORT ──────────────────────────────────────────────
+window.exportOrdersCSV=function(){
+  var orders=Aura.getOrders();
+  var header='ID;Date;Customer;Email;Country;Total;Status;Items\n';
+  var rows=orders.map(function(o){
+    var a=o.address||{};
+    var items=(o.items||[]).map(function(it){var p=it.product||{};return (p.name||'?')+'×'+it.qty;}).join(', ');
+    return [o.id,new Date(o.date||o.created).toISOString().slice(0,10),a.name||'',a.email||'',o.country||(a.country||''),o.total.toFixed(2),o.status,'"'+items+'"'].join(';');
+  }).join('\n');
+  var blob=new Blob(['\uFEFF'+header+rows],{type:'text/csv;charset=utf-8;'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='orders_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+// ── PRODUCTS TABLE (with search, filters, pagination) ───────
+window.refreshProducts=function(){
+  var products=Aura.getProducts();
+  var q=(document.getElementById('prod-search')?document.getElementById('prod-search').value:'').trim().toLowerCase();
+  var catF=document.getElementById('prod-filter-cat')?document.getElementById('prod-filter-cat').value:'';
+  var stockF=document.getElementById('prod-filter-stock')?document.getElementById('prod-filter-stock').value:'';
+
+  var filtered=products.filter(function(p){
+    if(q&&p.name.toLowerCase().indexOf(q)===-1&&p.brand.toLowerCase().indexOf(q)===-1&&p.id.toLowerCase().indexOf(q)===-1) return false;
+    if(catF&&p.cat!==catF) return false;
+    if(stockF==='low'&&(p.stock||0)>5) return false;
+    if(stockF==='out'&&(p.stock||0)!==0) return false;
+    if(stockF==='ok'&&(p.stock||0)<=5) return false;
+    return true;
+  });
+
+  // Count
+  var cntEl=document.getElementById('prod-count');
+  if(cntEl) cntEl.textContent=filtered.length+' / '+products.length;
+
+  // Pagination
+  var totalPages=Math.max(1,Math.ceil(filtered.length/PROD_PER_PAGE));
+  if(prodPage>totalPages) prodPage=totalPages;
+  var start=(prodPage-1)*PROD_PER_PAGE;
+  var page=filtered.slice(start,start+PROD_PER_PAGE);
+
+  // Render table
+  document.getElementById('products-body').innerHTML=page.map(function(p){
+    var imgCell=Aura.isImgUrl(p.img)?'<img src="'+p.img+'" class="w-10 h-10 object-cover rounded">':'<div class="w-10 h-10 bg-gray-100 flex items-center justify-center rounded"><svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>';
+    var bdg=Aura.getProductBadge(p);
+    var badgeHtml='<span class="px-1.5 py-0.5 text-white text-[9px] font-bold tracking-wider leading-none inline-block '+bdg.cls+'">'+bdg.text+'</span>';
+    var cost=p._costPrice||0;
+    var logi=p._logisticsFee||0;
+    var profit=p.price-cost-logi;
+    var profitUsdt=(profit*EUR_USDT).toFixed(0);
+    var profitCls=profit>=0?'text-green-600':'text-red-500';
+    var costCell=cost>0?'<span class="text-red-400">€'+cost.toFixed(0)+'</span>':'<span class="text-gray-300">—</span>';
+    var profitCell='<span class="'+profitCls+' font-bold">€'+profit.toFixed(0)+'</span><br><span class="text-[9px] text-gray-400">'+profitUsdt+' USDT</span>';
+    var priceCell='<span class="font-bold">€'+p.price.toFixed(0)+'</span>'+(p.oldPrice?'<br><span class="text-[10px] text-gray-400 line-through">€'+p.oldPrice.toFixed(0)+'</span>':'');
+    var isc=Aura.inspectionScore(p);
+    var iscCls=isc===3?'bg-green-50 text-green-600 border-green-200':isc>=2?'bg-yellow-50 text-yellow-600 border-yellow-200':'bg-red-50 text-red-600 border-red-200';
+    var inspCell='<span class="px-1.5 py-0.5 text-[10px] font-bold border '+iscCls+'">'+isc+'/3</span>';
+    var stockCls=(p.stock||0)===0?'text-red-500 font-bold':(p.stock||0)<=5?'text-amber-500 font-bold':'';
+
+    return '<tr class="border-t border-gray-50 hover:bg-gray-50/50 transition-colors">'
+      +'<td class="table-cell">'+imgCell+'</td>'
+      +'<td class="table-cell"><span class="font-medium text-sm">'+p.name+'</span><br><span class="text-[10px] text-gray-400">'+p.cat+'</span></td>'
+      +'<td class="table-cell text-xs">'+p.brand+'</td>'
+      +'<td class="table-cell text-xs">'+priceCell+'</td>'
+      +'<td class="table-cell text-xs">'+costCell+'</td>'
+      +'<td class="table-cell text-xs">'+profitCell+'</td>'
+      +'<td class="table-cell">'+badgeHtml+'</td>'
+      +'<td class="table-cell text-center">'+inspCell+'</td>'
+      +'<td class="table-cell text-center '+stockCls+'">'+(p.stock||0)+'</td>'
+      +'<td class="table-cell"><div class="flex gap-1"><button onclick="editProduct(\''+p.id+'\')" class="btn-ghost text-xs py-1 px-2">'+t('btn_edit')+'</button><button onclick="deleteProduct(\''+p.id+'\')" class="btn-danger py-1 px-2">'+t('btn_delete')+'</button></div></td>'
+      +'</tr>';
+  }).join('');
+
+  // Pagination controls
+  var pgInfo=document.getElementById('prod-page-info');
+  var pgBtns=document.getElementById('prod-page-btns');
+  var pgPrev=document.getElementById('prod-prev');
+  var pgNext=document.getElementById('prod-next');
+  if(pgInfo) pgInfo.textContent=(lang==='ru'?'Стр. ':lang==='de'?'Seite ':'Page ')+prodPage+' / '+totalPages;
+  if(pgPrev) pgPrev.disabled=prodPage<=1;
+  if(pgNext) pgNext.disabled=prodPage>=totalPages;
+  if(pgBtns){
+    var btnsHtml='';
+    for(var i=1;i<=totalPages&&i<=7;i++){
+      var pg=i;
+      if(totalPages>7){
+        if(i<=3) pg=i;
+        else if(i===4) pg=prodPage>4&&prodPage<totalPages-2?prodPage:4;
+        else pg=totalPages-(7-i);
+      }
+      btnsHtml+='<button onclick="prodPage='+pg+';refreshProducts()" class="w-7 h-7 text-xs rounded '+(pg===prodPage?'bg-navy text-white':'hover:bg-gray-100')+'">'+pg+'</button>';
+    }
+    pgBtns.innerHTML=btnsHtml;
+  }
+};
+
+// ── ORDER DETAIL MODAL ──────────────────────────────────────
+window.openOrderModal=function(id){
+  var o=Aura.getOrderById(id);
+  if(!o)return;
+  _currentOrderId=id;
+  var m=document.getElementById('order-modal');
+  // Header
+  document.getElementById('om-id').textContent=o.id;
+  var sBadge=document.getElementById('om-status-badge');
+  var scm={paid:'bg-green-500/20 text-green-400 border border-green-500/30',sourcing:'bg-orange-500/20 text-orange-400 border border-orange-500/30',shipped:'bg-purple-500/20 text-purple-400 border border-purple-500/30',delivered:'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'};
+  sBadge.className='px-3 py-1 text-xs font-bold rounded-full '+(scm[o.status]||'');
+  sBadge.textContent=t('status_'+o.status);
+  // Block 1 — Logistics
+  var addr=o.address||{};
+  document.getElementById('om-name').textContent=addr.name||'—';
+  document.getElementById('om-address').textContent=(addr.street||'')+(addr.city?', '+addr.city:'')+(addr.zip?' '+addr.zip:'');
+  document.getElementById('om-country').textContent=(o.country||addr.country||'—');
+  document.getElementById('om-date').textContent=new Date(o.date||o.created).toLocaleDateString('de-DE');
+  document.getElementById('om-status-select').value=o.status||'paid';
+  // Block 2 — Products / Sourcing
+  var costTotal=0;
+  var itemsHtml=(o.items||[]).map(function(it){
+    var p=it.product||Aura.getProductById(it.productId)||{};
+    var iCost=(p._costPrice||0)+(p._logisticsFee||0);
+    costTotal+=iCost*it.qty;
+    return '<div class="flex items-center justify-between py-2 border-b border-red-500/5">'
+      +'<div class="flex-1 min-w-0"><p class="text-white/80 text-sm truncate">'+(p.name||'Artikel')+'</p>'
+      +'<p class="text-[10px] text-red-300/40">×'+it.qty+(p._sourcingLink?' · <a href="'+p._sourcingLink+'" target="_blank" class="text-red-400/60 hover:text-red-400 underline">Source</a>':'')+'</p></div>'
+      +'<span class="text-white/60 text-sm font-mono ml-3">€'+(p.price*it.qty).toFixed(2)+'</span></div>';
+  }).join('');
+  document.getElementById('om-items').innerHTML=itemsHtml||'<p class="text-white/20 text-sm">Keine Artikel</p>';
+  document.getElementById('om-cost-total').textContent='€'+costTotal.toFixed(2);
+  // Block 3 — Content / Tracking
+  document.getElementById('om-tracking').value=o.trackingNumber||'';
+  if(o.receiptUrl){
+    document.getElementById('om-receipt-status').innerHTML='<a href="'+o.receiptUrl+'" target="_blank" class="text-green-400 hover:underline">✓ Beleg vorhanden</a>';
+  }else{
+    document.getElementById('om-receipt-status').textContent='Kein Beleg';
+  }
+  // Check if any item has video
+  var hasVideo=false;
+  (o.items||[]).forEach(function(it){var p=it.product||Aura.getProductById(it.productId)||{};if(p.videoUrl)hasVideo=true;});
+  document.getElementById('om-video-link').classList.toggle('hidden',!hasVideo);
+  // Block 4 — Finances
+  var revenue=o.total||0;
+  var net=revenue-costTotal;
+  var usdt=(net*EUR_USDT).toFixed(0);
+  var margin=revenue>0?((net/revenue)*100).toFixed(1):0;
+  document.getElementById('om-revenue').textContent='€'+revenue.toFixed(2);
+  document.getElementById('om-expense').textContent='−€'+costTotal.toFixed(2);
+  document.getElementById('om-profit-eur').textContent=(net>=0?'€':'−€')+Math.abs(net).toFixed(2);
+  document.getElementById('om-profit-eur').className='text-2xl font-extrabold font-mono '+(net>=0?'text-green-400':'text-red-400');
+  document.getElementById('om-profit-usdt').textContent='≈ '+usdt+' USDT';
+  document.getElementById('om-margin').textContent='Margin: '+margin+'%';
+  m.style.display='flex';
+  if(typeof lucide!=='undefined')lucide.createIcons();
+};
+
+window.closeOrderModal=function(){
+  document.getElementById('order-modal').style.display='none';
+  _currentOrderId=null;
+};
+
+window.updateOrderFromModal=function(type){
+  if(!_currentOrderId)return;
+  if(type==='status'){
+    var st=document.getElementById('om-status-select').value;
+    Aura.updateOrderStatus(_currentOrderId,st);
+    Aura.showToast(t('status_'+st),'success');
+  }else if(type==='tracking'){
+    var trk=document.getElementById('om-tracking').value.trim();
+    Aura.updateOrderStatus(_currentOrderId,null,{trackingNumber:trk});
+    Aura.showToast(lang==='ru'?'Трек-номер сохранён':'Tracking gespeichert','success');
+  }
+  refreshOrders();
+  // Re-open to refresh modal content
+  openOrderModal(_currentOrderId);
+};
+
+window.uploadReceiptFromModal=function(input){
+  if(!input.files||!input.files[0]||!_currentOrderId)return;
+  var file=input.files[0];
+  if(file.size>5*1024*1024){Aura.showToast('Max 5 MB','error');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    Aura.updateOrderStatus(_currentOrderId, null, {receiptUrl: e.target.result});
+    Aura.showToast(lang==='ru'?'Чек загружен':'Beleg hochgeladen','success');
+    refreshOrders();
+    openOrderModal(_currentOrderId);
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+};
+
+window.openOrderVideo=function(){
+  if(!_currentOrderId)return;
+  var o=Aura.getOrderById(_currentOrderId);
+  if(!o)return;
+  (o.items||[]).forEach(function(it){
+    var p=it.product||Aura.getProductById(it.productId)||{};
+    if(p.videoUrl) window.open('/product.html?id='+(p.id||''),'_blank');
+  });
+};
+
+// ── ORDER STATUS (legacy, kept for dashboard) ───────────────
+window.updateOrderSt=function(id,status){
+  Aura.updateOrderStatus(id,status);
+  // Send email notification to customer
+  var o=Aura.getOrderById(id);
+  if(o && typeof AuraEmail!=='undefined') AuraEmail.sendStatusUpdate(o,status);
+  Aura.showToast(t('status_'+status),'success');
+  refreshAll();
+};
+
+window.saveTracking=function(id){
+  var inp=document.getElementById('track-'+id);
+  if(!inp) return;
+  var num=inp.value.trim();
+  Aura.updateOrderStatus(id,null,{trackingNumber:num});
+  Aura.showToast(lang==='ru'?'Трек-номер сохранён':'Tracking saved','success');
+  refreshAll();
+};
+
+window.uploadReceipt=function(id,input){
+  if(!input.files||!input.files[0]) return;
+  var file=input.files[0];
+  if(file.size>5*1024*1024){Aura.showToast('Max 5 MB','error');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    Aura.updateOrderStatus(id, null, {receiptUrl: e.target.result});
+    Aura.showToast(lang==='ru'?'Чек загружен':'Receipt uploaded','success');
+    refreshAll();
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+};
+
+// ══════════════════════════════════════════════════════════════
+//  PRODUCT CRUD — with gallery, video, inspection, private fields
+// ══════════════════════════════════════════════════════════════
+
+var _gallery=[]; // temp array for gallery URLs in modal
+var _variants=[]; // temp array for variant rows in modal
+Object.defineProperty(window,'_variants',{get:function(){return _variants;},set:function(v){_variants=v;},configurable:true});
+
+// ── VARIANT EDITOR HELPERS ──────────────────────────────────
+window.addVariantRow=function(data){
+  data=data||{label:'',price:0,stock:10};
+  _variants.push(data);
+  renderVariants();
+};
+window.removeVariantRow=function(idx){
+  _variants.splice(idx,1);
+  renderVariants();
+};
+function renderVariants(){
+  var c=document.getElementById('pf-variants-list');
+  if(!_variants.length){c.innerHTML='<span class="text-[10px] text-white/15 italic">Keine Varianten</span>';return;}
+  c.innerHTML=_variants.map(function(v,i){
+    return '<div class="flex gap-2 items-center">'
+      +'<input type="text" value="'+v.label+'" placeholder="Name" oninput="_variants['+i+'].label=this.value" class="flex-1 h-8 px-2 bg-[#0a0f18] border border-blue-500/10 rounded text-[11px] text-white/70 outline-none">'
+      +'<input type="number" value="'+v.price+'" placeholder="+€" step="0.01" oninput="_variants['+i+'].price=parseFloat(this.value)||0" class="w-16 h-8 px-2 bg-[#0a0f18] border border-blue-500/10 rounded text-[11px] outline-none font-mono" style="color:rgba(255,255,255,0.6)" title="Aufpreis">'
+      +'<input type="number" value="'+v.stock+'" placeholder="Stk" oninput="_variants['+i+'].stock=parseInt(this.value)||0" class="w-14 h-8 px-2 bg-[#0a0f18] border border-blue-500/10 rounded text-[11px] outline-none" style="color:rgba(255,255,255,0.6)" title="Bestand">'
+      +'<button type="button" onclick="removeVariantRow('+i+')" class="w-6 h-6 flex items-center justify-center text-red-400/50 hover:text-red-400 text-xs font-bold">×</button></div>';
+  }).join('');
+}
+
+window.openProductModal=function(product){
+  var m=document.getElementById('product-modal');
+  m.style.display='flex';
+  _gallery=[];
+  _variants=[];
+  if(product){
+    document.getElementById('modal-title').textContent=t('modal_edit_product');
+    document.getElementById('modal-title').setAttribute('data-i18n','modal_edit_product');
+    document.getElementById('pf-id').value=product.id;
+    document.getElementById('pf-name').value=product.name;
+    // Brand — set dropdown or custom
+    var brandSel=document.getElementById('pf-brand');
+    var brandFound=false;
+    for(var i=0;i<brandSel.options.length;i++){
+      if(brandSel.options[i].value===product.brand){brandSel.value=product.brand;brandFound=true;break;}
+    }
+    if(!brandFound){
+      brandSel.value='_custom';
+      document.getElementById('pf-brand-custom').classList.remove('hidden');
+      document.getElementById('pf-brand-custom').value=product.brand;
+    }else{
+      document.getElementById('pf-brand-custom').classList.add('hidden');
+    }
+    document.getElementById('pf-cat').value=product.cat;
+    document.getElementById('pf-price').value=product.price;
+    document.getElementById('pf-oldprice').value=product.oldPrice||'';
+    document.getElementById('pf-stock').value=product.stock;
+    document.getElementById('pf-img').value=product.img;
+    document.getElementById('pf-desc').value=product.desc||'';
+    // Private fields
+    document.getElementById('pf-sourcing').value=product._sourcingLink||'';
+    document.getElementById('pf-cost').value=product._costPrice||0;
+    document.getElementById('pf-logistics').value=product._logisticsFee||0;
+    // Video
+    document.getElementById('pf-video').value=product.videoUrl||'';
+    // Gallery
+    _gallery=(product.gallery||[]).slice();
+    // Variants
+    document.getElementById('pf-variant-label').value=product.variantLabel||'';
+    _variants=(product.variants||[]).map(function(v){return {label:v.label,price:v.price||0,stock:v.stock||0};});
+    renderVariants();
+    // Inspection
+    var insp=product.inspection||{authentic:true,functional:true,sealed:true};
+    document.getElementById('pf-chk-authentic').checked=!!insp.authentic;
+    document.getElementById('pf-chk-functions').checked=!!insp.functional;
+    document.getElementById('pf-chk-sealed').checked=!!insp.sealed;
+    previewProductImg();
+    renderGallery();
+    updateBadgePreview();
+    updateInspScore();
+    calcModalProfit();
+    calcSavings();
+    loadProductReviews(product.id);
+  }else{
+    document.getElementById('modal-title').textContent=t('modal_add_product');
+    document.getElementById('modal-title').setAttribute('data-i18n','modal_add_product');
+    document.getElementById('product-form').reset();
+    document.getElementById('pf-id').value='';
+    document.getElementById('pf-img').value='';
+    document.getElementById('pf-cost').value='0';
+    document.getElementById('pf-logistics').value='0';
+    document.getElementById('pf-brand').value='';
+    document.getElementById('pf-brand-custom').classList.add('hidden');
+    document.getElementById('pf-chk-authentic').checked=true;
+    document.getElementById('pf-chk-functions').checked=true;
+    document.getElementById('pf-chk-sealed').checked=true;
+    _gallery=[];
+    _variants=[];
+    document.getElementById('pf-variant-label').value='';
+    renderVariants();
+    previewProductImg();
+    renderGallery();
+    updateBadgePreview();
+    updateInspScore();
+    calcModalProfit();
+    calcSavings();
+    loadProductReviews(null);
+  }
+  if(typeof lucide!=='undefined') lucide.createIcons();
+};
+window.closeProductModal=function(){document.getElementById('product-modal').style.display='none';};
+
+// ── REVIEW MANAGEMENT ───────────────────────────────────────
+var _adminReviewStars = 0;
+
+window.toggleReviewsPanel = function(){
+  var body = document.getElementById('pf-reviews-body');
+  var chev = document.getElementById('pf-reviews-chevron');
+  if(body.style.display === 'none'){
+    body.style.display = '';
+    chev.style.transform = 'rotate(180deg)';
+  } else {
+    body.style.display = 'none';
+    chev.style.transform = '';
+  }
+};
+
+window.loadProductReviews = function(productId){
+  var section = document.getElementById('pf-reviews-section');
+  var list = document.getElementById('pf-reviews-list');
+  var countEl = document.getElementById('pf-reviews-count');
+  if(!productId){
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  var reviews = Aura.getProductReviews ? Aura.getProductReviews(productId, false) : [];
+  countEl.textContent = '(' + reviews.length + ')';
+
+  if(!reviews.length){
+    list.innerHTML = '<p class="text-white/20 text-xs text-center py-4">Keine Bewertungen vorhanden</p>';
+  } else {
+    list.innerHTML = reviews.map(function(r){
+      var stars = '';
+      for(var i=1; i<=5; i++) stars += '<span class="'+(i<=r.stars?'text-gold':'text-white/10')+'">★</span>';
+      var dateStr = '—';
+      try{ var d=new Date(r.date); if(!isNaN(d.getTime())) dateStr=d.toLocaleDateString('de-DE'); }catch(e){}
+      var photosHtml = '';
+      if(r.photos && r.photos.length){
+        photosHtml = '<div class="flex gap-1.5 mt-2">' + r.photos.map(function(src){
+          return '<img src="'+src+'" class="w-10 h-10 rounded object-cover border border-white/10">';
+        }).join('') + '</div>';
+      }
+      return '<div class="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3 '+(r.approved?'':'border-l-2 border-l-yellow-500/50')+'">'
+        +'<div class="flex items-start justify-between gap-3">'
+          +'<div class="flex-1 min-w-0">'
+            +'<div class="flex items-center gap-2 mb-1">'
+              +'<span class="text-sm font-semibold text-white/70">'+r.name+'</span>'
+              +'<span class="text-[10px] text-white/20">'+dateStr+'</span>'
+              +(r.approved?'<span class="text-[9px] px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded font-semibold">Genehmigt</span>':'<span class="text-[9px] px-1.5 py-0.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded font-semibold">Ausstehend</span>')
+            +'</div>'
+            +'<div class="text-sm mb-1">'+stars+'</div>'
+            +(r.text?'<p class="text-xs text-white/40 leading-relaxed">'+r.text+'</p>':'')
+            +photosHtml
+          +'</div>'
+          +'<div class="flex items-center gap-1 flex-shrink-0">'
+            +(r.approved
+              ?'<button type="button" onclick="adminToggleApprove(\''+r.id+'\',false)" class="w-7 h-7 flex items-center justify-center rounded text-yellow-400/50 hover:text-yellow-400 hover:bg-yellow-500/10 transition-all" title="Ausblenden"><i data-lucide="eye-off" class="w-3.5 h-3.5"></i></button>'
+              :'<button type="button" onclick="adminToggleApprove(\''+r.id+'\',true)" class="w-7 h-7 flex items-center justify-center rounded text-emerald-400/50 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all" title="Genehmigen"><i data-lucide="check" class="w-3.5 h-3.5"></i></button>'
+            )
+            +'<button type="button" onclick="adminDeleteReview(\''+r.id+'\')" class="w-7 h-7 flex items-center justify-center rounded text-red-400/30 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Löschen"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>'
+          +'</div>'
+        +'</div>'
+      +'</div>';
+    }).join('');
+  }
+  if(typeof lucide!=='undefined') lucide.createIcons();
+};
+
+window.setAdminReviewStar = function(count){
+  _adminReviewStars = count;
+  document.querySelectorAll('.adm-rv-star').forEach(function(btn){
+    var s = parseInt(btn.getAttribute('data-s'));
+    if(s <= count){
+      btn.classList.remove('text-white/20','border-white/10');
+      btn.classList.add('text-gold','border-gold/30','bg-gold/10');
+    } else {
+      btn.classList.remove('text-gold','border-gold/30','bg-gold/10');
+      btn.classList.add('text-white/20','border-white/10');
+    }
+  });
+};
+
+window.addAdminReview = function(){
+  var productId = document.getElementById('pf-id').value;
+  if(!productId){ Aura.showToast('Zuerst Produkt speichern','error'); return; }
+  var name = document.getElementById('rv-admin-name').value.trim();
+  if(!name){ Aura.showToast('Name eingeben','error'); return; }
+  if(_adminReviewStars < 1){ Aura.showToast('Sterne vergeben','error'); return; }
+  var text = document.getElementById('rv-admin-text').value.trim();
+  var approved = document.getElementById('rv-admin-approved').checked;
+  Aura.addReview({
+    productId: productId,
+    userId: 'admin',
+    name: name,
+    stars: _adminReviewStars,
+    text: text,
+    photos: [],
+    approved: approved
+  });
+  // Reset form
+  document.getElementById('rv-admin-name').value = '';
+  document.getElementById('rv-admin-text').value = '';
+  _adminReviewStars = 0;
+  document.querySelectorAll('.adm-rv-star').forEach(function(btn){
+    btn.classList.remove('text-gold','border-gold/30','bg-gold/10');
+    btn.classList.add('text-white/20','border-white/10');
+  });
+  Aura.showToast('Bewertung hinzugefügt','success');
+  loadProductReviews(productId);
+};
+
+window.adminToggleApprove = function(reviewId, approved){
+  Aura.approveReview(reviewId, approved);
+  var productId = document.getElementById('pf-id').value;
+  loadProductReviews(productId);
+  Aura.showToast(approved?'Genehmigt':'Ausgeblendet','success');
+};
+
+window.adminDeleteReview = function(reviewId){
+  if(!confirm('Bewertung löschen?')) return;
+  Aura.deleteReview(reviewId);
+  var productId = document.getElementById('pf-id').value;
+  loadProductReviews(productId);
+  Aura.showToast('Gelöscht','success');
+};
+
+window.saveProduct=function(e){
+  e.preventDefault();
+  var id=document.getElementById('pf-id').value;
+  // Resolve brand
+  var brandVal=document.getElementById('pf-brand').value;
+  if(brandVal==='_custom') brandVal=document.getElementById('pf-brand-custom').value.trim();
+
+  var data={
+    name:document.getElementById('pf-name').value.trim(),
+    brand:brandVal,
+    cat:document.getElementById('pf-cat').value,
+    price:parseFloat(document.getElementById('pf-price').value)||0,
+    oldPrice:parseFloat(document.getElementById('pf-oldprice').value)||0,
+    stock:parseInt(document.getElementById('pf-stock').value)||0,
+    img:document.getElementById('pf-img').value||'',
+    desc:document.getElementById('pf-desc').value.trim(),
+    // Media
+    gallery:_gallery.slice(),
+    videoUrl:document.getElementById('pf-video').value.trim(),
+    // Variants
+    variantLabel:(document.getElementById('pf-variant-label').value||'').trim(),
+    variants:_variants.filter(function(v){return v.label.trim();}),
+    // Inspection
+    inspection:{
+      authentic:document.getElementById('pf-chk-authentic').checked,
+      functional:document.getElementById('pf-chk-functions').checked,
+      sealed:document.getElementById('pf-chk-sealed').checked
+    },
+    // Private (prefixed with _)
+    _sourcingLink:document.getElementById('pf-sourcing').value.trim(),
+    _costPrice:parseFloat(document.getElementById('pf-cost').value)||0,
+    _logisticsFee:parseFloat(document.getElementById('pf-logistics').value)||0,
+    rating:4.5,reviews:0
+  };
+  if(id){
+    // Preserve existing rating/reviews on edit
+    var existing=Aura.getProductById(id);
+    if(existing){data.rating=existing.rating;data.reviews=existing.reviews;}
+    Aura.updateProduct(id,data);
+    Aura.showToast(lang==='ru'?'Товар обновлён':'Product updated','success');
+  }else{
+    Aura.addProduct(data);
+    Aura.showToast(lang==='ru'?'Товар добавлен':'Product added','success');
+  }
+  closeProductModal();
+  refreshAll();
+  return false;
+};
+
+window.editProduct=function(id){
+  var p=Aura.getProductById(id);
+  if(p) openProductModal(p);
+};
+
+window.deleteProduct=function(id){
+  if(confirm(lang==='ru'?'Удалить этот товар?':'Delete this product?')){
+    Aura.deleteProduct(id);
+    Aura.showToast(lang==='ru'?'Товар удалён':'Product deleted','success');
+    refreshAll();
+  }
+};
+
+// ── MODAL HELPERS ───────────────────────────────────────────
+
+// Brand custom input toggle
+window.onBrandSelect=function(){
+  var sel=document.getElementById('pf-brand').value;
+  document.getElementById('pf-brand-custom').classList.toggle('hidden',sel!=='_custom');
+  if(sel==='_custom') document.getElementById('pf-brand-custom').focus();
+};
+
+// Gallery management (drag-drop only, no URL input)
+window.addGalleryPhoto=function(){}; // legacy stub
+window.removeGalleryPhoto=function(idx){
+  _gallery.splice(idx,1);
+  renderGallery();
+};
+function renderGallery(){
+  var cont=document.getElementById('pf-gallery-list');
+  if(!_gallery.length){cont.innerHTML='<span class="text-[10px] text-white/15 italic">Keine Fotos in der Galerie</span>';return;}
+  cont.innerHTML=_gallery.map(function(url,i){
+    return '<div class="relative group">'
+      +'<img src="'+url+'" class="w-14 h-14 object-cover rounded-lg border border-white/10" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2256%22><rect fill=%22%231a1a1a%22 width=%2256%22 height=%2256%22 rx=%228%22/><text x=%2228%22 y=%2232%22 text-anchor=%22middle%22 fill=%22%23555%22 font-size=%2210%22>err</text></svg>\'">'
+      +'<button type="button" onclick="removeGalleryPhoto('+i+')" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">×</button>'
+      +'</div>';
+  }).join('');
+}
+
+// ── DRAG & DROP HANDLERS ────────────────────────────────────
+window.handleMainImgDrop=function(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('border-gold/60','bg-gold/5');
+  var files=e.dataTransfer.files;
+  if(!files||!files[0]) return;
+  if(!files[0].type.startsWith('image/')){Aura.showToast('Nur Bilddateien','error');return;}
+  var file=files[0];
+  if(file.size>5*1024*1024){Aura.showToast('Макс. размер файла 5 МБ','error');return;}
+  compressImage(file, 800, 0.7, function(dataUrl){
+    document.getElementById('pf-img').value=dataUrl;
+    previewProductImg();
+  });
+};
+
+window.handleGalleryDrop=function(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('border-gold/50','bg-gold/5');
+  var files=e.dataTransfer.files;
+  if(!files) return;
+  var arr=Array.from(files).filter(function(f){return f.type.startsWith('image/');});
+  var pending=arr.length;
+  arr.forEach(function(file){
+    if(file.size>5*1024*1024){Aura.showToast(file.name+': zu groß (max 5 MB)','error');pending--;return;}
+    compressImage(file, 600, 0.65, function(dataUrl){
+      _gallery.push(dataUrl);
+      pending--;
+      if(pending<=0) renderGallery();
+    });
+  });
+};
+
+window.handleVideoDrop=function(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('border-gold/50','bg-gold/5');
+  var files=e.dataTransfer.files;
+  if(!files||!files[0]) return;
+  if(!files[0].type.startsWith('video/')){Aura.showToast('Nur Videodateien','error');return;}
+  var input=document.getElementById('pf-video-file');
+  input.files=files;
+  uploadVideo(input);
+};
+
+// Badge preview (video → VERIFIED, no video → INCOMING)
+window.updateBadgePreview=function(){
+  var video=document.getElementById('pf-video').value.trim();
+  var box=document.getElementById('pf-badge-preview');
+  if(video){
+    box.innerHTML='<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 border border-green-500/30 text-green-400 text-[10px] font-bold tracking-widest rounded-full uppercase"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> VERIFIED</span>'
+      +'<span class="text-[10px] text-green-400/60 font-medium">Video hochgeladen</span>';
+    // Update video preview
+    var vp=document.getElementById('pf-video-preview');
+    vp.innerHTML='<div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><span class="text-[11px] text-green-400/80 font-medium">Video ready</span></div>';
+    if(typeof lucide!=='undefined') lucide.createIcons();
+  }else{
+    box.innerHTML='<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-white/30 text-[10px] font-bold tracking-widest rounded-full uppercase"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span> INCOMING</span>'
+      +'<span class="text-[10px] text-white/20">Kein Video hochgeladen</span>';
+    var vp=document.getElementById('pf-video-preview');
+    vp.innerHTML='<i data-lucide="video" class="w-6 h-6 text-gold/20"></i><span class="text-[10px] text-white/15">Drop video or click to upload</span>';
+    if(typeof lucide!=='undefined') lucide.createIcons();
+  }
+};
+
+// Inspection score (dark theme switches)
+window.updateInspScore=function(){
+  var a=document.getElementById('pf-chk-authentic').checked;
+  var f=document.getElementById('pf-chk-functions').checked;
+  var s=document.getElementById('pf-chk-sealed').checked;
+  var score=(a?1:0)+(f?1:0)+(s?1:0);
+  var label=document.getElementById('pf-insp-score');
+  label.textContent=score+'/3 '+(score===3?'✓':'✗');
+  label.className='px-3 py-1 text-[10px] font-bold rounded-full border tracking-wider '
+    +(score===3?'bg-green-500/10 text-green-400 border-green-500/20'
+    :score>=2?'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
+    :'bg-red-500/10 text-red-400 border-red-500/20');
+  // Update switch icon colors
+  var wraps=[{id:'chk-auth-wrap',on:a},{id:'chk-func-wrap',on:f},{id:'chk-seal-wrap',on:s}];
+  wraps.forEach(function(w){
+    var el=document.getElementById(w.id);
+    var icon=el.querySelector('.w-9');
+    if(w.on){
+      icon.className='w-9 h-9 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0';
+      icon.querySelector('i').className='w-4 h-4 text-green-400';
+    }else{
+      icon.className='w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0';
+      icon.querySelector('i').className='w-4 h-4 text-white/20';
+    }
+  });
+};
+
+// Auto profit calculator — big widget (dark theme)
+window.calcModalProfit=function(){
+  var price=parseFloat(document.getElementById('pf-price').value)||0;
+  var cost=parseFloat(document.getElementById('pf-cost').value)||0;
+  var logistics=parseFloat(document.getElementById('pf-logistics').value)||0;
+  var net=price-cost-logistics;
+  var usdt=(net*EUR_USDT).toFixed(0);
+  var margin=price>0?((net/price)*100):0;
+
+  document.getElementById('pf-profit-eur').textContent=(net>=0?'€':'−€')+Math.abs(net).toFixed(2);
+  document.getElementById('pf-profit-usdt').textContent='≈ '+usdt+' USDT';
+  document.getElementById('pf-profit-margin').textContent='Margin: '+margin.toFixed(1)+'%';
+
+  var card=document.getElementById('pf-profit-card');
+  if(net>0){
+    card.className='bg-[#0a1a0f] border-2 border-green-500/30 rounded-xl p-6 relative overflow-hidden transition-all shadow-[0_0_30px_rgba(34,197,94,0.08)]';
+    document.getElementById('pf-profit-eur').className='text-4xl font-extrabold text-green-400 font-mono leading-none tracking-tight';
+    document.getElementById('pf-profit-usdt').className='text-xl font-bold text-green-300/40 font-mono mt-1.5';
+  }else if(net<0){
+    card.className='bg-[#1a0f0f] border-2 border-red-500/30 rounded-xl p-6 relative overflow-hidden transition-all shadow-[0_0_30px_rgba(239,68,68,0.08)]';
+    document.getElementById('pf-profit-eur').className='text-4xl font-extrabold text-red-400 font-mono leading-none tracking-tight';
+    document.getElementById('pf-profit-usdt').className='text-xl font-bold text-red-300/40 font-mono mt-1.5';
+  }else{
+    card.className='bg-[#111318] border-2 border-white/10 rounded-xl p-6 relative overflow-hidden transition-all';
+    document.getElementById('pf-profit-eur').className='text-4xl font-extrabold text-white/30 font-mono leading-none tracking-tight';
+    document.getElementById('pf-profit-usdt').className='text-xl font-bold text-white/15 font-mono mt-1.5';
+  }
+};
+
+// Auto savings badge (UVP - Aura price)
+window.calcSavings=function(){
+  var price=parseFloat(document.getElementById('pf-price').value)||0;
+  var uvp=parseFloat(document.getElementById('pf-oldprice').value)||0;
+  var badge=document.getElementById('pf-savings-badge');
+  if(uvp>price){
+    var saved=uvp-price;
+    var pct=((saved/uvp)*100).toFixed(0);
+    document.getElementById('pf-savings-amount').textContent='€'+saved.toFixed(2)+' ('+pct+'%)';
+    badge.classList.remove('hidden');
+  }else{
+    badge.classList.add('hidden');
+  }
+};
+
+// Image preview (dark dropzone)
+window.previewProductImg=function(){
+  var val=document.getElementById('pf-img').value.trim();
+  var box=document.getElementById('pf-img-preview');
+  if(Aura.isImgUrl(val)){
+    box.innerHTML='<img src="'+val+'" class="w-full h-full object-cover rounded-lg" onerror="this.outerHTML=\'<div class=\\\'flex flex-col items-center gap-2 py-2\\\'><i data-lucide=\\\'image-plus\\\' class=\\\'w-6 h-6 text-gold/25\\\'></i><span class=\\\'text-[10px] text-white/20\\\'>&nbsp;</span></div>\'">';
+    box.className='flex items-center justify-center overflow-hidden';
+    var dz=document.getElementById('pf-img-dropzone');
+    if(dz) dz.className='border-2 border-solid border-gold/30 rounded-xl overflow-hidden cursor-pointer hover:border-gold/50 transition-all group';
+  }else if(val){
+    box.innerHTML='<div class="flex items-center gap-2 py-2"><span class="text-3xl">'+val+'</span></div>';
+    box.className='flex items-center justify-center';
+  }else{
+    box.innerHTML='<div class="flex flex-col items-center gap-2 py-2"><div class="w-14 h-14 bg-white/[0.03] rounded-xl flex items-center justify-center border border-white/5"><i data-lucide="image-plus" class="w-6 h-6 text-gold/25 group-hover:text-gold/50 transition-colors"></i></div><span class="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Drop image or click</span></div>';
+    box.className='flex flex-col items-center gap-2 py-2';
+    var dz=document.getElementById('pf-img-dropzone');
+    if(dz) dz.className='border-2 border-dashed border-gold/15 rounded-xl p-4 text-center cursor-pointer hover:border-gold/40 transition-all group';
+    if(typeof lucide!=='undefined') lucide.createIcons();
+  }
+};
+
+// ── IMAGE COMPRESSION HELPER ────────────────────────────────
+function compressImage(file, maxW, quality, cb){
+  maxW=maxW||600; quality=quality||0.65;
+  var img=new Image();
+  img.onload=function(){
+    var w=img.width, h=img.height;
+    if(w>maxW){ h=Math.round(h*(maxW/w)); w=maxW; }
+    var canvas=document.createElement('canvas');
+    canvas.width=w; canvas.height=h;
+    var ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0,w,h);
+    cb(canvas.toDataURL('image/jpeg', quality));
+  };
+  img.src=URL.createObjectURL(file);
+}
+
+// ── IndexedDB for videos ────────────────────────────────────
+var AURA_DB_NAME='aura_media';
+var AURA_DB_VER=1;
+function openMediaDB(cb){
+  var req=indexedDB.open(AURA_DB_NAME, AURA_DB_VER);
+  req.onupgradeneeded=function(e){ e.target.result.createObjectStore('videos'); };
+  req.onsuccess=function(e){ cb(e.target.result); };
+  req.onerror=function(){ cb(null); };
+}
+function saveVideoToDB(key,dataUrl,cb){
+  openMediaDB(function(db){
+    if(!db){cb&&cb(false);return;}
+    var tx=db.transaction('videos','readwrite');
+    tx.objectStore('videos').put(dataUrl,key);
+    tx.oncomplete=function(){cb&&cb(true);};
+    tx.onerror=function(){cb&&cb(false);};
+  });
+}
+function getVideoFromDB(key,cb){
+  openMediaDB(function(db){
+    if(!db){cb(null);return;}
+    var tx=db.transaction('videos','readonly');
+    var req=tx.objectStore('videos').get(key);
+    req.onsuccess=function(){cb(req.result||null);};
+    req.onerror=function(){cb(null);};
+  });
+}
+// Expose globally for product pages
+window._auraGetVideo=getVideoFromDB;
+
+// ── FILE UPLOAD HANDLERS ────────────────────────────────────
+window.uploadMainImage=function(input){
+  if(!input.files||!input.files[0]) return;
+  var file=input.files[0];
+  if(file.size>5*1024*1024){Aura.showToast('Макс. размер файла 5 МБ','error');return;}
+  compressImage(file, 800, 0.7, function(dataUrl){
+    document.getElementById('pf-img').value=dataUrl;
+    previewProductImg();
+  });
+  input.value='';
+};
+
+window.uploadGalleryPhotos=function(input){
+  if(!input.files) return;
+  var files=Array.from(input.files);
+  var pending=files.length;
+  files.forEach(function(file){
+    if(file.size>5*1024*1024){Aura.showToast(file.name+': слишком большой (макс 5 МБ)','error');pending--;return;}
+    compressImage(file, 600, 0.65, function(dataUrl){
+      _gallery.push(dataUrl);
+      pending--;
+      if(pending<=0) renderGallery();
+    });
+  });
+  input.value='';
+};
+
+window.uploadVideo=function(input){
+  if(!input.files||!input.files[0]) return;
+  var file=input.files[0];
+  // No size limit — allow any video format and size
+  var videoKey='vid_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+  var reader=new FileReader();
+  reader.onload=function(e){
+    saveVideoToDB(videoKey, e.target.result, function(ok){
+      if(ok){
+        document.getElementById('pf-video').value=videoKey;
+        updateBadgePreview();
+        var sizeMB=Math.round(file.size/1024/1024*10)/10;
+        Aura.showToast('Video hochgeladen ('+sizeMB+' MB)','success');
+      }else{
+        Aura.showToast('Video konnte nicht gespeichert werden','error');
+      }
+    });
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+};
+
+// ── LINGUIST MANAGEMENT ─────────────────────────────────────
+window.addLinguistAction=function(){
+  var email=document.getElementById('ling-email').value.trim();
+  if(!email){Aura.showToast('Введите email','error');return;}
+  Aura.addLinguist(email);
+  Aura.showToast('Лингвист добавлен: '+email,'success');
+  document.getElementById('ling-email').value='';
+  refreshAll();
+};
+
+// ── PROFIT CALCULATOR (standalone section) ──────────────────
+window.calcProfit=function(){
+  var cost=parseFloat(document.getElementById('prof-cost').value)||0;
+  var sell=parseFloat(document.getElementById('prof-sell').value)||0;
+  var qty=parseInt(document.getElementById('prof-qty').value)||1;
+  var perUnit=sell-cost;
+  var margin=sell>0?((perUnit/sell)*100):0;
+  document.getElementById('prof-margin').textContent=margin.toFixed(1)+'%';
+  document.getElementById('prof-unit').textContent='€'+perUnit.toFixed(2);
+  document.getElementById('prof-total').textContent='€'+(perUnit*qty).toFixed(2);
+  document.getElementById('prof-total').className=perUnit>=0?'text-green-600 font-bold':'text-red-600 font-bold';
+};
+
+// ── INIT ────────────────────────────────────────────────────
+refreshAll();
+if(typeof lucide!=='undefined') lucide.createIcons();
+
+})();
+</script>
+</body>
+</html>

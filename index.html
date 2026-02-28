@@ -1,0 +1,833 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth overflow-x-hidden">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aura Global Merchants — Geprüfte Elektronik & Mode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+<style>
+html{scrollbar-gutter:stable}
+.hide-scrollbar::-webkit-scrollbar{display:none}.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.fade-up{animation:fadeUp .5s ease-out forwards}.reveal{opacity:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}.animate-marquee{animation:marquee 35s linear infinite}
+.product-card:hover .prod-img{transform:scale(1.05)}.product-card:hover .quick-act{opacity:1;transform:translateY(0)}
+.quick-act{opacity:0;transform:translateY(8px);transition:all .25s ease}
+.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
+/* Responsive helpers */
+@media(max-width:639px){.hero-grid-item{padding:1rem !important}.hero-grid-item .text-5xl{font-size:2rem !important}}
+@media(max-width:374px){.hero-title{font-size:1.75rem !important;line-height:1.15 !important}}
+</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased overflow-x-hidden">
+
+<!-- ══ TOP BAR ══ -->
+<div class="bg-navy-dark text-center py-2 px-4">
+<p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p>
+</div>
+
+<!-- ══ HEADER ══ -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<!-- Row 1: Logo + Search + Icons -->
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <!-- Logo -->
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <!-- Search -->
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input id="main-search" type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <!-- Icons -->
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<!-- Row 2: Category Nav (Zalando-style) -->
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Smartphones & Tablets</p>
+            <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple iPhone & iPad</a>
+            <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung Galaxy</a>
+            <a href="/catalog.html?cat=electronics&brand=Google" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Google Pixel</a>
+            <a href="/catalog.html?cat=electronics&brand=OnePlus" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">OnePlus</a>
+            <a href="/catalog.html?cat=electronics&brand=Nothing" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nothing Phone</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Laptops</p>
+            <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">MacBook Pro & Air</a>
+            <a href="/catalog.html?cat=electronics&brand=Dell" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dell XPS & Latitude</a>
+            <a href="/catalog.html?cat=electronics&brand=Lenovo" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Lenovo ThinkPad</a>
+            <a href="/catalog.html?cat=electronics&brand=HP" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HP Spectre & Envy</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Audio & Wearables</p>
+            <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony Audio</a>
+            <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose Kopfhörer</a>
+            <a href="/catalog.html?cat=electronics&brand=Oura" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Oura Ring</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Gaming & VR</p>
+            <a href="/catalog.html?cat=electronics&q=playstation" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">PlayStation</a>
+            <a href="/catalog.html?cat=electronics&brand=Meta" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Meta Quest VR</a>
+            <a href="/catalog.html?cat=electronics&brand=Logitech" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Logitech Gaming</a>
+            <a href="/catalog.html?cat=electronics&brand=XREAL" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">XREAL AR</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=electronics" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Elektronik anzeigen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schuhe & Sneaker</p>
+            <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+            <a href="/catalog.html?cat=fashion&brand=Adidas" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Adidas</a>
+            <a href="/catalog.html?cat=fashion&brand=New+Balance" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">New Balance</a>
+            <a href="/catalog.html?cat=fashion&brand=Puma" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Puma</a>
+            <a href="/catalog.html?cat=fashion&brand=On+Running" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">On Running</a>
+            <a href="/catalog.html?cat=fashion&brand=Asics" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Asics</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Designer & Luxus</p>
+            <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+            <a href="/catalog.html?cat=fashion&brand=Louis+Vuitton" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Louis Vuitton</a>
+            <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+            <a href="/catalog.html?cat=fashion&brand=Prada" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Prada</a>
+            <a href="/catalog.html?cat=fashion&brand=Dior" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dior</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schmuck & Uhren</p>
+            <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+            <a href="/catalog.html?cat=fashion&brand=Omega" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Omega</a>
+            <a href="/catalog.html?cat=fashion&brand=Pandora" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Pandora</a>
+            <a href="/catalog.html?cat=fashion&brand=Mejuri" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Mejuri</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Kleidung & Accessoires</p>
+            <a href="/catalog.html?cat=fashion&brand=Ralph+Lauren" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ralph Lauren</a>
+            <a href="/catalog.html?cat=fashion&brand=Lululemon" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Lululemon</a>
+            <a href="/catalog.html?cat=fashion&brand=Coach" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Coach</a>
+            <a href="/catalog.html?cat=fashion&brand=Michael+Kors" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Michael Kors</a>
+            <a href="/catalog.html?cat=fashion&brand=Ray-Ban" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ray-Ban</a>
+            <a href="/catalog.html?cat=fashion&brand=Oakley" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Oakley</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=fashion" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Mode anzeigen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+        <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson Haarpflege & Reinigung</a>
+        <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs Saugroboter</a>
+        <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad Kochgeschirr</a>
+        <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring Sicherheit</a>
+        <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee Smart Lighting</a>
+        <a href="/catalog.html?cat=home&brand=Rituals" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rituals Home & Body</a>
+        <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+        <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+        <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+        <a href="/catalog.html?cat=travel&brand=Arc'teryx" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Arc'teryx</a>
+        <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+        <a href="/catalog.html?cat=travel&brand=Carhartt" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Carhartt</a>
+        <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+      </div>
+    </div>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+  </div>
+</nav>
+</header>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded" data-i18n="nav_all">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_electronics">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_fashion_long">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_home">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_travel">Reise & Outdoor</a>
+    <a href="/catalog.html?badge=express" class="block py-3 px-3 text-sm text-red-500 font-semibold hover:bg-red-50 rounded" data-i18n="nav_sale">Sale %</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span data-i18n="mob_login">Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="mob_orders">Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="relative bg-navy overflow-hidden">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+  <div class="flex-1 text-center lg:text-left">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-4 reveal">
+      <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+      <span class="text-white/70 text-xs font-medium" data-i18n="hero_tag">Geprüft · Zuverlässig · Günstig</span>
+    </div>
+    <h1 class="hero-title font-sans text-white text-2xl sm:text-3xl lg:text-5xl font-bold leading-[1.15] reveal"><span data-i18n="hero_h1a">Geprüfte Elektronik & Mode</span><br><span class="text-gold" data-i18n="hero_h1b">direkt aus dem Lager</span></h1>
+    <p class="text-white/50 text-sm sm:text-base mt-4 sm:mt-5 max-w-xl mx-auto lg:mx-0 reveal" data-i18n="hero_desc">Jedes Produkt wird in unserem Hub in London manuell kontrolliert. 100% Originalität und Funktionalität garantiert.</p>
+    <div class="flex flex-col sm:flex-row items-center gap-3 mt-6 sm:mt-7 reveal">
+      <a href="/catalog.html" class="w-full sm:w-auto px-8 py-3.5 bg-navy-light hover:bg-[#003366] text-white text-sm font-bold tracking-wider transition-colors text-center rounded" data-i18n="hero_cta1">ALLE PRODUKTE ANSEHEN</a>
+      <a href="/catalog.html?badge=express" class="w-full sm:w-auto px-8 py-3.5 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors text-center rounded" data-i18n="hero_cta2">SALE & ANGEBOTE</a>
+    </div>
+    <!-- Inline trust -->
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6 reveal">
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i>Versand in 2–4 Tagen</span>
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>30 Tage Rückgabe</span>
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>Sichere Zahlung</span>
+    </div>
+  </div>
+  <div class="flex-1 grid grid-cols-2 gap-3 w-full max-w-sm sm:max-w-md lg:max-w-lg reveal">
+    <a href="/product.html?id=p1" class="hero-grid-item bg-white rounded-lg p-4 sm:p-5 hover:shadow-lg transition-all group">
+      <span class="text-3xl sm:text-4xl block text-center mb-2">📱</span>
+      <p class="text-navy text-[11px] sm:text-xs font-semibold text-center truncate">iPhone 16 Pro Max</p>
+      <p class="text-navy text-sm sm:text-base font-bold text-center mt-1">€1.299</p>
+      <p class="text-emerald-600 text-[10px] text-center mt-1 font-medium">✓ Hub Geprüft</p>
+    </a>
+    <a href="/product.html?id=p5" class="hero-grid-item bg-white rounded-lg p-4 sm:p-5 hover:shadow-lg transition-all group">
+      <span class="text-3xl sm:text-4xl block text-center mb-2">💻</span>
+      <p class="text-navy text-[11px] sm:text-xs font-semibold text-center truncate">MacBook Pro M3</p>
+      <p class="text-navy text-sm sm:text-base font-bold text-center mt-1">€2.499</p>
+      <p class="text-emerald-600 text-[10px] text-center mt-1 font-medium">✓ Hub Geprüft</p>
+    </a>
+    <a href="/product.html?id=p9" class="hero-grid-item bg-white rounded-lg p-4 sm:p-5 hover:shadow-lg transition-all group">
+      <span class="text-3xl sm:text-4xl block text-center mb-2">👜</span>
+      <p class="text-navy text-[11px] sm:text-xs font-semibold text-center truncate">Gucci Marmont</p>
+      <p class="text-navy text-sm sm:text-base font-bold text-center mt-1">€1.890</p>
+      <p class="text-emerald-600 text-[10px] text-center mt-1 font-medium">✓ Hub Geprüft</p>
+    </a>
+    <a href="/product.html?id=p2" class="hero-grid-item bg-white rounded-lg p-4 sm:p-5 hover:shadow-lg transition-all group">
+      <span class="text-3xl sm:text-4xl block text-center mb-2">🎧</span>
+      <p class="text-navy text-[11px] sm:text-xs font-semibold text-center truncate">Sony WH-1000XM5</p>
+      <p class="text-navy text-sm sm:text-base font-bold text-center mt-1">€349</p>
+      <p class="text-emerald-600 text-[10px] text-center mt-1 font-medium">✓ Hub Geprüft</p>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<section class="border-b border-gray-100 bg-gray-50 py-5 sm:py-6">
+<div class="max-w-[1400px] mx-auto px-4 lg:px-8 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+  <div class="flex items-center gap-3 justify-center sm:justify-start">
+    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i></div>
+    <div><p class="text-sm font-semibold text-navy" data-i18n="trust_v">Geprüfte Ware</p><p class="text-[11px] text-gray-400" data-i18n="trust_vd">Manuell im Hub kontrolliert</p></div>
+  </div>
+  <div class="flex items-center gap-3 justify-center sm:justify-start">
+    <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="truck" class="w-5 h-5 text-blue-600"></i></div>
+    <div><p class="text-sm font-semibold text-navy" data-i18n="trust_s">Schneller Versand</p><p class="text-[11px] text-gray-400" data-i18n="trust_sd">In 2–4 Werktagen bei Ihnen</p></div>
+  </div>
+  <div class="flex items-center gap-3 justify-center sm:justify-start">
+    <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="rotate-ccw" class="w-5 h-5 text-orange-500"></i></div>
+    <div><p class="text-sm font-semibold text-navy" data-i18n="trust_r">Kostenlose Rückgabe</p><p class="text-[11px] text-gray-400" data-i18n="trust_rd">30 Tage, kein Risiko</p></div>
+  </div>
+  <div class="flex items-center gap-3 justify-center sm:justify-start">
+    <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="lock" class="w-5 h-5 text-purple-600"></i></div>
+    <div><p class="text-sm font-semibold text-navy" data-i18n="trust_p">Sicher bezahlen</p><p class="text-[11px] text-gray-400" data-i18n="trust_pd">SSL-verschlüsselt, PCI DSS</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="py-12 sm:py-16 bg-white">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-10 sm:mb-14">
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">UNSER PROZESS</span>
+    <h2 class="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold text-navy reveal">So funktioniert Aura</h2>
+    <p class="text-gray-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto reveal">Jedes Produkt durchläuft unser dreistufiges Prüfverfahren im Londoner Hub, bevor es zu Ihnen gelangt.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+    <div class="text-center reveal">
+      <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="package-search" class="w-7 h-7 text-navy"></i></div>
+      <div class="text-gold font-bold text-sm mb-2">Schritt 1</div>
+      <h3 class="font-semibold text-navy text-lg mb-2">Beschaffung</h3>
+      <p class="text-gray-400 text-sm leading-relaxed">Wir beziehen Originalware direkt von autorisierten Händlern und Marken weltweit — von Apple über Nike bis Louis Vuitton. Über 120 verifizierte Quellen.</p>
+    </div>
+    <div class="text-center reveal">
+      <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="shield-check" class="w-7 h-7 text-navy"></i></div>
+      <div class="text-gold font-bold text-sm mb-2">Schritt 2</div>
+      <h3 class="font-semibold text-navy text-lg mb-2">Hub-Inspektion</h3>
+      <p class="text-gray-400 text-sm leading-relaxed">In unserem Londoner Hub wird jedes Produkt manuell auf Originalität, Vollständigkeit und Funktion geprüft — mit Video-Dokumentation.</p>
+    </div>
+    <div class="text-center reveal">
+      <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="truck" class="w-7 h-7 text-navy"></i></div>
+      <div class="text-gold font-bold text-sm mb-2">Schritt 3</div>
+      <h3 class="font-semibold text-navy text-lg mb-2">Versand zu Ihnen</h3>
+      <p class="text-gray-400 text-sm leading-relaxed">Versiegeltes, geprüftes Paket — versichert und mit Tracking direkt zu Ihnen nach Hause. In nur 2–4 Werktagen.</p>
+    </div>
+  </div>
+  <!-- Stats bar -->
+  <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-gray-100 pt-10">
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">10.000+</p><p class="text-xs text-gray-400 mt-1">Geprüfte Artikel</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">120+</p><p class="text-xs text-gray-400 mt-1">Top-Marken</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">99,8%</p><p class="text-xs text-gray-400 mt-1">Kundenzufriedenheit</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">2–4</p><p class="text-xs text-gray-400 mt-1">Tage Lieferung</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ CATEGORIES ══ -->
+<section class="py-10 sm:py-14">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <h2 class="font-sans text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-6 sm:mb-10 reveal" data-i18n="sec_cat">Kategorien entdecken</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
+    <a href="/catalog.html?cat=electronics" class="group relative bg-gradient-to-br from-blue-50 to-blue-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">📱</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Elektronik</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Smartphones, Laptops, Audio</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+    <a href="/catalog.html?cat=fashion" class="group relative bg-gradient-to-br from-pink-50 to-rose-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">👜</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Mode & Accessoires</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Schuhe, Taschen, Schmuck</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+    <a href="/catalog.html?cat=home" class="group relative bg-gradient-to-br from-green-50 to-emerald-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">🏠</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Haus & Wohnen</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Dyson, Smarthome, Pflege</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+    <a href="/catalog.html?cat=travel" class="group relative bg-gradient-to-br from-amber-50 to-yellow-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">✈️</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Reise & Outdoor</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Gepäck, Accessoires</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+    <a href="/catalog.html?cat=fashion&sub=beauty" class="group relative bg-gradient-to-br from-purple-50 to-violet-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">💄</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Beauty & Pflege</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Sephora, Rituals, Dyson Hair</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+    <a href="/catalog.html?cat=electronics&sub=gaming" class="group relative bg-gradient-to-br from-indigo-50 to-blue-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
+      <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">🎮</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base">Gaming & VR</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">PlayStation, Meta Quest, Steam</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ══ ELECTRONICS SPOTLIGHT ══ -->
+<section class="py-10 sm:py-14 bg-gradient-to-b from-gray-50 to-white">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-8">
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Elektronik & Technik</h2></div>
+    <a href="/catalog.html?cat=electronics" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Elektronik →</a>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+    <a href="/catalog.html?cat=electronics&q=smartphone" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">📱</span><p class="text-xs font-semibold text-navy">Smartphones</p><p class="text-[10px] text-gray-400 mt-1">Apple · Samsung · Google</p>
+    </a>
+    <a href="/catalog.html?cat=electronics&q=laptop" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">💻</span><p class="text-xs font-semibold text-navy">Laptops</p><p class="text-[10px] text-gray-400 mt-1">MacBook · Dell · Lenovo · HP</p>
+    </a>
+    <a href="/catalog.html?cat=electronics&q=audio" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">🎧</span><p class="text-xs font-semibold text-navy">Audio</p><p class="text-[10px] text-gray-400 mt-1">Sony · Bose · AirPods</p>
+    </a>
+    <a href="/catalog.html?cat=electronics&q=watch" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">⌚</span><p class="text-xs font-semibold text-navy">Wearables</p><p class="text-[10px] text-gray-400 mt-1">Apple Watch · Oura · Garmin</p>
+    </a>
+    <a href="/catalog.html?cat=electronics&q=gaming" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">🎮</span><p class="text-xs font-semibold text-navy">Gaming</p><p class="text-[10px] text-gray-400 mt-1">PlayStation · Steam · Logitech</p>
+    </a>
+    <a href="/catalog.html?cat=electronics&q=smart+home" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">🏠</span><p class="text-xs font-semibold text-navy">Smart Home</p><p class="text-[10px] text-gray-400 mt-1">Ring · Govee · Ecovacs</p>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ══ FASHION SPOTLIGHT ══ -->
+<section class="py-10 sm:py-14">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-8">
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Mode & Lifestyle</h2></div>
+    <a href="/catalog.html?cat=fashion" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Mode →</a>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+    <a href="/catalog.html?cat=fashion&q=sneaker" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">👟</span><p class="text-xs font-semibold text-navy">Sneaker</p><p class="text-[10px] text-gray-400 mt-1">Nike · Adidas · New Balance</p>
+    </a>
+    <a href="/catalog.html?cat=fashion&q=tasche" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">👜</span><p class="text-xs font-semibold text-navy">Taschen</p><p class="text-[10px] text-gray-400 mt-1">Gucci · Coach · Louis Vuitton</p>
+    </a>
+    <a href="/catalog.html?cat=fashion&q=kleidung" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">👔</span><p class="text-xs font-semibold text-navy">Kleidung</p><p class="text-[10px] text-gray-400 mt-1">Zara · H&amp;M · Ralph Lauren</p>
+    </a>
+    <a href="/catalog.html?cat=fashion&q=schmuck" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">💎</span><p class="text-xs font-semibold text-navy">Schmuck</p><p class="text-[10px] text-gray-400 mt-1">Pandora · Mejuri · Tiffany</p>
+    </a>
+    <a href="/catalog.html?cat=fashion&q=uhr" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">⌚</span><p class="text-xs font-semibold text-navy">Uhren</p><p class="text-[10px] text-gray-400 mt-1">Rolex · Omega · TAG Heuer</p>
+    </a>
+    <a href="/catalog.html?cat=fashion&q=duft" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
+      <span class="text-3xl block mb-2">🌸</span><p class="text-xs font-semibold text-navy">Düfte</p><p class="text-[10px] text-gray-400 mt-1">Dior · Chanel · Rituals</p>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ══ FEATURED PRODUCTS ══ -->
+<section class="py-10 sm:py-14 bg-gray-50/50">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-6 sm:mb-8">
+    <h2 class="font-sans text-xl sm:text-2xl lg:text-3xl font-bold reveal" data-i18n="sec_feat">Beliebte Produkte</h2>
+    <a href="/catalog.html" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle anzeigen →</a>
+  </div>
+  <div id="featured-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"></div>
+  <div class="text-center mt-6 sm:hidden"><a href="/catalog.html" class="text-sm text-gold font-semibold hover:underline">Alle Produkte anzeigen →</a></div>
+</div>
+</section>
+
+<!-- ══ TRENDING ══ -->
+<section class="py-10 sm:py-14">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-8">
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">🔥 AKTUELL</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Trending jetzt</h2></div>
+    <a href="/catalog.html?sort=newest" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Neuheiten →</a>
+  </div>
+  <div id="trending-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"></div>
+</div>
+</section>
+
+<!-- ══ BRANDS MARQUEE ══ -->
+<section class="py-8 sm:py-12 border-y border-gray-100 overflow-hidden">
+<div class="max-w-[1400px] mx-auto px-4 lg:px-8 mb-6 sm:mb-8">
+  <h2 class="font-serif text-lg sm:text-xl font-bold text-center reveal" data-i18n="sec_brands">Unsere Marken</h2>
+  <p class="text-gray-400 text-xs text-center mt-2">Über 120 verifizierte Marken aus aller Welt</p>
+</div>
+<div class="flex animate-marquee whitespace-nowrap">
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Apple</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Samsung</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Sony</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Nike</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Adidas</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Gucci</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Louis Vuitton</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Dyson</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Bose</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Puma</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Hermès</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">North Face</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Lululemon</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Ray-Ban</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Rolex</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Dell</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Pandora</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Tesla</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Mango</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Zara</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Patagonia</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Rimowa</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Omega</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Coach</span>
+  <!-- duplicate for seamless loop -->
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Apple</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Samsung</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Sony</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Nike</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Adidas</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Gucci</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Louis Vuitton</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Dyson</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Bose</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Puma</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Hermès</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">North Face</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Lululemon</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Ray-Ban</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Rolex</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Dell</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Pandora</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Tesla</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Mango</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Zara</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Patagonia</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Rimowa</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Omega</span>
+  <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Coach</span>
+</div>
+</section>
+
+<!-- ══ TOP BRANDS GRID ══ -->
+<section class="py-12 sm:py-16 bg-white">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-10">
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">PREMIUM AUSWAHL</span>
+    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal">120+ Top-Marken auf einen Blick</h2>
+    <p class="text-gray-400 text-sm mt-3 max-w-xl mx-auto reveal">Von weltweit führenden Marken — geprüft und direkt zu Ihnen.</p>
+  </div>
+  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+    <a href="/catalog.html?brand=Apple" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Apple</a>
+    <a href="/catalog.html?brand=Samsung" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Samsung</a>
+    <a href="/catalog.html?brand=Sony" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Sony</a>
+    <a href="/catalog.html?brand=Nike" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Nike</a>
+    <a href="/catalog.html?brand=Adidas" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Adidas</a>
+    <a href="/catalog.html?brand=Gucci" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Gucci</a>
+    <a href="/catalog.html?brand=Hermès" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Hermès</a>
+    <a href="/catalog.html?brand=Louis+Vuitton" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Louis Vuitton</a>
+    <a href="/catalog.html?brand=Prada" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Prada</a>
+    <a href="/catalog.html?brand=Dior" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Dior</a>
+    <a href="/catalog.html?brand=Balenciaga" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Balenciaga</a>
+    <a href="/catalog.html?brand=Chanel" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Chanel</a>
+    <a href="/catalog.html?brand=Rolex" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Rolex</a>
+    <a href="/catalog.html?brand=Omega" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Omega</a>
+    <a href="/catalog.html?brand=Dyson" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Dyson</a>
+    <a href="/catalog.html?brand=Bose" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Bose</a>
+    <a href="/catalog.html?brand=North+Face" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">The North Face</a>
+    <a href="/catalog.html?brand=Arc'teryx" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Arc'teryx</a>
+    <a href="/catalog.html?brand=Patagonia" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Patagonia</a>
+    <a href="/catalog.html?brand=Lululemon" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Lululemon</a>
+    <a href="/catalog.html?brand=Ralph+Lauren" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Ralph Lauren</a>
+    <a href="/catalog.html?brand=Coach" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Coach</a>
+    <a href="/catalog.html?brand=Michael+Kors" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Michael Kors</a>
+    <a href="/catalog.html?brand=Pandora" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Pandora</a>
+    <a href="/catalog.html?brand=Ray-Ban" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Ray-Ban</a>
+    <a href="/catalog.html?brand=Oakley" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Oakley</a>
+    <a href="/catalog.html?brand=Puma" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Puma</a>
+    <a href="/catalog.html?brand=Under+Armour" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Under Armour</a>
+    <a href="/catalog.html?brand=New+Balance" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">New Balance</a>
+    <a href="/catalog.html?brand=Asics" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Asics</a>
+    <a href="/catalog.html?brand=On+Running" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">On Running</a>
+    <a href="/catalog.html?brand=Gymshark" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Gymshark</a>
+    <a href="/catalog.html?brand=Dell" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Dell</a>
+    <a href="/catalog.html?brand=HP" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">HP</a>
+    <a href="/catalog.html?brand=Lenovo" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Lenovo</a>
+    <a href="/catalog.html?brand=Logitech" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Logitech</a>
+    <a href="/catalog.html?brand=Google" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Google</a>
+    <a href="/catalog.html?brand=OnePlus" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">OnePlus</a>
+    <a href="/catalog.html?brand=Nothing" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Nothing</a>
+    <a href="/catalog.html?brand=Meta" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Meta</a>
+    <a href="/catalog.html?brand=Tesla" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Tesla</a>
+    <a href="/catalog.html?brand=Rimowa" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Rimowa</a>
+    <a href="/catalog.html?brand=Lego" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">LEGO</a>
+    <a href="/catalog.html?brand=Carhartt" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Carhartt</a>
+    <a href="/catalog.html?brand=Fred+Perry" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Fred Perry</a>
+    <a href="/catalog.html?brand=Zara" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Zara</a>
+    <a href="/catalog.html?brand=H%26M" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">H&amp;M</a>
+    <a href="/catalog.html?brand=Mango" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Mango</a>
+    <a href="/catalog.html?brand=Uniqlo" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Uniqlo</a>
+    <a href="/catalog.html?brand=Victoria's+Secret" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Victoria's Secret</a>
+    <a href="/catalog.html?brand=Sephora" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Sephora</a>
+    <a href="/catalog.html?brand=Rituals" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Rituals</a>
+    <a href="/catalog.html?brand=Ecovacs" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Ecovacs</a>
+    <a href="/catalog.html?brand=HexClad" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">HexClad</a>
+    <a href="/catalog.html?brand=Ring" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Ring</a>
+    <a href="/catalog.html?brand=Govee" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Govee</a>
+    <a href="/catalog.html?brand=Oura" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Oura</a>
+    <a href="/catalog.html?brand=Trezor" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Trezor</a>
+    <a href="/catalog.html?brand=XREAL" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">XREAL</a>
+    <a href="/catalog.html?brand=GoPro" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">GoPro</a>
+    <a href="/catalog.html?brand=Nikon" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Nikon</a>
+    <a href="/catalog.html?brand=PlayStation" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">PlayStation</a>
+    <a href="/catalog.html?brand=Mejuri" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Mejuri</a>
+    <a href="/catalog.html?brand=Wilson" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Wilson</a>
+    <a href="/catalog.html?brand=Oral-B" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Oral-B</a>
+  </div>
+</div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="py-12 sm:py-16 bg-gray-50">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-10">
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">KUNDENSTIMMEN</span>
+    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal">Was unsere Kunden sagen</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-sm border border-gray-100 reveal">
+      <div class="flex items-center gap-1 text-gold mb-3">★★★★★</div>
+      <p class="text-gray-600 text-sm leading-relaxed mb-4">„Ich war zuerst skeptisch, aber die Video-Inspektion hat mich sofort überzeugt. Mein iPhone kam in perfektem Zustand und deutlich günstiger als im Store. Absolut empfehlenswert!"</p>
+      <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+        <div class="w-10 h-10 bg-navy/10 rounded-full flex items-center justify-center text-navy font-bold text-sm">M.S.</div>
+        <div><p class="text-sm font-semibold text-navy">Markus S.</p><p class="text-[11px] text-gray-400">München · iPhone 16 Pro Max</p></div>
+      </div>
+    </div>
+    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-sm border border-gray-100 reveal">
+      <div class="flex items-center gap-1 text-gold mb-3">★★★★★</div>
+      <p class="text-gray-600 text-sm leading-relaxed mb-4">„Gucci-Tasche in Top-Zustand, mit Originalrechnung, Hub-Siegel und Inspektions-Video. Der ganze Prozess war transparent und professionell. Werde hier wieder bestellen!"</p>
+      <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+        <div class="w-10 h-10 bg-navy/10 rounded-full flex items-center justify-center text-navy font-bold text-sm">A.K.</div>
+        <div><p class="text-sm font-semibold text-navy">Anna K.</p><p class="text-[11px] text-gray-400">Wien · Gucci Marmont Bag</p></div>
+      </div>
+    </div>
+    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-sm border border-gray-100 reveal">
+      <div class="flex items-center gap-1 text-gold mb-3">★★★★★</div>
+      <p class="text-gray-600 text-sm leading-relaxed mb-4">„Die Dyson Airwrap war überall ausverkauft. Bei Aura habe ich sie nicht nur sofort bekommen, sondern auch noch 15% günstiger. Verpackung perfekt, Hub-geprüft. Super Service!"</p>
+      <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+        <div class="w-10 h-10 bg-navy/10 rounded-full flex items-center justify-center text-navy font-bold text-sm">L.W.</div>
+        <div><p class="text-sm font-semibold text-navy">Lisa W.</p><p class="text-[11px] text-gray-400">Zürich · Dyson Airwrap Complete</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ WHY AURA ══ -->
+<section class="py-12 sm:py-16 bg-white">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <div class="reveal">
+      <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">WARUM AURA?</span>
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy mb-6">Der Unterschied liegt im Detail</h2>
+      <div class="space-y-5">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="video" class="w-5 h-5 text-emerald-600"></i></div>
+          <div><h3 class="font-semibold text-navy text-sm mb-1">Video-Inspektionsprotokoll</h3><p class="text-gray-400 text-sm">Jedes Produkt wird mit einem Video-Protokoll dokumentiert — von der Öffnung der Verpackung bis zur Funktionsprüfung. Sie sehen, was Sie bekommen.</p></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="badge-check" class="w-5 h-5 text-blue-600"></i></div>
+          <div><h3 class="font-semibold text-navy text-sm mb-1">100% verifizierte Originalware</h3><p class="text-gray-400 text-sm">Wir beziehen ausschließlich über autorisierte Quellen und verifizierte Händler. Seriennummern werden geprüft, Fälschungen ausgeschlossen.</p></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="shield" class="w-5 h-5 text-orange-500"></i></div>
+          <div><h3 class="font-semibold text-navy text-sm mb-1">30 Tage Rückgaberecht</h3><p class="text-gray-400 text-sm">Wenn etwas nicht stimmt, nehmen wir es zurück — ohne Diskussion. Versicherter Versand, volle Erstattung, persönlicher Support.</p></div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="globe" class="w-5 h-5 text-purple-600"></i></div>
+          <div><h3 class="font-semibold text-navy text-sm mb-1">Globale Beschaffung, lokaler Versand</h3><p class="text-gray-400 text-sm">Wir beschaffen weltweit, prüfen in London und versenden aus lokalen Hubs innerhalb der EU. So erhalten Sie beste Preise bei kurzer Lieferzeit.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-navy/[0.02] rounded-2xl p-8 sm:p-10 reveal">
+      <h3 class="font-sans text-lg font-bold text-navy mb-6 text-center">Aura vs. Marktplätze</h3>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-sm text-gray-600">Video-Inspektion</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ✗</span></div></div>
+        <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-sm text-gray-600">Hub-Qualitätsprüfung</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ✗</span></div></div>
+        <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-sm text-gray-600">Originalitätsgarantie</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ~</span></div></div>
+        <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-sm text-gray-600">Verpackungs-Siegel</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ✗</span></div></div>
+        <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-sm text-gray-600">Persönlicher DACH-Support</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ✗</span></div></div>
+        <div class="flex items-center justify-between py-3"><span class="text-sm text-gray-600">Lieferung 2–4 Werktage</span><div class="flex items-center gap-4"><span class="text-emerald-500 font-bold text-sm">Aura ✓</span><span class="text-red-400 text-sm">Andere ~</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ NACHHALTIGKEIT ══ -->
+<section class="py-14 sm:py-20 bg-navy relative overflow-hidden">
+<div class="absolute inset-0 opacity-[0.03]" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22><circle cx=%2220%22 cy=%2220%22 r=%228%22 fill=%22none%22 stroke=%22%232D8C4E%22 stroke-width=%220.5%22/></svg>');"></div>
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  <div class="text-center mb-10 reveal">
+    <span class="inline-block text-[10px] font-bold text-emerald-400 tracking-[0.25em] uppercase mb-3">UNSERE MISSION</span>
+    <h2 class="font-sans text-white text-2xl sm:text-3xl font-bold mb-3">Kreislaufwirtschaft statt Verschwendung</h2>
+    <p class="text-white/40 text-sm max-w-xl mx-auto">Jedes Produkt bei Aura ist ein gerettetes Produkt. Wir geben Markenware ein zweites Leben — und schonen Ressourcen, die unser Planet braucht.</p>
+  </div>
+  <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
+    <div class="bg-white/5 border border-white/10 p-6 text-center group hover:bg-white/[0.08] transition-all reveal">
+      <div class="w-14 h-14 mx-auto bg-emerald-500/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-colors"><i data-lucide="leaf" class="w-7 h-7 text-emerald-400"></i></div>
+      <h3 class="text-white font-semibold text-sm mb-2">Ressourcen schonen</h3>
+      <p class="text-white/35 text-xs leading-relaxed">Bis zu 90% weniger CO₂ pro Produkt — weil wir retten statt neu produzieren.</p>
+    </div>
+    <div class="bg-white/5 border border-white/10 p-6 text-center group hover:bg-white/[0.08] transition-all reveal">
+      <div class="w-14 h-14 mx-auto bg-emerald-500/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-colors"><i data-lucide="shield-check" class="w-7 h-7 text-emerald-400"></i></div>
+      <h3 class="text-white font-semibold text-sm mb-2">Geprüfte Qualität</h3>
+      <p class="text-white/35 text-xs leading-relaxed">Aura Verified: mehrstufige Inspektion mit Video-Dokumentation für jeden Artikel.</p>
+    </div>
+    <div class="bg-white/5 border border-white/10 p-6 text-center group hover:bg-white/[0.08] transition-all reveal">
+      <div class="w-14 h-14 mx-auto bg-emerald-500/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-colors"><i data-lucide="tag" class="w-7 h-7 text-emerald-400"></i></div>
+      <h3 class="text-white font-semibold text-sm mb-2">Fairer Preis</h3>
+      <p class="text-white/35 text-xs leading-relaxed">Markenware bis zu 40% günstiger — weil nachhaltig einkaufen nicht teuer sein muss.</p>
+    </div>
+  </div>
+  <div class="text-center reveal">
+    <a href="/nachhaltigkeit.html" class="inline-flex items-center gap-2 px-8 py-3 border-2 border-emerald-400/30 text-emerald-400 font-bold text-sm tracking-wider hover:bg-emerald-400/10 transition-colors">Mehr über unsere Mission erfahren <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+  </div>
+</div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="py-12 sm:py-16 bg-navy-dark">
+<div class="max-w-xl mx-auto px-4 text-center">
+  <h2 class="font-sans text-white text-2xl font-bold mb-3 reveal" data-i18n="sec_news">Newsletter</h2>
+  <p class="text-white/40 text-sm mb-6 reveal" data-i18n="news_desc">Neue Angebote und geprüfte Produkte direkt in Ihr Postfach.</p>
+  <form class="flex gap-2 reveal" onsubmit="event.preventDefault();var em=this.querySelector('input').value;if(typeof AuraEmail!=='undefined')AuraEmail.sendNewsletterWelcome(em);Aura.showToast('Erfolgreich abonniert!');this.reset();">
+    <input type="email" required placeholder="Ihre E-Mail-Adresse" class="flex-1 px-4 py-3 bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 outline-none focus:border-gold/40">
+    <button type="submit" class="px-6 py-3 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors">ABONNIEREN</button>
+  </form>
+</div>
+</section>
+
+<!-- ══ FOOTER (Zalando-style) ══ -->
+<footer class="bg-navy-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+    <!-- Col 1: Brand -->
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
+        <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
+      </div>
+      <p class="text-white/30 text-xs leading-relaxed mb-5">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+      <div class="flex items-center gap-3">
+        <a href="https://instagram.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+        <a href="https://twitter.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+        <a href="https://linkedin.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+    <!-- Col 2: Kategorien -->
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_cat">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white transition-colors">Alle Produkte</a></li>
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+    </div>
+    <!-- Col 3: Kundendienst -->
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_svc">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/contact.html" class="text-white/40 text-sm hover:text-white transition-colors">Kontakt</a></li>
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <!-- Col 4: Unternehmen -->
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_co">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+      <div class="mt-6 pt-5 border-t border-white/5">
+        <p class="text-white/15 text-[11px]">Company No. 15847293</p>
+        <p class="text-white/15 text-[11px]">Registered in England & Wales</p>
+      </div>
+    </div>
+  </div>
+  <!-- Bottom -->
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- ══ CART DRAWER ══ -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
+  <div class="flex items-center justify-between px-6 py-4 border-b">
+    <h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2>
+    <button onclick="toggleCart()" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button>
+  </div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden">
+    <div class="flex items-center justify-between mb-4"><span class="font-semibold" data-i18n="cart_total">Gesamt</span><span id="cart-total" class="text-lg font-bold"></span></div>
+    <a href="/checkout.html" class="block w-full py-3.5 bg-gold hover:bg-gold-dark text-white text-center text-sm font-bold tracking-wider transition-colors" data-i18n="cart_checkout">ZUR KASSE</a>
+    <a href="/catalog.html" class="block text-center text-xs text-gray-400 mt-3 hover:text-navy">Weiter einkaufen</a>
+  </div>
+</aside>
+</div>
+
+<script>
+(function(){
+'use strict';
+var cartOpen=false;
+window.toggleCart=function(){
+  cartOpen=!cartOpen;
+  var d=document.getElementById('cart-drawer'),p=document.getElementById('cart-panel'),o=document.getElementById('cart-overlay');
+  if(cartOpen){d.style.pointerEvents='auto';o.style.pointerEvents='auto';requestAnimationFrame(function(){p.style.transform='translateX(0)';o.style.opacity='1';});document.body.style.overflow='hidden';renderCartDrawer();}
+  else{p.style.transform='translateX(100%)';o.style.opacity='0';o.style.pointerEvents='none';setTimeout(function(){d.style.pointerEvents='none';},300);document.body.style.overflow='';}
+};
+
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){
+    body.innerHTML='<div class="flex flex-col items-center justify-center h-full text-center"><i data-lucide="shopping-bag" class="w-12 h-12 text-gray-200 mb-4"></i><p class="text-gray-400 text-sm">Ihr Warenkorb ist leer</p><a href="/catalog.html" class="mt-4 px-6 py-2.5 bg-gold text-white text-sm font-semibold tracking-wider hover:bg-gold-dark transition-colors">EINKAUFEN</a></div>';
+    footer.classList.add('hidden');
+    if(typeof lucide!=='undefined') lucide.createIcons();
+    return;
+  }
+  footer.classList.remove('hidden');
+  body.innerHTML=items.map(function(it){
+    return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border border-gray-200 flex items-center justify-center text-gray-400 hover:text-navy text-sm">−</button><span class="text-sm font-medium w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border border-gray-200 flex items-center justify-center text-gray-400 hover:text-navy text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-xs text-red-400 hover:text-red-600 mt-1">Entfernen</button></div></div>';
+  }).join('');
+  var info=Aura.getCartTotal();
+  document.getElementById('cart-total').textContent=Aura.formatPrice(info.total);
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+window.renderCartDrawer=renderCartDrawer;
+document.addEventListener('cart-update',function(){Aura.renderCartBadge();});
+
+// Featured products
+var prods=Aura.getProducts().slice(0,12);
+var grid=document.getElementById('featured-grid');
+grid.innerHTML=prods.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+
+// Trending products (offset from featured)
+var trendProds=Aura.getProducts().slice(12,20);
+var trendGrid=document.getElementById('trending-grid');
+if(trendGrid && trendProds.length){
+  trendGrid.innerHTML=trendProds.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+}
+
+// Scroll + Reveal
+window.addEventListener('scroll',function(){document.getElementById('site-header').classList.toggle('shadow-md',window.scrollY>40);},{passive:true});
+var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){en.target.classList.add('fade-up');obs.unobserve(en.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+// Re-render on locale change
+document.addEventListener('locale-change',function(){
+  var prods2=Aura.getProducts().slice(0,12);
+  var grid2=document.getElementById('featured-grid');
+  grid2.innerHTML=prods2.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
+  var trendProds2=Aura.getProducts().slice(12,20);
+  var tg2=document.getElementById('trending-grid');
+  if(tg2 && trendProds2.length) tg2.innerHTML=trendProds2.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+});
+if(typeof lucide!=='undefined') lucide.createIcons();
+})();
+</script>
+</body>
+</html>

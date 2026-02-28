@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Bestellung verfolgen — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<style>
+.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
+.tl-step{position:relative;padding-left:3rem;padding-bottom:2rem}
+.tl-step:last-child{padding-bottom:0}
+.tl-step::before{content:'';position:absolute;left:15px;top:28px;bottom:0;width:2px;background:#e5e7eb}
+.tl-step:last-child::before{display:none}
+.tl-dot{position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:50%;border:2px solid #e5e7eb;background:#fff;display:flex;align-items:center;justify-content:center;z-index:1}
+.tl-step.active .tl-dot{border-color:#C5A059;background:#C5A059}
+.tl-step.active .tl-dot svg{color:#fff}
+.tl-step.completed .tl-dot{border-color:#16a34a;background:#16a34a}
+.tl-step.completed .tl-dot svg{color:#fff}
+.tl-step.completed::before{background:#16a34a}
+</style>
+</head>
+<body class="font-sans bg-white text-navy antialiased">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4">
+<p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p>
+</div>
+
+<!-- HEADER -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_electronics">Elektronik</p>
+        <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple</a>
+        <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony</a>
+        <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung</a>
+        <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose</a>
+        <a href="/catalog.html?cat=electronics&brand=Dyson" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=electronics" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_el">Alle Elektronik →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[280px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="mega_fashion">Mode</p>
+        <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+        <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+        <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+        <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1.5 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+        <a href="/catalog.html?cat=fashion" class="block mt-3 text-xs font-semibold text-gold hover:underline" data-i18n="mega_all_fa">Alle Mode →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+        <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs</a>
+        <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad</a>
+        <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring</a>
+        <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee</a>
+        <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+        <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+        <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+        <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+        <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+      </div>
+    </div>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+  </div>
+</nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded" data-i18n="nav_all">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_electronics">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_fashion_long">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_home">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_travel">Reise & Outdoor</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span data-i18n="mob_login">Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span data-i18n="mob_orders">Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="max-w-[700px] mx-auto px-4 py-10 sm:py-16">
+  <!-- Hero -->
+  <div class="text-center mb-10">
+    <div class="w-16 h-16 mx-auto mb-4 bg-navy/5 rounded-full flex items-center justify-center">
+      <i data-lucide="package-search" class="w-8 h-8 text-navy"></i>
+    </div>
+    <h1 class="font-serif text-3xl font-bold mb-3" data-i18n="trk_title">Bestellung verfolgen</h1>
+    <p class="text-gray-500 text-sm max-w-md mx-auto" data-i18n="trk_desc">Geben Sie Ihre Bestellnummer und E-Mail ein, um den Status Ihrer Bestellung zu verfolgen.</p>
+  </div>
+
+  <!-- Search Form -->
+  <div id="track-form" class="bg-white border border-gray-100 p-6 sm:p-8 mb-8">
+    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1" data-i18n="trk_order_id">Bestellnummer</label>
+        <input type="text" id="trk-id" placeholder="AGM-..." class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm font-mono transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1" data-i18n="trk_email">E-Mail-Adresse</label>
+        <input type="email" id="trk-email" placeholder="ihre@email.de" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+    </div>
+    <button onclick="trackOrder()" class="w-full h-12 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors flex items-center justify-center gap-2">
+      <i data-lucide="search" class="w-4 h-4"></i>
+      <span data-i18n="trk_btn">BESTELLUNG SUCHEN</span>
+    </button>
+    <div id="trk-error" class="hidden mt-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm text-center" data-i18n="trk_not_found">Bestellung nicht gefunden. Überprüfen Sie die eingegebenen Daten.</div>
+  </div>
+
+  <!-- Result -->
+  <div id="track-result" class="hidden">
+    <!-- Order summary card -->
+    <div class="bg-white border border-gray-100 p-6 sm:p-8 mb-6">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="trk_order_id">Bestellnummer</p>
+          <p id="res-order-id" class="font-mono font-bold text-lg mt-0.5"></p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="ds_date">Datum</p>
+          <p id="res-date" class="text-sm font-medium mt-0.5"></p>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div id="timeline" class="mb-6">
+        <div class="tl-step" data-step="paid">
+          <div class="tl-dot"><svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div>
+            <p class="font-semibold text-sm" data-i18n="trk_paid">Bezahlt</p>
+            <p class="text-xs text-gray-400" data-i18n="trk_paid_d">Zahlung eingegangen</p>
+            <p class="tl-date text-[10px] text-gray-300 mt-0.5"></p>
+          </div>
+        </div>
+        <div class="tl-step" data-step="sourcing">
+          <div class="tl-dot"><svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div>
+            <p class="font-semibold text-sm" data-i18n="trk_sourcing">Logistikzentrum</p>
+            <p class="text-xs text-gray-400" data-i18n="trk_sourcing_d">Produkt wird vorbereitet</p>
+            <p class="tl-date text-[10px] text-gray-300 mt-0.5"></p>
+          </div>
+        </div>
+        <div class="tl-step" data-step="shipped">
+          <div class="tl-dot"><svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div>
+            <p class="font-semibold text-sm" data-i18n="trk_shipped">Versendet</p>
+            <p class="text-xs text-gray-400" data-i18n="trk_shipped_d">Paket unterwegs</p>
+            <p class="tl-date text-[10px] text-gray-300 mt-0.5"></p>
+            <div id="tracking-link" class="hidden mt-2 p-3 bg-blue-50 border border-blue-200 rounded"></div>
+          </div>
+        </div>
+        <div class="tl-step" data-step="delivered">
+          <div class="tl-dot"><svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div>
+            <p class="font-semibold text-sm" data-i18n="trk_delivered">Zugestellt</p>
+            <p class="text-xs text-gray-400" data-i18n="trk_delivered_d">Erfolgreich zugestellt</p>
+            <p class="tl-date text-[10px] text-gray-300 mt-0.5"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Receipt download -->
+      <div id="receipt-section" class="hidden border-t border-gray-100 pt-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-gold"></i>
+            <span class="text-sm font-medium" data-i18n="trk_receipt">Kaufbeleg</span>
+          </div>
+          <a id="receipt-link" href="#" onclick="downloadReceiptBlob(event)" class="text-sm text-gold font-semibold hover:underline cursor-pointer" data-i18n="trk_dl_receipt">Beleg herunterladen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order items -->
+    <div id="order-items" class="bg-white border border-gray-100 p-6"></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
+        <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
+      </div>
+      <p class="text-white/30 text-xs leading-relaxed" data-i18n="ft_desc">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_svc">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_track">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_returns">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_co">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_story">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_privacy">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_terms">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors" data-i18n="ft_imprint">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5" data-i18n="ft_cat">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- CART DRAWER (shared) -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform pointer-events-auto">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4" style="max-height:calc(100vh - 160px)"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden">
+    <div class="flex justify-between mb-4"><span class="font-medium" data-i18n="cart_total">Gesamt</span><span id="cart-total-price" class="font-bold text-lg"></span></div>
+    <a href="/checkout.html" class="block w-full py-3 bg-navy text-white text-center text-sm font-bold tracking-wider hover:bg-navy-light transition-colors" data-i18n="cart_checkout">ZUR KASSE</a>
+  </div>
+</aside>
+</div>
+
+<script>
+var t=Aura.t;
+var cartOpen=false;
+function toggleCart(){
+  cartOpen=!cartOpen;
+  document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);
+  document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);
+  document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';
+  if(cartOpen) renderCartDrawer();
+}
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10" data-i18n="cart_empty">Warenkorb ist leer</p>';footer.classList.add('hidden');Aura.applyLocale();return;}
+  body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">−</button><span class="text-sm w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-[10px] text-red-400 hover:text-red-600 mt-1">✕</button></div></div>';}).join('');
+  footer.classList.remove('hidden');
+  document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);
+}
+
+function trackOrder(){
+  var id=document.getElementById('trk-id').value.trim().toUpperCase();
+  var email=document.getElementById('trk-email').value.trim();
+  document.getElementById('trk-error').classList.add('hidden');
+  document.getElementById('track-result').classList.add('hidden');
+
+  if(!id||!email){
+    document.getElementById('trk-error').classList.remove('hidden');
+    return;
+  }
+
+  var order=Aura.getOrderByIdAndEmail(id,email);
+  if(!order){
+    document.getElementById('trk-error').classList.remove('hidden');
+    return;
+  }
+
+  // Populate result
+  document.getElementById('res-order-id').textContent=order.id;
+  document.getElementById('res-date').textContent=new Date(order.created).toLocaleDateString(Aura.getLocale()==='de'?'de-DE':'en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  // Timeline
+  var statuses=['paid','sourcing','shipped','delivered'];
+  var currentIdx=statuses.indexOf(order.status);
+  if(currentIdx===-1) currentIdx=0; // fallback for legacy 'pending'
+
+  var history=order.statusHistory||[];
+  document.querySelectorAll('.tl-step').forEach(function(step){
+    var stepName=step.getAttribute('data-step');
+    var stepIdx=statuses.indexOf(stepName);
+    step.classList.remove('active','completed');
+    if(stepIdx<currentIdx) step.classList.add('completed');
+    else if(stepIdx===currentIdx) step.classList.add('active');
+    // Date from history
+    var hEntry=history.find(function(h){return h.status===stepName;});
+    var dateEl=step.querySelector('.tl-date');
+    if(dateEl){
+      dateEl.textContent=hEntry?new Date(hEntry.date).toLocaleString(Aura.getLocale()==='de'?'de-DE':'en-US',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+    }
+  });
+
+  // Tracking number
+  var trackingDiv=document.getElementById('tracking-link');
+  if(order.trackingNumber){
+    var trackUrl='https://ua.meest.com/parcel-track?parcel_number='+order.trackingNumber;
+    trackingDiv.innerHTML='<p class="text-xs font-semibold text-blue-700 mb-1">'+t('trk_track_num')+': <span class="font-mono">'+order.trackingNumber+'</span></p><a href="'+trackUrl+'" target="_blank" class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:underline"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Sendung verfolgen</a>';
+    trackingDiv.classList.remove('hidden');
+  } else {
+    trackingDiv.classList.add('hidden');
+  }
+
+  // Receipt
+  var receiptSec=document.getElementById('receipt-section');
+  if(order.receiptUrl){
+    document.getElementById('receipt-link').setAttribute('data-receipt',order.receiptUrl);
+    receiptSec.classList.remove('hidden');
+  } else {
+    receiptSec.classList.add('hidden');
+  }
+
+  // Order items
+  var itemsDiv=document.getElementById('order-items');
+  if(order.items&&order.items.length){
+    itemsDiv.innerHTML='<h3 class="font-semibold text-sm mb-4">'+t('ck_summary')+'</h3>'+order.items.map(function(it){
+      var p=it.product||{};
+      return '<div class="flex gap-3 py-3 border-b border-gray-50"><div class="w-12 h-12 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(p.img||'','text-2xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+(p.name||'Artikel')+'</p><p class="text-xs text-gray-400">× '+it.qty+'</p></div><p class="text-sm font-bold flex-shrink-0">'+Aura.formatPrice((p.price||0)*it.qty)+'</p></div>';
+    }).join('')+'<div class="flex justify-between pt-4"><span class="font-semibold">'+t('ck_total')+'</span><span class="font-bold text-lg">'+Aura.formatPrice(order.total)+'</span></div>';
+  }
+
+  document.getElementById('track-result').classList.remove('hidden');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+
+function downloadReceiptBlob(e){
+  e.preventDefault();
+  var dataUrl=e.currentTarget.getAttribute('data-receipt');
+  if(!dataUrl) return;
+  try{
+    var arr=dataUrl.split(','),mime=arr[0].match(/:(.*?);/)[1];
+    var bstr=atob(arr[1]),n=bstr.length,u8=new Uint8Array(n);
+    for(var i=0;i<n;i++) u8[i]=bstr.charCodeAt(i);
+    var blob=new Blob([u8],{type:mime});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download='Kaufbeleg'+(mime.indexOf('pdf')!==-1?'.pdf':'.png');
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }catch(err){window.open(dataUrl);}
+}
+
+// Pre-fill from URL params
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('id')) document.getElementById('trk-id').value=params.get('id');
+  if(params.get('email')) document.getElementById('trk-email').value=params.get('email');
+  if(params.get('id')&&params.get('email')) trackOrder();
+  if(typeof lucide!=='undefined') lucide.createIcons();
+});
+</script>
+</body>
+</html>

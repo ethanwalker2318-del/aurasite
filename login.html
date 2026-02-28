@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anmelden — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="/email-service.js"></script>
+</head>
+<body class="font-sans bg-white text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <span class="text-gold">Aura Verified</span> <span data-i18n="guarantee">Garantie</span></p></div>
+
+<!-- HEADER -->
+<header class="bg-white border-b border-gray-100">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex items-center gap-2.5 group"><img src="/logo.svg" alt="Aura Global" class="w-9 h-9"><div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div></a>
+  <div class="flex-1"></div>
+  <div data-locale-picker class="hidden sm:flex"></div>
+  <a href="/catalog.html" class="text-sm text-gray-500 hover:text-navy hidden sm:inline" data-i18n="to_shop">Zum Shop →</a>
+</div>
+</header>
+
+<main class="flex-1 flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-[420px]">
+
+    <!-- TABS -->
+    <div class="flex mb-8">
+      <button id="tab-login" onclick="showForm('login')" class="flex-1 py-3 text-sm font-bold border-b-2 border-navy text-navy" data-i18n="lg_login">ANMELDEN</button>
+      <button id="tab-reg" onclick="showForm('register')" class="flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-gray-400" data-i18n="lg_register">REGISTRIEREN</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="form-login" onsubmit="return handleLogin(event)" class="space-y-5">
+      <p class="text-sm text-gray-500 mb-2" data-i18n="lg_login_desc">Melden Sie sich mit Ihrer E-Mail-Adresse an.</p>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_email">E-Mail</label>
+        <input type="email" id="l-email" required placeholder="name@example.com" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_pass">Passwort</label>
+        <input type="password" id="l-pass" required placeholder="••••••••" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <p id="l-error" class="text-red-500 text-xs hidden"></p>
+      <button type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="btn_login">ANMELDEN</button>
+      <div class="text-right mt-2">
+        <button type="button" onclick="showForm('forgot')" class="text-xs text-gold hover:text-gold-dark underline" data-i18n="forgot_pass">Passwort vergessen?</button>
+      </div>
+    </form>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <form id="form-forgot" onsubmit="return handleForgotSubmit(event)" class="space-y-5 hidden">
+      <p class="text-sm text-gray-500 mb-2" data-i18n="lg_forgot_desc">Geben Sie Ihre E-Mail-Adresse ein. Wir senden Ihnen einen Code zum Zurücksetzen Ihres Passworts.</p>
+      <!-- Step 1: Email -->
+      <div id="forgot-step1">
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail</label>
+        <input type="email" id="f-email" required placeholder="name@example.com" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <!-- Step 2: Code -->
+      <div id="forgot-step2" class="hidden">
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_code">Bestätigungscode</label>
+        <input type="text" id="f-code" maxlength="6" placeholder="6-stelliger Code" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm tracking-[0.3em] text-center text-lg font-mono transition-colors">
+      </div>
+      <!-- Step 3: New password -->
+      <div id="forgot-step3" class="hidden space-y-4">
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_new_pass">Neues Passwort</label>
+          <input type="password" id="f-newpass" minlength="6" placeholder="Mind. 6 Zeichen" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_new_pass2">Passwort bestätigen</label>
+          <input type="password" id="f-newpass2" placeholder="Passwort wiederholen" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+        </div>
+      </div>
+      <p id="f-error" class="text-red-500 text-xs hidden"></p>
+      <p id="f-success" class="text-green-600 text-xs hidden"></p>
+      <button id="f-btn" type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="btn_send_code">CODE SENDEN</button>
+      <div class="text-center mt-2">
+        <button type="button" onclick="showForm('login')" class="text-xs text-gray-400 hover:text-navy" data-i18n="back_login">← Zurück zur Anmeldung</button>
+      </div>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="form-register" onsubmit="return handleRegister(event)" class="space-y-5 hidden">
+      <p class="text-sm text-gray-500 mb-2" data-i18n="lg_reg_desc">Erstellen Sie ein Konto, um Bestellungen aufzugeben.</p>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_name">Vollständiger Name</label>
+        <input type="text" id="r-name" required placeholder="Max Mustermann" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail</label>
+        <input type="email" id="r-email" required placeholder="name@example.com" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Passwort</label>
+        <input type="password" id="r-pass" required minlength="6" placeholder="Mind. 6 Zeichen" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_pass2">Passwort bestätigen</label>
+        <input type="password" id="r-pass2" required placeholder="Passwort wiederholen" class="w-full h-12 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
+      </div>
+      <p id="r-error" class="text-red-500 text-xs hidden"></p>
+      <button type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="btn_register">KONTO ERSTELLEN</button>
+    </form>
+
+    <div class="mt-8 text-center">
+      <a href="/index.html" class="text-xs text-gray-400 hover:text-navy" data-i18n="back_shop">← Zurück zum Shop</a>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER MINI -->
+<footer class="bg-navy-dark py-6">
+  <div class="max-w-[1400px] mx-auto px-4 text-center">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. · Company No. 15847293</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+// If already logged in, redirect
+var session=Aura.getSession();
+if(session){
+  if(Aura.isAdmin()||Aura.isLinguist()) window.location.replace('/admin-hub.html');
+  else window.location.replace('/dashboard.html');
+  return;
+}
+
+window.showForm=function(which){
+  document.getElementById('form-login').classList.toggle('hidden',which!=='login');
+  document.getElementById('form-register').classList.toggle('hidden',which!=='register');
+  document.getElementById('form-forgot').classList.toggle('hidden',which!=='forgot');
+  document.getElementById('tab-login').classList.toggle('border-navy',which==='login'||which==='forgot');
+  document.getElementById('tab-login').classList.toggle('text-navy',which==='login'||which==='forgot');
+  document.getElementById('tab-login').classList.toggle('border-transparent',which==='register');
+  document.getElementById('tab-login').classList.toggle('text-gray-400',which==='register');
+  document.getElementById('tab-reg').classList.toggle('border-navy',which==='register');
+  document.getElementById('tab-reg').classList.toggle('text-navy',which==='register');
+  document.getElementById('tab-reg').classList.toggle('border-transparent',which!=='register');
+  document.getElementById('tab-reg').classList.toggle('text-gray-400',which!=='register');
+  if(which==='forgot'){ _forgotStep=1; updateForgotUI(); }
+};
+
+window.handleLogin=function(e){
+  e.preventDefault();
+  var email=document.getElementById('l-email').value.trim();
+  var pass=document.getElementById('l-pass').value;
+  var errEl=document.getElementById('l-error');
+  errEl.classList.add('hidden');
+  var result=Aura.login(email,pass);
+  if(result.ok){
+    Aura.showToast(Aura.t('welcome_back'),'success');
+    setTimeout(function(){
+      if(result.user.role==='admin'||result.user.role==='linguist') window.location.href='/admin-hub.html';
+      else window.location.href='/dashboard.html';
+    },600);
+  }else{
+    errEl.textContent=result.error;
+    errEl.classList.remove('hidden');
+  }
+  return false;
+};
+
+window.handleRegister=function(e){
+  e.preventDefault();
+  var name=document.getElementById('r-name').value.trim();
+  var email=document.getElementById('r-email').value.trim();
+  var pass=document.getElementById('r-pass').value;
+  var pass2=document.getElementById('r-pass2').value;
+  var errEl=document.getElementById('r-error');
+  errEl.classList.add('hidden');
+  if(pass!==pass2){errEl.textContent=Aura.t('pass_mismatch');errEl.classList.remove('hidden');return false;}
+  var result=Aura.register(name,email,pass);
+  if(result.ok){
+    Aura.login(email,pass);
+    // Send welcome email
+    if(typeof AuraEmail!=='undefined') AuraEmail.sendWelcome(email,name);
+    Aura.showToast(Aura.t('account_created'),'success');
+    setTimeout(function(){window.location.href='/dashboard.html';},800);
+  }else{
+    errEl.textContent=result.error;
+    errEl.classList.remove('hidden');
+  }
+  return false;
+};
+
+/* ── FORGOT PASSWORD ─────────────────── */
+var _forgotStep=1;
+var _forgotEmail='';
+
+function updateForgotUI(){
+  document.getElementById('forgot-step1').classList.toggle('hidden',_forgotStep!==1);
+  document.getElementById('forgot-step2').classList.toggle('hidden',_forgotStep!==2);
+  document.getElementById('forgot-step3').classList.toggle('hidden',_forgotStep!==3);
+  var btn=document.getElementById('f-btn');
+  if(_forgotStep===1) btn.textContent='CODE SENDEN';
+  else if(_forgotStep===2) btn.textContent='CODE BESTÄTIGEN';
+  else btn.textContent='PASSWORT ÄNDERN';
+  document.getElementById('f-error').classList.add('hidden');
+  document.getElementById('f-success').classList.add('hidden');
+}
+
+window.handleForgotSubmit=function(e){
+  e.preventDefault();
+  var errEl=document.getElementById('f-error');
+  var sucEl=document.getElementById('f-success');
+  errEl.classList.add('hidden');
+  sucEl.classList.add('hidden');
+
+  if(_forgotStep===1){
+    _forgotEmail=document.getElementById('f-email').value.trim();
+    // Check if user exists
+    var users=JSON.parse(localStorage.getItem('aura_users')||'[]');
+    var exists=users.some(function(u){return u.email===_forgotEmail;});
+    if(!exists){
+      errEl.textContent='Kein Konto mit dieser E-Mail gefunden.';
+      errEl.classList.remove('hidden');
+      return false;
+    }
+    // Send reset code
+    if(typeof AuraEmail!=='undefined'){
+      AuraEmail.sendPasswordReset(_forgotEmail);
+      sucEl.textContent='Ein 6-stelliger Code wurde an '+_forgotEmail+' gesendet.';
+      sucEl.classList.remove('hidden');
+    }
+    _forgotStep=2;
+    updateForgotUI();
+    sucEl.classList.remove('hidden');
+  } else if(_forgotStep===2){
+    var code=document.getElementById('f-code').value.trim();
+    if(!code||code.length!==6){
+      errEl.textContent='Bitte geben Sie den 6-stelligen Code ein.';
+      errEl.classList.remove('hidden');
+      return false;
+    }
+    if(typeof AuraEmail!=='undefined'){
+      var result=AuraEmail.verifyResetCode(code);
+      if(!result.ok){
+        errEl.textContent=result.error;
+        errEl.classList.remove('hidden');
+        return false;
+      }
+      _forgotEmail=result.email;
+    }
+    _forgotStep=3;
+    updateForgotUI();
+  } else if(_forgotStep===3){
+    var np=document.getElementById('f-newpass').value;
+    var np2=document.getElementById('f-newpass2').value;
+    if(np.length<6){
+      errEl.textContent='Passwort muss mindestens 6 Zeichen lang sein.';
+      errEl.classList.remove('hidden');
+      return false;
+    }
+    if(np!==np2){
+      errEl.textContent='Passwörter stimmen nicht überein.';
+      errEl.classList.remove('hidden');
+      return false;
+    }
+    // Update password in localStorage
+    var users=JSON.parse(localStorage.getItem('aura_users')||'[]');
+    for(var i=0;i<users.length;i++){
+      if(users[i].email===_forgotEmail){
+        users[i].password=np;
+        break;
+      }
+    }
+    localStorage.setItem('aura_users',JSON.stringify(users));
+    if(typeof AuraEmail!=='undefined') AuraEmail.sendPasswordChanged(_forgotEmail,'');
+    Aura.showToast('Passwort erfolgreich geändert!','success');
+    setTimeout(function(){ showForm('login'); },1200);
+  }
+  return false;
+};
+
+if(typeof lucide!=='undefined') lucide.createIcons();
+})();
+</script>
+</body>
+</html>

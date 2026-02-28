@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allgemeine Geschäftsbedingungen — Aura Global Merchants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<style>.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}</style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+<!-- TOP BAR -->
+<div class="bg-navy-dark text-center py-2 px-4">
+<p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p>
+</div>
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
+  <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group">
+    <img src="/logo.svg" alt="Aura Global" class="w-9 h-9">
+    <div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div>
+  </a>
+  <div class="flex-1 max-w-2xl relative">
+    <div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white">
+      <i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i>
+      <input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter'){window.location='/catalog.html?q='+encodeURIComponent(this.value)}">
+    </div>
+  </div>
+  <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
+    <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Konto"><i data-lucide="user" class="w-5 h-5"></i></a>
+    <a href="/dashboard.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Wunschliste"><i data-lucide="heart" class="w-5 h-5"></i></a>
+    <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors" title="Warenkorb">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span data-cart-count class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-gold text-white text-[10px] font-bold flex items-center justify-center rounded-full" style="display:none">0</span>
+    </button>
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
+  </div>
+</div>
+<nav class="hidden lg:block border-t border-gray-100">
+  <div class="max-w-[1400px] mx-auto px-8 flex items-center">
+    <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Smartphones & Tablets</p>
+            <a href="/catalog.html?cat=electronics&brand=Apple" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Apple iPhone & iPad</a>
+            <a href="/catalog.html?cat=electronics&brand=Samsung" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Samsung Galaxy</a>
+            <a href="/catalog.html?cat=electronics&brand=Google" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Google Pixel</a>
+            <a href="/catalog.html?cat=electronics&brand=OnePlus" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">OnePlus</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Laptops & Audio</p>
+            <a href="/catalog.html?cat=electronics&brand=Dell" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dell</a>
+            <a href="/catalog.html?cat=electronics&brand=Sony" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Sony Audio</a>
+            <a href="/catalog.html?cat=electronics&brand=Bose" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Bose</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Gaming & VR</p>
+            <a href="/catalog.html?cat=electronics&q=playstation" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">PlayStation</a>
+            <a href="/catalog.html?cat=electronics&brand=Meta" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Meta Quest VR</a>
+            <a href="/catalog.html?cat=electronics&brand=Logitech" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Logitech</a>
+            <a href="/catalog.html?cat=electronics&brand=XREAL" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">XREAL AR</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=electronics" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Elektronik →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=fashion" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_fashion_long">Mode & Accessoires</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[520px] z-50">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schuhe & Sneaker</p>
+            <a href="/catalog.html?cat=fashion&brand=Nike" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Nike</a>
+            <a href="/catalog.html?cat=fashion&brand=Adidas" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Adidas</a>
+            <a href="/catalog.html?cat=fashion&brand=New+Balance" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">New Balance</a>
+            <a href="/catalog.html?cat=fashion&brand=Puma" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Puma</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Designer & Luxus</p>
+            <a href="/catalog.html?cat=fashion&brand=Gucci" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Gucci</a>
+            <a href="/catalog.html?cat=fashion&brand=Louis+Vuitton" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Louis Vuitton</a>
+            <a href="/catalog.html?cat=fashion&brand=Hermès" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Hermès</a>
+            <a href="/catalog.html?cat=fashion&brand=Prada" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Prada</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Schmuck & Uhren</p>
+            <a href="/catalog.html?cat=fashion&brand=Rolex" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rolex</a>
+            <a href="/catalog.html?cat=fashion&brand=Omega" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Omega</a>
+            <a href="/catalog.html?cat=fashion&brand=Pandora" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Pandora</a>
+            <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mt-4 mb-3">Kleidung & Accessoires</p>
+            <a href="/catalog.html?cat=fashion&brand=Ralph+Lauren" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ralph Lauren</a>
+            <a href="/catalog.html?cat=fashion&brand=Coach" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Coach</a>
+            <a href="/catalog.html?cat=fashion&brand=Ray-Ban" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ray-Ban</a>
+          </div>
+        </div>
+        <a href="/catalog.html?cat=fashion" class="block mt-4 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Mode →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=home" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_home">Haus & Wohnen<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Haus & Wohnen</p>
+        <a href="/catalog.html?cat=home&brand=Dyson" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Dyson</a>
+        <a href="/catalog.html?cat=home&brand=Ecovacs" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ecovacs</a>
+        <a href="/catalog.html?cat=home&brand=HexClad" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">HexClad</a>
+        <a href="/catalog.html?cat=home&brand=Ring" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Ring</a>
+        <a href="/catalog.html?cat=home&brand=Govee" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Govee</a>
+        <a href="/catalog.html?cat=home" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Haus & Wohnen →</a>
+      </div>
+    </div>
+    <div class="nav-cat relative">
+      <a href="/catalog.html?cat=travel" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1" data-i18n="nav_travel">Reise & Outdoor<i data-lucide="chevron-down" class="w-3 h-3"></i></a>
+      <div class="mega-menu absolute top-full left-0 bg-white border border-gray-100 shadow-xl p-6 min-w-[320px] z-50">
+        <p class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Reise & Outdoor</p>
+        <a href="/catalog.html?cat=travel&brand=Rimowa" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Rimowa Koffer</a>
+        <a href="/catalog.html?cat=travel&brand=North+Face" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">The North Face</a>
+        <a href="/catalog.html?cat=travel&brand=Patagonia" class="block py-1 text-sm text-gray-600 hover:text-navy hover:pl-1 transition-all">Patagonia</a>
+        <a href="/catalog.html?cat=travel" class="block mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-gold hover:underline">Alle Reise & Outdoor →</a>
+      </div>
+    </div>
+    <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+  </div>
+</nav>
+</header>
+<!-- MOBILE MENU -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-[60] lg:hidden">
+<div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
+<div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
+  <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <nav class="p-4 space-y-1">
+    <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded">Alle Produkte</a>
+    <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Elektronik</a>
+    <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Mode & Accessoires</a>
+    <a href="/catalog.html?cat=home" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Haus & Wohnen</a>
+    <a href="/catalog.html?cat=travel" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded">Reise & Outdoor</a>
+    <div class="border-t my-3"></div>
+    <div data-locale-picker class="px-3 py-2"></div>
+    <div class="border-t my-3"></div>
+    <a href="/login.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i><span>Anmelden / Registrieren</span></a>
+    <a href="/dashboard.html" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i><span>Meine Bestellungen</span></a>
+  </nav>
+</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <!-- HERO -->
+  <section class="bg-gradient-to-br from-navy to-navy-light py-16 sm:py-20">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i data-lucide="file-text" class="w-8 h-8 text-gold"></i>
+      </div>
+      <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Allgemeine Geschäftsbedingungen (AGB)</h1>
+      <p class="text-white/50 text-sm sm:text-base max-w-xl mx-auto">der Aura Global Merchants Ltd. — Stand: Februar 2025</p>
+    </div>
+  </section>
+
+  <!-- AGB CONTENT -->
+  <section class="py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+      <!-- § 1 Geltungsbereich -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 1 Geltungsbereich</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Bestellungen, die über die Website auraglobal.co.uk (nachfolgend „Plattform") abgeschlossen werden.</p>
+          <p>(2) Anbieter ist die Aura Global Merchants Ltd., 71-75 Shelton Street, Covent Garden, London WC2H 9JQ, United Kingdom, eingetragen in England & Wales unter der Company Number 15847293 (nachfolgend „Aura Global" oder „wir").</p>
+          <p>(3) Aura Global agiert als Marktplatz-Intermediär, der die Authentizität und Qualität der angebotenen Produkte durch ein eigenes Inspektionsverfahren garantiert.</p>
+          <p>(4) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, Aura Global stimmt deren Geltung ausdrücklich schriftlich zu.</p>
+        </div>
+      </div>
+
+      <!-- § 2 Vertragsschluss -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 2 Vertragsschluss</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Die Darstellung der Produkte auf der Plattform stellt kein rechtlich bindendes Angebot dar, sondern eine Aufforderung zur Abgabe eines Angebots (invitatio ad offerendum).</p>
+          <p>(2) Durch Anklicken des Buttons „Zahlungspflichtig bestellen" gibt der Kunde ein verbindliches Kaufangebot ab.</p>
+          <p>(3) Aura Global bestätigt den Eingang der Bestellung per automatisierter E-Mail (Eingangsbestätigung). Diese stellt noch keine Annahme des Angebots dar.</p>
+          <p>(4) Der Vertrag kommt erst durch die Versendung der Auftragsbestätigung per E-Mail oder durch Lieferung der Ware zustande.</p>
+        </div>
+      </div>
+
+      <!-- § 3 Preise und Zahlung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 3 Preise und Zahlung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Alle auf der Plattform angegebenen Preise sind Endpreise in Euro (EUR) und enthalten die gesetzliche Mehrwertsteuer.</p>
+          <p>(2) Versandkosten werden gesondert ausgewiesen und sind vom Kunden zu tragen, sofern nicht anders angegeben. Ab einem Bestellwert von 99 € entfallen die Versandkosten für Standardlieferungen innerhalb Deutschlands.</p>
+          <p>(3) Folgende Zahlungsmethoden stehen zur Verfügung:</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li>Visa</li>
+            <li>Mastercard</li>
+            <li>PayPal</li>
+            <li>Apple Pay</li>
+          </ul>
+          <p>(4) Die Zahlung ist sofort mit Bestellabschluss fällig. Die Belastung erfolgt zum Zeitpunkt der Auftragsbestätigung.</p>
+        </div>
+      </div>
+
+      <!-- § 4 Aura Inspection Protocol -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 4 Aura Inspection Protocol</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Jedes über die Plattform angebotene Produkt durchläuft vor dem Versand das „Aura Inspection Protocol" — eine dreistufige Qualitätsprüfung:</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li><strong>Authentizitätsprüfung:</strong> Überprüfung der Echtheit des Produkts anhand von Seriennummern, Verpackung und Herstellermerkmalen.</li>
+            <li><strong>Funktionsprüfung:</strong> Vollständiger Test aller funktionalen Eigenschaften des Geräts.</li>
+            <li><strong>Siegelprüfung:</strong> Dokumentation des Zustands der Originalversiegelung und Verpackungsintegrität.</li>
+          </ul>
+          <p>(2) Der gesamte Inspektionsprozess wird per Video dokumentiert. Diese Videodokumentation dient als verbindliche Qualitätsreferenz für den Zustand des Produkts zum Zeitpunkt des Versands.</p>
+          <p>(3) Dem Kunden wird auf Anfrage Zugang zur Inspektionsdokumentation seines spezifischen Produkts gewährt.</p>
+        </div>
+      </div>
+
+      <!-- § 5 Lieferung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 5 Lieferung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Die Lieferung erfolgt aus lokalen Lagern in Deutschland und dem Vereinigten Königreich.</p>
+          <p>(2) Standardlieferung: 2–4 Werktage. Expresslieferung: 1–2 Werktage (gegen Aufpreis).</p>
+          <p>(3) Versandpartner sind DHL und UPS. Der Kunde erhält nach Versand eine Sendungsverfolgungsnummer per E-Mail.</p>
+          <p>(4) Lieferungen erfolgen ausschließlich an die vom Kunden angegebene Lieferadresse. Änderungen der Lieferadresse sind nur vor Versand möglich.</p>
+          <p>(5) Ist der Kunde zum Zeitpunkt der Lieferung nicht erreichbar, hinterlässt der Versanddienstleister eine Benachrichtigung. Die Kosten einer erneuten Zustellung trägt der Kunde.</p>
+        </div>
+      </div>
+
+      <!-- § 6 Widerrufsrecht -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 6 Widerrufsrecht</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Der Kunde hat das Recht, binnen 30 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 30 Tage ab dem Tag, an dem der Kunde oder ein von ihm benannter Dritter die Ware in Besitz genommen hat.</p>
+          <p>(2) Um das Widerrufsrecht auszuüben, muss der Kunde Aura Global mittels einer eindeutigen Erklärung (z. B. per E-Mail an contact@auraglobal.co.uk) über den Entschluss, den Vertrag zu widerrufen, informieren.</p>
+          <p>(3) Im Falle eines wirksamen Widerrufs sind die beiderseits empfangenen Leistungen zurückzugewähren. Die Rücksendung hat innerhalb von 14 Tagen nach Erklärung des Widerrufs zu erfolgen.</p>
+          <p>(4) Der Zustand der zurückgesendeten Ware wird anhand der Videodokumentation des Aura Inspection Protocols überprüft. Verschlechterungen, die nicht auf die Prüfung der Beschaffenheit zurückzuführen sind, können zu einer Wertminderung führen.</p>
+          <p>(5) Die Kosten der Rücksendung trägt der Kunde.</p>
+        </div>
+      </div>
+
+      <!-- § 7 Gewährleistung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 7 Gewährleistung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Es gelten die gesetzlichen Gewährleistungsrechte.</p>
+          <p>(2) Mängel sind unverzüglich nach Entdeckung unter Angabe der Bestellnummer per E-Mail an contact@auraglobal.co.uk zu melden.</p>
+          <p>(3) Bei Unstimmigkeiten über den Zustand der gelieferten Ware dient die Videodokumentation des Aura Inspection Protocols als verbindliche Referenz für den Zustand zum Zeitpunkt des Versands.</p>
+          <p>(4) Die Gewährleistungsfrist für neue Waren beträgt 24 Monate ab Lieferung. Für gebrauchte Waren wird die Gewährleistungsfrist auf 12 Monate ab Lieferung verkürzt.</p>
+        </div>
+      </div>
+
+      <!-- § 8 Haftungsbeschränkung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 8 Haftungsbeschränkung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Aura Global haftet unbeschränkt für Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für vorsätzlich oder grob fahrlässig verursachte Schäden.</p>
+          <p>(2) Bei leichter Fahrlässigkeit haftet Aura Global nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten). Die Haftung ist in diesem Fall auf den vorhersehbaren, vertragstypischen Schaden begrenzt.</p>
+          <p>(3) Die vorstehenden Haftungsbeschränkungen gelten nicht für Ansprüche nach dem Produkthaftungsgesetz sowie bei Übernahme einer Garantie.</p>
+        </div>
+      </div>
+
+      <!-- § 9 Datenschutz -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 9 Datenschutz</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Informationen zur Erhebung, Verarbeitung und Nutzung personenbezogener Daten finden Sie in unserer <a href="/privacy.html" class="text-gold hover:underline font-medium">Datenschutzerklärung</a>.</p>
+          <p>(2) Der Kunde erklärt sich mit der Verarbeitung seiner personenbezogenen Daten gemäß der Datenschutzerklärung einverstanden, soweit dies zur Vertragserfüllung erforderlich ist.</p>
+        </div>
+      </div>
+
+      <!-- § 10 Schlussbestimmungen -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 10 Schlussbestimmungen</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Es gilt das Recht von England und Wales unter Ausschluss des UN-Kaufrechts (CISG). Gegenüber Verbrauchern mit gewöhnlichem Aufenthalt in der EU gilt diese Rechtswahl nur insoweit, als dadurch nicht zwingende Verbraucherschutzvorschriften des Aufenthaltsstaates eingeschränkt werden.</p>
+          <p>(2) Sollten einzelne Bestimmungen dieser AGB unwirksam oder undurchführbar sein oder werden, so wird die Wirksamkeit der übrigen Bestimmungen davon nicht berührt. Anstelle der unwirksamen Bestimmung tritt eine wirksame, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt.</p>
+          <p>(3) Vertragssprache ist Deutsch.</p>
+          <p>(4) Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">https://ec.europa.eu/consumers/odr/</a></p>
+        </div>
+      </div>
+
+      <!-- § 11 Geistiges Eigentum -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 11 Geistiges Eigentum und Markenrechte</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Alle Inhalte der Website von Aura Global Merchants Ltd., einschließlich Texte, Grafiken, Logos, Symbole, Bilder, Audio- und Videoclips, Datensammlungen und Software, sind Eigentum von Aura Global Merchants Ltd. oder ihren Lizenzgebern und durch internationale Urheber- und Markengesetze geschützt.</p>
+          <p>(2) Die auf dieser Website dargestellten Marken, Logos und Handelsnamen Dritter (z.B. Apple, Nike, Gucci, Samsung etc.) sind Eigentum der jeweiligen Markeninhaber. Die Darstellung auf unserer Website erfolgt ausschließlich zur Kennzeichnung der angebotenen Originalprodukte und stellt keine Empfehlung, Sponsoring oder Genehmigung durch die Markeninhaber dar.</p>
+          <p>(3) Jede nicht ausdrücklich genehmigte Nutzung, Vervielfältigung, Verbreitung, Übertragung, Veröffentlichung oder Verarbeitung der auf dieser Website vorhandenen Inhalte ist untersagt und kann zivil- und strafrechtliche Konsequenzen nach sich ziehen.</p>
+          <p>(4) Kunden dürfen einzelne Seiten der Website zum persönlichen, nicht-kommerziellen Gebrauch herunterladen oder ausdrucken, sofern keine Urheber- oder Eigentumsvermerke entfernt werden.</p>
+        </div>
+      </div>
+
+      <!-- § 12 Kundenkonto -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 12 Kundenkonto und Nutzerpflichten</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Zur Bestellung bei Aura Global Merchants Ltd. ist die Erstellung eines Kundenkontos erforderlich. Bei der Registrierung ist der Kunde verpflichtet, wahrheitsgemäße und vollständige Angaben zu machen und diese bei Änderungen unverzüglich zu aktualisieren.</p>
+          <p>(2) Der Kunde ist für die Geheimhaltung seiner Zugangsdaten (E-Mail-Adresse und Passwort) selbst verantwortlich. Er haftet für alle Aktivitäten, die unter seinem Kundenkonto vorgenommen werden, es sei denn, er hat den Missbrauch nicht zu vertreten.</p>
+          <p>(3) Bei Verdacht auf unbefugte Nutzung seines Kontos hat der Kunde uns unverzüglich zu informieren. Wir behalten uns das Recht vor, Kundenkonten bei begründetem Verdacht auf Missbrauch vorübergehend zu sperren.</p>
+          <p>(4) Pro Person darf nur ein Kundenkonto erstellt werden. Die Weitergabe von Kundenkonten an Dritte ist nicht gestattet.</p>
+          <p>(5) Der Kunde kann sein Kundenkonto jederzeit über die Kontoeinstellungen oder durch Mitteilung an unseren Kundenservice löschen lassen. Die Löschung wird innerhalb von 30 Tagen durchgeführt. Gesetzliche Aufbewahrungspflichten bleiben unberührt.</p>
+        </div>
+      </div>
+
+      <!-- § 13 Video-Inspektionsprotokoll -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 13 Video-Inspektionsprotokoll</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Jedes über Aura Global Merchants Ltd. verkaufte Produkt wird im Rahmen unseres Aura Inspection Protocol videodokumentiert. Das Video-Inspektionsprotokoll ist ein integraler Bestandteil unseres Qualitätssicherungsprozesses.</p>
+          <p>(2) Das Video zeigt den Zustand des Produkts zum Zeitpunkt der Prüfung im Hub, einschließlich der Verpackung, des Zubehörs, der Funktionsfähigkeit und etwaiger äußerer Mängel. Es dient als objektiver Nachweis des Produktzustands.</p>
+          <p>(3) Im Falle einer Reklamation oder eines Rücksendeantrags wird das Video-Inspektionsprotokoll als Referenz für den Zustand bei Versand herangezogen. Abweichungen vom dokumentierten Zustand, die nicht auf normalen Transport zurückzuführen sind, können die Erstattung beeinflussen.</p>
+          <p>(4) Die Video-Inspektionsprotokolle werden für die Dauer von 12 Monaten nach Lieferung gespeichert. Der Kunde hat auf Anfrage jederzeit Zugang zu seinem Inspektionsvideo.</p>
+          <p>(5) Die Videos werden ausschließlich für die genannten Qualitätssicherungs- und Gewährleistungszwecke verwendet und nicht an Dritte weitergegeben.</p>
+        </div>
+      </div>
+
+      <!-- § 14 Verbotene Nutzung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 14 Verbotene Nutzung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Die Nutzung unserer Website und unserer Dienste zu folgenden Zwecken ist untersagt:</p>
+          <ul class="list-disc ml-5 space-y-1">
+            <li>Bestellungen zum Zweck des gewerblichen Weiterverkaufs ohne vorherige schriftliche Genehmigung</li>
+            <li>Manipulation von Bewertungen, Preisen oder Bestandsinformationen</li>
+            <li>Verwendung automatisierter Systeme (Bots, Scraper, Crawler) zum Extrahieren von Daten</li>
+            <li>Einleitung von Denial-of-Service-Angriffen oder sonstige Beeinträchtigungen der Infrastruktur</li>
+            <li>Verwendung falscher oder irreführender Identitäten bei der Registrierung</li>
+            <li>Bestellungen unter Verwendung gestohlener oder unberechtigt erlangter Zahlungsmittel</li>
+          </ul>
+          <p>(2) Bei Verstoß gegen die vorgenannten Bestimmungen behalten wir uns das Recht vor, Bestellungen zu stornieren, Kundenkonten dauerhaft zu sperren und zivilrechtliche Ansprüche geltend zu machen.</p>
+        </div>
+      </div>
+
+      <!-- § 15 Streitbeilegung -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 15 Streitbeilegung</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Im Falle einer Streitigkeit aus oder im Zusammenhang mit einem Vertrag mit Aura Global Merchants Ltd. sind wir stets bereit, zunächst eine einvernehmliche Lösung anzustreben. Bitte kontaktieren Sie uns hierzu über <a href="mailto:contact@auraglobal.co.uk" class="text-gold hover:underline">contact@auraglobal.co.uk</a> oder über unser <a href="/contact.html" class="text-gold hover:underline">Kontaktformular</a>.</p>
+          <p>(2) Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle gemäß dem Verbraucherstreitbeilegungsgesetz teilzunehmen.</p>
+          <p>(3) Ungeachtet dessen steht dem Verbraucher das Recht zu, den ordentlichen Rechtsweg zu beschreiten. Für Verbraucher mit Wohnsitz in der EU ist der Gerichtsstand am Wohnsitz, Sitz oder Aufenthaltsort des Verbrauchers maßgeblich.</p>
+        </div>
+      </div>
+
+      <!-- § 16 Höhere Gewalt -->
+      <div class="bg-white border border-gray-100 shadow-sm p-6 sm:p-8">
+        <h2 class="font-serif text-xl font-bold text-navy mb-1">§ 16 Höhere Gewalt</h2>
+        <div class="w-10 h-0.5 bg-gold mb-4"></div>
+        <div class="text-sm text-gray-700 leading-relaxed space-y-3">
+          <p>(1) Aura Global Merchants Ltd. haftet nicht für die Nichterfüllung oder verspätete Erfüllung vertraglicher Pflichten, soweit die Nichterfüllung oder Verzögerung auf Ereignisse höherer Gewalt zurückzuführen ist.</p>
+          <p>(2) Als Ereignisse höherer Gewalt gelten unter anderem: Naturkatastrophen, Pandemien, Kriege, Terrorakte, Streiks, behördliche Anordnungen, Unterbrechungen der Lieferkette, Energieausfälle, Cyberangriffe oder vergleichbare Ereignisse außerhalb unserer zumutbaren Kontrolle.</p>
+          <p>(3) Im Falle höherer Gewalt werden wir den Kunden umgehend informieren und uns nach Kräften bemühen, die Auswirkungen so gering wie möglich zu halten. Dauert das Ereignis länger als 60 Tage an, ist jede Partei berechtigt, vom Vertrag zurückzutreten.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
+        <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
+      </div>
+      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <ul class="space-y-3">
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <ul class="space-y-3">
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <ul class="space-y-3">
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+<div id="cart-overlay" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity pointer-events-none" onclick="toggleCart()"></div>
+<aside id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform pointer-events-auto">
+  <div class="flex items-center justify-between px-6 py-4 border-b"><h2 class="font-serif text-lg font-bold" data-i18n="cart_title">Warenkorb</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-navy"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+  <div id="cart-body" class="flex-1 overflow-y-auto px-6 py-4" style="max-height:calc(100vh - 160px)"></div>
+  <div id="cart-footer" class="border-t px-6 py-4 hidden">
+    <div class="flex justify-between mb-4"><span class="font-medium" data-i18n="cart_total">Gesamt</span><span id="cart-total-price" class="font-bold text-lg"></span></div>
+    <a href="/checkout.html" class="block w-full py-3 bg-navy text-white text-center text-sm font-bold tracking-wider hover:bg-navy-light transition-colors" data-i18n="cart_checkout">ZUR KASSE</a>
+  </div>
+</aside>
+</div>
+
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script>
+var cartOpen=false;
+function toggleCart(){
+  cartOpen=!cartOpen;
+  document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);
+  document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);
+  document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';
+  if(cartOpen) renderCartDrawer();
+}
+function renderCartDrawer(){
+  var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');
+  if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}
+  body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center flex-shrink-0">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p><div class="flex items-center gap-3 mt-2"><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty-1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">−</button><span class="text-sm w-6 text-center">'+it.qty+'</span><button onclick="Aura.updateCartQty(\''+it.product.id+'\','+(it.qty+1)+');renderCartDrawer()" class="w-7 h-7 border flex items-center justify-center text-sm">+</button></div></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p><button onclick="Aura.removeFromCart(\''+it.product.id+'\');renderCartDrawer()" class="text-[10px] text-red-400 hover:text-red-600 mt-1">✕</button></div></div>';}).join('');
+  footer.classList.remove('hidden');
+  document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);
+}
+document.addEventListener('DOMContentLoaded',function(){if(typeof lucide!=='undefined')lucide.createIcons();});
+</script>
+</body>
+</html>
