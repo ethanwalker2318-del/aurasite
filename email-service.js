@@ -11,6 +11,7 @@ var CONFIG = {
   EMAILJS_PUBLIC_KEY:  '6E1iefDAtX8goF9mt',
   EMAILJS_SERVICE_ID:  'service_6xbgj7m',
   TEMPLATE_ID:         'tmpl_universal',
+  TEMPLATE_ID_FALLBACK:'template_s9ftzqi',
   /* Cloudflare Email Routing → Gmail */
   ADMIN_EMAIL:      'info@auraglobal-merchants.com',
   SUPPORT_EMAIL:    'support@auraglobal-merchants.com',
@@ -30,11 +31,19 @@ var ORIGIN  = window.location.origin;
 /* ── INIT ──────────────────────────────────────────── */
 var _init  = false;
 var _queue = [];
+var _initRetries = 0;
+var _maxRetries  = 20;
 
 function init(){
   if(_init) return;
   if(typeof emailjs === 'undefined'){
-    console.warn('[AuraEmail] EmailJS SDK not loaded yet.');
+    _initRetries++;
+    if(_initRetries <= _maxRetries){
+      console.warn('[AuraEmail] EmailJS SDK not loaded yet, retry ' + _initRetries + '/' + _maxRetries);
+      setTimeout(init, 300);
+    } else {
+      console.error('[AuraEmail] EmailJS SDK failed to load after ' + _maxRetries + ' retries');
+    }
     return;
   }
   emailjs.init({ publicKey: CONFIG.EMAILJS_PUBLIC_KEY });
@@ -44,7 +53,7 @@ function init(){
     _queue.forEach(function(q){ _send(q.to, q.subject, q.html, q.reply); });
     _queue = [];
   }
-  console.log('[AuraEmail] Initialized');
+  console.log('[AuraEmail] Initialized OK');
 }
 
 /* ── CORE SEND (always uses the ONE universal template) ── */
@@ -54,15 +63,26 @@ function _send(toEmail, subject, htmlContent, replyTo){
     init();
     return;
   }
-  emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.TEMPLATE_ID, {
+  var params = {
     to_email:     toEmail,
     subject:      subject,
     html_content: htmlContent,
     reply_to:     replyTo || CONFIG.NOREPLY_EMAIL
-  }).then(function(r){
+  };
+  emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.TEMPLATE_ID, params)
+  .then(function(r){
     console.log('[AuraEmail] Sent → ' + toEmail + ' | ' + subject, r.status);
+    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Email gesendet ✓','success');
   }).catch(function(e){
-    console.error('[AuraEmail] Failed → ' + toEmail, e);
+    console.warn('[AuraEmail] Template "'+CONFIG.TEMPLATE_ID+'" failed, trying fallback...', e);
+    emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.TEMPLATE_ID_FALLBACK, params)
+    .then(function(r2){
+      console.log('[AuraEmail] Sent via fallback → ' + toEmail, r2.status);
+      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Email gesendet ✓','success');
+    }).catch(function(e2){
+      console.error('[AuraEmail] Both templates failed → ' + toEmail, e, e2);
+      if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Email konnte nicht gesendet werden','error');
+    });
   });
 }
 
@@ -353,6 +373,7 @@ window.AuraEmail = {
   sendContactForm: sendContactForm,
   sendCareerApplication: sendCareerApplication,
   sendNewsletterWelcome: sendNewsletterWelcome,
+  sendPrimeWelcome: sendPrimeWelcome,
   sendPasswordChanged: sendPasswordChanged,
   sendPasswordReset: sendPasswordReset,
   verifyResetCode: verifyResetCode

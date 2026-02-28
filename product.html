@@ -594,19 +594,11 @@ if(product.oldPrice && product.oldPrice>product.price){
   document.getElementById('p-saving').classList.remove('hidden');
 }
 
-/* ── Variant selector (dynamic from product data or fallback by category) ── */
+/* ── Variant selector (only if product has explicit variants) ── */
 var vd=null;
 if(product.variants&&product.variants.length){
-  vd={label:product.variantLabel||'Variante',options:product.variants.map(function(v){return {l:v.label,d:v.price||0,stock:v.stock||0};})};
-}else{
-  var variantData={
-    electronics:{label:'Speicher',options:[{l:'128 GB',d:0},{l:'256 GB',d:0},{l:'512 GB',d:100},{l:'1 TB',d:250}]},
-    fashion:{label:'Größe',options:[{l:'S',d:0},{l:'M',d:0},{l:'L',d:0},{l:'XL',d:0}]},
-    home:{label:'Variante',options:[{l:'Standard',d:0},{l:'Pro',d:80}]},
-    travel:{label:'Größe',options:[{l:'Cabin',d:0},{l:'Medium',d:150},{l:'Large',d:280}]}
-  };
-  vd=variantData[product.cat];
-}
+  vd={label:product.variantLabel||'Variante',options:product.variants.map(function(v){return {l:v.label,d:v.price||0,stock:v.stock||0};})}
+;}
 if(vd && vd.options.length>1){
   document.getElementById('variant-selector').classList.remove('hidden');
   document.getElementById('variant-label').textContent=vd.label;
