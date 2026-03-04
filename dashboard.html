@@ -522,7 +522,7 @@
       <ul class="space-y-3">
         <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
         <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
-        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">How we Source</a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Beschaffung</a></li>
         <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
         <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
         <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
@@ -549,6 +549,10 @@
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span>
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span>
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
+      <span class="mx-1 text-white/10">|</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DHL</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">UPS</span>
+      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DPD</span>
     </div>
   </div>
 </div>
@@ -952,7 +956,7 @@ if(!orders.length){
     /* Rechnung / Support buttons */
     /* Rechnung / Support buttons — always re-check receipt from localStorage on click */
     var receiptBtn = '<button onclick="downloadReceiptBlob(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 '+(o.receiptUrl?'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600':'bg-gray-50/50 border border-gray-100 text-gray-300')+' text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Rechnung</button>';
-    var supportBtn = '<a href="/contact.html" class="inline-flex items-center gap-1.5 px-3 py-2 bg-navy/5 hover:bg-navy/10 border border-navy/10 text-navy text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>Support</a>';
+    var supportBtn = '<a href="/contact.html" class="inline-flex items-center gap-1.5 px-3 py-2 bg-navy/5 hover:bg-navy/10 border border-navy/10 text-navy text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>Hilfe</a>';
 
     /* Review button — only for delivered orders */
     var reviewBtn = '';
