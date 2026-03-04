@@ -58,6 +58,7 @@
       <div class="px-4 mt-6 mb-2 admin-only"><span class="text-[9px] font-bold tracking-widest uppercase" style="color:rgba(255,255,255,0.5)" data-i18n="nav_manage">УПРАВЛЕНИЕ</span></div>
       <a class="sidebar-link admin-only" data-section="linguists" onclick="showSection('linguists')"><i data-lucide="users" class="w-4 h-4"></i><span data-i18n="nav_linguists">Лингвисты</span></a>
       <a class="sidebar-link admin-only" data-section="profit" onclick="showSection('profit')"><i data-lucide="trending-up" class="w-4 h-4"></i><span data-i18n="nav_profit">Прибыль</span></a>
+      <a class="sidebar-link admin-only" data-section="deploy" onclick="showSection('deploy')"><i data-lucide="rocket" class="w-4 h-4"></i><span data-i18n="nav_deploy">Публикация</span></a>
     </nav>
     <div class="p-4 border-t border-white/5">
       <!-- Language toggle -->
@@ -407,11 +408,68 @@
         </div>
       </section>
 
-    </div>
-  </div>
-</div>
+      <!-- DEPLOY / PUBLISH -->
+      <section id="sec-deploy" class="section hidden admin-only">
+        <h1 class="font-serif text-2xl font-bold mb-2" data-i18n="deploy_title">Публикация изменений</h1>
+        <p class="text-sm text-gray-400 mb-6" data-i18n="deploy_desc">Все изменения товаров, статусов и заказов из этой панели будут опубликованы на сайт через GitHub. После публикации все покупатели увидят обновлённые данные.</p>
 
-<!-- PRODUCT MODAL — Multi-section with Internal / Public / Media / Inspection -->
+        <!-- GitHub Token Setup -->
+        <div class="bg-white border border-gray-100 p-6 max-w-2xl space-y-5 mb-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 bg-navy/5 flex items-center justify-center rounded-lg"><i data-lucide="github" class="w-4 h-4 text-navy"></i></div>
+            <div>
+              <h3 class="text-sm font-bold">GitHub Настройки</h3>
+              <p class="text-[11px] text-gray-400">Токен нужен для публикации изменений на сайт</p>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">GitHub Personal Access Token</label>
+            <input type="password" id="gh-token" class="form-input font-mono text-xs" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+            <p class="text-[10px] text-gray-400 mt-1">Создайте на <a href="https://github.com/settings/tokens" target="_blank" class="text-gold hover:underline">github.com/settings/tokens</a> → Fine-grained → repo contents: read+write</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="form-label">Repository Owner</label>
+              <input type="text" id="gh-owner" class="form-input" value="ethanwalker2318-del">
+            </div>
+            <div>
+              <label class="form-label">Repository Name</label>
+              <input type="text" id="gh-repo" class="form-input" value="aurasite">
+            </div>
+          </div>
+          <button onclick="saveGitHubSettings()" class="btn-primary">СОХРАНИТЬ НАСТРОЙКИ</button>
+        </div>
+
+        <!-- Publish Actions -->
+        <div class="bg-white border border-gray-100 p-6 max-w-2xl space-y-5">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 bg-green-50 flex items-center justify-center rounded-lg"><i data-lucide="upload-cloud" class="w-4 h-4 text-green-600"></i></div>
+            <div>
+              <h3 class="text-sm font-bold">Опубликовать данные</h3>
+              <p class="text-[11px] text-gray-400">Отправить текущие изменения на сайт</p>
+            </div>
+          </div>
+
+          <div id="deploy-status" class="hidden p-3 rounded-lg text-sm"></div>
+          <div id="deploy-changes" class="text-xs text-gray-400 space-y-1"></div>
+
+          <div class="flex gap-3">
+            <button onclick="publishProducts()" class="btn-primary flex items-center gap-2">
+              <i data-lucide="rocket" class="w-4 h-4"></i> ОПУБЛИКОВАТЬ ТОВАРЫ
+            </button>
+            <button onclick="publishOrders()" class="btn-primary flex items-center gap-2" style="background:#059669">
+              <i data-lucide="package" class="w-4 h-4"></i> ОПУБЛИКОВАТЬ ЗАКАЗЫ
+            </button>
+          </div>
+
+          <div class="border-t pt-4 mt-4">
+            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Последние публикации</h4>
+            <div id="deploy-log" class="text-xs text-gray-400 space-y-1">Нет публикаций</div>
+          </div>
+        </div>
+      </section>
+
+    </div> — Multi-section with Internal / Public / Media / Inspection -->
 <!-- ═══════════════════════════════════════════════════════════
      PRODUCT MODAL — DARK MODE 3-BLOCK EDITOR
      ═══════════════════════════════════════════════════════════ -->
@@ -881,7 +939,8 @@ var lang='ru';
 var dict={
   ru:{
     no_access:'Нет доступа',go_login:'Войти',
-    nav_main:'ОСНОВНОЕ',nav_dashboard:'Обзор',nav_orders:'Заказы',nav_products:'Товары',nav_manage:'УПРАВЛЕНИЕ',nav_linguists:'Лингвисты',nav_profit:'Прибыль',nav_inbox:'Входящие',
+    nav_main:'ОСНОВНОЕ',nav_dashboard:'Обзор',nav_orders:'Заказы',nav_products:'Товары',nav_manage:'УПРАВЛЕНИЕ',nav_linguists:'Лингвисты',nav_profit:'Прибыль',nav_inbox:'Входящие',nav_deploy:'Публикация',
+    deploy_title:'Публикация изменений',deploy_desc:'Все изменения товаров, статусов и заказов из этой панели будут опубликованы на сайт через GitHub.',
     dash_title:'Обзор',stat_products:'Товары',stat_orders:'Заказы',stat_revenue:'Выручка',stat_users:'Пользователи',stat_profit_net:'Чистая прибыль',dash_recent:'Последние заказы',
     chart_revenue:'Выручка за 30 дней',dash_top_products:'Топ-5 товаров',dash_low_stock:'Мало на складе',dash_order_status:'Статусы заказов',
     inbox_title:'Входящие сообщения',inbox_all:'Все',inbox_replied:'Отвечено',inbox_empty:'Нет сообщений',
@@ -2304,6 +2363,160 @@ window.submitReply=function(){
     refreshInbox();
   });
 };
+
+// ── GITHUB DEPLOY ───────────────────────────────────────────
+(function(){
+  // Load saved settings
+  var ghSettings = JSON.parse(localStorage.getItem('aura_gh_settings')||'{}');
+  setTimeout(function(){
+    if(ghSettings.token) document.getElementById('gh-token').value = ghSettings.token;
+    if(ghSettings.owner) document.getElementById('gh-owner').value = ghSettings.owner;
+    if(ghSettings.repo) document.getElementById('gh-repo').value = ghSettings.repo;
+    var log = JSON.parse(localStorage.getItem('aura_deploy_log')||'[]');
+    renderDeployLog(log);
+  },100);
+
+  function getGH(){
+    return {
+      token: document.getElementById('gh-token').value.trim(),
+      owner: document.getElementById('gh-owner').value.trim(),
+      repo: document.getElementById('gh-repo').value.trim()
+    };
+  }
+
+  window.saveGitHubSettings = function(){
+    var gh = getGH();
+    if(!gh.token||!gh.owner||!gh.repo){ Aura.showToast('Заполните все поля','error'); return; }
+    localStorage.setItem('aura_gh_settings', JSON.stringify(gh));
+    Aura.showToast('GitHub настройки сохранены','success');
+  };
+
+  function deployStatus(msg, type){
+    var el = document.getElementById('deploy-status');
+    el.className = 'p-3 rounded-lg text-sm ' + (type==='ok'?'bg-green-50 text-green-700':type==='err'?'bg-red-50 text-red-700':'bg-blue-50 text-blue-700');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+
+  function addDeployLog(action){
+    var log = JSON.parse(localStorage.getItem('aura_deploy_log')||'[]');
+    log.unshift({action:action, time:new Date().toLocaleString('de-DE')});
+    if(log.length > 20) log = log.slice(0,20);
+    localStorage.setItem('aura_deploy_log', JSON.stringify(log));
+    renderDeployLog(log);
+  }
+
+  function renderDeployLog(log){
+    var el = document.getElementById('deploy-log');
+    if(!el) return;
+    if(!log||!log.length){ el.textContent='Нет публикаций'; return; }
+    el.innerHTML = log.map(function(l){return '<div class="flex justify-between"><span>'+l.action+'</span><span class="text-gray-300">'+l.time+'</span></div>';}).join('');
+  }
+
+  // Push a file to GitHub via Contents API
+  async function ghPush(filePath, content, commitMsg){
+    var gh = getGH();
+    if(!gh.token){ throw new Error('GitHub token не настроен'); }
+
+    var apiUrl = 'https://api.github.com/repos/'+gh.owner+'/'+gh.repo+'/contents/'+filePath;
+    var headers = {
+      'Authorization': 'Bearer '+gh.token,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+
+    // Get current file SHA (needed for update)
+    var sha = null;
+    try {
+      var getResp = await fetch(apiUrl, {headers:headers});
+      if(getResp.ok){
+        var getData = await getResp.json();
+        sha = getData.sha;
+      }
+    } catch(e){}
+
+    var body = {
+      message: commitMsg,
+      content: btoa(unescape(encodeURIComponent(content)))
+    };
+    if(sha) body.sha = sha;
+
+    var resp = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+
+    if(!resp.ok){
+      var errData = await resp.json().catch(function(){return {};});
+      throw new Error('GitHub API: '+(errData.message||resp.status));
+    }
+    return await resp.json();
+  }
+
+  // ── PUBLISH PRODUCTS ──
+  window.publishProducts = async function(){
+    try {
+      deployStatus('Подготовка данных товаров...','info');
+
+      // Collect all products from memory (localStorage + EXTRA)
+      var products = Aura.getProducts();
+
+      // Build a clean JSON override file
+      var overrides = {};
+      products.forEach(function(p){
+        overrides[p.id] = {
+          name: p.name,
+          brand: p.brand,
+          cat: p.cat,
+          price: p.price,
+          oldPrice: p.oldPrice,
+          img: p.img,
+          gallery: p.gallery || [],
+          videoUrl: p.videoUrl || '',
+          rating: p.rating,
+          reviews: p.reviews,
+          desc: p.desc,
+          stock: p.stock,
+          badge: p.badge || '',
+          inspection: p.inspection || {authentic:true,functional:true,sealed:true}
+        };
+      });
+
+      var json = JSON.stringify(overrides, null, 0);
+      deployStatus('Публикация на GitHub ('+products.length+' товаров, '+Math.round(json.length/1024)+' KB)...','info');
+
+      await ghPush('product-overrides.json', json, 'Admin: update products ('+products.length+' items)');
+
+      deployStatus('✓ Товары опубликованы! Сайт обновится через 1–2 минуты.','ok');
+      addDeployLog('Товары: '+products.length+' шт.');
+
+    } catch(e){
+      deployStatus('Ошибка: '+e.message,'err');
+    }
+  };
+
+  // ── PUBLISH ORDERS ──
+  window.publishOrders = async function(){
+    try {
+      deployStatus('Подготовка заказов...','info');
+
+      var orders = Aura.getOrders ? Aura.getOrders() : (JSON.parse(localStorage.getItem('aura_orders')||'[]'));
+
+      var json = JSON.stringify(orders, null, 0);
+      deployStatus('Публикация заказов ('+orders.length+' зак., '+Math.round(json.length/1024)+' KB)...','info');
+
+      await ghPush('order-data.json', json, 'Admin: update orders ('+orders.length+')');
+
+      deployStatus('✓ Заказы опубликованы!','ok');
+      addDeployLog('Заказы: '+orders.length+' шт.');
+
+    } catch(e){
+      deployStatus('Ошибка: '+e.message,'err');
+    }
+  };
+
+})();
 
 // ── INIT ────────────────────────────────────────────────────
 refreshAll();

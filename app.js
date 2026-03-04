@@ -134,7 +134,42 @@ var DEFAULT_PRODUCTS = [
   {id:'p70',name:'Rituals Sakura Body Cream', brand:'Rituals', cat:'home',        price:19.99,oldPrice:22.9,   img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%232C1810%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%232C1810%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ERITUALS%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.6, reviews:7800,desc:'Reismilch + Kirschblüte, 220 ml, 24h Feuchtigkeit. Japanisch inspirierte Pflege. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:90, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0}
 ];
 
-var PRODUCTS_VERSION = 3; // Bump to force refresh after German market transformation
+var PRODUCTS_VERSION = 4; // Bump to force refresh after overrides system
+// ── Remote overrides (published from admin panel via GitHub) ──
+var _remoteOverrides = null;
+var _overridesLoaded = false;
+(function loadOverrides(){
+  fetch('/product-overrides.json?v='+Date.now()).then(function(r){
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(function(data){
+    _remoteOverrides = data;
+    _overridesLoaded = true;
+    if(typeof fire === 'function') fire('products-update',{action:'overrides-loaded'});
+  }).catch(function(){
+    _overridesLoaded = true; // no overrides file yet, that's OK
+  });
+})();
+function applyOverrides(products){
+  if(!_remoteOverrides) return products;
+  return products.map(function(p){
+    var ov = _remoteOverrides[p.id];
+    if(!ov) return p;
+    var merged = Object.assign({}, p);
+    // Only override fields that admin explicitly set
+    if(ov.img && ov.img !== p.img) merged.img = ov.img;
+    if(ov.gallery && ov.gallery.length) merged.gallery = ov.gallery;
+    if(ov.price) merged.price = ov.price;
+    if(ov.oldPrice) merged.oldPrice = ov.oldPrice;
+    if(ov.name) merged.name = ov.name;
+    if(ov.desc) merged.desc = ov.desc;
+    if(ov.stock !== undefined) merged.stock = ov.stock;
+    if(ov.videoUrl) merged.videoUrl = ov.videoUrl;
+    if(ov.badge) merged.badge = ov.badge;
+    if(ov.inspection) merged.inspection = ov.inspection;
+    return merged;
+  });
+}
 function getProducts(){
   var storedVer = ls('aura_products_version');
   if(storedVer !== PRODUCTS_VERSION){ ls('aura_products', null); ls('aura_deleted_ids', null); ls('aura_products_version', PRODUCTS_VERSION); }
@@ -149,6 +184,8 @@ function getProducts(){
       if(!existingIds[ep.id] && deletedIds.indexOf(ep.id)===-1){ p.push(ep); existingIds[ep.id] = true; }
     });
   }
+  // Apply remote overrides from admin panel
+  p = applyOverrides(p);
   return p;
 }
 function saveProducts(arr){ return ls('aura_products', arr); }
