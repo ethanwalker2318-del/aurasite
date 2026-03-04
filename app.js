@@ -51,32 +51,6 @@ var DEFAULT_PRODUCTS = [
   // ─── NEW BALANCE ───
   {id:'p23',name:'New Balance 2002R',          brand:'New Balance',cat:'fashion',  price:140.9,oldPrice:161.9,  img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%23CF0A2C%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%23CF0A2C%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ENEW%20BALANCE%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.6, reviews:1200,desc:'N-ERGY Dämpfung, Wildleder- und Mesh-Obermaterial, Vintage-Look. Komfort trifft Heritage. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:30, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0},
   {id:'p24',name:'New Balance 550',            brand:'New Balance',cat:'fashion',  price:110.9,oldPrice:137.9,  img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%23CF0A2C%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%23CF0A2C%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ENEW%20BALANCE%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.4, reviews:2800,desc:'Retro-Basketball-Silhouette, Leder-Obermaterial, schlankes Profil. Seit 1989 ein Geheimtipp. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:42, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── GUCCI ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── HERMÈS ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── PRADA ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── DIOR ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── BALENCIAGA ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── CHANEL ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── LOUIS VUITTON ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── ROLEX ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-  // ─── OMEGA ───
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
-   _sourcingLink:'',_costPrice:0,_logisticsFee:0},
   // ─── RIMOWA ───
   {id:'p19',name:'Rimowa Original Cabin',     brand:'Rimowa',  cat:'travel',      price:950.9,oldPrice:1164.9, img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%23000000%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%23000000%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ERIMOWA%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.7, reviews:200, desc:'Aluminium-Handgepäck, TSA-Schlösser, Multiwheel®-System. Made in Germany seit 1898. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:5, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0},
   {id:'p51',name:'Rimowa Essential Check-In L',brand:'Rimowa', cat:'travel',      price:629.99,oldPrice:789.9,  img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%23000000%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%23000000%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ERIMOWA%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.5, reviews:340, desc:'Polycarbonat, Flex-Divider, TSA-Schlösser. Leicht, robust und flexibel. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:10, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0},
@@ -134,7 +108,7 @@ var DEFAULT_PRODUCTS = [
   {id:'p70',name:'Rituals Sakura Body Cream', brand:'Rituals', cat:'home',        price:19.99,oldPrice:22.9,   img:'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22400%22%20viewBox%3D%220%200%20400%20400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23f8f7f4%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22100%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2220%22%20fill%3D%22%232C1810%22%20opacity%3D%220.08%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22240%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%2214%22%20font-weight%3D%22600%22%20fill%3D%22%232C1810%22%20opacity%3D%220.35%22%20letter-spacing%3D%223%22%3ERITUALS%3C%2Ftext%3E%3Ctext%20x%3D%22200%22%20y%3D%22270%22%20text-anchor%3D%22middle%22%20font-family%3D%22system-ui%2Csans-serif%22%20font-size%3D%229%22%20font-weight%3D%22500%22%20fill%3D%22%23001A3D%22%20opacity%3D%220.15%22%20letter-spacing%3D%224%22%3EAURA%20VERIFIED%3C%2Ftext%3E%3C%2Fsvg%3E', gallery:[], videoUrl:'', rating:4.6, reviews:7800,desc:'Reismilch + Kirschblüte, 220 ml, 24h Feuchtigkeit. Japanisch inspirierte Pflege. ✓ Originalverpackt ✓ 24 Monate Garantie ✓ Blitzversand', stock:90, inspection:{authentic:true,functional:true,sealed:true}, _sourcingLink:'',_costPrice:0,_logisticsFee:0}
 ];
 
-var PRODUCTS_VERSION = 5; // Bump to force refresh after overrides system
+var PRODUCTS_VERSION = 6; // Bump to force refresh after overrides system
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;
