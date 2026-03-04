@@ -411,54 +411,28 @@
       <!-- DEPLOY / PUBLISH -->
       <section id="sec-deploy" class="section hidden admin-only">
         <h1 class="font-serif text-2xl font-bold mb-2" data-i18n="deploy_title">Публикация изменений</h1>
-        <p class="text-sm text-gray-400 mb-6" data-i18n="deploy_desc">Все изменения товаров, статусов и заказов из этой панели будут опубликованы на сайт через GitHub. После публикации все покупатели увидят обновлённые данные.</p>
+        <p class="text-sm text-gray-400 mb-6">Все изменения автоматически публикуются на сайт через 3 секунды после сохранения. Ручная публикация доступна ниже.</p>
 
-        <!-- GitHub Token Setup -->
+        <!-- Auto-publish status -->
         <div class="bg-white border border-gray-100 p-6 max-w-2xl space-y-5 mb-6">
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-8 h-8 bg-navy/5 flex items-center justify-center rounded-lg"><i data-lucide="github" class="w-4 h-4 text-navy"></i></div>
+            <div class="w-8 h-8 bg-green-50 flex items-center justify-center rounded-lg"><i data-lucide="zap" class="w-4 h-4 text-green-600"></i></div>
             <div>
-              <h3 class="text-sm font-bold">GitHub Настройки</h3>
-              <p class="text-[11px] text-gray-400">Токен нужен для публикации изменений на сайт</p>
+              <h3 class="text-sm font-bold">Авто-публикация</h3>
+              <p class="text-[11px] text-gray-400">GitHub: ethanwalker2318-del/aurasite</p>
             </div>
           </div>
-          <div>
-            <label class="form-label">GitHub Personal Access Token</label>
-            <input type="password" id="gh-token" class="form-input font-mono text-xs" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
-            <p class="text-[10px] text-gray-400 mt-1">Создайте на <a href="https://github.com/settings/tokens" target="_blank" class="text-gold hover:underline">github.com/settings/tokens</a> → Fine-grained → repo contents: read+write</p>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="form-label">Repository Owner</label>
-              <input type="text" id="gh-owner" class="form-input" value="ethanwalker2318-del">
-            </div>
-            <div>
-              <label class="form-label">Repository Name</label>
-              <input type="text" id="gh-repo" class="form-input" value="aurasite">
-            </div>
-          </div>
-          <button onclick="saveGitHubSettings()" class="btn-primary">СОХРАНИТЬ НАСТРОЙКИ</button>
-        </div>
 
-        <!-- Publish Actions -->
-        <div class="bg-white border border-gray-100 p-6 max-w-2xl space-y-5">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-8 h-8 bg-green-50 flex items-center justify-center rounded-lg"><i data-lucide="upload-cloud" class="w-4 h-4 text-green-600"></i></div>
-            <div>
-              <h3 class="text-sm font-bold">Опубликовать данные</h3>
-              <p class="text-[11px] text-gray-400">Отправить текущие изменения на сайт</p>
-            </div>
+          <div class="flex items-center gap-3">
+            <span id="gh-token-status" class="text-sm">...</span>
+            <button onclick="resetGHToken()" class="text-xs text-gray-400 hover:text-gray-600 underline">сменить токен</button>
           </div>
 
           <div id="deploy-status" class="hidden p-3 rounded-lg text-sm"></div>
-          <div id="deploy-changes" class="text-xs text-gray-400 space-y-1"></div>
 
           <div class="flex gap-3">
-            <button onclick="publishProducts()" class="btn-primary flex items-center gap-2">
-              <i data-lucide="rocket" class="w-4 h-4"></i> ОПУБЛИКОВАТЬ ТОВАРЫ
-            </button>
-            <button onclick="publishOrders()" class="btn-primary flex items-center gap-2" style="background:#059669">
-              <i data-lucide="package" class="w-4 h-4"></i> ОПУБЛИКОВАТЬ ЗАКАЗЫ
+            <button onclick="manualPublishAll()" class="btn-primary flex items-center gap-2">
+              <i data-lucide="rocket" class="w-4 h-4"></i> ОПУБЛИКОВАТЬ ВСЁ ВРУЧНУЮ
             </button>
           </div>
 
@@ -809,6 +783,15 @@
     </form>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AUTO-PUBLISH FLOATING INDICATOR
+     ═══════════════════════════════════════════════════════════ -->
+<div id="auto-publish-indicator" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:#f0fdf4;border:1px solid #bbf7d0;padding:8px 16px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);align-items:center;gap:8px;font-size:12px;color:#166534;">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="30 70"/></svg>
+  <span>Сохранение...</span>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
 <!-- ═══════════════════════════════════════════════════════════
      ORDER DETAIL MODAL — 4-BLOCK DARK MODE
@@ -1318,6 +1301,7 @@ window.applyBatchStatus=function(){
   });
   _selectedOrders=[];
   refreshAll();
+  if(typeof autoPublish==='function') autoPublish('orders');
 };
 window.clearBatchSelection=function(){
   _selectedOrders=[];
@@ -1502,8 +1486,8 @@ window.updateOrderFromModal=function(type){
     Aura.showToast(lang==='ru'?'Трек-номер сохранён':'Tracking gespeichert','success');
   }
   refreshOrders();
-  // Re-open to refresh modal content
   openOrderModal(_currentOrderId);
+  if(typeof autoPublish==='function') autoPublish('orders');
 };
 
 window.uploadReceiptFromModal=function(input){
@@ -1516,6 +1500,7 @@ window.uploadReceiptFromModal=function(input){
     Aura.showToast(lang==='ru'?'Чек загружен':'Beleg hochgeladen','success');
     refreshOrders();
     openOrderModal(_currentOrderId);
+    if(typeof autoPublish==='function') autoPublish('orders');
   };
   reader.readAsDataURL(file);
   input.value='';
@@ -1534,11 +1519,11 @@ window.openOrderVideo=function(){
 // ── ORDER STATUS (legacy, kept for dashboard) ───────────────
 window.updateOrderSt=function(id,status){
   Aura.updateOrderStatus(id,status);
-  // Send email notification to customer
   var o=Aura.getOrderById(id);
   if(o && typeof AuraEmail!=='undefined') AuraEmail.sendStatusUpdate(o,status);
   Aura.showToast(t('status_'+status),'success');
   refreshAll();
+  if(typeof autoPublish==='function') autoPublish('orders');
 };
 
 window.saveTracking=function(id){
@@ -1548,6 +1533,7 @@ window.saveTracking=function(id){
   Aura.updateOrderStatus(id,null,{trackingNumber:num});
   Aura.showToast(lang==='ru'?'Трек-номер сохранён':'Tracking saved','success');
   refreshAll();
+  if(typeof autoPublish==='function') autoPublish('orders');
 };
 
 window.uploadReceipt=function(id,input){
@@ -1558,6 +1544,7 @@ window.uploadReceipt=function(id,input){
   reader.onload=function(e){
     Aura.updateOrderStatus(id, null, {receiptUrl: e.target.result});
     Aura.showToast(lang==='ru'?'Чек загружен':'Receipt uploaded','success');
+    if(typeof autoPublish==='function') autoPublish('orders');
     refreshAll();
   };
   reader.readAsDataURL(file);
@@ -1784,6 +1771,7 @@ window.addAdminReview = function(){
   });
   Aura.showToast('Bewertung hinzugefügt','success');
   loadProductReviews(productId);
+  if(typeof autoPublish==='function') autoPublish('products');
 };
 
 window.adminToggleApprove = function(reviewId, approved){
@@ -1791,6 +1779,7 @@ window.adminToggleApprove = function(reviewId, approved){
   var productId = document.getElementById('pf-id').value;
   loadProductReviews(productId);
   Aura.showToast(approved?'Genehmigt':'Ausgeblendet','success');
+  if(typeof autoPublish==='function') autoPublish('products');
 };
 
 window.adminDeleteReview = function(reviewId){
@@ -1799,6 +1788,7 @@ window.adminDeleteReview = function(reviewId){
   var productId = document.getElementById('pf-id').value;
   loadProductReviews(productId);
   Aura.showToast('Gelöscht','success');
+  if(typeof autoPublish==='function') autoPublish('products');
 };
 
 window.saveProduct=function(e){
@@ -1850,6 +1840,7 @@ window.saveProduct=function(e){
   }
   closeProductModal();
   refreshAll();
+  if(typeof autoPublish==='function') autoPublish('products');
   return false;
 };
 
@@ -1863,6 +1854,7 @@ window.deleteProduct=function(id){
     Aura.deleteProduct(id);
     Aura.showToast(lang==='ru'?'Товар удалён':'Product deleted','success');
     refreshAll();
+    if(typeof autoPublish==='function') autoPublish('products');
   }
 };
 
@@ -2364,44 +2356,68 @@ window.submitReply=function(){
   });
 };
 
-// ── GITHUB DEPLOY ───────────────────────────────────────────
+// ── GITHUB DEPLOY (AUTO-PUBLISH) ────────────────────────────
 (function(){
-  // Load saved settings
-  var ghSettings = JSON.parse(localStorage.getItem('aura_gh_settings')||'{}');
-  setTimeout(function(){
-    if(ghSettings.token) document.getElementById('gh-token').value = ghSettings.token;
-    if(ghSettings.owner) document.getElementById('gh-owner').value = ghSettings.owner;
-    if(ghSettings.repo) document.getElementById('gh-repo').value = ghSettings.repo;
-    var log = JSON.parse(localStorage.getItem('aura_deploy_log')||'[]');
-    renderDeployLog(log);
-  },100);
+  // ── CONFIG (token stored in localStorage, entered once) ──
+  var GH_OWNER = 'ethanwalker2318-del';
+  var GH_REPO  = 'aurasite';
+  var _GH_KEY  = 'aura_gh_pat';
 
   function getGH(){
-    return {
-      token: document.getElementById('gh-token').value.trim(),
-      owner: document.getElementById('gh-owner').value.trim(),
-      repo: document.getElementById('gh-repo').value.trim()
-    };
+    var token = localStorage.getItem(_GH_KEY) || '';
+    return {token:token, owner:GH_OWNER, repo:GH_REPO};
   }
 
-  window.saveGitHubSettings = function(){
-    var gh = getGH();
-    if(!gh.token||!gh.owner||!gh.repo){ Aura.showToast('Заполните все поля','error'); return; }
-    localStorage.setItem('aura_gh_settings', JSON.stringify(gh));
-    Aura.showToast('GitHub настройки сохранены','success');
+  function ensureToken(){
+    var t = localStorage.getItem(_GH_KEY);
+    if(t) return true;
+    t = prompt('Введите GitHub Personal Access Token (один раз):');
+    if(t && t.trim()){
+      localStorage.setItem(_GH_KEY, t.trim());
+      Aura.showToast('Токен сохранён','success');
+      updateTokenStatus();
+      return true;
+    }
+    return false;
+  }
+
+  function updateTokenStatus(){
+    var el = document.getElementById('gh-token-status');
+    if(!el) return;
+    var has = !!localStorage.getItem(_GH_KEY);
+    el.innerHTML = has
+      ? '<span class="text-green-600 font-bold">✓ Токен настроен</span>'
+      : '<span class="text-red-500 font-bold">✗ Токен не настроен</span>';
+  }
+
+  window.resetGHToken = function(){
+    if(confirm('Удалить текущий токен и ввести новый?')){
+      localStorage.removeItem(_GH_KEY);
+      ensureToken();
+    }
   };
+
+  setTimeout(updateTokenStatus, 200);
+
+  // ── Deploy UI helpers ──
+  var _publishQueue = {};  // { products:true, orders:true }
+  var _publishTimer = null;
+  var _publishing = false;
 
   function deployStatus(msg, type){
     var el = document.getElementById('deploy-status');
+    if(!el) return;
     el.className = 'p-3 rounded-lg text-sm ' + (type==='ok'?'bg-green-50 text-green-700':type==='err'?'bg-red-50 text-red-700':'bg-blue-50 text-blue-700');
     el.textContent = msg;
     el.classList.remove('hidden');
+    // Auto-hide success after 8s
+    if(type==='ok') setTimeout(function(){ el.classList.add('hidden'); }, 8000);
   }
 
   function addDeployLog(action){
     var log = JSON.parse(localStorage.getItem('aura_deploy_log')||'[]');
     log.unshift({action:action, time:new Date().toLocaleString('de-DE')});
-    if(log.length > 20) log = log.slice(0,20);
+    if(log.length > 30) log = log.slice(0,30);
     localStorage.setItem('aura_deploy_log', JSON.stringify(log));
     renderDeployLog(log);
   }
@@ -2413,40 +2429,35 @@ window.submitReply=function(){
     el.innerHTML = log.map(function(l){return '<div class="flex justify-between"><span>'+l.action+'</span><span class="text-gray-300">'+l.time+'</span></div>';}).join('');
   }
 
-  // Push a file to GitHub via Contents API
+  setTimeout(function(){
+    var log = JSON.parse(localStorage.getItem('aura_deploy_log')||'[]');
+    renderDeployLog(log);
+  },100);
+
+  // ── GitHub Contents API push ──
   async function ghPush(filePath, content, commitMsg){
     var gh = getGH();
-    if(!gh.token){ throw new Error('GitHub token не настроен'); }
-
+    if(!gh.token){
+      if(!ensureToken()) throw new Error('GitHub token не настроен');
+      gh = getGH();
+    }
     var apiUrl = 'https://api.github.com/repos/'+gh.owner+'/'+gh.repo+'/contents/'+filePath;
     var headers = {
       'Authorization': 'Bearer '+gh.token,
       'Accept': 'application/vnd.github+json',
       'Content-Type': 'application/json'
     };
-
-    // Get current file SHA (needed for update)
     var sha = null;
     try {
       var getResp = await fetch(apiUrl, {headers:headers});
-      if(getResp.ok){
-        var getData = await getResp.json();
-        sha = getData.sha;
-      }
+      if(getResp.ok){ var getData = await getResp.json(); sha = getData.sha; }
     } catch(e){}
-
     var body = {
       message: commitMsg,
       content: btoa(unescape(encodeURIComponent(content)))
     };
     if(sha) body.sha = sha;
-
-    var resp = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: headers,
-      body: JSON.stringify(body)
-    });
-
+    var resp = await fetch(apiUrl, {method:'PUT', headers:headers, body:JSON.stringify(body)});
     if(!resp.ok){
       var errData = await resp.json().catch(function(){return {};});
       throw new Error('GitHub API: '+(errData.message||resp.status));
@@ -2454,68 +2465,93 @@ window.submitReply=function(){
     return await resp.json();
   }
 
-  // ── PUBLISH PRODUCTS ──
+  // ── PUBLISH FUNCTIONS ──
   window.publishProducts = async function(){
-    try {
-      deployStatus('Подготовка данных товаров...','info');
-
-      // Collect all products from memory (localStorage + EXTRA)
-      var products = Aura.getProducts();
-
-      // Build a clean JSON override file
-      var overrides = {};
-      products.forEach(function(p){
-        overrides[p.id] = {
-          name: p.name,
-          brand: p.brand,
-          cat: p.cat,
-          price: p.price,
-          oldPrice: p.oldPrice,
-          img: p.img,
-          gallery: p.gallery || [],
-          videoUrl: p.videoUrl || '',
-          rating: p.rating,
-          reviews: p.reviews,
-          desc: p.desc,
-          stock: p.stock,
-          badge: p.badge || '',
-          inspection: p.inspection || {authentic:true,functional:true,sealed:true}
-        };
-      });
-
-      var json = JSON.stringify(overrides, null, 0);
-      deployStatus('Публикация на GitHub ('+products.length+' товаров, '+Math.round(json.length/1024)+' KB)...','info');
-
-      await ghPush('product-overrides.json', json, 'Admin: update products ('+products.length+' items)');
-
-      deployStatus('✓ Товары опубликованы! Сайт обновится через 1–2 минуты.','ok');
-      addDeployLog('Товары: '+products.length+' шт.');
-
-    } catch(e){
-      deployStatus('Ошибка: '+e.message,'err');
-    }
+    var products = Aura.getProducts();
+    var overrides = {};
+    products.forEach(function(p){
+      overrides[p.id] = {
+        name:p.name, brand:p.brand, cat:p.cat, price:p.price, oldPrice:p.oldPrice,
+        img:p.img, gallery:p.gallery||[], videoUrl:p.videoUrl||'',
+        rating:p.rating, reviews:p.reviews, desc:p.desc, stock:p.stock,
+        badge:p.badge||'', inspection:p.inspection||{authentic:true,functional:true,sealed:true},
+        variantLabel:p.variantLabel||'', variants:p.variants||[]
+      };
+    });
+    var json = JSON.stringify(overrides, null, 0);
+    await ghPush('product-overrides.json', json, 'Auto: products ('+products.length+')');
+    return products.length;
   };
 
-  // ── PUBLISH ORDERS ──
   window.publishOrders = async function(){
-    try {
-      deployStatus('Подготовка заказов...','info');
-
-      var orders = Aura.getOrders ? Aura.getOrders() : (JSON.parse(localStorage.getItem('aura_orders')||'[]'));
-
-      var json = JSON.stringify(orders, null, 0);
-      deployStatus('Публикация заказов ('+orders.length+' зак., '+Math.round(json.length/1024)+' KB)...','info');
-
-      await ghPush('order-data.json', json, 'Admin: update orders ('+orders.length+')');
-
-      deployStatus('✓ Заказы опубликованы!','ok');
-      addDeployLog('Заказы: '+orders.length+' шт.');
-
-    } catch(e){
-      deployStatus('Ошибка: '+e.message,'err');
-    }
+    var orders = Aura.getOrders ? Aura.getOrders() : (JSON.parse(localStorage.getItem('aura_orders')||'[]'));
+    // Strip large receipt dataURLs for GitHub (keep URL reference)
+    var clean = orders.map(function(o){
+      var c = Object.assign({}, o);
+      // Keep receipt only if it's a real URL, strip data:URIs (too large for git)
+      if(c.receiptUrl && c.receiptUrl.indexOf('data:')===0){
+        c._hasReceipt = true;
+        delete c.receiptUrl; // stays in localStorage, not pushed to git
+      }
+      return c;
+    });
+    var json = JSON.stringify(clean, null, 0);
+    await ghPush('order-data.json', json, 'Auto: orders ('+clean.length+')');
+    return clean.length;
   };
 
+  // ── AUTO-PUBLISH WITH DEBOUNCE (3 sec) ──
+  // Call autoPublish('products') or autoPublish('orders') or autoPublish('all')
+  // Batches rapid changes, publishes once after 3s idle
+  window.autoPublish = function(what){
+    if(what==='all' || what==='products') _publishQueue.products = true;
+    if(what==='all' || what==='orders')   _publishQueue.orders = true;
+
+    // Show indicator
+    var ind = document.getElementById('auto-publish-indicator');
+    if(ind){ ind.style.display='flex'; ind.querySelector('span').textContent='Сохранение...'; }
+
+    if(_publishTimer) clearTimeout(_publishTimer);
+    _publishTimer = setTimeout(async function(){
+      if(_publishing) return; // already publishing
+      _publishing = true;
+      var queued = Object.assign({}, _publishQueue);
+      _publishQueue = {};
+
+      try {
+        var parts = [];
+        if(queued.products){
+          var pc = await window.publishProducts();
+          parts.push('Товары: '+pc);
+        }
+        if(queued.orders){
+          var oc = await window.publishOrders();
+          parts.push('Заказы: '+oc);
+        }
+        if(parts.length){
+          addDeployLog(parts.join(' · '));
+          deployStatus('✓ Опубликовано: '+parts.join(', '),'ok');
+          if(ind){ ind.querySelector('span').textContent='✓ Опубликовано'; setTimeout(function(){ind.style.display='none';},3000); }
+        }
+      } catch(e){
+        deployStatus('Ошибка публикации: '+e.message,'err');
+        if(ind){ ind.querySelector('span').textContent='✗ Ошибка'; ind.style.backgroundColor='#fef2f2'; setTimeout(function(){ind.style.display='none';},5000); }
+        console.error('AutoPublish error:', e);
+      }
+      _publishing = false;
+    }, 3000);
+  };
+
+  // Manual buttons still work
+  window.manualPublishAll = async function(){
+    try {
+      deployStatus('Публикация всех данных...','info');
+      var pc = await window.publishProducts();
+      var oc = await window.publishOrders();
+      deployStatus('✓ Всё опубликовано! Товары: '+pc+', Заказы: '+oc,'ok');
+      addDeployLog('Ручная: товары '+pc+' · заказы '+oc);
+    } catch(e){ deployStatus('Ошибка: '+e.message,'err'); }
+  };
 })();
 
 // ── INIT ────────────────────────────────────────────────────

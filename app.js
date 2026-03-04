@@ -346,7 +346,26 @@ function addLinguist(email){
 }
 
 /* ── ORDERS ────────────────────────────────────── */
-function getOrders(){ return ls('aura_orders') || []; }
+var _remoteOrders = null;
+(function loadRemoteOrders(){
+  fetch('/order-data.json?v='+Date.now()).then(function(r){
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(function(data){
+    if(Array.isArray(data) && data.length) _remoteOrders = data;
+  }).catch(function(){});
+})();
+function getOrders(){
+  var local = ls('aura_orders') || [];
+  if(!_remoteOrders || !_remoteOrders.length) return local;
+  // Merge: local orders take priority, remote fills gaps
+  var byId = {};
+  _remoteOrders.forEach(function(o){ byId[o.id] = o; });
+  local.forEach(function(o){ byId[o.id] = o; }); // local overrides remote
+  return Object.keys(byId).map(function(k){return byId[k];}).sort(function(a,b){
+    return new Date(b.date||b.created||0) - new Date(a.date||a.created||0);
+  });
+}
 function saveOrders(o){ ls('aura_orders',o); }
 function createOrder(userId, items, address, total){
   var orders = getOrders();

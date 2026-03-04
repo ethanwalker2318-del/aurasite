@@ -1,8 +1,8 @@
 /**
  * AURA GLOBAL — Import images from CSV back into product files
  * 
- * Reads products-images.csv, applies new_img and gallery_1..gallery_5
- * to both app.js and products-data.js
+ * CSV format: id, brand, name, status, photo_1 (MAIN), photo_2..photo_6
+ * photo_1 = главное фото, photo_2..6 = галерея
  * 
  * Usage: node import-images.js
  */
@@ -18,7 +18,7 @@ if (!fs.existsSync(csvPath)) {
 // Parse CSV (handles quoted fields)
 function parseCSV(text) {
   const lines = text.split('\n');
-  const header = lines[0].replace(/^\ufeff/, '').split(',');
+  const header = lines[0].replace(/^\ufeff/, '').split(',').map(h => h.trim());
   const rows = [];
   
   for (let i = 1; i < lines.length; i++) {
@@ -48,14 +48,19 @@ function parseCSV(text) {
     fields.push(current);
     
     const obj = {};
-    header.forEach((h, idx) => obj[h.trim()] = (fields[idx] || '').trim());
+    header.forEach((h, idx) => obj[h] = (fields[idx] || '').trim());
     rows.push(obj);
   }
-  return rows;
+  return { header, rows };
 }
 
 const csvText = fs.readFileSync(csvPath, 'utf8');
-const rows = parseCSV(csvText);
+const { header, rows } = parseCSV(csvText);
+
+// Detect column names (flexible)
+const photoKeys = header.filter(h => h.toLowerCase().startsWith('photo_'));
+console.log(`CSV columns: ${header.join(', ')}`);
+console.log(`Photo columns found: ${photoKeys.join(', ')}`);
 
 // Build update map: id → { img, gallery }
 const updates = {};
@@ -66,14 +71,23 @@ for (const row of rows) {
   const id = row.id;
   if (!id) continue;
   
-  const newImg = row.new_img || '';
-  const gallery = [row.gallery_1, row.gallery_2, row.gallery_3, row.gallery_4, row.gallery_5]
-    .filter(u => u && u.startsWith('http'));
+  // photo_1 (MAIN) = main image
+  const mainKey = photoKeys[0] || 'photo_1 (ГЛАВНОЕ)';
+  const mainImg = (row[mainKey] || '').trim();
   
-  if (newImg || gallery.length > 0) {
+  // photo_2..6 = gallery
+  const gallery = [];
+  for (let i = 1; i < photoKeys.length; i++) {
+    const url = (row[photoKeys[i]] || '').trim();
+    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+      gallery.push(url);
+    }
+  }
+  
+  if ((mainImg && mainImg.startsWith('http')) || gallery.length > 0) {
     updates[id] = {};
-    if (newImg) {
-      updates[id].img = newImg;
+    if (mainImg && mainImg.startsWith('http')) {
+      updates[id].img = mainImg;
       updateCount++;
     }
     if (gallery.length > 0) {
@@ -83,10 +97,10 @@ for (const row of rows) {
   }
 }
 
-console.log(`Parsed CSV: ${rows.length} rows, ${updateCount} new images, ${galleryCount} galleries`);
+console.log(`\nParsed: ${rows.length} rows, ${updateCount} main photos, ${galleryCount} galleries`);
 
 if (updateCount === 0 && galleryCount === 0) {
-  console.log('Nothing to update. Fill the new_img and gallery columns in the CSV.');
+  console.log('Nothing to update. Fill photo columns in the CSV.');
   process.exit(0);
 }
 
