@@ -32,6 +32,7 @@
     </div>
   </div>
   <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
     <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors"><i data-lucide="user" class="w-5 h-5"></i></a>
     <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors">
       <i data-lucide="shopping-bag" class="w-5 h-5"></i>
@@ -403,7 +404,7 @@
 </div>
 
 <script>
-var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';if(cartOpen)renderCartDrawer();}
+var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';document.body.style.overflow=cartOpen?'hidden':'';if(cartOpen)renderCartDrawer();}
 function renderCartDrawer(){var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}footer.classList.remove('hidden');body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p></div></div>';}).join('');document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);}
 if(typeof lucide!=='undefined')lucide.createIcons();
 </script>

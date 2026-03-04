@@ -561,7 +561,7 @@ function productCardHtml(p, opts){
   var badge=bdg.cls;
   var badgeT=bdg.text;
   var old=p.oldPrice?'<span class="text-gray-300 text-xs line-through ml-1">'+formatPrice(p.oldPrice)+'</span>':'';
-  var mwst=' <span class="text-[9px] text-gray-400 font-normal ml-0.5">Inkl. MwSt.</span>';
+  var mwst=' <span class="text-[9px] text-gray-400 font-normal ml-0.5">'+t('price_vat')+'</span>';
   var disc=p.oldPrice?'<span class="absolute top-2 sm:top-3 right-2 sm:right-3 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold leading-tight">-'+Math.round((1-p.price/p.oldPrice)*100)+'%</span>':'';
   var stars=p.rating?'<div class="flex items-center gap-0.5 mt-1.5">'+starsHtml(p.rating)+'<span class="text-[10px] text-gray-400 ml-1">'+p.rating+'</span><span class="text-[10px] text-gray-300">('+p.reviews+')</span></div>':'';
   var sold=p.reviews?'<p class="text-[10px] text-gray-400 mt-0.5">'+(p.reviews*3)+'+&nbsp;'+t('card_sold')+'</p>':'';
@@ -602,6 +602,8 @@ function productCardHtml(p, opts){
 
 /* ── LOCALE / i18n ─────────────────────────────── */
 var EUR_USD = 1.08;
+var EUR_GBP = 0.86;
+var EUR_TRY = 34.5;
 var LOCALE_KEY = 'aura_locale';
 var I18N = {
 de:{
@@ -663,6 +665,8 @@ de:{
   delete_confirm:'Konto wirklich löschen?',
   // Card trust
   card_free_ship:'Gratis Versand',card_inspected:'Geprüft',card_instock:'Auf Lager',card_reviews:'Bewertungen',card_sold:'verkauft',card_returns:'30 Tage Rückgabe',card_delivery:'Lieferung in 2\u20134 Tagen',
+  price_vat:'inkl. MwSt., zzgl. Versandkosten',
+  cart_remove:'Entfernen',cart_empty_msg:'Ihr Warenkorb ist leer',cart_continue:'Weiter einkaufen',
 },
 en:{
   locale_label:'EN / $',
@@ -718,6 +722,158 @@ en:{
   account_created:'Account created!',
   delete_confirm:'Really delete account?',
   card_free_ship:'Free Shipping',card_inspected:'Hub Inspected',card_instock:'In Stock',card_reviews:'Reviews',card_sold:'sold',card_returns:'30-Day Returns',card_delivery:'Delivered in 2\u20134 days',
+  price_vat:'incl. VAT, excl. shipping costs',
+  cart_remove:'Remove',cart_empty_msg:'Your cart is empty',cart_continue:'Continue shopping',
+},
+fr:{
+  locale_label:'Fran\u00e7ais',
+  top_bar:'Livraison gratuite d\u00e8s 99\u20ac \u00b7 Retour sous 30 jours',
+  guarantee:'Garantie',
+  search_ph:'Rechercher produits, marques, cat\u00e9gories...',
+  nav_all:'Tous les produits',nav_electronics:'\u00c9lectronique',nav_fashion:'Mode',nav_fashion_long:'Mode & Accessoires',nav_home:'Maison',nav_travel:'Voyage & Outdoor',nav_sale:'Promo %',nav_new:'Nouveaut\u00e9s \u2726',
+  mob_login:'Connexion / Inscription',mob_orders:'Mes commandes',
+  hero_tag:'V\u00e9rifi\u00e9 \u00b7 Fiable \u00b7 Abordable',hero_h1a:'\u00c9lectronique & Mode v\u00e9rifi\u00e9es',hero_h1b:'directement du hub',
+  hero_desc:'Chaque produit est contr\u00f4l\u00e9 manuellement dans notre hub \u00e0 Londres. Authenticit\u00e9 et fonctionnalit\u00e9 garanties \u00e0 100%.',
+  hero_cta1:'VOIR TOUS LES PRODUITS',hero_cta2:'PROMOTIONS',
+  trust_v:'Produits v\u00e9rifi\u00e9s',trust_vd:'Contr\u00f4l\u00e9s manuellement',trust_s:'Livraison rapide',trust_sd:'Livr\u00e9 en 2\u20134 jours',trust_r:'Retour gratuit',trust_rd:'30 jours, sans risque',trust_p:'Paiement s\u00e9curis\u00e9',trust_pd:'Chiffrement SSL, PCI DSS',
+  sec_cat:'Cat\u00e9gories',sec_feat:'Produits populaires',sec_brands:'Nos marques',sec_news:'Newsletter',
+  news_desc:'Nouvelles offres et produits v\u00e9rifi\u00e9s dans votre bo\u00eete mail.',news_ph:'Votre adresse e-mail',news_btn:'S\'ABONNER',
+  add_cart:'AJOUTER AU PANIER',view_prod:'VOIR',
+  ft_cat:'Cat\u00e9gories',ft_svc:'Service client',ft_co:'Entreprise',ft_contact:'Contact',ft_track:'Suivi de commande',ft_returns:'Retours & Remboursements',ft_story:'Notre histoire',ft_privacy:'Confidentialit\u00e9',ft_terms:'CGV',ft_imprint:'Mentions l\u00e9gales',
+  ft_desc:'Produits de marque v\u00e9rifi\u00e9s depuis notre hub londonien.',
+  cart_title:'Panier',cart_empty:'Votre panier est vide',cart_total:'Total',cart_checkout:'COMMANDER',
+  flt_cat:'Cat\u00e9gorie',flt_brand:'Marque',flt_price:'Prix',flt_cond:'\u00c9tat',flt_verified:'V\u00e9rifi\u00e9',flt_openbox:'Original',
+  sort_default:'Recommand\u00e9',sort_price_asc:'Prix croissant',sort_price_desc:'Prix d\u00e9croissant',sort_name:'Nom A-Z',sort_rating:'Mieux not\u00e9',
+  flt_reset:'R\u00e9initialiser',flt_results:'Produits',flt_mobile:'Filtrer & Trier',
+  prd_qty:'Quantit\u00e9 :',prd_add:'AJOUTER AU PANIER',prd_desc:'Description',prd_specs:'Sp\u00e9cifications',prd_rev:'Avis',prd_related:'Vous aimerez aussi',
+  prd_instock:'En stock',prd_ship:'Livraison gratuite',prd_inspect:'Contr\u00f4l\u00e9 au hub de Londres \u2014 100% original',
+  spec_brand:'Marque',spec_cat:'Cat\u00e9gorie',spec_cond:'\u00c9tat',spec_cond_v:'V\u00e9rifi\u00e9 \u2014 Neuf',spec_cond_o:'V\u00e9rifi\u00e9 \u2014 Contr\u00f4l\u00e9',spec_rating:'Note',spec_avail:'Disponibilit\u00e9',spec_avail_v:'en stock',spec_ship:'Livraison',spec_ship_v:'Gratuite d\u00e8s 99\u20ac, DHL Express',
+  lg_login:'CONNEXION',lg_register:'INSCRIPTION',lg_login_desc:'Connectez-vous avec votre e-mail.',lg_reg_desc:'Cr\u00e9ez un compte pour commander.',
+  lbl_email:'E-mail',lbl_pass:'Mot de passe',lbl_name:'Nom complet',lbl_pass2:'Confirmer le mot de passe',
+  btn_login:'SE CONNECTER',btn_register:'CR\u00c9ER UN COMPTE',back_shop:'\u2190 Retour \u00e0 la boutique',to_shop:'Vers la boutique \u2192',
+  ck_s1:'1. Livraison',ck_s2:'2. Paiement',ck_s3:'3. Confirmation',
+  ck_addr:'Adresse de livraison',ck_first:'Pr\u00e9nom',ck_last:'Nom',ck_street:'Rue & num\u00e9ro',ck_zip:'Code postal',ck_city:'Ville',ck_country:'Pays',
+  ck_ship:'Mode de livraison',ck_std:'Standard',ck_std_d:'3\u20135 jours ouvrables',ck_exp:'Express',ck_exp_d:'1\u20132 jours ouvrables',ck_free:'Gratuit',
+  ck_next:'CONTINUER AU PAIEMENT',ck_summary:'R\u00e9capitulatif',ck_sub:'Sous-total',ck_shipping:'Livraison',ck_total:'Total',
+  ck_pay:'Mode de paiement',ck_card:'Carte de cr\u00e9dit / d\u00e9bit',ck_cardnum:'Num\u00e9ro de carte',ck_cardexp:'Date d\'exp.',
+  ck_back:'\u2190 RETOUR',ck_place:'PASSER LA COMMANDE',
+  ck_done:'Commande confirm\u00e9e !',ck_thanks:'Merci pour votre commande chez Aura Global Merchants.',ck_ordernum:'Num\u00e9ro de commande :',ck_myorders:'MES COMMANDES',ck_continue:'CONTINUER MES ACHATS',
+  ds_noauth:'Non connect\u00e9',ds_noauth_d:'Veuillez vous connecter.',ds_login:'CONNEXION',
+  ds_hello:'Bonjour,',ds_logout:'D\u00e9connexion',ds_orders:'Mes commandes',ds_settings:'Param\u00e8tres',
+  ds_empty:'Aucune commande pour le moment.',ds_shop:'ACHETER',
+  ds_personal:'Donn\u00e9es personnelles',ds_save:'ENREGISTRER',ds_delete:'Supprimer le compte',ds_delete_d:'Cette action est irr\u00e9versible.',ds_delete_btn:'SUPPRIMER',
+  ds_ordernum:'N\u00b0 commande',ds_date:'Date',
+  st_pending:'En attente',st_paid:'Pay\u00e9',st_sourcing:'Approvisionnement',st_shipped:'Exp\u00e9di\u00e9',st_delivered:'Livr\u00e9',st_inspection:'Contr\u00f4le',
+  trk_title:'Suivi de commande',trk_desc:'Entrez votre num\u00e9ro de commande et e-mail.',trk_order_id:'N\u00b0 de commande',trk_email:'E-mail',trk_btn:'RECHERCHER',trk_not_found:'Commande non trouv\u00e9e.',
+  trk_paid:'Pay\u00e9',trk_paid_d:'Paiement re\u00e7u',trk_sourcing:'Traitement',trk_sourcing_d:'En pr\u00e9paration',trk_shipped:'Exp\u00e9di\u00e9',trk_shipped_d:'Colis en route',trk_delivered:'Livr\u00e9',trk_delivered_d:'Livraison r\u00e9ussie',
+  trk_track_num:'N\u00b0 de suivi',trk_track_btn:'Suivre le colis',trk_receipt:'Re\u00e7u',trk_dl_receipt:'T\u00e9l\u00e9charger',
+  svc_returns_title:'Retours & Remboursements',svc_shipping_title:'Politique de livraison',svc_faq_title:'Foire aux questions',
+  co_story_title:'Notre histoire',co_privacy_title:'Confidentialit\u00e9',co_terms_title:'CGV',co_imprint_title:'Mentions l\u00e9gales',
+  mega_electronics:'\u00c9lectronique',mega_fashion:'Mode',mega_all_el:'Toute l\'\u00e9lectronique \u2192',mega_all_fa:'Toute la mode \u2192',
+  fill_all:'Veuillez remplir tous les champs',pass_mismatch:'Les mots de passe ne correspondent pas.',added_cart:'ajout\u00e9 au panier',
+  settings_saved:'Param\u00e8tres enregistr\u00e9s',order_placed:'Commande pass\u00e9e !',welcome_back:'Bon retour !',account_created:'Compte cr\u00e9\u00e9 !',delete_confirm:'Supprimer le compte ?',
+  card_free_ship:'Livraison gratuite',card_inspected:'V\u00e9rifi\u00e9',card_instock:'En stock',card_reviews:'Avis',card_sold:'vendus',card_returns:'Retour 30j',card_delivery:'Livr\u00e9 en 2\u20134 jours',
+  price_vat:'TVA incluse, hors frais de port',cart_remove:'Supprimer',cart_empty_msg:'Votre panier est vide',cart_continue:'Continuer les achats',
+},
+es:{
+  locale_label:'Espa\u00f1ol',
+  top_bar:'Env\u00edo gratis desde 99\u20ac \u00b7 Devoluci\u00f3n en 30 d\u00edas',
+  guarantee:'Garant\u00eda',
+  search_ph:'Buscar productos, marcas, categor\u00edas...',
+  nav_all:'Todos',nav_electronics:'Electr\u00f3nica',nav_fashion:'Moda',nav_fashion_long:'Moda y Accesorios',nav_home:'Hogar',nav_travel:'Viaje & Outdoor',nav_sale:'Ofertas %',nav_new:'Novedades \u2726',
+  mob_login:'Iniciar sesi\u00f3n / Registro',mob_orders:'Mis pedidos',
+  hero_tag:'Verificado \u00b7 Fiable \u00b7 Asequible',hero_h1a:'Electr\u00f3nica y Moda verificada',hero_h1b:'directo del almac\u00e9n',
+  hero_desc:'Cada producto se inspecciona manualmente en nuestro hub de Londres. Autenticidad y funcionalidad garantizadas al 100%.',
+  hero_cta1:'VER TODOS',hero_cta2:'OFERTAS',
+  trust_v:'Productos verificados',trust_vd:'Inspecci\u00f3n manual',trust_s:'Env\u00edo r\u00e1pido',trust_sd:'Entrega en 2\u20134 d\u00edas',trust_r:'Devoluci\u00f3n gratis',trust_rd:'30 d\u00edas, sin riesgo',trust_p:'Pago seguro',trust_pd:'SSL, PCI DSS',
+  sec_cat:'Categor\u00edas',sec_feat:'Productos populares',sec_brands:'Nuestras marcas',sec_news:'Bolet\u00edn',
+  news_desc:'Nuevas ofertas en tu buz\u00f3n.',news_ph:'Tu correo electr\u00f3nico',news_btn:'SUSCRIBIRSE',
+  add_cart:'A\u00d1ADIR AL CARRITO',view_prod:'VER',
+  ft_cat:'Categor\u00edas',ft_svc:'Atenci\u00f3n al cliente',ft_co:'Empresa',ft_contact:'Contacto',ft_track:'Seguimiento',ft_returns:'Devoluciones',ft_story:'Nuestra historia',ft_privacy:'Privacidad',ft_terms:'Condiciones',ft_imprint:'Aviso legal',
+  ft_desc:'Productos de marca verificados desde Londres.',
+  cart_title:'Carrito',cart_empty:'Tu carrito est\u00e1 vac\u00edo',cart_total:'Total',cart_checkout:'TRAMITAR PEDIDO',
+  flt_cat:'Categor\u00eda',flt_brand:'Marca',flt_price:'Precio',flt_cond:'Estado',flt_verified:'Verificado',flt_openbox:'Original',
+  sort_default:'Recomendado',sort_price_asc:'Precio asc.',sort_price_desc:'Precio desc.',sort_name:'Nombre A-Z',sort_rating:'Mejor valorado',
+  flt_reset:'Restablecer',flt_results:'Productos',flt_mobile:'Filtrar y Ordenar',
+  prd_qty:'Cantidad:',prd_add:'A\u00d1ADIR',prd_desc:'Descripci\u00f3n',prd_specs:'Especificaciones',prd_rev:'Rese\u00f1as',prd_related:'Tambi\u00e9n te puede gustar',
+  prd_instock:'En stock',prd_ship:'Env\u00edo gratis',prd_inspect:'Inspeccionado en Londres \u2014 100% original',
+  spec_brand:'Marca',spec_cat:'Categor\u00eda',spec_cond:'Estado',spec_cond_v:'Verificado \u2014 Nuevo',spec_cond_o:'Verificado',spec_rating:'Valoraci\u00f3n',spec_avail:'Disponibilidad',spec_avail_v:'en stock',spec_ship:'Env\u00edo',spec_ship_v:'Gratis desde 99\u20ac, DHL Express',
+  lg_login:'INICIAR SESI\u00d3N',lg_register:'REGISTRARSE',lg_login_desc:'Inicia sesi\u00f3n con tu correo.',lg_reg_desc:'Crea una cuenta para comprar.',
+  lbl_email:'Correo',lbl_pass:'Contrase\u00f1a',lbl_name:'Nombre completo',lbl_pass2:'Confirmar contrase\u00f1a',
+  btn_login:'INICIAR SESI\u00d3N',btn_register:'CREAR CUENTA',back_shop:'\u2190 Volver',to_shop:'A la tienda \u2192',
+  ck_s1:'1. Env\u00edo',ck_s2:'2. Pago',ck_s3:'3. Confirmaci\u00f3n',
+  ck_addr:'Direcci\u00f3n de env\u00edo',ck_first:'Nombre',ck_last:'Apellido',ck_street:'Calle y n\u00ba',ck_zip:'C\u00f3digo postal',ck_city:'Ciudad',ck_country:'Pa\u00eds',
+  ck_ship:'M\u00e9todo de env\u00edo',ck_std:'Est\u00e1ndar',ck_std_d:'3\u20135 d\u00edas',ck_exp:'Express',ck_exp_d:'1\u20132 d\u00edas',ck_free:'Gratis',
+  ck_next:'CONTINUAR AL PAGO',ck_summary:'Resumen',ck_sub:'Subtotal',ck_shipping:'Env\u00edo',ck_total:'Total',
+  ck_pay:'M\u00e9todo de pago',ck_card:'Tarjeta cr\u00e9dito / d\u00e9bito',ck_cardnum:'N\u00b0 de tarjeta',ck_cardexp:'Caducidad',
+  ck_back:'\u2190 VOLVER',ck_place:'REALIZAR PEDIDO',
+  ck_done:'\u00a1Pedido confirmado!',ck_thanks:'Gracias por tu pedido en Aura Global Merchants.',ck_ordernum:'N\u00b0 de pedido:',ck_myorders:'MIS PEDIDOS',ck_continue:'SEGUIR COMPRANDO',
+  ds_noauth:'No has iniciado sesi\u00f3n',ds_noauth_d:'Inicia sesi\u00f3n para ver tu cuenta.',ds_login:'INICIAR SESI\u00d3N',
+  ds_hello:'Hola,',ds_logout:'Cerrar sesi\u00f3n',ds_orders:'Mis pedidos',ds_settings:'Configuraci\u00f3n',
+  ds_empty:'A\u00fan no tienes pedidos.',ds_shop:'COMPRAR',
+  ds_personal:'Datos personales',ds_save:'GUARDAR',ds_delete:'Eliminar cuenta',ds_delete_d:'Acci\u00f3n irreversible.',ds_delete_btn:'ELIMINAR',
+  ds_ordernum:'N\u00ba pedido',ds_date:'Fecha',
+  st_pending:'Pendiente',st_paid:'Pagado',st_sourcing:'Preparaci\u00f3n',st_shipped:'Enviado',st_delivered:'Entregado',st_inspection:'Inspecci\u00f3n',
+  trk_title:'Seguimiento',trk_desc:'Introduce n\u00b0 de pedido y correo.',trk_order_id:'N\u00b0 pedido',trk_email:'Correo',trk_btn:'BUSCAR',trk_not_found:'Pedido no encontrado.',
+  trk_paid:'Pagado',trk_paid_d:'Pago recibido',trk_sourcing:'Procesando',trk_sourcing_d:'En preparaci\u00f3n',trk_shipped:'Enviado',trk_shipped_d:'En camino',trk_delivered:'Entregado',trk_delivered_d:'Entregado',
+  trk_track_num:'N\u00ba seguimiento',trk_track_btn:'Seguir env\u00edo',trk_receipt:'Comprobante',trk_dl_receipt:'Descargar',
+  svc_returns_title:'Devoluciones',svc_shipping_title:'Pol\u00edtica de env\u00edo',svc_faq_title:'Preguntas frecuentes',
+  co_story_title:'Nuestra historia',co_privacy_title:'Privacidad',co_terms_title:'Condiciones',co_imprint_title:'Aviso legal',
+  mega_electronics:'Electr\u00f3nica',mega_fashion:'Moda',mega_all_el:'Toda electr\u00f3nica \u2192',mega_all_fa:'Toda moda \u2192',
+  fill_all:'Rellena todos los campos',pass_mismatch:'Las contrase\u00f1as no coinciden.',added_cart:'a\u00f1adido al carrito',
+  settings_saved:'Guardado',order_placed:'\u00a1Pedido realizado!',welcome_back:'\u00a1Bienvenido!',account_created:'\u00a1Cuenta creada!',delete_confirm:'\u00bfEliminar cuenta?',
+  card_free_ship:'Env\u00edo gratis',card_inspected:'Verificado',card_instock:'En stock',card_reviews:'Rese\u00f1as',card_sold:'vendidos',card_returns:'30 d\u00edas devoluci\u00f3n',card_delivery:'Entrega en 2\u20134 d\u00edas',
+  price_vat:'IVA incluido, gastos de env\u00edo aparte',cart_remove:'Eliminar',cart_empty_msg:'Carrito vac\u00edo',cart_continue:'Seguir comprando',
+},
+tr:{
+  locale_label:'T\u00fcrk\u00e7e',
+  top_bar:'\u00dccretsiz kargo 99\u20ac\'dan \u00b7 30 g\u00fcn iade',
+  guarantee:'Garanti',
+  search_ph:'\u00dcr\u00fcn, marka, kategori ara...',
+  nav_all:'T\u00fcm \u00dcr\u00fcnler',nav_electronics:'Elektronik',nav_fashion:'Moda',nav_fashion_long:'Moda & Aksesuar',nav_home:'Ev & Ya\u015fam',nav_travel:'Seyahat & Outdoor',nav_sale:'\u0130ndirim %',nav_new:'Yeni \u2726',
+  mob_login:'Giri\u015f / Kay\u0131t',mob_orders:'Sipari\u015flerim',
+  hero_tag:'Kontrol Edilmi\u015f \u00b7 G\u00fcvenilir \u00b7 Uygun',hero_h1a:'Kontrol Edilmi\u015f Elektronik & Moda',hero_h1b:'do\u011frudan depodan',
+  hero_desc:'Her \u00fcr\u00fcn Londra hub\u0131m\u0131zda manuel kontrol edilir. %100 orijinallik garantisi.',
+  hero_cta1:'T\u00dcM \u00dcR\u00dcNLER',hero_cta2:'\u0130ND\u0130R\u0130MLER',
+  trust_v:'Kontrol Edilmi\u015f',trust_vd:'Manuel kontrol',trust_s:'H\u0131zl\u0131 Kargo',trust_sd:'2\u20134 i\u015f g\u00fcn\u00fc',trust_r:'\u00dccretsiz \u0130ade',trust_rd:'30 g\u00fcn, risksiz',trust_p:'G\u00fcvenli \u00d6deme',trust_pd:'SSL, PCI DSS',
+  sec_cat:'Kategoriler',sec_feat:'Pop\u00fcler \u00dcr\u00fcnler',sec_brands:'Markalar',sec_news:'B\u00fclten',
+  news_desc:'Yeni teklifler do\u011frudan e-postan\u0131za.',news_ph:'E-posta adresiniz',news_btn:'ABONE OL',
+  add_cart:'SEPETE EKLE',view_prod:'\u0130NCELE',
+  ft_cat:'Kategoriler',ft_svc:'M\u00fc\u015fteri Hizmetleri',ft_co:'\u015eirket',ft_contact:'\u0130leti\u015fim',ft_track:'Sipari\u015f Takibi',ft_returns:'\u0130ade',ft_story:'Hikayemiz',ft_privacy:'Gizlilik',ft_terms:'Ko\u015fullar',ft_imprint:'Yasal Bilgi',
+  ft_desc:'Londra\'dan kontrol edilmi\u015f markal\u0131 \u00fcr\u00fcnler.',
+  cart_title:'Sepet',cart_empty:'Sepetiniz bo\u015f',cart_total:'Toplam',cart_checkout:'S\u0130PAR\u0130\u015e VER',
+  flt_cat:'Kategori',flt_brand:'Marka',flt_price:'Fiyat',flt_cond:'Durum',flt_verified:'Kontrol Edilmi\u015f',flt_openbox:'Orijinal',
+  sort_default:'\u00d6nerilen',sort_price_asc:'Fiyat artan',sort_price_desc:'Fiyat azalan',sort_name:'Ad A-Z',sort_rating:'En iyi puan',
+  flt_reset:'S\u0131f\u0131rla',flt_results:'\u00dcr\u00fcn',flt_mobile:'Filtrele & S\u0131rala',
+  prd_qty:'Adet:',prd_add:'SEPETE EKLE',prd_desc:'A\u00e7\u0131klama',prd_specs:'\u00d6zellikler',prd_rev:'Yorumlar',prd_related:'Bunlar da ilginizi \u00e7ekebilir',
+  prd_instock:'Stokta',prd_ship:'\u00dccretsiz Kargo',prd_inspect:'Londra hub\u0131nda kontrol \u2014 %100 orijinal',
+  spec_brand:'Marka',spec_cat:'Kategori',spec_cond:'Durum',spec_cond_v:'Kontrol Edilmi\u015f \u2014 Yeni',spec_cond_o:'Kontrol Edilmi\u015f',spec_rating:'Puan',spec_avail:'Stok',spec_avail_v:'stokta',spec_ship:'Kargo',spec_ship_v:'99\u20ac\u0027dan \u00fccretsiz, DHL Express',
+  lg_login:'G\u0130R\u0130\u015e',lg_register:'KAYIT OL',lg_login_desc:'E-posta ile giri\u015f yap\u0131n.',lg_reg_desc:'Sipari\u015f i\u00e7in hesap olu\u015fturun.',
+  lbl_email:'E-posta',lbl_pass:'\u015eifre',lbl_name:'Ad Soyad',lbl_pass2:'\u015eifre tekrar',
+  btn_login:'G\u0130R\u0130\u015e YAP',btn_register:'HESAP OLU\u015eTUR',back_shop:'\u2190 Ma\u011fazaya d\u00f6n',to_shop:'Ma\u011fazaya \u2192',
+  ck_s1:'1. Teslimat',ck_s2:'2. \u00d6deme',ck_s3:'3. Onay',
+  ck_addr:'Teslimat Adresi',ck_first:'Ad',ck_last:'Soyad',ck_street:'Sokak & No',ck_zip:'Posta Kodu',ck_city:'\u015eehir',ck_country:'\u00dclke',
+  ck_ship:'Kargo Y\u00f6ntemi',ck_std:'Standart',ck_std_d:'3\u20135 i\u015f g\u00fcn\u00fc',ck_exp:'Express',ck_exp_d:'1\u20132 i\u015f g\u00fcn\u00fc',ck_free:'\u00dccretsiz',
+  ck_next:'\u00d6DEMEYE GE\u00c7',ck_summary:'Sipari\u015f \u00d6zeti',ck_sub:'Ara toplam',ck_shipping:'Kargo',ck_total:'Toplam',
+  ck_pay:'\u00d6deme Y\u00f6ntemi',ck_card:'Kredi / Banka Kart\u0131',ck_cardnum:'Kart no',ck_cardexp:'Son kullanma',
+  ck_back:'\u2190 GER\u0130',ck_place:'S\u0130PAR\u0130\u015e VER',
+  ck_done:'Sipari\u015f Onayland\u0131!',ck_thanks:'Sipari\u015finiz i\u00e7in te\u015fekk\u00fcrler.',ck_ordernum:'Sipari\u015f no:',ck_myorders:'S\u0130PAR\u0130\u015eLER\u0130M',ck_continue:'ALI\u015eVER\u0130\u015eE DEVAM',
+  ds_noauth:'Giri\u015f yap\u0131lmad\u0131',ds_noauth_d:'Hesab\u0131n\u0131z i\u00e7in giri\u015f yap\u0131n.',ds_login:'G\u0130R\u0130\u015e',
+  ds_hello:'Merhaba,',ds_logout:'\u00c7\u0131k\u0131\u015f',ds_orders:'Sipari\u015flerim',ds_settings:'Hesap Ayarlar\u0131',
+  ds_empty:'Hen\u00fcz sipari\u015finiz yok.',ds_shop:'ALI\u015eVER\u0130\u015e YAP',
+  ds_personal:'Ki\u015fisel Bilgiler',ds_save:'KAYDET',ds_delete:'Hesab\u0131 Sil',ds_delete_d:'Geri al\u0131namaz.',ds_delete_btn:'S\u0130L',
+  ds_ordernum:'Sipari\u015f no.',ds_date:'Tarih',
+  st_pending:'Beklemede',st_paid:'\u00d6dendi',st_sourcing:'Haz\u0131rlan\u0131yor',st_shipped:'G\u00f6nderildi',st_delivered:'Teslim Edildi',st_inspection:'\u0130nceleniyor',
+  trk_title:'Sipari\u015f Takibi',trk_desc:'Sipari\u015f no ve e-posta girin.',trk_order_id:'Sipari\u015f No',trk_email:'E-posta',trk_btn:'ARA',trk_not_found:'Sipari\u015f bulunamad\u0131.',
+  trk_paid:'\u00d6dendi',trk_paid_d:'\u00d6deme al\u0131nd\u0131',trk_sourcing:'\u0130\u015fleniyor',trk_sourcing_d:'Haz\u0131rlan\u0131yor',trk_shipped:'G\u00f6nderildi',trk_shipped_d:'Kargo yolda',trk_delivered:'Teslim Edildi',trk_delivered_d:'Ba\u015far\u0131yla teslim edildi',
+  trk_track_num:'Takip no',trk_track_btn:'Kargoyu takip et',trk_receipt:'Makbuz',trk_dl_receipt:'\u0130ndir',
+  svc_returns_title:'\u0130ade ve Geri \u00d6deme',svc_shipping_title:'Kargo Politikas\u0131',svc_faq_title:'S\u0131k Sorulan Sorular',
+  co_story_title:'Hikayemiz',co_privacy_title:'Gizlilik',co_terms_title:'Ko\u015fullar',co_imprint_title:'Yasal Bilgi',
+  mega_electronics:'Elektronik',mega_fashion:'Moda',mega_all_el:'T\u00fcm Elektronik \u2192',mega_all_fa:'T\u00fcm Moda \u2192',
+  fill_all:'T\u00fcm alanlar\u0131 doldurun',pass_mismatch:'\u015eifreler uyu\u015fmuyor.',added_cart:'sepete eklendi',
+  settings_saved:'Kaydedildi',order_placed:'Sipari\u015f verildi!',welcome_back:'Tekrar ho\u015f geldiniz!',account_created:'Hesap olu\u015fturuldu!',delete_confirm:'Hesab\u0131 silmek istiyor musunuz?',
+  card_free_ship:'\u00dccretsiz Kargo',card_inspected:'Kontrol Edilmi\u015f',card_instock:'Stokta',card_reviews:'Yorum',card_sold:'sat\u0131ld\u0131',card_returns:'30 G\u00fcn \u0130ade',card_delivery:'2\u20134 g\u00fcnde teslimat',
+  price_vat:'KDV dahil, kargo hari\u00e7',cart_remove:'Kald\u0131r',cart_empty_msg:'Sepetiniz bo\u015f',cart_continue:'Al\u0131\u015fveri\u015fe devam',
 }
 };
 
@@ -725,14 +881,15 @@ function getLocale(){ return ls(LOCALE_KEY) || 'de'; }
 function setLocale(loc){
   ls(LOCALE_KEY, loc);
   applyLocale();
-  document.querySelectorAll('.aura-locale-dd').forEach(function(el){ el.classList.add('hidden'); });
+  injectLocalePickers();
 }
 function t(key){ var d=I18N[getLocale()]; return (d&&d[key])||(I18N.de[key])||key; }
 
 function formatPrice(n){
   var loc=getLocale();
-  if(loc==='en'){ return '$'+Math.round(n*EUR_USD).toLocaleString('en-US'); }
-  return '€'+n.toLocaleString('de-DE');
+  if(loc==='en') return '\u00a3'+Math.round(n*EUR_GBP).toLocaleString('en-GB');
+  if(loc==='tr') return Math.round(n*EUR_TRY).toLocaleString('tr-TR')+'\u00a0\u20ba';
+  return '\u20ac'+n.toLocaleString('de-DE');
 }
 
 function applyLocale(){
@@ -749,14 +906,26 @@ function applyLocale(){
   document.querySelectorAll('[data-locale-label]').forEach(function(el){
     el.textContent=d.locale_label||'DE / €';
   });
-  document.documentElement.lang=loc==='de'?'de':'en';
+  document.documentElement.lang=loc;
   fire('locale-change',{locale:loc});
 }
 
 function injectLocalePickers(){
   var loc=getLocale();
+  var langs=[
+    {code:'de',label:'Deutsch',cur:'EUR',short:'DE'},
+    {code:'en',label:'English',cur:'GBP',short:'EN'},
+    {code:'fr',label:'Fran\u00e7ais',cur:'EUR',short:'FR'},
+    {code:'es',label:'Espa\u00f1ol',cur:'EUR',short:'ES'},
+    {code:'tr',label:'T\u00fcrk\u00e7e',cur:'TRY',short:'TR'}
+  ];
+  var cur=langs.filter(function(l){return l.code===loc;})[0]||langs[0];
+  var btns=langs.map(function(l){
+    var active=l.code===loc?' bg-white/10 text-white font-semibold':'';
+    return '<button onclick="Aura.setLocale(\''+l.code+'\')" class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-colors'+active+'"><span class="w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center text-[10px] font-bold text-gold shrink-0">'+l.short+'</span><span>'+l.label+'</span><span class="ml-auto text-[10px] text-gold/50">'+l.cur+'</span></button>';
+  }).join('');
   document.querySelectorAll('[data-locale-picker]').forEach(function(c){
-    c.innerHTML='<div class="relative"><button onclick="this.nextElementSibling.classList.toggle(\'hidden\')" class="flex items-center gap-1.5 px-2 h-10 text-sm text-navy/60 hover:text-navy transition-colors"><span data-locale-label>'+(loc==='de'?'DE / €':'EN / $')+'</span><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><div class="aura-locale-dd hidden absolute right-0 top-full mt-1 bg-navy-dark border border-white/10 shadow-2xl z-[60] min-w-[180px]"><button onclick="Aura.setLocale(\'de\')" class="flex items-center gap-3 w-full px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-colors"><span class="text-[10px] font-bold text-gold tracking-wider">DE</span>Deutsch / EUR</button><button onclick="Aura.setLocale(\'en\')" class="flex items-center gap-3 w-full px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-colors"><span class="text-[10px] font-bold text-gold tracking-wider">US</span>English / USD</button></div></div>';
+    c.innerHTML='<div class="relative"><button onclick="this.nextElementSibling.classList.toggle(\'hidden\')" class="flex items-center gap-1.5 px-2 h-10 text-sm text-navy/60 hover:text-navy transition-colors"><span class="w-6 h-6 rounded-full bg-navy/5 flex items-center justify-center text-[10px] font-bold text-navy/60 shrink-0">'+cur.short+'</span><span data-locale-label class="hidden sm:inline ml-1 text-xs">'+cur.label+'</span><svg class="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><div class="aura-locale-dd hidden absolute right-0 top-full mt-1 bg-navy-dark border border-white/10 shadow-2xl rounded-lg overflow-hidden z-[60] min-w-[200px]">'+btns+'</div></div>';
   });
 }
 

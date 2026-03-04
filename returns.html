@@ -683,6 +683,7 @@ function toggleCart(){
   document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);
   document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);
   document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';
+  document.body.style.overflow=cartOpen?'hidden':'';
   if(cartOpen) renderCartDrawer();
 }
 function renderCartDrawer(){

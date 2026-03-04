@@ -34,6 +34,7 @@
     </div>
   </div>
   <div class="flex items-center gap-1">
+    <div data-locale-picker class="hidden sm:flex"></div>
     <a href="/login.html" class="hidden sm:flex w-10 h-10 items-center justify-center text-navy/60 hover:text-navy transition-colors"><i data-lucide="user" class="w-5 h-5"></i></a>
     <button onclick="toggleCart()" class="relative w-10 h-10 flex items-center justify-center text-navy/60 hover:text-navy transition-colors">
       <i data-lucide="shopping-bag" class="w-5 h-5"></i>
@@ -162,7 +163,7 @@
           <div class="border border-gray-100 shadow-sm p-6 sm:p-8">
             <div class="flex items-center gap-3 mb-5">
               <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="message-circle" class="w-5 h-5 text-navy"></i></div>
-              <h3 class="font-serif text-lg font-bold text-navy">Direct Channels</h3>
+              <h3 class="font-serif text-lg font-bold text-navy">Direktkanäle</h3>
             </div>
             <div class="space-y-3">
               <a href="https://wa.me/442079460842" target="_blank" class="flex items-center gap-4 p-4 bg-[#25D366]/5 border border-[#25D366]/20 hover:border-[#25D366]/40 transition-colors group">
@@ -304,13 +305,14 @@
 </div>
 
 <script>
-var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';if(cartOpen)renderCartDrawer();}
+var cartOpen=false;function toggleCart(){cartOpen=!cartOpen;document.getElementById('cart-overlay').classList.toggle('opacity-0',!cartOpen);document.getElementById('cart-overlay').classList.toggle('pointer-events-none',!cartOpen);document.getElementById('cart-panel').style.transform=cartOpen?'translateX(0)':'translateX(100%)';document.body.style.overflow=cartOpen?'hidden':'';if(cartOpen)renderCartDrawer();}
 function renderCartDrawer(){var items=Aura.getCartItems(),body=document.getElementById('cart-body'),footer=document.getElementById('cart-footer');if(!items.length){body.innerHTML='<p class="text-center text-gray-400 text-sm py-10">Warenkorb ist leer</p>';footer.classList.add('hidden');return;}footer.classList.remove('hidden');body.innerHTML=items.map(function(it){return '<div class="flex gap-4 py-4 border-b border-gray-50"><div class="w-16 h-16 bg-gray-50 flex items-center justify-center">'+Aura.imgHtml(it.product.img,'text-3xl')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+it.product.name+'</p><p class="text-xs text-gray-400">'+it.product.brand+(it.variant?' · '+it.variant:'')+'</p></div><div class="text-right"><p class="text-sm font-bold">'+Aura.formatPrice((it.product.price+(it.priceOffset||0))*it.qty)+'</p></div></div>';}).join('');document.getElementById('cart-total-price').textContent=Aura.formatPrice(Aura.getCartTotal().total);}
 function submitContact(e){e.preventDefault();var ref='SUP-'+Date.now().toString(36).toUpperCase();var cName=document.getElementById('cf-name').value;var cEmail=document.getElementById('cf-email').value;var cOrder=document.getElementById('cf-order').value;var cSubject=document.getElementById('cf-subject').value;var cMessage=document.getElementById('cf-message').value;document.getElementById('cf-ref').textContent=ref;document.getElementById('contact-form').style.display='none';document.getElementById('contact-success').classList.remove('hidden');var tickets=JSON.parse(localStorage.getItem('aura_tickets')||'[]');tickets.push({id:ref,name:cName,email:cEmail,order:cOrder,subject:cSubject,message:cMessage,date:new Date().toISOString(),status:'open'});localStorage.setItem('aura_tickets',JSON.stringify(tickets));
 // Send email to support + auto-reply
 if(typeof AuraEmail!=='undefined') AuraEmail.sendContactForm({name:cName,email:cEmail,orderNumber:cOrder,subject:cSubject,message:cMessage,refId:ref});
 window.scrollTo({top:0,behavior:'smooth'});}
 var session=Aura.getSession();if(session){document.getElementById('cf-email').value=session.email||'';if(session.name)document.getElementById('cf-name').value=session.name;}
+(function(){var msgs={'cf-name':'Bitte geben Sie Ihren Namen ein.','cf-email':'Bitte geben Sie eine gültige E-Mail-Adresse ein.','cf-subject':'Bitte wählen Sie einen Betreff.','cf-message':'Bitte geben Sie Ihre Nachricht ein.','cf-privacy':'Bitte akzeptieren Sie die Datenschutzerklärung.'};Object.keys(msgs).forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('invalid',function(){this.setCustomValidity(msgs[id]);});el.addEventListener('input',function(){this.setCustomValidity('');});if(el.type==='checkbox')el.addEventListener('change',function(){this.setCustomValidity('');});}});})();
 if(typeof lucide!=='undefined')lucide.createIcons();
 </script>
 </body>
