@@ -876,4 +876,20 @@ document.addEventListener('click', function(e){
   };
 })();
 
+/* ── 4. Cookie Consent Banner ── */
+(function initCookieBanner(){
+  if(localStorage.getItem('aura_cookie_consent')) return;
+  var bar=document.createElement('div');
+  bar.id='aura-cookie-bar';
+  bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:9998;background:#001A3D;color:white;box-shadow:0 -4px 20px rgba(0,0,0,0.3);font-family:Inter,system-ui,sans-serif;';
+  bar.innerHTML='<div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between"><div style="flex:1;min-width:280px"><p style="font-size:13px;line-height:1.6;margin:0;color:rgba(255,255,255,0.8)">Wir verwenden ausschließlich <strong style="color:white">technisch notwendige Cookies</strong>, die für den Betrieb unserer Website erforderlich sind. Mehr erfahren Sie in unserer <a href="/privacy.html" style="color:#C5A059;text-decoration:underline">Datenschutzerklärung</a>.</p></div><div style="display:flex;gap:10px;flex-shrink:0"><button id="aura-cookie-ok" style="padding:10px 28px;background:#C5A059;color:white;border:none;font-size:12px;font-weight:700;letter-spacing:0.1em;cursor:pointer;font-family:Inter,system-ui,sans-serif">AKZEPTIEREN</button></div></div>';
+  document.body.appendChild(bar);
+  document.getElementById('aura-cookie-ok').addEventListener('click',function(){
+    localStorage.setItem('aura_cookie_consent','1');
+    bar.style.transition='transform 0.3s ease';
+    bar.style.transform='translateY(100%)';
+    setTimeout(function(){bar.remove();},400);
+  });
+})();
+
 })();
