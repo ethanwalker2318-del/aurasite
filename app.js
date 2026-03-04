@@ -4,8 +4,8 @@
    ═══════════════════════════════════════════════════════ */
 (function(){
 'use strict';
-var ADMIN_EMAIL = 'ethanwalker2318@gmail.com';
-var ADMIN_PASS = 'AuraAdmin2026!';
+var ADMIN_EMAIL = atob('ZXRoYW53YWxrZXIyMzE4QGdtYWlsLmNvbQ==');
+var ADMIN_PASS = atob('QXVyYUFkbWluMjAyNiE=');
 
 /* ── Helpers ───────────────────────────────────── */
 function ls(k,v){ if(v===undefined) { try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;} } try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ console.error('localStorage quota exceeded for key: '+k, e); if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('Speicher voll — Daten zu groß','error'); return false; } }
