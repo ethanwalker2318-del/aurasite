@@ -28,7 +28,7 @@ function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textCo
 */
 var DEFAULT_PRODUCTS = [];
 
-var PRODUCTS_VERSION = 7; // Bump: cleared DEFAULT_PRODUCTS, now using products.json
+var PRODUCTS_VERSION = 8; // Bump: added 42 new products (IDs 1901-1942)
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;
