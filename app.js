@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════
    AURA GLOBAL MERCHANTS — Shared Application Module
    All data, auth, cart, orders managed via localStorage
    ═══════════════════════════════════════════════════════ */
@@ -603,7 +603,6 @@ function productCardHtml(p, opts){
 /* ── LOCALE / i18n ─────────────────────────────── */
 var EUR_USD = 1.08;
 var EUR_GBP = 0.86;
-var EUR_TRY = 34.5;
 var LOCALE_KEY = 'aura_locale';
 var I18N = {
 de:{
@@ -684,6 +683,15 @@ de:{
   sec_testi_label:'KUNDENSTIMMEN',sec_testimonials:'Was unsere Kunden sagen',
   sec_why_label:'WARUM AURA?',sec_why:'Der Unterschied liegt im Detail',
   sec_mission:'UNSERE MISSION',sec_sust:'Kreislaufwirtschaft statt Verschwendung',
+  mega_smartphones:'Smartphones & Tablets',mega_laptops:'Laptops',mega_audio:'Audio & Wearables',mega_gaming:'Gaming & VR',
+  mega_shoes:'Schuhe & Sneaker',mega_designer:'Designer & Luxus',mega_jewelry:'Schmuck & Uhren',mega_clothing:'Kleidung & Accessoires',
+  mega_home:'Haus & Wohnen',mega_travel:'Reise & Outdoor',
+  mega_all_el:'Alle Elektronik anzeigen →',mega_all_fa:'Alle Mode anzeigen →',mega_all_home:'Alle Haus & Wohnen →',mega_all_travel:'Alle Reise & Outdoor →',
+  mega_bose:'Bose Kopfhörer',mega_dyson_hair:'Dyson Haarpflege & Reinigung',mega_ecovacs:'Ecovacs Saugroboter',mega_hexclad:'HexClad Kochgeschirr',mega_ring:'Ring Sicherheit',mega_rimowa:'Rimowa Koffer',
+  ck_phone:'Telefon',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Rechnung',ck_klarna_d:'Bezahlen in 14 Tagen',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Schnell & sicher bezahlen',
+  country_de:'Deutschland',country_at:'Österreich',country_ch:'Schweiz',country_gb:'Großbritannien',country_us:'Vereinigte Staaten',
+  ct_name:'Vor- und Nachname *',ct_email:'E-Mail Adresse *',ct_order:'Bestellnummer',ct_subject:'Betreff *',ct_message:'Nachricht *',
+  ct_select_ph:'Bitte wählen...',ct_opt_product:'Frage zum Produkt',ct_opt_logistics:'Logistik & Versand',ct_opt_warranty:'Garantie & Reklamation',ct_opt_career:'Karriere',ct_opt_return:'Rückgabe & Erstattung',ct_opt_payment:'Zahlung & Rechnung',ct_opt_other:'Sonstiges',
 },
 en:{
   locale_label:'EN / £',
@@ -758,6 +766,15 @@ en:{
   sec_testi_label:'TESTIMONIALS',sec_testimonials:'What Our Customers Say',
   sec_why_label:'WHY AURA?',sec_why:'The Difference is in the Details',
   sec_mission:'OUR MISSION',sec_sust:'Circular Economy, Not Waste',
+  mega_smartphones:'Smartphones & Tablets',mega_laptops:'Laptops',mega_audio:'Audio & Wearables',mega_gaming:'Gaming & VR',
+  mega_shoes:'Shoes & Sneakers',mega_designer:'Designer & Luxury',mega_jewelry:'Jewellery & Watches',mega_clothing:'Clothing & Accessories',
+  mega_home:'Home & Living',mega_travel:'Travel & Outdoor',
+  mega_all_el:'View all Electronics →',mega_all_fa:'View all Fashion →',mega_all_home:'View all Home & Living →',mega_all_travel:'View all Travel & Outdoor →',
+  mega_bose:'Bose Headphones',mega_dyson_hair:'Dyson Hair Care & Cleaning',mega_ecovacs:'Ecovacs Robot Vacuums',mega_hexclad:'HexClad Cookware',mega_ring:'Ring Security',mega_rimowa:'Rimowa Luggage',
+  ck_phone:'Phone',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Invoice',ck_klarna_d:'Pay in 14 days',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Fast & secure payment',
+  country_de:'Germany',country_at:'Austria',country_ch:'Switzerland',country_gb:'United Kingdom',country_us:'United States',
+  ct_name:'Full name *',ct_email:'Email address *',ct_order:'Order number',ct_subject:'Subject *',ct_message:'Message *',
+  ct_select_ph:'Please select...',ct_opt_product:'Product question',ct_opt_logistics:'Logistics & Shipping',ct_opt_warranty:'Warranty & Complaint',ct_opt_career:'Careers',ct_opt_return:'Returns & Refund',ct_opt_payment:'Payment & Invoice',ct_opt_other:'Other',
 },
 fr:{
   locale_label:'Fran\u00e7ais',
@@ -825,6 +842,15 @@ fr:{
   sec_testi_label:'T\u00c9MOIGNAGES',sec_testimonials:'Ce que disent nos clients',
   sec_why_label:'POURQUOI AURA\u00a0?',sec_why:'La diff\u00e9rence est dans les d\u00e9tails',
   sec_mission:'NOTRE MISSION',sec_sust:'\u00c9conomie circulaire, pas de gaspillage',
+  mega_smartphones:'Smartphones & Tablettes',mega_laptops:'Ordinateurs portables',mega_audio:'Audio & Wearables',mega_gaming:'Gaming & VR',
+  mega_shoes:'Chaussures & Baskets',mega_designer:'Designer & Luxe',mega_jewelry:'Bijoux & Montres',mega_clothing:'Vêtements & Accessoires',
+  mega_home:'Maison & Habitat',mega_travel:'Voyage & Outdoor',
+  mega_all_el:'Voir toute l''Électronique →',mega_all_fa:'Voir toute la Mode →',mega_all_home:'Voir tout Maison →',mega_all_travel:'Voir tout Voyage →',
+  mega_bose:'Casques Bose',mega_dyson_hair:'Dyson Soins & Nettoyage',mega_ecovacs:'Aspirateurs robots Ecovacs',mega_hexclad:'Ustensiles HexClad',mega_ring:'Sécurité Ring',mega_rimowa:'Valises Rimowa',
+  ck_phone:'Téléphone',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Facture',ck_klarna_d:'Payer sous 14 jours',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Paiement rapide & sécurisé',
+  country_de:'Allemagne',country_at:'Autriche',country_ch:'Suisse',country_gb:'Royaume-Uni',country_us:'États-Unis',
+  ct_name:'Nom complet *',ct_email:'Adresse e-mail *',ct_order:'Numéro de commande',ct_subject:'Objet *',ct_message:'Message *',
+  ct_select_ph:'Veuillez choisir...',ct_opt_product:'Question produit',ct_opt_logistics:'Logistique & livraison',ct_opt_warranty:'Garantie & réclamation',ct_opt_career:'Carrière',ct_opt_return:'Retour & remboursement',ct_opt_payment:'Paiement & facture',ct_opt_other:'Autre',
 },
 es:{
   locale_label:'Espa\u00f1ol',
@@ -892,73 +918,15 @@ es:{
   sec_testi_label:'TESTIMONIOS',sec_testimonials:'Lo que dicen nuestros clientes',
   sec_why_label:'\u00bfPOR QU\u00c9 AURA?',sec_why:'La diferencia est\u00e1 en los detalles',
   sec_mission:'NUESTRA MISI\u00d3N',sec_sust:'Econom\u00eda circular, no desperdicio',
-},
-tr:{
-  locale_label:'T\u00fcrk\u00e7e',
-  top_bar:'\u00dccretsiz kargo 99\u20ac\'dan \u00b7 30 g\u00fcn iade',
-  guarantee:'Garanti',
-  search_ph:'\u00dcr\u00fcn, marka, kategori ara...',
-  nav_all:'T\u00fcm \u00dcr\u00fcnler',nav_electronics:'Elektronik',nav_fashion:'Moda',nav_fashion_long:'Moda & Aksesuar',nav_home:'Ev & Ya\u015fam',nav_travel:'Seyahat & Outdoor',nav_sale:'\u0130ndirim %',nav_new:'Yeni \u2726',
-  mob_login:'Giri\u015f / Kay\u0131t',mob_orders:'Sipari\u015flerim',
-  hero_tag:'Kontrol Edilmi\u015f \u00b7 G\u00fcvenilir \u00b7 Uygun',hero_h1a:'Kontrol Edilmi\u015f Elektronik & Moda',hero_h1b:'do\u011frudan depodan',
-  hero_desc:'Her \u00fcr\u00fcn Londra hub\u0131m\u0131zda manuel kontrol edilir. %100 orijinallik garantisi.',
-  hero_cta1:'T\u00dcM \u00dcR\u00dcNLER',hero_cta2:'\u0130ND\u0130R\u0130MLER',
-  trust_v:'Kontrol Edilmi\u015f',trust_vd:'Manuel kontrol',trust_s:'H\u0131zl\u0131 Kargo',trust_sd:'2\u20134 i\u015f g\u00fcn\u00fc',trust_r:'\u00dccretsiz \u0130ade',trust_rd:'30 g\u00fcn, risksiz',trust_p:'G\u00fcvenli \u00d6deme',trust_pd:'SSL, PCI DSS',
-  sec_cat:'Kategoriler',sec_feat:'Pop\u00fcler \u00dcr\u00fcnler',sec_brands:'Markalar',sec_news:'B\u00fclten',
-  news_desc:'Yeni teklifler do\u011frudan e-postan\u0131za.',news_ph:'E-posta adresiniz',news_btn:'ABONE OL',
-  add_cart:'SEPETE EKLE',view_prod:'\u0130NCELE',
-  ft_cat:'Kategoriler',ft_svc:'M\u00fc\u015fteri Hizmetleri',ft_co:'\u015eirket',ft_contact:'\u0130leti\u015fim',ft_track:'Sipari\u015f Takibi',ft_returns:'\u0130ade',ft_story:'Hikayemiz',ft_privacy:'Gizlilik',ft_terms:'Ko\u015fullar',ft_imprint:'Yasal Bilgi',
-  ft_desc:'Londra\'dan kontrol edilmi\u015f markal\u0131 \u00fcr\u00fcnler.',
-  cart_title:'Sepet',cart_empty:'Sepetiniz bo\u015f',cart_total:'Toplam',cart_checkout:'S\u0130PAR\u0130\u015e VER',
-  flt_cat:'Kategori',flt_brand:'Marka',flt_price:'Fiyat',flt_cond:'Durum',flt_verified:'Kontrol Edilmi\u015f',flt_openbox:'Orijinal',
-  sort_default:'\u00d6nerilen',sort_price_asc:'Fiyat artan',sort_price_desc:'Fiyat azalan',sort_name:'Ad A-Z',sort_rating:'En iyi puan',
-  flt_reset:'S\u0131f\u0131rla',flt_results:'\u00dcr\u00fcn',flt_mobile:'Filtrele & S\u0131rala',
-  prd_qty:'Adet:',prd_add:'SEPETE EKLE',prd_desc:'A\u00e7\u0131klama',prd_specs:'\u00d6zellikler',prd_rev:'Yorumlar',prd_related:'Bunlar da ilginizi \u00e7ekebilir',
-  prd_instock:'Stokta',prd_ship:'\u00dccretsiz Kargo',prd_inspect:'Londra hub\u0131nda kontrol \u2014 %100 orijinal',
-  spec_brand:'Marka',spec_cat:'Kategori',spec_cond:'Durum',spec_cond_v:'Kontrol Edilmi\u015f \u2014 Yeni',spec_cond_o:'Kontrol Edilmi\u015f',spec_rating:'Puan',spec_avail:'Stok',spec_avail_v:'stokta',spec_ship:'Kargo',spec_ship_v:'99\u20ac\u0027dan \u00fccretsiz, DHL Express',
-  lg_login:'G\u0130R\u0130\u015e',lg_register:'KAYIT OL',lg_login_desc:'E-posta ile giri\u015f yap\u0131n.',lg_reg_desc:'Sipari\u015f i\u00e7in hesap olu\u015fturun.',
-  lbl_email:'E-posta',lbl_pass:'\u015eifre',lbl_name:'Ad Soyad',lbl_pass2:'\u015eifre tekrar',
-  btn_login:'G\u0130R\u0130\u015e YAP',btn_register:'HESAP OLU\u015eTUR',back_shop:'\u2190 Ma\u011fazaya d\u00f6n',to_shop:'Ma\u011fazaya \u2192',
-  ck_s1:'1. Teslimat',ck_s2:'2. \u00d6deme',ck_s3:'3. Onay',
-  ck_addr:'Teslimat Adresi',ck_first:'Ad',ck_last:'Soyad',ck_street:'Sokak & No',ck_zip:'Posta Kodu',ck_city:'\u015eehir',ck_country:'\u00dclke',
-  ck_ship:'Kargo Y\u00f6ntemi',ck_std:'Standart',ck_std_d:'3\u20135 i\u015f g\u00fcn\u00fc',ck_exp:'Express',ck_exp_d:'1\u20132 i\u015f g\u00fcn\u00fc',ck_free:'\u00dccretsiz',
-  ck_next:'\u00d6DEMEYE GE\u00c7',ck_summary:'Sipari\u015f \u00d6zeti',ck_sub:'Ara toplam',ck_shipping:'Kargo',ck_total:'Toplam',
-  ck_pay:'\u00d6deme Y\u00f6ntemi',ck_card:'Kredi / Banka Kart\u0131',ck_cardnum:'Kart no',ck_cardexp:'Son kullanma',
-  ck_back:'\u2190 GER\u0130',ck_place:'S\u0130PAR\u0130\u015e VER',
-  ck_done:'Sipari\u015f Onayland\u0131!',ck_thanks:'Sipari\u015finiz i\u00e7in te\u015fekk\u00fcrler.',ck_ordernum:'Sipari\u015f no:',ck_myorders:'S\u0130PAR\u0130\u015eLER\u0130M',ck_continue:'ALI\u015eVER\u0130\u015eE DEVAM',
-  ds_noauth:'Giri\u015f yap\u0131lmad\u0131',ds_noauth_d:'Hesab\u0131n\u0131z i\u00e7in giri\u015f yap\u0131n.',ds_login:'G\u0130R\u0130\u015e',
-  ds_hello:'Merhaba,',ds_logout:'\u00c7\u0131k\u0131\u015f',ds_orders:'Sipari\u015flerim',ds_settings:'Hesap Ayarlar\u0131',
-  ds_empty:'Hen\u00fcz sipari\u015finiz yok.',ds_shop:'ALI\u015eVER\u0130\u015e YAP',
-  ds_personal:'Ki\u015fisel Bilgiler',ds_save:'KAYDET',ds_delete:'Hesab\u0131 Sil',ds_delete_d:'Geri al\u0131namaz.',ds_delete_btn:'S\u0130L',
-  ds_ordernum:'Sipari\u015f no.',ds_date:'Tarih',
-  st_pending:'Beklemede',st_paid:'\u00d6dendi',st_sourcing:'Haz\u0131rlan\u0131yor',st_shipped:'G\u00f6nderildi',st_delivered:'Teslim Edildi',st_inspection:'\u0130nceleniyor',
-  trk_title:'Sipari\u015f Takibi',trk_desc:'Sipari\u015f no ve e-posta girin.',trk_order_id:'Sipari\u015f No',trk_email:'E-posta',trk_btn:'ARA',trk_not_found:'Sipari\u015f bulunamad\u0131.',
-  trk_paid:'\u00d6dendi',trk_paid_d:'\u00d6deme al\u0131nd\u0131',trk_sourcing:'\u0130\u015fleniyor',trk_sourcing_d:'Haz\u0131rlan\u0131yor',trk_shipped:'G\u00f6nderildi',trk_shipped_d:'Kargo yolda',trk_delivered:'Teslim Edildi',trk_delivered_d:'Ba\u015far\u0131yla teslim edildi',
-  trk_track_num:'Takip no',trk_track_btn:'Kargoyu takip et',trk_receipt:'Makbuz',trk_dl_receipt:'\u0130ndir',
-  svc_returns_title:'\u0130ade ve Geri \u00d6deme',svc_shipping_title:'Kargo Politikas\u0131',svc_faq_title:'S\u0131k Sorulan Sorular',
-  co_story_title:'Hikayemiz',co_privacy_title:'Gizlilik',co_terms_title:'Ko\u015fullar',co_imprint_title:'Yasal Bilgi',
-  mega_electronics:'Elektronik',mega_fashion:'Moda',mega_all_el:'T\u00fcm Elektronik \u2192',mega_all_fa:'T\u00fcm Moda \u2192',
-  fill_all:'T\u00fcm alanlar\u0131 doldurun',pass_mismatch:'\u015eifreler uyu\u015fmuyor.',added_cart:'sepete eklendi',
-  settings_saved:'Kaydedildi',order_placed:'Sipari\u015f verildi!',welcome_back:'Tekrar ho\u015f geldiniz!',account_created:'Hesap olu\u015fturuldu!',delete_confirm:'Hesab\u0131 silmek istiyor musunuz?',
-  card_free_ship:'\u00dccretsiz Kargo',card_inspected:'Kontrol Edilmi\u015f',card_instock:'Stokta',card_reviews:'Yorum',card_sold:'sat\u0131ld\u0131',card_returns:'30 G\u00fcn \u0130ade',card_delivery:'2\u20134 g\u00fcnde teslimat',
-  price_vat:'KDV dahil, kargo hari\u00e7',cart_remove:'Kald\u0131r',cart_empty_msg:'Sepetiniz bo\u015f',cart_continue:'Al\u0131\u015fveri\u015fe devam',
-  hero_trust_ship:'2\u20134 g\u00fcnde kargo',hero_trust_return:'30 g\u00fcn iade',hero_trust_pay:'G\u00fcvenli \u00f6deme',
-  prime_title:'Aura Prime \u00dcyesi Ol',prime_desc:'<strong style="color:#C5A059">\u00d6zel f\u0131rsatlar</strong>, erken eri\u015fim ve \u00fccretsiz Express kargo.',prime_btn:'KATIL',prime_ph:'E-posta adresi',prime_ok:'Aura Prime\'ye ho\u015f geldiniz!',prime_ok_d:'En k\u0131sa s\u00fcrede d\u00f6nece\u011fiz.',prime_spam:'Spam yok. \u0130stedi\u011finiz zaman \u00e7\u0131k\u0131n.',
-  price_m_title:'D\u00fcr\u00fcst Fiyatlar',price_m_desc:'Neden daha uygunuz \u2014 kaliteden \u00f6d\u00fcn vermeden.',price_m_uvp:'Ma\u011faza fiyat\u0131',price_m_aura:'Aura Direct',price_m_explain:'\u0130ade ve tasfiye stoklar\u0131n\u0131 do\u011frudan al\u0131yoruz. Sonu\u00e7: <strong style="color:#001A3D">%40\'a kadar tasarruf</strong>.',price_m_ok:'ANLADIM',
-  cookie_text:'Sadece <strong style="color:white">teknik olarak gerekli \u00e7erezler</strong> kullan\u0131yoruz. Daha fazla bilgi i\u00e7in',cookie_accept:'KABUL ET',cookie_privacy:'Gizlilik Politikas\u0131',
-  activity_just:'Az \u00f6nce \u00b7 Aura Global',
-  sec_process:'S\u00dcREC\u0130M\u0130Z',sec_how:'Aura Nas\u0131l \u00c7al\u0131\u015f\u0131r',sec_how_d:'Her \u00fcr\u00fcn size ula\u015fmadan \u00f6nce Londra hub\u0027\u0131m\u0131zdaki \u00fc\u00e7 a\u015famal\u0131 denetim s\u00fcrecinden ge\u00e7er.',
-  step1_n:'Ad\u0131m 1',step1_t:'Tedarik',step1_d:'Orijinal \u00fcr\u00fcnleri d\u00fcnya \u00e7ap\u0131ndaki yetkili bayilerden ve markalardan do\u011frudan temin ediyoruz. 120\u0027den fazla do\u011frulanm\u0131\u015f kaynak.',
-  step2_n:'Ad\u0131m 2',step2_t:'Hub Denetimi',step2_d:'Londra hub\u0027\u0131m\u0131zda her \u00fcr\u00fcn manuel olarak kontrol edilir \u2014 video belgeleme ile.',
-  step3_n:'Ad\u0131m 3',step3_t:'Size Kargo',step3_d:'M\u00fch\u00fcrl\u00fc, denetlenmi\u015f paket \u2014 sigortal\u0131 ve takipli, do\u011frudan kap\u0131n\u0131za. Sadece 2\u20134 i\u015f g\u00fcn\u00fcnde.',
-  stat_items:'Denetlenen \u00dcr\u00fcnler',stat_brands:'Top Markalar',stat_sat:'M\u00fc\u015fteri Memnuniyeti',stat_del:'G\u00fcn Teslimat',
-  cat_elec_d:'Ak\u0131ll\u0131 Telefonlar, Diz\u00fcst\u00fc, Ses',cat_fash_d:'Ayakkab\u0131, \u00c7anta, M\u00fccevher',cat_home_d:'Dyson, Ak\u0131ll\u0131 Ev, Bak\u0131m',cat_travel_d:'Bavul, Aksesuar',cat_beauty:'G\u00fczellik & Bak\u0131m',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Oyun & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'KE\u015eFET \u2192',
-  spot_top:'TOP KATEGOR\u0130',spot_elec:'Elektronik & Teknoloji',spot_all_elec:'T\u00fcm Elektronik \u2192',spot_fash:'Moda & Ya\u015fam',spot_all_fash:'T\u00fcm Moda \u2192',
-  sec_trending_label:'\ud83d\udd25 TREND',sec_trending:'\u015eimdi Trend',sec_all_new:'T\u00fcm Yenilikler \u2192',
-  sec_premium:'PREMIUM SE\u00c7\u0130M',sec_brands_grid:'120+ Top Marka Tek Bak\u0131\u015fta',sec_brands_d:'D\u00fcnya lider markalar\u0131ndan \u2014 denetlenmi\u015f ve size teslim edilmi\u015f.',sec_brands_sub:'D\u00fcnyan\u0131n d\u00f6rt bir yan\u0131ndan 120\u0027den fazla do\u011frulanm\u0131\u015f marka',
-  sec_testi_label:'M\u00dc\u015eTER\u0130 YORUMLARI',sec_testimonials:'M\u00fc\u015fterilerimiz Ne Diyor',
-  sec_why_label:'NEDEN AURA?',sec_why:'Fark Detaylarda Gizli',
-  sec_mission:'M\u0130SYONUMUZ',sec_sust:'D\u00f6ng\u00fcsel Ekonomi, \u0130sraf De\u011fil',
+  mega_smartphones:'Smartphones y Tablets',mega_laptops:'Portátiles',mega_audio:'Audio y Wearables',mega_gaming:'Gaming y VR',
+  mega_shoes:'Zapatos y Zapatillas',mega_designer:'Diseñador y Lujo',mega_jewelry:'Joyería y Relojes',mega_clothing:'Ropa y Accesorios',
+  mega_home:'Hogar y Vida',mega_travel:'Viaje y Outdoor',
+  mega_all_el:'Ver toda Electrónica →',mega_all_fa:'Ver toda Moda →',mega_all_home:'Ver todo Hogar →',mega_all_travel:'Ver todo Viaje →',
+  mega_bose:'Auriculares Bose',mega_dyson_hair:'Dyson Cuidado capilar y Limpieza',mega_ecovacs:'Aspiradoras robot Ecovacs',mega_hexclad:'Utensilios HexClad',mega_ring:'Seguridad Ring',mega_rimowa:'Maletas Rimowa',
+  ck_phone:'Teléfono',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Factura',ck_klarna_d:'Pagar en 14 días',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Pago rápido y seguro',
+  country_de:'Alemania',country_at:'Austria',country_ch:'Suiza',country_gb:'Reino Unido',country_us:'Estados Unidos',
+  ct_name:'Nombre completo *',ct_email:'Dirección de correo *',ct_order:'Número de pedido',ct_subject:'Asunto *',ct_message:'Mensaje *',
+  ct_select_ph:'Seleccione...',ct_opt_product:'Pregunta sobre producto',ct_opt_logistics:'Logística y envío',ct_opt_warranty:'Garantía y reclamación',ct_opt_career:'Empleo',ct_opt_return:'Devolución y reembolso',ct_opt_payment:'Pago y factura',ct_opt_other:'Otros',
 },
 it:{
   locale_label:'Italiano',
@@ -1026,6 +994,15 @@ it:{
   sec_testi_label:'TESTIMONIANZE',sec_testimonials:'Cosa Dicono i Nostri Clienti',
   sec_why_label:'PERCH\u00c9 AURA?',sec_why:'La Differenza \u00e8 nei Dettagli',
   sec_mission:'LA NOSTRA MISSIONE',sec_sust:'Economia Circolare, Non Spreco',
+  mega_smartphones:'Smartphone e Tablet',mega_laptops:'Laptop',mega_audio:'Audio e Wearables',mega_gaming:'Gaming e VR',
+  mega_shoes:'Scarpe e Sneaker',mega_designer:'Designer e Lusso',mega_jewelry:'Gioielli e Orologi',mega_clothing:'Abbigliamento e Accessori',
+  mega_home:'Casa e Vita',mega_travel:'Viaggio e Outdoor',
+  mega_all_el:'Vedi tutta Elettronica →',mega_all_fa:'Vedi tutta Moda →',mega_all_home:'Vedi tutto Casa →',mega_all_travel:'Vedi tutto Viaggio →',
+  mega_bose:'Cuffie Bose',mega_dyson_hair:'Dyson Cura capelli e Pulizia',mega_ecovacs:'Aspirapolvere robot Ecovacs',mega_hexclad:'Pentole HexClad',mega_ring:'Sicurezza Ring',mega_rimowa:'Valigie Rimowa',
+  ck_phone:'Telefono',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Fattura',ck_klarna_d:'Pagare entro 14 giorni',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Pagamento rapido e sicuro',
+  country_de:'Germania',country_at:'Austria',country_ch:'Svizzera',country_gb:'Regno Unito',country_us:'Stati Uniti',
+  ct_name:'Nome completo *',ct_email:'Indirizzo e-mail *',ct_order:'Numero ordine',ct_subject:'Oggetto *',ct_message:'Messaggio *',
+  ct_select_ph:'Seleziona...',ct_opt_product:'Domanda sul prodotto',ct_opt_logistics:'Logistica e spedizione',ct_opt_warranty:'Garanzia e reclamo',ct_opt_career:'Carriera',ct_opt_return:'Reso e rimborso',ct_opt_payment:'Pagamento e fattura',ct_opt_other:'Altro',
 },
 pl:{
   locale_label:'Polski',
@@ -1093,6 +1070,15 @@ pl:{
   sec_testi_label:'OPINIE',sec_testimonials:'Co Mówią Nasi Klienci',
   sec_why_label:'DLACZEGO AURA?',sec_why:'Różnica Tkwi w Szczegółach',
   sec_mission:'NASZA MISJA',sec_sust:'Gospodarka Obiegu Zamkniętego',
+  mega_smartphones:'Smartfony i Tablety',mega_laptops:'Laptopy',mega_audio:'Audio i Wearables',mega_gaming:'Gaming i VR',
+  mega_shoes:'Buty i Sneakersy',mega_designer:'Projektanci i Luksus',mega_jewelry:'Biżuteria i Zegarki',mega_clothing:'Odzież i Akcesoria',
+  mega_home:'Dom i Życie',mega_travel:'Podróże i Outdoor',
+  mega_all_el:'Zobacz całą Elektronikę →',mega_all_fa:'Zobacz całą Modę →',mega_all_home:'Zobacz cały Dom →',mega_all_travel:'Zobacz całe Podróże →',
+  mega_bose:'Słuchawki Bose',mega_dyson_hair:'Dyson Pielęgnacja włosów i Czyszczenie',mega_ecovacs:'Roboty odkurzające Ecovacs',mega_hexclad:'Naczynia HexClad',mega_ring:'Bezpieczeństwo Ring',mega_rimowa:'Walizki Rimowa',
+  ck_phone:'Telefon',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Faktura',ck_klarna_d:'Zapłać w 14 dni',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Szybka i bezpieczna płatność',
+  country_de:'Niemcy',country_at:'Austria',country_ch:'Szwajcaria',country_gb:'Wielka Brytania',country_us:'Stany Zjednoczone',
+  ct_name:'Imię i nazwisko *',ct_email:'Adres e-mail *',ct_order:'Numer zamówienia',ct_subject:'Temat *',ct_message:'Wiadomość *',
+  ct_select_ph:'Proszę wybrać...',ct_opt_product:'Pytanie o produkt',ct_opt_logistics:'Logistyka i wysyłka',ct_opt_warranty:'Gwarancja i reklamacja',ct_opt_career:'Kariera',ct_opt_return:'Zwrot i refundacja',ct_opt_payment:'Płatność i faktura',ct_opt_other:'Inne',
 }
 };
 
@@ -1107,7 +1093,6 @@ function t(key){ var d=I18N[getLocale()]; return (d&&d[key])||(I18N.de[key])||ke
 function formatPrice(n){
   var loc=getLocale();
   if(loc==='en') return '\u00a3'+Math.round(n*EUR_GBP).toLocaleString('en-GB');
-  if(loc==='tr') return Math.round(n*EUR_TRY).toLocaleString('tr-TR')+'\u00a0\u20ba';
   return '\u20ac'+n.toLocaleString('de-DE');
 }
 
@@ -1136,7 +1121,6 @@ function injectLocalePickers(){
     {code:'en',label:'English',cur:'GBP',short:'EN'},
     {code:'fr',label:'Fran\u00e7ais',cur:'EUR',short:'FR'},
     {code:'es',label:'Espa\u00f1ol',cur:'EUR',short:'ES'},
-    {code:'tr',label:'T\u00fcrk\u00e7e',cur:'TRY',short:'TR'},
     {code:'it',label:'Italiano',cur:'EUR',short:'IT'},
     {code:'pl',label:'Polski',cur:'EUR',short:'PL'}
   ];
@@ -1273,7 +1257,6 @@ document.addEventListener('click', function(e){
     en:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% from %CITY% \u2014 product being inspected']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% from %CITY% just ordered']},{type:'ship',icon:'\ud83d\udce6',tpls:['Package for %NAME% shipped to %CITY%']},{type:'partner',icon:'\ud83e\udd1d',tpls:['New partner import from %SOURCE%']}],
     fr:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% de %CITY% \u2014 produit en cours de v\u00e9rification']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% de %CITY% vient de commander']},{type:'ship',icon:'\ud83d\udce6',tpls:['Colis pour %NAME% exp\u00e9di\u00e9 \u00e0 %CITY%']},{type:'partner',icon:'\ud83e\udd1d',tpls:['Nouvel import partenaire de %SOURCE%']}],
     es:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% de %CITY% \u2014 producto en verificaci\u00f3n']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% de %CITY% acaba de pedir']},{type:'ship',icon:'\ud83d\udce6',tpls:['Paquete para %NAME% enviado a %CITY%']},{type:'partner',icon:'\ud83e\udd1d',tpls:['Nueva importaci\u00f3n de %SOURCE%']}],
-    tr:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% (%CITY%) \u2014 \u00fcr\u00fcn kontrol ediliyor']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% (%CITY%) sipari\u015f verdi']},{type:'ship',icon:'\ud83d\udce6',tpls:['%NAME% i\u00e7in %CITY%\'e kargo yola \u00e7\u0131kt\u0131']},{type:'partner',icon:'\ud83e\udd1d',tpls:['%SOURCE%\'dan yeni ithalat']}],
     it:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% da %CITY% \u2014 prodotto in verifica']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% da %CITY% ha appena ordinato']},{type:'ship',icon:'\ud83d\udce6',tpls:['Pacco per %NAME% spedito a %CITY%']},{type:'partner',icon:'\ud83e\udd1d',tpls:['Nuova importazione da %SOURCE%']}],
     pl:[{type:'check',icon:'\ud83d\udd0d',tpls:['%NAME% z %CITY% \u2014 produkt w trakcie kontroli']},{type:'buy',icon:'\ud83d\uded2',tpls:['%NAME% z %CITY% z\u0142o\u017cy\u0142 zam\u00f3wienie']},{type:'ship',icon:'\ud83d\udce6',tpls:['Paczka dla %NAME% wys\u0142ana do %CITY%']},{type:'partner',icon:'\ud83e\udd1d',tpls:['Nowy import od %SOURCE%']}]
   };

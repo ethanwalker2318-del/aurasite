@@ -94,32 +94,32 @@
             </div>
             <form id="contact-form" class="p-6 sm:p-8 space-y-5" onsubmit="submitContact(event)">
               <div>
-                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vor- und Nachname *</label>
+                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ct_name">Vor- und Nachname *</label>
                 <input type="text" id="cf-name" required placeholder="Max Mustermann" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail Adresse *</label>
+                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ct_email">E-Mail Adresse *</label>
                 <input type="email" id="cf-email" required placeholder="ihre@email.de" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Bestellnummer <span class="text-gray-300 normal-case">(optional)</span></label>
+                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ct_order">Bestellnummer <span class="text-gray-300 normal-case">(optional)</span></label>
                 <input type="text" id="cf-order" placeholder="AGM-..." class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors font-mono">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Betreff *</label>
+                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ct_subject">Betreff *</label>
                 <select id="cf-subject" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors bg-white">
-                  <option value="">Bitte wählen...</option>
-                  <option value="product">Frage zum Produkt</option>
-                  <option value="logistics">Logistik & Versand</option>
-                  <option value="warranty">Garantie & Reklamation</option>
-                  <option value="career">Karriere</option>
-                  <option value="return">Rückgabe & Erstattung</option>
-                  <option value="payment">Zahlung & Rechnung</option>
-                  <option value="other">Sonstiges</option>
+                  <option value="" data-i18n="ct_select_ph">Bitte wählen...</option>
+                  <option value="product" data-i18n="ct_opt_product">Frage zum Produkt</option>
+                  <option value="logistics" data-i18n="ct_opt_logistics">Logistik & Versand</option>
+                  <option value="warranty" data-i18n="ct_opt_warranty">Garantie & Reklamation</option>
+                  <option value="career" data-i18n="ct_opt_career">Karriere</option>
+                  <option value="return" data-i18n="ct_opt_return">Rückgabe & Erstattung</option>
+                  <option value="payment" data-i18n="ct_opt_payment">Zahlung & Rechnung</option>
+                  <option value="other" data-i18n="ct_opt_other">Sonstiges</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Nachricht *</label>
+                <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ct_message">Nachricht *</label>
                 <textarea id="cf-message" required rows="6" placeholder="Beschreiben Sie Ihr Anliegen so detailliert wie möglich..." class="w-full px-4 py-3 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors resize-none"></textarea>
               </div>
               <div class="flex items-start gap-3">

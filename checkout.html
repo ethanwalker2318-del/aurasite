@@ -53,11 +53,11 @@
               <input type="text" id="s-last" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
-              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail</label>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_email">E-Mail</label>
               <input type="email" id="s-email" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
-              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Telefon</label>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_phone">Telefon</label>
               <input type="tel" id="s-phone" placeholder="+49 170 1234567" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9+\s\-()]/g,'')">
             </div>
             <div class="col-span-2">
@@ -75,11 +75,11 @@
             <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_country">Land</label>
               <select id="s-country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm bg-white">
-                <option value="DE">Deutschland</option>
-                <option value="AT">Österreich</option>
-                <option value="CH">Schweiz</option>
-                <option value="GB">Großbritannien</option>
-                <option value="US">Vereinigte Staaten</option>
+                <option value="DE" data-i18n="country_de">Deutschland</option>
+                <option value="AT" data-i18n="country_at">Österreich</option>
+                <option value="CH" data-i18n="country_ch">Schweiz</option>
+                <option value="GB" data-i18n="country_gb">Großbritannien</option>
+                <option value="US" data-i18n="country_us">Vereinigte Staaten</option>
               </select>
             </div>
           </div>
@@ -121,10 +121,10 @@
       <div class="bg-white p-6 border border-gray-100">
         <h2 class="font-serif text-lg font-bold mb-5" data-i18n="ck_pay">Zahlungsmethode</h2>
         <div class="space-y-3">
-          <label class="flex items-center gap-4 p-4 border-2 border-navy cursor-pointer"><input type="radio" name="pay" value="card" checked class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_card">Kreditkarte / Debitkarte</p><p class="text-xs text-gray-400">Visa, Mastercard, American Express</p></div><div class="flex gap-1"><span class="px-2 py-0.5 border text-[10px] font-mono">VISA</span><span class="px-2 py-0.5 border text-[10px] font-mono">MC</span><span class="px-2 py-0.5 border text-[10px] font-mono">AMEX</span></div></label>
+          <label class="flex items-center gap-4 p-4 border-2 border-navy cursor-pointer"><input type="radio" name="pay" value="card" checked class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_card">Kreditkarte / Debitkarte</p><p class="text-xs text-gray-400" data-i18n="ck_card_brands">Visa, Mastercard, American Express</p></div><div class="flex gap-1"><span class="px-2 py-0.5 border text-[10px] font-mono">VISA</span><span class="px-2 py-0.5 border text-[10px] font-mono">MC</span><span class="px-2 py-0.5 border text-[10px] font-mono">AMEX</span></div></label>
           <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="paypal" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold">PayPal</p></div><span class="text-sm font-bold text-[#003087]">Pay<span class="text-[#009cde]">Pal</span></span></label>
-          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="klarna" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold">Klarna — Rechnung</p><p class="text-xs text-gray-400">Bezahlen in 14 Tagen</p></div><span class="text-sm font-bold text-pink-500">Klarna.</span></label>
-          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="applepay" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold">Apple Pay / Google Pay</p><p class="text-xs text-gray-400">Schnell & sicher bezahlen</p></div><div class="flex gap-1"><span class="px-2 py-0.5 border text-[10px] font-mono"> Pay</span><span class="px-2 py-0.5 border text-[10px] font-mono">G Pay</span></div></label>
+          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="klarna" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_klarna">Klarna — Rechnung</p><p class="text-xs text-gray-400" data-i18n="ck_klarna_d">Bezahlen in 14 Tagen</p></div><span class="text-sm font-bold text-pink-500">Klarna.</span></label>
+          <label class="flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-navy cursor-pointer"><input type="radio" name="pay" value="applepay" class="accent-navy w-4 h-4"><div class="flex-1"><p class="text-sm font-semibold" data-i18n="ck_wallet">Apple Pay / Google Pay</p><p class="text-xs text-gray-400" data-i18n="ck_wallet_d">Schnell & sicher bezahlen</p></div><div class="flex gap-1"><span class="px-2 py-0.5 border text-[10px] font-mono"> Pay</span><span class="px-2 py-0.5 border text-[10px] font-mono">G Pay</span></div></label>
         </div>
         <!-- Stripe Card Element (shown if card selected) -->
         <div id="card-form" class="mt-6 space-y-4">
