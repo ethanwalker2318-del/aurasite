@@ -22,7 +22,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
 <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script><script src="/products-loader.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="/email-service.js"></script>
 <style>
@@ -140,7 +140,7 @@
       <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
         <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="wallet" class="w-6 h-6 text-gold"></i></div>
         <h3 class="font-semibold text-sm mb-2" data-i18n="kr_why_c3_title">Pünktliche Zahlung</h3>
-        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="kr_why_c3_desc">Transparente Vergütungsmodelle mit wöchentlicher Auszahlung. Bank-Überweisung oder USDT — Ihre Wahl.</p>
+        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="kr_why_c3_desc">Transparente Vergütungsmodelle mit wöchentlicher Auszahlung per Banküberweisung.</p>
       </div>
       <div class="bg-white p-6 border border-gray-100 group hover:border-gold/30 transition-all">
         <div class="w-12 h-12 bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors"><i data-lucide="trending-up" class="w-6 h-6 text-gold"></i></div>
@@ -238,7 +238,7 @@
                 <div class="space-y-3">
                   <div class="flex items-start gap-3 bg-green-50/50 border border-green-100 p-3">
                     <i data-lucide="banknote" class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5"></i>
-                    <div><p class="text-sm font-semibold text-navy" data-i18n="kr_c1_b1_title">Wöchentliche Auszahlung</p><p class="text-xs text-gray-500" data-i18n="kr_c1_b1_desc">Geld ohne Verzögerungen — per Banküberweisung oder USDT. Jede Woche.</p></div>
+                    <div><p class="text-sm font-semibold text-navy" data-i18n="kr_c1_b1_title">Wöchentliche Auszahlung</p><p class="text-xs text-gray-500" data-i18n="kr_c1_b1_desc">Geld ohne Verzögerungen — per Banküberweisung. Jede Woche.</p></div>
                   </div>
                   <div class="flex items-start gap-3 bg-gold/5 border border-gold/15 p-3">
                     <i data-lucide="rocket" class="w-5 h-5 text-gold flex-shrink-0 mt-0.5"></i>

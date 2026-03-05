@@ -22,7 +22,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'},eco:{DEFAULT:'#2D8C4E',light:'#3DA863'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
 <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script><script src="/products-loader.js" defer></script>
 <style>.mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}@keyframes grow{from{width:0}to{width:var(--target)}}.bar-animate{animation:grow 1.5s ease-out forwards}</style>
 </head>
 <body class="font-sans bg-white text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
@@ -266,9 +266,9 @@
     </blockquote>
     <p class="text-white/50 text-sm leading-relaxed max-w-xl mx-auto mb-8" data-i18n="nh_manifesto_text">Unser Manifest ist einfach: Jedes Produkt verdient eine Chance. Jeder Kauf bei Aura ist ein Statement gegen die Wegwerfkultur und ein Beitrag zur Zukunft, in der Qualität und Nachhaltigkeit keine Gegensätze sind.</p>
     <div class="flex items-center justify-center gap-3">
-      <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><span class="font-serif text-gold text-sm font-bold">EW</span></div>
+      <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><span class="font-serif text-gold text-sm font-bold">PP</span></div>
       <div class="text-left">
-        <p class="text-white text-sm font-semibold" data-i18n="nh_manifesto_author">Ethan Walker</p>
+        <p class="text-white text-sm font-semibold" data-i18n="nh_manifesto_author">Pavlo Potomkin</p>
         <p class="text-white/30 text-xs" data-i18n="nh_manifesto_role">Gründer & Director, Aura Global Merchants Ltd.</p>
       </div>
     </div>

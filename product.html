@@ -22,7 +22,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={theme:{extend:{colors:{navy:{DEFAULT:'#001A3D',light:'#002B5C',dark:'#000F24'},gold:{DEFAULT:'#C5A059',light:'#D4B476',dark:'#A8863D'}},fontFamily:{serif:['"Playfair Display"','Georgia','serif'],sans:['Inter','system-ui','sans-serif']}}}}</script>
 <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script>
+<script src="/products-data.js"></script><script src="/reviews-data.js"></script><script src="/app.js"></script><script src="/products-loader.js" defer></script>
 <style>
 html{scrollbar-gutter:stable}
 .mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
@@ -206,6 +206,7 @@ html{scrollbar-gutter:stable}
           <span id="p-price" class="text-3xl sm:text-4xl font-bold text-navy"></span>
           <span id="p-old" class="text-gray-300 text-lg sm:text-xl line-through"></span>
         </div>
+        <p class="text-[11px] text-gray-400 mt-1" data-i18n="price_vat">inkl. MwSt., zzgl. Versandkosten</p>
         <div id="p-saving" class="hidden mt-1.5">
           <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-50 border border-green-200 rounded-sm text-green-700 text-xs font-semibold">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17l9.2-9.2M17 17V7.8M17 7.8H7.8"/></svg>
@@ -477,31 +478,60 @@ if(!isUrl){
 var thumbReel=document.getElementById('thumb-reel');
 var thumbs=[];
 var galleryPhotos=(product.gallery&&product.gallery.length)?product.gallery:[];
-// 1 — Main product image
-thumbs.push('<button onclick="switchGallery(0)" class="thumb-item active w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center">'+( isUrl ? '<img src="'+product.img+'" class="w-full h-full object-contain p-1">' : '<svg class="w-6 h-6 text-navy/15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>' )+'</button>');
-// 3 — Gallery photos from data
+// Auto-generate gallery paths from /public/images/products/[id]/ if gallery is empty
+if(!galleryPhotos.length){
+  var localBase='/public/images/products/'+product.id+'/';
+  for(var gi=1;gi<=6;gi++){galleryPhotos.push(localBase+gi+'.webp');}
+}
+// Track which gallery images actually load
+var validGallery=[];
+var galleryLoaded=0;
+function onGalleryImageTest(idx,ok){
+  galleryLoaded++;
+  if(ok) validGallery.push({idx:idx,url:galleryPhotos[idx]});
+  if(galleryLoaded===galleryPhotos.length) rebuildThumbs();
+}
+// Test each gallery image
 galleryPhotos.forEach(function(gUrl,idx){
-  thumbs.push('<button onclick="switchGallery('+(idx+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><img src="'+gUrl+'" class="w-full h-full object-contain p-1"></button>');
+  var tImg=new Image();
+  tImg.onload=function(){onGalleryImageTest(idx,true);};
+  tImg.onerror=function(){onGalleryImageTest(idx,false);};
+  tImg.src=gUrl;
 });
-// 4 — Seal photo placeholder
-thumbs.push('<button onclick="switchGallery('+(galleryPhotos.length+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-0.5"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[7px] text-gold font-bold leading-none">SEAL</span></div></button>');
+function rebuildThumbs(){
+  var th=[];
+  // 0: Main product image
+  th.push('<button onclick="switchGallery(0)" class="thumb-item active w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center">'+( isUrl ? '<img src="'+product.img+'" class="w-full h-full object-contain p-1">' : '<svg class="w-6 h-6 text-navy/15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>' )+'</button>');
+  // Gallery photos that loaded successfully
+  validGallery.sort(function(a,b){return a.idx-b.idx;});
+  validGallery.forEach(function(g,i){
+    th.push('<button onclick="switchGallery('+(i+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><img src="'+g.url+'" class="w-full h-full object-contain p-1"></button>');
+  });
+  // Seal
+  th.push('<button onclick="switchGallery('+(validGallery.length+1)+')" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-0.5"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[7px] text-gold font-bold leading-none">SEAL</span></div></button>');
+  thumbReel.innerHTML=th.join('');
+  // Rebuild gallery views
+  galleryViews.length=0;
+  galleryViews.push(function(){ if(isUrl){galleryBase.innerHTML='<img src="'+product.img+'" alt="" class="w-full h-full object-contain p-4">';}else{galleryBase.innerHTML='<div class="w-full h-full flex flex-col items-center justify-center"><svg class="w-24 h-24 text-navy/10" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="text-xs font-bold text-navy/15 tracking-[0.15em] mt-2">'+product.brand+'</span></div>';}});
+  validGallery.forEach(function(g){
+    galleryViews.push(function(){ galleryBase.innerHTML='<img src="'+g.url+'" alt="" class="w-full h-full object-contain p-4">'; });
+  });
+  galleryViews.push(function(){ galleryBase.innerHTML='<div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-4 p-8"><div class="w-24 h-24 border-2 border-gold/30 rounded-full flex items-center justify-center"><svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-center"><p class="font-serif text-lg font-bold text-navy">'+Aura.t('prd_seal_title')+'</p><p class="text-xs text-gray-400 mt-1 max-w-xs">'+Aura.t('prd_seal_desc')+'</p></div><div class="flex items-center gap-2 mt-2"><div class="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center"><svg class="w-3 h-3 text-gold" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><span class="text-xs font-medium text-navy">'+Aura.t('prd_seal_verified')+'</span></div></div>';});
+}
+// Initial thumbs (before async load completes) - show main + seal
+thumbs.push('<button onclick="switchGallery(0)" class="thumb-item active w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center">'+( isUrl ? '<img src="'+product.img+'" class="w-full h-full object-contain p-1">' : '<svg class="w-6 h-6 text-navy/15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>' )+'</button>');
+thumbs.push('<button onclick="switchGallery(1)" class="thumb-item w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden"><div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-0.5"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[7px] text-gold font-bold leading-none">SEAL</span></div></button>');
 thumbReel.innerHTML=thumbs.join('');
 
 /* Gallery switching */
 var galleryViews=[];
-// 0: main image
 galleryViews.push(function(){ if(isUrl){galleryBase.innerHTML='<img src="'+product.img+'" alt="" class="w-full h-full object-contain p-4">';}else{galleryBase.innerHTML='<div class="w-full h-full flex flex-col items-center justify-center"><svg class="w-24 h-24 text-navy/10" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="text-xs font-bold text-navy/15 tracking-[0.15em] mt-2">'+product.brand+'</span></div>';}});
-// 1..N: gallery photos
-galleryPhotos.forEach(function(gUrl){
-  galleryViews.push(function(){ galleryBase.innerHTML='<img src="'+gUrl+'" alt="" class="w-full h-full object-contain p-4">'; });
-});
-// N+1: seal
 galleryViews.push(function(){ galleryBase.innerHTML='<div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-4 p-8"><div class="w-24 h-24 border-2 border-gold/30 rounded-full flex items-center justify-center"><svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-center"><p class="font-serif text-lg font-bold text-navy">'+Aura.t('prd_seal_title')+'</p><p class="text-xs text-gray-400 mt-1 max-w-xs">'+Aura.t('prd_seal_desc')+'</p></div><div class="flex items-center gap-2 mt-2"><div class="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center"><svg class="w-3 h-3 text-gold" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><span class="text-xs font-medium text-navy">'+Aura.t('prd_seal_verified')+'</span></div></div>';});
 
 window.switchGallery=function(idx){
   if(galleryViews[idx]) galleryViews[idx]();
   if(idx===0) currentZoomUrl=isUrl?product.img:'';
-  else if(idx<=galleryPhotos.length) currentZoomUrl=galleryPhotos[idx-1];
+  else if(idx<=validGallery.length) currentZoomUrl=validGallery[idx-1].url;
   else currentZoomUrl='';
   mainImg.style.cursor=currentZoomUrl?'crosshair':'default';
   zoomLens.style.display=currentZoomUrl?'':'none';
@@ -723,14 +753,7 @@ function buildSpecs(){
 }
 document.querySelector('#specs-table tbody').innerHTML=buildSpecs().map(function(r){return '<tr class="border-b border-gray-50 hover:bg-gray-50/50"><td class="py-3 pr-6 text-gray-400 w-[40%]">'+r[0]+'</td><td class="py-3 font-medium">'+r[1]+'</td></tr>';}).join('');
 
-/* ── Reviews (real from localStorage + seeded + fake fallback) ── */
-var fakeReviews=[
-  {name:'Sarah M.',date:'12.02.2026',stars:5,text:'Absolut begeistert! Produkt kam perfekt verpackt mit Aura-Siegel. Das Inspektionsvideo hat mich sofort überzeugt. Schneller als erwartet geliefert.',verified:true,photos:[]},
-  {name:'Thomas K.',date:'05.02.2026',stars:4,text:'Sehr gute Qualität, genau wie beschrieben. Lieferung aus Berlin war in 2 Tagen da. Einziger Punkt: Ich hätte mir mehr Farboptionen gewünscht.',verified:true,photos:[]},
-  {name:'Anna L.',date:'28.01.2026',stars:5,text:'Top Service! Das Inspektionsvideo war ein großes Plus. Man sieht sofort, dass alles geprüft wurde. Kaufe hier definitiv wieder.',verified:true,photos:[]},
-  {name:'Maximilian R.',date:'15.01.2026',stars:5,text:'Habe den Artikel bestellt — absolut einwandfreier Zustand. Deutlich günstiger als im Originalshop. Aura macht\'s richtig!',verified:true,photos:[]},
-  {name:'Laura W.',date:'10.01.2026',stars:4,text:'Schnelle Lieferung, sicherer Versand. Das Produkt war genau wie im 47-Punkte-Check beschrieben. Empfehlenswert!',verified:false,photos:[]}
-];
+/* ── Reviews (real from localStorage + seeded) ── */
 // getProductReviews now includes seeded reviews from reviews-data.js
 var realReviews=Aura.getProductReviews?Aura.getProductReviews(pid,true):[];
 var allReviews=realReviews.map(function(r){
@@ -738,8 +761,6 @@ var allReviews=realReviews.map(function(r){
   try{ if(r.date&&r.date.indexOf('-')>-1) dateStr=new Date(r.date).toLocaleDateString('de-DE'); } catch(e){}
   return {name:r.name,date:dateStr,stars:r.stars,text:r.text,verified:r.verified!==false,photos:r.photos||[]};
 });
-// Only use fake reviews as fallback if no seeded/real reviews exist
-if(allReviews.length<3) allReviews=allReviews.concat(fakeReviews);
 
 // Calculate average from all
 var totalStars=allReviews.reduce(function(s,r){return s+r.stars;},0);

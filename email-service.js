@@ -12,7 +12,7 @@
 var C = { PK:'6E1iefDAtX8goF9mt', SVC:'service_6xbgl7m', TPL:'template_slxey9g' };
 
 /* INBOX — real mailbox for all incoming admin notifications */
-var INBOX = 'ethanwalker2318@gmail.com';
+var INBOX = 'admin@auraglobal-merchants.com';
 
 /* Display "From" addresses (shown in Reply-To) */
 var FM = {

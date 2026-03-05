@@ -1,0 +1,16 @@
+[
+  {
+    "id": "pj1",
+    "brand": "Apple",
+    "name": "iPhone 16 Pro Max – Beispiel",
+    "description_de": "Titangehäuse, 48 MP Kamerasystem, A18 Pro Chip. 6,9\" Super Retina XDR Display.",
+    "price": 1350.90,
+    "oldPrice": 1626.90,
+    "category": "electronics",
+    "image_folder": "pj1",
+    "stock": 10,
+    "rating": 4.8,
+    "reviews": 50,
+    "inspection": { "authentic": true, "functional": true, "sealed": true }
+  }
+]
