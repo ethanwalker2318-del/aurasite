@@ -5,6 +5,17 @@
 <link rel="icon" type="image/svg+xml" href="/logo.svg">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kasse — Aura Global Merchants</title>
+<link rel="canonical" href="https://ethanwalker2318-del.github.io/aurasite/checkout.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aura Global Merchants">
+<meta property="og:title" content="Kasse — Aura Global Merchants">
+<meta property="og:description" content="Sichere Kasse bei Aura Global Merchants — 256-bit SSL, Stripe-Zahlungsabwicklung, 3D Secure. Schneller Versand nach DE & EU.">
+<meta property="og:url" content="https://ethanwalker2318-del.github.io/aurasite/checkout.html">
+<meta property="og:locale" content="de_DE">
+<meta property="og:image" content="https://ethanwalker2318-del.github.io/aurasite/logo.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kasse — Aura Global Merchants">
+<meta name="twitter:description" content="Sichere Kasse bei Aura Global Merchants — 256-bit SSL, Stripe-Zahlungsabwicklung, 3D Secure. Schneller Versand nach DE & EU.">
 <meta name="description" content="Sichere Kasse bei Aura Global Merchants — 256-bit SSL, Stripe-Zahlungsabwicklung, 3D Secure. Schneller Versand nach DE & EU.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,9 +28,10 @@
 <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="font-sans bg-gray-50 text-navy antialiased min-h-screen flex flex-col overflow-x-hidden">
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:text-navy focus:font-bold focus:border-2 focus:border-navy">Zum Inhalt springen</a>
 
 <!-- HEADER -->
-<header class="bg-white border-b border-gray-100">
+<header role="banner" class="bg-white border-b border-gray-100">
 <div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
   <a href="/index.html" class="flex items-center gap-2.5 group"><img src="/logo.svg" alt="Aura Global" class="w-9 h-9"><div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div></a>
   <div class="flex-1"></div>
@@ -35,7 +47,7 @@
 </div>
 </header>
 
-<main class="flex-1 max-w-[1100px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+<main id="main-content" role="main" class="flex-1 max-w-[1100px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
   <!-- STEP 1: CART + SHIPPING -->
   <div id="step-1">
     <div class="flex flex-col lg:flex-row gap-8">
@@ -46,35 +58,35 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="col-span-2 sm:col-span-1">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_first">Vorname</label>
-              <input type="text" id="s-first" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="text" id="s-first" required autocomplete="given-name" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_last">Nachname</label>
-              <input type="text" id="s-last" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="text" id="s-last" required autocomplete="family-name" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_email">E-Mail</label>
-              <input type="email" id="s-email" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="email" id="s-email" required autocomplete="email" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_phone">Telefon</label>
-              <input type="tel" id="s-phone" placeholder="+49 170 1234567" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9+\s\-()]/g,'')">
+              <input type="tel" id="s-phone" placeholder="+49 170 1234567" autocomplete="tel" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9+\s\-()]/g,'')">
             </div>
             <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_street">Straße & Hausnummer</label>
-              <input type="text" id="s-street" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="text" id="s-street" required autocomplete="street-address" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div>
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_zip">PLZ</label>
-              <input type="text" id="s-zip" required maxlength="10" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9A-Za-z\s\-]/g,'')">
+              <input type="text" id="s-zip" required maxlength="10" autocomplete="postal-code" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9A-Za-z\s\-]/g,'')">
             </div>
             <div>
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_city">Stadt</label>
-              <input type="text" id="s-city" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="text" id="s-city" required autocomplete="address-level2" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_country">Land</label>
-              <select id="s-country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm bg-white">
+              <select id="s-country" autocomplete="country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm bg-white">
                 <option value="DE" data-i18n="country_de">Deutschland</option>
                 <option value="AT" data-i18n="country_at">Österreich</option>
                 <option value="CH" data-i18n="country_ch">Schweiz</option>
@@ -169,7 +181,7 @@
 </main>
 
 <!-- FOOTER MINI -->
-<footer class="bg-navy-dark py-6 mt-auto">
+<footer role="contentinfo" class="bg-navy-dark py-6 mt-auto">
   <div class="max-w-[1400px] mx-auto px-4 flex flex-col items-center gap-4">
     <div class="flex items-center gap-2 text-[11px] text-white/30">
       <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -209,6 +221,15 @@ function renderSummary(){
   document.getElementById('sum-total').textContent=Aura.formatPrice(totals.total+shipCost);
 }
 renderSummary();
+
+// ── Prevent accidental navigation away ──
+var orderPlaced=false;
+window.addEventListener('beforeunload',function(e){
+  if(!orderPlaced && items.length){
+    e.preventDefault();
+    e.returnValue='';
+  }
+});
 
 // ── Stripe Card Element Initialization ──
 var stripeCardElement = null;
@@ -284,7 +305,8 @@ window.placeOrder=function(){
   }
 
   var btn=document.getElementById('btn-place-order');
-  btn.disabled=true; btn.textContent=Aura.t('ck_processing');
+  btn.disabled=true;
+  btn.innerHTML='<svg class="animate-spin inline w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="opacity-75"/></svg>'+Aura.t('ck_processing');
 
   var userId=session?(session.userId||session.id):('guest-'+Date.now());
   var address={
@@ -301,6 +323,7 @@ window.placeOrder=function(){
   // Send order confirmation email
   if(typeof AuraEmail!=='undefined') AuraEmail.sendOrderConfirmation(order, address.email, address.name);
   document.getElementById('order-id').textContent=order.id;
+  orderPlaced=true;
   goToStep(3);
   Aura.showToast(Aura.t('order_placed'),'success');
   btn.disabled=false; btn.textContent=Aura.t('ck_place');

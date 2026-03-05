@@ -5,6 +5,17 @@
 <link rel="icon" type="image/svg+xml" href="/logo.svg">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Produkt — Aura Global Merchants</title>
+<link rel="canonical" href="https://ethanwalker2318-del.github.io/aurasite/product.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aura Global Merchants">
+<meta property="og:title" content="Produkt — Aura Global Merchants">
+<meta property="og:description" content="Produktdetails bei Aura Global Merchants — geprüfte Qualität, 14 Tage Widerrufsrecht, sichere Zahlung mit Stripe & 3D Secure.">
+<meta property="og:url" content="https://ethanwalker2318-del.github.io/aurasite/product.html">
+<meta property="og:locale" content="de_DE">
+<meta property="og:image" content="https://ethanwalker2318-del.github.io/aurasite/logo.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Produkt — Aura Global Merchants">
+<meta name="twitter:description" content="Produktdetails bei Aura Global Merchants — geprüfte Qualität, 14 Tage Widerrufsrecht, sichere Zahlung mit Stripe & 3D Secure.">
 <meta name="description" content="Produktdetails bei Aura Global Merchants — geprüfte Qualität, 14 Tage Widerrufsrecht, sichere Zahlung mit Stripe & 3D Secure.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,12 +52,13 @@ html{scrollbar-gutter:stable}
 </style>
 </head>
 <body class="font-sans bg-white text-navy antialiased overflow-x-hidden">
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:text-navy focus:font-bold focus:border-2 focus:border-navy">Zum Inhalt springen</a>
 
 <!-- TOP BAR -->
 <div class="bg-navy-dark text-center py-2 px-4"><p class="text-[11px] text-white/50 tracking-wide"><span data-i18n="top_bar">Kostenloser Versand ab €99 · 30 Tage Rückgaberecht</span> · <a href="/catalog.html" class="text-gold hover:underline">Aura Verified</a> <span data-i18n="guarantee">Garantie</span></p></div>
 
 <!-- HEADER -->
-<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
+<header role="banner" id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100 transition-shadow">
 <div class="max-w-[1400px] mx-auto flex items-center gap-4 lg:gap-8 px-4 lg:px-8 h-[60px]">
   <a href="/index.html" class="flex-shrink-0 flex items-center gap-2.5 group"><img src="/logo.svg" alt="Aura Global" class="w-9 h-9"><div class="hidden sm:block"><span class="block font-serif text-navy text-[15px] font-bold tracking-[0.08em] leading-none">AURA GLOBAL</span><span class="block text-[8px] text-gold font-semibold tracking-[0.22em] mt-0.5">MERCHANTS LTD.</span></div></a>
   <div class="flex-1 max-w-2xl relative"><div class="flex items-center border-2 border-gray-200 hover:border-navy focus-within:border-navy transition-colors bg-white"><i data-lucide="search" class="w-4 h-4 text-gray-400 ml-3 flex-shrink-0"></i><input type="text" data-i18n-ph="search_ph" placeholder="Suche nach Produkten, Marken, Kategorien..." class="w-full h-10 px-3 text-sm outline-none bg-transparent placeholder:text-gray-400" onkeydown="if(event.key==='Enter')window.location='/catalog.html?q='+encodeURIComponent(this.value)"></div></div>
@@ -58,7 +70,7 @@ html{scrollbar-gutter:stable}
     <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden w-10 h-10 flex items-center justify-center text-navy"><i data-lucide="menu" class="w-5 h-5"></i></button>
   </div>
 </div>
-<nav class="hidden lg:block border-t border-gray-100"><div class="max-w-[1400px] mx-auto px-8 flex items-center">
+<nav role="navigation" class="hidden lg:block border-t border-gray-100"><div class="max-w-[1400px] mx-auto px-8 flex items-center">
   <a href="/catalog.html" class="px-4 py-3 text-[13px] font-semibold text-navy hover:bg-gray-50 transition-colors" data-i18n="nav_all">Alle Produkte</a>
   <div class="nav-cat relative">
     <a href="/catalog.html?cat=electronics" class="px-4 py-3 text-[13px] text-gray-600 hover:text-navy hover:bg-gray-50 transition-colors inline-flex items-center gap-1"><span data-i18n="nav_electronics">Elektronik</span><i data-lucide="chevron-down" class="w-3 h-3"></i></a>
@@ -115,7 +127,7 @@ html{scrollbar-gutter:stable}
 <div class="absolute inset-0 bg-black/40" onclick="this.parentElement.classList.add('hidden')"></div>
 <div class="absolute left-0 top-0 bottom-0 w-[300px] bg-white overflow-y-auto">
   <div class="flex items-center justify-between p-4 border-b"><div class="flex items-center gap-2"><img src="/logo.svg" alt="" class="w-6 h-6"><span class="font-serif text-navy font-bold">AURA GLOBAL</span></div><button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
-  <nav class="p-4 space-y-1">
+  <nav role="navigation" class="p-4 space-y-1">
     <a href="/catalog.html" class="block py-3 px-3 text-sm font-semibold hover:bg-gray-50 rounded" data-i18n="nav_all">Alle Produkte</a>
     <a href="/catalog.html?cat=electronics" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_electronics">Elektronik</a>
     <a href="/catalog.html?cat=fashion" class="block py-3 px-3 text-sm hover:bg-gray-50 rounded" data-i18n="nav_fashion_long">Mode & Accessoires</a>
@@ -145,9 +157,9 @@ html{scrollbar-gutter:stable}
   </div>
 </div>
 
-<main class="max-w-[1400px] mx-auto px-4 lg:px-8 py-6 sm:py-8">
+<main id="main-content" role="main" class="max-w-[1400px] mx-auto px-4 lg:px-8 py-6 sm:py-8">
   <!-- Breadcrumb -->
-  <nav id="breadcrumb" class="flex items-center gap-2 text-xs text-gray-400 mb-6 sm:mb-8 flex-wrap"></nav>
+  <nav role="navigation" id="breadcrumb" class="flex items-center gap-2 text-xs text-gray-400 mb-6 sm:mb-8 flex-wrap"></nav>
 
   <div class="flex flex-col lg:flex-row gap-6 lg:gap-14">
 
@@ -373,7 +385,7 @@ html{scrollbar-gutter:stable}
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-navy-dark mt-16">
+<footer role="contentinfo" class="bg-navy-dark mt-16">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
   <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
     <div><div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div><p class="text-white/30 text-xs leading-relaxed"><span data-i18n="ft_desc">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</span></p></div>

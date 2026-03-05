@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin-hub.html
+Disallow: /login.html
+Disallow: /dashboard.html
+Disallow: /tracking.html
+
+Sitemap: https://ethanwalker2318-del.github.io/aurasite/sitemap.xml
