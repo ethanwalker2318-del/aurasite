@@ -140,7 +140,7 @@ html{scrollbar-gutter:stable}
     </div>
     <div class="flex items-center gap-4 flex-shrink-0">
       <span id="sticky-price" class="text-lg font-bold text-navy"></span>
-      <button onclick="addToCartPDP()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-[0.12em] transition-colors rounded-sm">IN DEN WARENKORB</button>
+      <button onclick="addToCartPDP()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-[0.12em] transition-colors rounded-sm" data-i18n="prd_add">IN DEN WARENKORB</button>
     </div>
   </div>
 </div>
@@ -214,9 +214,9 @@ html{scrollbar-gutter:stable}
           <i data-lucide="clock" class="w-4 h-4 text-gold flex-shrink-0"></i>
           <p class="text-[12px] sm:text-[13px] text-navy">
             <span class="ship-countdown font-semibold text-gold" id="countdown-timer">02:45:00</span>
-            <span class="text-gray-500"> — Bestellen Sie jetzt für Lieferung am</span>
+            <span class="text-gray-500"> — <span data-i18n="prd_order_now">Bestellen Sie jetzt für Lieferung am</span></span>
             <span class="font-semibold" id="delivery-date">Donnerstag</span>
-            <span class="text-gray-400 text-[11px]">(Berlin Hub)</span>
+            <span class="text-gray-400 text-[11px]" data-i18n="prd_hub">(Berlin Hub)</span>
           </p>
         </div>
       </div>
@@ -261,7 +261,7 @@ html{scrollbar-gutter:stable}
             <div class="w-6 h-6 bg-gold/10 rounded-full flex items-center justify-center">
               <svg class="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3 class="text-xs font-bold tracking-[0.15em] uppercase text-navy">Aura Prüfprotokoll</h3>
+            <h3 class="text-xs font-bold tracking-[0.15em] uppercase text-navy" data-i18n="prd_protocol">Aura Prüfprotokoll</h3>
             <span id="insp-score-badge" class="ml-auto px-2 py-0.5 text-[10px] font-bold border bg-green-50 text-green-700 border-green-200"></span>
           </div>
         </div>
@@ -275,27 +275,27 @@ html{scrollbar-gutter:stable}
 
   <!-- ══ "WAS IST IN DER BOX?" TRUST BLOCK ══ -->
   <div class="mt-10 sm:mt-12 max-w-4xl">
-    <h2 class="font-serif text-xl sm:text-2xl font-bold mb-5">Was ist in der Box?</h2>
+    <h2 class="font-serif text-xl sm:text-2xl font-bold mb-5" data-i18n="prd_whats_box">Was ist in der Box?</h2>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
         <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="package" class="w-5 h-5 text-navy/60"></i></div>
-        <p class="text-sm font-semibold text-navy" id="box-product">Originalprodukt</p>
-        <p class="text-[11px] text-gray-400 mt-1">Versiegelt & geprüft</p>
+        <p class="text-sm font-semibold text-navy" id="box-product" data-i18n="prd_box_product">Originalprodukt</p>
+        <p class="text-[11px] text-gray-400 mt-1" data-i18n="prd_box_sealed">Versiegelt & geprüft</p>
       </div>
       <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
         <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="file-text" class="w-5 h-5 text-navy/60"></i></div>
-        <p class="text-sm font-semibold text-navy">Aura Zertifikat</p>
-        <p class="text-[11px] text-gray-400 mt-1">Inspektionsprotokoll</p>
+        <p class="text-sm font-semibold text-navy" data-i18n="prd_box_cert">Aura Zertifikat</p>
+        <p class="text-[11px] text-gray-400 mt-1" data-i18n="prd_box_insp">Inspektionsprotokoll</p>
       </div>
       <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
         <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="shield-check" class="w-5 h-5 text-navy/60"></i></div>
-        <p class="text-sm font-semibold text-navy">Garantiekarte</p>
-        <p class="text-[11px] text-gray-400 mt-1">12 Monate Schutz</p>
+        <p class="text-sm font-semibold text-navy" data-i18n="prd_box_warranty">Garantiekarte</p>
+        <p class="text-[11px] text-gray-400 mt-1" data-i18n="prd_box_12m">12 Monate Schutz</p>
       </div>
       <div class="border border-gray-100 rounded-sm p-4 text-center hover:border-gold/30 transition-colors">
         <div class="w-10 h-10 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="undo-2" class="w-5 h-5 text-navy/60"></i></div>
-        <p class="text-sm font-semibold text-navy">Rücksendeetikett</p>
-        <p class="text-[11px] text-gray-400 mt-1">30-Tage-Rückgaberecht</p>
+        <p class="text-sm font-semibold text-navy" data-i18n="prd_box_return">Rücksendeetikett</p>
+        <p class="text-[11px] text-gray-400 mt-1" data-i18n="prd_box_30d">30-Tage-Rückgaberecht</p>
       </div>
     </div>
   </div>
@@ -303,9 +303,9 @@ html{scrollbar-gutter:stable}
   <!-- ══════════════ 6. TABS ══════════════ -->
   <div class="mt-14 sm:mt-20 border-t border-gray-100 pt-8">
     <div class="flex gap-0 border-b border-gray-100 mb-8 overflow-x-auto hide-scrollbar">
-      <button class="tab-btn active px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('desc',this)">Beschreibung</button>
-      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('specs',this)">Technische Daten</button>
-      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('shipping',this)">Versand & Rückgabe</button>
+      <button class="tab-btn active px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('desc',this)" data-i18n="prd_tab_desc">Beschreibung</button>
+      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('specs',this)" data-i18n="prd_tab_specs">Technische Daten</button>
+      <button class="tab-btn px-5 sm:px-8 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors" onclick="switchTab('shipping',this)" data-i18n="prd_tab_ship">Versand & Rückgabe</button>
     </div>
     <!-- Tab: Description -->
     <div id="tab-desc" class="tab-panel max-w-3xl">
@@ -323,22 +323,22 @@ html{scrollbar-gutter:stable}
         <div class="flex gap-4">
           <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="truck" class="w-5 h-5 text-blue-600"></i></div>
           <div>
-            <h4 class="text-sm font-bold text-navy">Versand aus Berlin / London</h4>
-            <p class="text-sm text-gray-500 mt-1">Alle Bestellungen werden aus unserem Berliner oder Londoner Lager versendet. Standard-Lieferung (3-5 Werktage) ist ab €99 kostenlos. Express-Versand (1-2 Werktage) für €9,90.</p>
+            <h4 class="text-sm font-bold text-navy" data-i18n="prd_ship_h">Versand aus Berlin / London</h4>
+            <p class="text-sm text-gray-500 mt-1" data-i18n="prd_ship_p">Alle Bestellungen werden aus unserem Berliner oder Londoner Lager versendet. Standard-Lieferung (3-5 Werktage) ist ab €99 kostenlos. Express-Versand (1-2 Werktage) für €9,90.</p>
           </div>
         </div>
         <div class="flex gap-4">
           <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="refresh-cw" class="w-5 h-5 text-green-600"></i></div>
           <div>
-            <h4 class="text-sm font-bold text-navy">30-Tage-Rückgaberecht</h4>
-            <p class="text-sm text-gray-500 mt-1">Rückgabe innerhalb von 30 Tagen möglich, wenn der Artikel nicht der Aura-Inspektionsbeschreibung entspricht. Kostenlose Rücksendung mit vorfrankiertem Etikett.</p>
+            <h4 class="text-sm font-bold text-navy" data-i18n="prd_ret_h">30-Tage-Rückgaberecht</h4>
+            <p class="text-sm text-gray-500 mt-1" data-i18n="prd_ret_p">Rückgabe innerhalb von 30 Tagen möglich, wenn der Artikel nicht der Aura-Inspektionsbeschreibung entspricht. Kostenlose Rücksendung mit vorfrankiertem Etikett.</p>
           </div>
         </div>
         <div class="flex gap-4">
           <div class="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="shield" class="w-5 h-5 text-gold"></i></div>
           <div>
-            <h4 class="text-sm font-bold text-navy">Aura Buyer Protection</h4>
-            <p class="text-sm text-gray-500 mt-1">Jeder Kauf ist durch unser Aura-Käuferschutzprogramm abgesichert. Bei Problemen erhalten Sie eine volle Erstattung oder einen Ersatz.</p>
+            <h4 class="text-sm font-bold text-navy" data-i18n="prd_prot_h">Aura Buyer Protection</h4>
+            <p class="text-sm text-gray-500 mt-1" data-i18n="prd_prot_p">Jeder Kauf ist durch unser Aura-Käuferschutzprogramm abgesichert. Bei Problemen erhalten Sie eine volle Erstattung oder einen Ersatz.</p>
           </div>
         </div>
       </div>
@@ -348,7 +348,7 @@ html{scrollbar-gutter:stable}
   <!-- ══ REVIEWS SECTION ══ -->
   <div class="mt-14 sm:mt-16 border-t border-gray-100 pt-8">
     <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-      <h2 class="font-serif text-xl sm:text-2xl font-bold">Kundenbewertungen</h2>
+      <h2 class="font-serif text-xl sm:text-2xl font-bold" data-i18n="prd_reviews">Kundenbewertungen</h2>
       <div class="flex items-center gap-3">
         <div id="avg-rating" class="flex items-center gap-2"></div>
 
@@ -376,10 +376,10 @@ html{scrollbar-gutter:stable}
 <footer class="bg-navy-dark mt-16">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
   <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-    <div><div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div><p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p></div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3><ul class="space-y-3"><li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white">Alle Produkte</a></li><li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white">Elektronik</a></li><li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white">Mode</a></li><li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white">Haus & Wohnen</a></li></ul></div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3><ul class="space-y-3"><li><a href="/contact.html" class="text-white/40 text-sm hover:text-white">Kontakt</a></li><li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white">Bestellung verfolgen</a></li><li><a href="/returns.html" class="text-white/40 text-sm hover:text-white">Rückgabe & Erstattung</a></li></ul></div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3><ul class="space-y-3"><li><a href="/story.html" class="text-white/40 text-sm hover:text-white">Unsere Geschichte</a></li><li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white">Nachhaltigkeit</a></li><li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white">Unsere Beschaffung</a></li><li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white">Karriere</a></li><li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white">Datenschutz</a></li><li><a href="/terms.html" class="text-white/40 text-sm hover:text-white">AGB</a></li><li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white">Impressum</a></li></ul><div class="mt-6 pt-5 border-t border-white/5"><p class="text-white/15 text-[11px]">Company No. 15847293</p></div></div>
+    <div><div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div><p class="text-white/30 text-xs leading-relaxed"><span data-i18n="ft_desc">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</span></p></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_cat">Kategorien</span></h3><ul class="space-y-3"><li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white">Alle Produkte</a></li><li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white">Elektronik</a></li><li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white">Mode</a></li><li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white">Haus & Wohnen</a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_svc">Kundendienst</span></h3><ul class="space-y-3"><li><a href="/contact.html" class="text-white/40 text-sm hover:text-white">Kontakt</a></li><li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white">Bestellung verfolgen</a></li><li><a href="/returns.html" class="text-white/40 text-sm hover:text-white">Rückgabe & Erstattung</a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_co">Unternehmen</span></h3><ul class="space-y-3"><li><a href="/story.html" class="text-white/40 text-sm hover:text-white">Unsere Geschichte</a></li><li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white">Nachhaltigkeit</a></li><li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white">Unsere Beschaffung</a></li><li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white">Karriere</a></li><li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white">Datenschutz</a></li><li><a href="/terms.html" class="text-white/40 text-sm hover:text-white">AGB</a></li><li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white">Impressum</a></li></ul><div class="mt-6 pt-5 border-t border-white/5"><p class="text-white/15 text-[11px]">Company No. 15847293</p></div></div>
   </div>
   <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4"><p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p><div class="flex items-center gap-1.5 flex-wrap"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
       <span class="mx-1 text-white/10">|</span>
@@ -484,7 +484,7 @@ galleryPhotos.forEach(function(gUrl){
   galleryViews.push(function(){ galleryBase.innerHTML='<img src="'+gUrl+'" alt="" class="w-full h-full object-contain p-4">'; });
 });
 // N+1: seal
-galleryViews.push(function(){ galleryBase.innerHTML='<div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-4 p-8"><div class="w-24 h-24 border-2 border-gold/30 rounded-full flex items-center justify-center"><svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-center"><p class="font-serif text-lg font-bold text-navy">Aura Qualitätssiegel</p><p class="text-xs text-gray-400 mt-1 max-w-xs">Jedes Produkt wird mit einer Aura-Prüfplombe versiegelt. Ihr Zeichen der Authentizität.</p></div><div class="flex items-center gap-2 mt-2"><div class="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center"><svg class="w-3 h-3 text-gold" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><span class="text-xs font-medium text-navy">Geprüft & versiegelt im Londoner Lager</span></div></div>';});
+galleryViews.push(function(){ galleryBase.innerHTML='<div class="w-full h-full bg-gold/5 flex flex-col items-center justify-center gap-4 p-8"><div class="w-24 h-24 border-2 border-gold/30 rounded-full flex items-center justify-center"><svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-center"><p class="font-serif text-lg font-bold text-navy">'+Aura.t('prd_seal_title')+'</p><p class="text-xs text-gray-400 mt-1 max-w-xs">'+Aura.t('prd_seal_desc')+'</p></div><div class="flex items-center gap-2 mt-2"><div class="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center"><svg class="w-3 h-3 text-gold" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><span class="text-xs font-medium text-navy">'+Aura.t('prd_seal_verified')+'</span></div></div>';});
 
 window.switchGallery=function(idx){
   if(galleryViews[idx]) galleryViews[idx]();
@@ -568,14 +568,14 @@ document.getElementById('p-brand').textContent=product.brand;
 document.getElementById('p-name').textContent=product.name;
 
 /* ── Rating ── */
-document.getElementById('p-rating').innerHTML=Aura.starsHtml(product.rating||4.5)+'<span class="text-sm font-medium text-navy">'+product.rating+'</span><span class="text-sm text-gray-400">('+product.reviews+' Bewertungen)</span>';
+document.getElementById('p-rating').innerHTML=Aura.starsHtml(product.rating||4.5)+'<span class="text-sm font-medium text-navy">'+product.rating+'</span><span class="text-sm text-gray-400">('+product.reviews+' '+Aura.t('prd_reviews_w')+')</span>';
 
 /* ── Condition Badge (auto from video) ── */
 var bdg=Aura.getProductBadge(product);
 var isVerified=!!product.videoUrl;
 if(!isVerified){
-  document.getElementById('cond-label').textContent='Originalware';
-  document.getElementById('cond-desc').textContent='Manuell kontrolliert und gepr\u00fcft. Schneller Versand aus dem Hub.';
+  document.getElementById('cond-label').textContent=Aura.t('prd_cond_orig');
+  document.getElementById('cond-desc').textContent=Aura.t('prd_cond_orig_d');
   document.getElementById('condition-tag').classList.remove('border-emerald-200','bg-emerald-50/50');
   document.getElementById('condition-tag').classList.add('border-gray-200','bg-gray-50');
   var condIcon=document.getElementById('condition-tag').querySelector('.bg-emerald-100');
@@ -585,8 +585,8 @@ if(!isVerified){
   var condLbl=document.getElementById('cond-label');
   if(condLbl){condLbl.classList.remove('text-emerald-700');condLbl.classList.add('text-navy');}
 } else {
-  document.getElementById('cond-label').textContent='Gepr\u00fcft';
-  document.getElementById('cond-desc').textContent='Manuell kontrolliert mit Video-Inspektion. 100% Original.';
+  document.getElementById('cond-label').textContent=Aura.t('prd_cond_verified');
+  document.getElementById('cond-desc').textContent=Aura.t('prd_cond_verified_d');
 }
 
 /* ── Price + Savings ── */
@@ -595,7 +595,7 @@ if(product.oldPrice && product.oldPrice>product.price){
   document.getElementById('p-old').textContent=Aura.formatPrice(product.oldPrice);
   var savingAmt=product.oldPrice-product.price;
   var savingPct=Math.round(savingAmt/product.oldPrice*100);
-  document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(savingAmt)+' ('+savingPct+'%)';
+  document.getElementById('saving-text').textContent=Aura.t('prd_saving')+' '+Aura.formatPrice(savingAmt)+' ('+savingPct+'%)';
   document.getElementById('p-saving').classList.remove('hidden');
 }
 
@@ -625,7 +625,7 @@ window.selectVariant=function(btn,delta){
     var sav=product.oldPrice-(product.price+delta);
     if(sav>0){
       var pct=Math.round(sav/product.oldPrice*100);
-      document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(sav)+' ('+pct+'%)';
+      document.getElementById('saving-text').textContent=Aura.t('prd_saving')+' '+Aura.formatPrice(sav)+' ('+pct+'%)';
       document.getElementById('p-saving').classList.remove('hidden');
     } else { document.getElementById('p-saving').classList.add('hidden'); }
   }
@@ -639,7 +639,7 @@ function updateCountdown(){
   var diff=end-now;
   var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
   document.getElementById('countdown-timer').textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-  var days=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  var days=[Aura.t('day_sun'),Aura.t('day_mon'),Aura.t('day_tue'),Aura.t('day_wed'),Aura.t('day_thu'),Aura.t('day_fri'),Aura.t('day_sat')];
   var delDay=new Date(now.getTime()+3*86400000);
   if(delDay.getDay()===0) delDay=new Date(delDay.getTime()+86400000);
   if(delDay.getDay()===6) delDay=new Date(delDay.getTime()+2*86400000);
@@ -650,13 +650,13 @@ setInterval(updateCountdown,1000);
 
 /* ── Stock hint with urgency ── */
 if(product.stock<=3){
-  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-bold animate-pulse">⚠ Nur noch '+product.stock+' Stück!</span>';
+  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-bold animate-pulse">\u26a0 '+Aura.t('prd_stock_low').replace('{n}',product.stock)+'</span>';
 } else if(product.stock<=5){
-  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-medium">Nur noch '+product.stock+' verfügbar!</span>';
+  document.getElementById('stock-hint').innerHTML='<span class="text-red-500 font-medium">'+Aura.t('prd_stock_low').replace('{n}',product.stock)+'</span>';
 } else if(product.stock<=15){
-  document.getElementById('stock-hint').innerHTML='<span class="text-orange-500 font-medium">Noch '+product.stock+' auf Lager</span>';
+  document.getElementById('stock-hint').innerHTML='<span class="text-orange-500 font-medium">'+Aura.t('prd_stock_avail').replace('{n}',product.stock)+'</span>';
 } else {
-  document.getElementById('stock-hint').textContent=''+product.stock+' auf Lager';
+  document.getElementById('stock-hint').textContent=product.stock+' '+Aura.t('prd_in_stock');
 }
 
 /* ── Sourcing & Inspection Protocol (dynamic) ── */
@@ -667,7 +667,7 @@ var iScore=(insp.authentic?1:0)+(insp.functional?1:0)+(insp.sealed?1:0);
 // Score badge
 var iscBadge=document.getElementById('insp-score-badge');
 if(iscBadge){
-  iscBadge.textContent='Protokoll: '+iScore+'/3 bestanden';
+  iscBadge.textContent=Aura.t('prd_proto_score').replace('{n}',iScore);
   if(iScore===3){iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-green-50 text-green-700 border-green-200';}
   else if(iScore>=2){iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-yellow-50 text-yellow-700 border-yellow-200';}
   else{iscBadge.className='ml-auto px-2 py-0.5 text-[10px] font-bold border bg-red-50 text-red-700 border-red-200';}
@@ -679,19 +679,19 @@ var checkSvg='<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentCol
 var failSvg='<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>';
 
 protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.authentic?'bg-green-50':'bg-red-50')+'">'+(insp.authentic?checkSvg:failSvg)+'</div><div><p class="text-sm font-semibold text-navy">Authentizität</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.authentic?'Seriennummer beim Hersteller verifiziert.':'Authentizität konnte nicht vollständig bestätigt werden.')+'</p></div></div>';
-protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.functional?'bg-blue-50':'bg-red-50')+'">'+(insp.functional?'<svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">Funktionalität</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.functional?'Batterie, Sensoren & Display vollständig getestet.':'Funktionstest ausstehend oder teilweise bestanden.')+'</p></div></div>';
-protItems+='<div class="protocol-item"><div class="protocol-icon bg-purple-50"><svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div><p class="text-sm font-semibold text-navy">Beschaffung</p><p id="sourcing-text" class="text-[11px] text-gray-500 mt-0.5">Direkt aus '+shop+' bezogen & in London geprüft.</p></div></div>';
-protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.sealed?'bg-gold/10':'bg-red-50')+'">'+(insp.sealed?'<svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">'+(insp.sealed?'Versiegelt & Garantie':'Garantie')+'</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.sealed?'Versiegelt mit Aura Seal. 12 Monate Garantie.':'12 Monate Garantie (ohne Originalversiegelung).')+'</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.functional?'bg-blue-50':'bg-red-50')+'">'+(insp.functional?'<svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">'+Aura.t('prd_insp_func')+'</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.functional?Aura.t('prd_insp_func_y'):Aura.t('prd_insp_func_n'))+'</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon bg-purple-50"><svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div><p class="text-sm font-semibold text-navy">'+Aura.t('prd_insp_source')+'</p><p id="sourcing-text" class="text-[11px] text-gray-500 mt-0.5">'+Aura.t('prd_insp_source_d').replace('{shop}',shop)+'</p></div></div>';
+protItems+='<div class="protocol-item"><div class="protocol-icon '+(insp.sealed?'bg-gold/10':'bg-red-50')+'">'+(insp.sealed?'<svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>':failSvg)+'</div><div><p class="text-sm font-semibold text-navy">'+(insp.sealed?Aura.t('prd_insp_seal'):Aura.t('prd_insp_warranty'))+'</p><p class="text-[11px] text-gray-500 mt-0.5">'+(insp.sealed?Aura.t('prd_insp_seal_y'):Aura.t('prd_insp_seal_n'))+'</p></div></div>';
 
 document.getElementById('protocol-items').innerHTML=protItems;
 
 /* ── Description tab ── */
 var descHtml='<p>'+product.desc+'</p>';
-descHtml+='<div class="mt-6 p-4 bg-gray-50 border border-gray-100 rounded-sm"><div class="flex items-center gap-2 mb-3"><div class="w-7 h-7 bg-gold/10 rounded-full flex items-center justify-center"><svg class="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="text-xs font-bold tracking-wide uppercase text-navy">Warum Aura Global?</span></div>';
-descHtml+='<ul class="space-y-2 text-sm text-gray-600"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Jedes Produkt durchläuft unser 47-Punkte-Inspektionsprotokoll</li>';
-descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Bezogen von autorisierten Händlern ('+ shop +')</li>';
-descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>12 Monate Aura-Garantie inklusive</li>';
-descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Kostenloser Versand & 30-Tage-Rückgabe</li></ul></div>';
+descHtml+='<div class="mt-6 p-4 bg-gray-50 border border-gray-100 rounded-sm"><div class="flex items-center gap-2 mb-3"><div class="w-7 h-7 bg-gold/10 rounded-full flex items-center justify-center"><svg class="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="text-xs font-bold tracking-wide uppercase text-navy">'+Aura.t('prd_why_aura')+'</span></div>';
+descHtml+='<ul class="space-y-2 text-sm text-gray-600"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>'+Aura.t('prd_why_1')+'</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>'+Aura.t('prd_why_2').replace('{shop}',shop)+'</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>'+Aura.t('prd_why_3')+'</li>';
+descHtml+='<li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>'+Aura.t('prd_why_4')+'</li></ul></div>';
 document.getElementById('tab-desc-content').innerHTML=descHtml;
 
 /* ── Specs table ── */
@@ -913,7 +913,7 @@ document.addEventListener('locale-change',function(){
   if(product.oldPrice && product.oldPrice>product.price){
     var sav=product.oldPrice-(product.price+priceOffset);
     if(sav>0){
-      document.getElementById('saving-text').textContent='Sie sparen: '+Aura.formatPrice(sav)+' ('+Math.round(sav/product.oldPrice*100)+'%)';
+      document.getElementById('saving-text').textContent=Aura.t('prd_saving')+' '+Aura.formatPrice(sav)+' ('+Math.round(sav/product.oldPrice*100)+'%)';
     }
   }
   document.querySelector('#specs-table tbody').innerHTML=buildSpecs().map(function(r){return '<tr class="border-b border-gray-50 hover:bg-gray-50/50"><td class="py-3 pr-6 text-gray-400 w-[40%]">'+r[0]+'</td><td class="py-3 font-medium">'+r[1]+'</td></tr>';}).join('');

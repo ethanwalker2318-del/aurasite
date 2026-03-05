@@ -166,7 +166,7 @@
           <div class="flex flex-col items-start sm:items-end gap-2.5">
             <div class="flex items-center gap-2 text-white/40 text-xs">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              <span>Mitglied seit <span id="d-member-since" class="text-white/60 font-medium"></span></span>
+              <span><span data-i18n="ds_member_since">Mitglied seit</span> <span id="d-member-since" class="text-white/60 font-medium"></span></span>
             </div>
             <button onclick="Aura.logout();window.location='/login.html'" class="px-4 py-2 border border-white/10 hover:border-red-400/40 hover:text-red-400 text-white/50 text-xs font-medium transition-colors flex items-center gap-2 rounded-lg">
               <i data-lucide="log-out" class="w-3.5 h-3.5"></i><span data-i18n="ds_logout">Abmelden</span>
@@ -182,28 +182,28 @@
       <div class="lg:w-[260px] flex-shrink-0">
         <nav class="bg-white border border-gray-100 rounded-xl overflow-hidden lg:sticky lg:top-[80px]">
           <button onclick="showDashTab('orders')" id="dt-orders" class="dash-nav-btn active w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="package" class="w-4.5 h-4.5"></i><span>Meine Bestellungen</span>
+            <i data-lucide="package" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_orders">Meine Bestellungen</span>
           </button>
           <button onclick="showDashTab('profile')" id="dt-profile" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="user" class="w-4.5 h-4.5"></i><span>Persönliche Daten</span>
+            <i data-lucide="user" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_profile">Persönliche Daten</span>
           </button>
           <button onclick="showDashTab('addresses')" id="dt-addresses" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="map-pin" class="w-4.5 h-4.5"></i><span>Adressen</span>
+            <i data-lucide="map-pin" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_addr">Adressen</span>
           </button>
           <button onclick="showDashTab('wishlist')" id="dt-wishlist" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="heart" class="w-4.5 h-4.5"></i><span>Wunschliste</span><span id="wishlist-count" class="ml-auto text-[10px] bg-gold/10 text-gold font-bold px-2 py-0.5 rounded-full"></span>
+            <i data-lucide="heart" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_wish">Wunschliste</span><span id="wishlist-count" class="ml-auto text-[10px] bg-gold/10 text-gold font-bold px-2 py-0.5 rounded-full"></span>
           </button>
           <button onclick="showDashTab('payments')" id="dt-payments" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="credit-card" class="w-4.5 h-4.5"></i><span>Zahlungsmethoden</span>
+            <i data-lucide="credit-card" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_pay">Zahlungsmethoden</span>
           </button>
           <button onclick="showDashTab('notifications')" id="dt-notifications" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="bell" class="w-4.5 h-4.5"></i><span>Benachrichtigungen</span>
+            <i data-lucide="bell" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_notif">Benachrichtigungen</span>
           </button>
           <button onclick="showDashTab('security')" id="dt-security" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="shield" class="w-4.5 h-4.5"></i><span>Sicherheit</span>
+            <i data-lucide="shield" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_sec">Sicherheit</span>
           </button>
           <button onclick="showDashTab('settings')" id="dt-settings" class="dash-nav-btn w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-left border-l-2 border-transparent hover:bg-gray-50 transition-colors">
-            <i data-lucide="settings" class="w-4.5 h-4.5"></i><span>Kontoeinstellungen</span>
+            <i data-lucide="settings" class="w-4.5 h-4.5"></i><span data-i18n="ds_nav_set">Kontoeinstellungen</span>
           </button>
         </nav>
       </div>
@@ -226,17 +226,17 @@
       <div class="max-w-2xl space-y-6">
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-gold"></i>Persönliche Daten</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-gold"></i><span data-i18n="ds_nav_profile">Persönliche Daten</span></h3>
           </div>
           <div class="p-6 space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vorname</label><input type="text" id="set-firstname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
-              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Nachname</label><input type="text" id="set-lastname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_fname">Vorname</label><input type="text" id="set-firstname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+              <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_lname">Nachname</label><input type="text" id="set-lastname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
             </div>
             <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_email">E-Mail</label><input type="email" id="set-email" class="w-full h-11 px-4 border-2 border-gray-200 bg-gray-50 text-gray-400 outline-none text-sm rounded-lg" disabled></div>
             <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_phone">Telefon</label><input type="tel" id="set-phone" placeholder="+49 123 456 789" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Geburtsdatum</label><input type="date" id="set-dob" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Sprache</label>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_dob">Geburtsdatum</label><input type="date" id="set-dob" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_lang">Sprache</label>
               <select id="set-lang" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm transition-colors rounded-lg bg-white">
                 <option value="de">🇩🇪 Deutsch</option>
                 <option value="en">🇬🇧 English</option>
@@ -244,7 +244,7 @@
             </div>
           </div>
           <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
-            <button onclick="saveProfile()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+            <button onclick="saveProfile()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg" data-i18n="ds_save">SPEICHERN</button>
           </div>
         </div>
       </div>
@@ -254,14 +254,14 @@
     <div id="dtab-addresses" class="hidden">
       <div class="max-w-2xl space-y-6">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-gold"></i>Gespeicherte Adressen</h3>
-          <button onclick="addAddress()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i>Neue Adresse</button>
+          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-gold"></i><span data-i18n="ds_addr_h">Gespeicherte Adressen</span></h3>
+          <button onclick="addAddress()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span data-i18n="ds_addr_new">Neue Adresse</span></button>
         </div>
         <div id="addresses-list" class="space-y-4"></div>
         <div id="addresses-empty" class="text-center py-12 border-2 border-dashed border-gray-200 rounded-xl" style="display:none">
           <i data-lucide="map-pin-off" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
-          <p class="text-gray-400 text-sm mb-1">Keine Adressen gespeichert</p>
-          <p class="text-gray-300 text-xs">Fügen Sie eine Lieferadresse hinzu für schnelleres Bestellen</p>
+          <p class="text-gray-400 text-sm mb-1" data-i18n="ds_addr_empty">Keine Adressen gespeichert</p>
+          <p class="text-gray-300 text-xs" data-i18n="ds_addr_empty_d">Fügen Sie eine Lieferadresse hinzu für schnelleres Bestellen</p>
         </div>
       </div>
       <!-- Address Form Modal -->
@@ -273,15 +273,15 @@
         <div class="p-6 space-y-4">
           <input type="hidden" id="addr-id" value="">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Vorname</label><input type="text" id="addr-fname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Nachname</label><input type="text" id="addr-lname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_fname">Vorname</label><input type="text" id="addr-fname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_lname">Nachname</label><input type="text" id="addr-lname" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
           </div>
-          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Straße & Hausnummer</label><input type="text" id="addr-street" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Adresszusatz</label><input type="text" id="addr-extra" placeholder="Apartment, Etage, etc." class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_street">Straße & Hausnummer</label><input type="text" id="addr-street" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+          <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_addr_extra">Adresszusatz</label><input type="text" id="addr-extra" placeholder="Apartment, Etage, etc." class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">PLZ</label><input type="text" id="addr-zip" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Stadt</label><input type="text" id="addr-city" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Land</label>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_zip">PLZ</label><input type="text" id="addr-zip" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_city">Stadt</label><input type="text" id="addr-city" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_country">Land</label>
               <select id="addr-country" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg bg-white">
                 <option value="DE">🇩🇪 Deutschland</option>
                 <option value="AT">🇦🇹 Österreich</option>
@@ -291,11 +291,11 @@
               </select>
             </div>
           </div>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="addr-default" class="accent-navy w-4 h-4"><span class="text-sm text-gray-600">Als Standardadresse verwenden</span></label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="addr-default" class="accent-navy w-4 h-4"><span class="text-sm text-gray-600" data-i18n="ds_addr_default">Als Standardadresse verwenden</span></label>
         </div>
         <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3">
-          <button onclick="saveAddress()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
-          <button onclick="cancelAddress()" class="px-4 py-2.5 border border-gray-200 text-gray-500 text-sm font-medium rounded-lg hover:border-navy transition-colors">ABBRECHEN</button>
+          <button onclick="saveAddress()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg" data-i18n="ds_save">SPEICHERN</button>
+          <button onclick="cancelAddress()" class="px-4 py-2.5 border border-gray-200 text-gray-500 text-sm font-medium rounded-lg hover:border-navy transition-colors" data-i18n="ds_cancel">ABBRECHEN</button>
         </div>
       </div>
     </div>
@@ -303,14 +303,14 @@
     <!-- WISHLIST -->
     <div id="dtab-wishlist" class="hidden">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="heart" class="w-4 h-4 text-gold"></i>Meine Wunschliste</h3>
+        <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="heart" class="w-4 h-4 text-gold"></i><span data-i18n="ds_wish_h">Meine Wunschliste</span></h3>
       </div>
       <div id="wishlist-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
       <div id="wishlist-empty" class="text-center py-12 border-2 border-dashed border-gray-200 rounded-xl" style="display:none">
         <i data-lucide="heart" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
-        <p class="text-gray-400 text-sm mb-1">Ihre Wunschliste ist leer</p>
-        <p class="text-gray-300 text-xs mb-4">Speichern Sie Ihre Lieblingsprodukte</p>
-        <a href="/catalog.html" class="px-6 py-2.5 bg-navy text-white text-xs font-bold tracking-wider rounded-lg">PRODUKTE ENTDECKEN</a>
+        <p class="text-gray-400 text-sm mb-1" data-i18n="ds_wish_empty">Ihre Wunschliste ist leer</p>
+        <p class="text-gray-300 text-xs mb-4" data-i18n="ds_wish_empty_d">Speichern Sie Ihre Lieblingsprodukte</p>
+        <a href="/catalog.html" class="px-6 py-2.5 bg-navy text-white text-xs font-bold tracking-wider rounded-lg" data-i18n="ds_wish_browse">PRODUKTE ENTDECKEN</a>
       </div>
     </div>
 
@@ -318,13 +318,13 @@
     <div id="dtab-payments" class="hidden">
       <div class="max-w-2xl space-y-6">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="credit-card" class="w-4 h-4 text-gold"></i>Zahlungsmethoden</h3>
-          <button onclick="openPaymentForm()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i>Hinzufügen</button>
+          <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="credit-card" class="w-4 h-4 text-gold"></i><span data-i18n="ds_nav_pay">Zahlungsmethoden</span></h3>
+          <button onclick="openPaymentForm()" class="px-4 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span data-i18n="ds_pay_add">Hinzufügen</span></button>
         </div>
         <div id="payments-list" class="space-y-3"></div>
         <div id="payments-empty" class="text-center py-10 hidden">
           <i data-lucide="credit-card" class="w-10 h-10 text-gray-200 mx-auto mb-3"></i>
-          <p class="text-sm text-gray-400">Keine Zahlungsmethoden hinterlegt</p>
+          <p class="text-sm text-gray-400" data-i18n="ds_pay_empty">Keine Zahlungsmethoden hinterlegt</p>
         </div>
         <!-- Payment Form (hidden by default) -->
         <div id="payment-form" class="hidden border border-gray-200 rounded-xl overflow-hidden">
@@ -335,7 +335,7 @@
           <div class="p-6 space-y-4">
             <input type="hidden" id="pay-edit-idx" value="">
             <div>
-              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Typ</label>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_pay_type">Typ</label>
               <select id="pay-type" onchange="onPayTypeChange()" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg bg-white">
                 <option value="visa">VISA</option>
                 <option value="mastercard">Mastercard</option>
@@ -344,31 +344,31 @@
                 <option value="applepay">Apple Pay</option>
                 <option value="googlepay">Google Pay</option>
                 <option value="klarna">Klarna</option>
-                <option value="sepa">SEPA Lastschrift</option>
+                <option value="sepa"><span data-i18n="ds_pay_sepa">SEPA Lastschrift</span></option>
               </select>
             </div>
             <div id="pay-card-fields">
               <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Karteninhaber</label><input type="text" id="pay-holder" placeholder="Max Mustermann" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Kartennummer (letzte 4)</label><input type="text" id="pay-last4" maxlength="4" placeholder="4242" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
-                <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Ablaufdatum</label><input type="text" id="pay-exp" placeholder="MM/YY" maxlength="5" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
+                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_pay_holder">Karteninhaber</label><input type="text" id="pay-holder" placeholder="Max Mustermann" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+                <div class="col-span-2"><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_pay_last4">Kartennummer (letzte 4)</label><input type="text" id="pay-last4" maxlength="4" placeholder="4242" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
+                <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_pay_exp">Ablaufdatum</label><input type="text" id="pay-exp" placeholder="MM/YY" maxlength="5" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg font-mono"></div>
               </div>
             </div>
             <div id="pay-email-field" class="hidden">
-              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">E-Mail / Konto</label>
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_pay_email">E-Mail / Konto</label>
               <input type="text" id="pay-email" placeholder="email@example.com" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg">
             </div>
-            <label class="flex items-center gap-2 mt-2 cursor-pointer"><input type="checkbox" id="pay-default" class="w-4 h-4 accent-navy"><span class="text-sm">Als Standard festlegen</span></label>
+            <label class="flex items-center gap-2 mt-2 cursor-pointer"><input type="checkbox" id="pay-default" class="w-4 h-4 accent-navy"><span class="text-sm" data-i18n="ds_pay_default">Als Standard festlegen</span></label>
           </div>
           <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3">
-            <button onclick="savePaymentForm()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
-            <button onclick="closePaymentForm()" class="px-6 py-2.5 border border-gray-200 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Abbrechen</button>
+            <button onclick="savePaymentForm()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg" data-i18n="ds_save">SPEICHERN</button>
+            <button onclick="closePaymentForm()" class="px-6 py-2.5 border border-gray-200 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors" data-i18n="ds_cancel_lc">Abbrechen</button>
           </div>
         </div>
         <div class="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
           <div class="flex items-start gap-3">
             <i data-lucide="info" class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></i>
-            <p class="text-xs text-blue-600 leading-relaxed">Ihre Zahlungsdaten werden sicher verschlüsselt gespeichert. Wir verwenden SSL/TLS-Verschlüsselung und sind PCI-DSS-zertifiziert.</p>
+            <p class="text-xs text-blue-600 leading-relaxed" data-i18n="ds_pay_info">Ihre Zahlungsdaten werden sicher verschlüsselt gespeichert. Wir verwenden SSL/TLS-Verschlüsselung und sind PCI-DSS-zertifiziert.</p>
           </div>
         </div>
       </div>
@@ -379,32 +379,32 @@
       <div class="max-w-2xl space-y-6">
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="bell" class="w-4 h-4 text-gold"></i>Benachrichtigungseinstellungen</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="bell" class="w-4 h-4 text-gold"></i><span data-i18n="ds_notif_h">Benachrichtigungseinstellungen</span></h3>
           </div>
           <div class="divide-y divide-gray-50">
             <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div><p class="text-sm font-medium">Bestellstatus</p><p class="text-xs text-gray-400 mt-0.5">Updates zu Ihren Bestellungen per E-Mail</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_notif_orders">Bestellstatus</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_notif_orders_d">Updates zu Ihren Bestellungen per E-Mail</p></div>
               <div class="relative"><input type="checkbox" id="notif-orders" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </label>
             <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div><p class="text-sm font-medium">Angebote & Aktionen</p><p class="text-xs text-gray-400 mt-0.5">Exklusive Deals und Sales direkt per E-Mail</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_notif_deals">Angebote & Aktionen</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_notif_deals_d">Exklusive Deals und Sales direkt per E-Mail</p></div>
               <div class="relative"><input type="checkbox" id="notif-deals" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </label>
             <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div><p class="text-sm font-medium">Preisalarme</p><p class="text-xs text-gray-400 mt-0.5">Benachrichtigung bei Preisnachlässen auf Wunschliste</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_notif_price">Preisalarme</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_notif_price_d">Benachrichtigung bei Preisnachlässen auf Wunschliste</p></div>
               <div class="relative"><input type="checkbox" id="notif-price" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </label>
             <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div><p class="text-sm font-medium">Newsletter</p><p class="text-xs text-gray-400 mt-0.5">Wöchentliche Neuheiten und Empfehlungen</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_notif_news">Newsletter</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_notif_news_d">Wöchentliche Neuheiten und Empfehlungen</p></div>
               <div class="relative"><input type="checkbox" id="notif-news" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </label>
             <label class="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div><p class="text-sm font-medium">Push-Benachrichtigungen</p><p class="text-xs text-gray-400 mt-0.5">Browser-Benachrichtigungen für wichtige Updates</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_notif_push">Push-Benachrichtigungen</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_notif_push_d">Browser-Benachrichtigungen für wichtige Updates</p></div>
               <div class="relative"><input type="checkbox" id="notif-push" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-navy transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </label>
           </div>
           <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
-            <button onclick="saveNotifications()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">SPEICHERN</button>
+            <button onclick="saveNotifications()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg" data-i18n="ds_save">SPEICHERN</button>
           </div>
         </div>
       </div>
@@ -415,37 +415,37 @@
       <div class="max-w-2xl space-y-6">
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-gold"></i>Passwort ändern</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-gold"></i><span data-i18n="ds_sec_pw_h">Passwort ändern</span></h3>
           </div>
           <div class="p-6 space-y-4">
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Aktuelles Passwort</label><input type="password" id="sec-current-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Neues Passwort</label><input type="password" id="sec-new-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
-            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Passwort bestätigen</label><input type="password" id="sec-confirm-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_sec_cur">Aktuelles Passwort</label><input type="password" id="sec-current-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_sec_new">Neues Passwort</label><input type="password" id="sec-new-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
+            <div><label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ds_sec_confirm">Passwort bestätigen</label><input type="password" id="sec-confirm-pw" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm rounded-lg"></div>
           </div>
           <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
-            <button onclick="changePassword()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg">PASSWORT ÄNDERN</button>
+            <button onclick="changePassword()" class="px-6 py-2.5 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider transition-colors rounded-lg" data-i18n="ds_sec_pwchange">PASSWORT ÄNDERN</button>
           </div>
         </div>
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-gold"></i>Zwei-Faktor-Authentifizierung</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-gold"></i><span data-i18n="ds_sec_2fa_h">Zwei-Faktor-Authentifizierung</span></h3>
           </div>
           <div class="p-6">
             <div class="flex items-center justify-between">
-              <div><p class="text-sm font-medium">2FA Status</p><p class="text-xs text-gray-400 mt-0.5">Erhöhen Sie die Sicherheit mit einer zusätzlichen Verifizierung</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_sec_2fa">2FA Status</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_sec_2fa_d">Erhöhen Sie die Sicherheit mit einer zusätzlichen Verifizierung</p></div>
               <div class="relative"><input type="checkbox" id="sec-2fa" class="sr-only peer" onchange="toggle2FA(this.checked)"><div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-emerald-500 transition-colors"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div></div>
             </div>
           </div>
         </div>
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="monitor" class="w-4 h-4 text-gold"></i>Aktive Sitzungen</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="monitor" class="w-4 h-4 text-gold"></i><span data-i18n="ds_sec_sessions">Aktive Sitzungen</span></h3>
           </div>
           <div class="divide-y divide-gray-50">
             <div class="p-5 flex items-center gap-4">
               <div class="w-10 h-10 bg-navy/5 rounded-lg flex items-center justify-center"><i data-lucide="monitor" class="w-5 h-5 text-navy"></i></div>
-              <div class="flex-1"><p class="text-sm font-medium">Dieser Browser</p><p class="text-xs text-gray-400">Windows · Chrome · Berlin, DE</p></div>
-              <span class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded">Aktiv</span>
+              <div class="flex-1"><p class="text-sm font-medium" data-i18n="ds_sec_this">Dieser Browser</p><p class="text-xs text-gray-400">Windows · Chrome · Berlin, DE</p></div>
+              <span class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded" data-i18n="ds_sec_active">Aktiv</span>
             </div>
           </div>
         </div>
@@ -457,20 +457,20 @@
       <div class="max-w-2xl space-y-6">
         <div class="border border-gray-100 rounded-xl overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
-            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-gold"></i>Kontoeinstellungen</h3>
+            <h3 class="font-semibold text-navy flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-gold"></i><span data-i18n="ds_nav_set">Kontoeinstellungen</span></h3>
           </div>
           <div class="divide-y divide-gray-50">
             <div class="p-5 flex items-center justify-between">
-              <div><p class="text-sm font-medium">Konto-ID</p><p class="text-xs text-gray-400 mt-0.5" id="set-account-id">—</p></div>
-              <button onclick="navigator.clipboard.writeText(document.getElementById('set-account-id').textContent);Aura.showToast('Kopiert','success')" class="text-xs text-navy hover:underline">Kopieren</button>
+              <div><p class="text-sm font-medium" data-i18n="ds_set_id">Konto-ID</p><p class="text-xs text-gray-400 mt-0.5" id="set-account-id">—</p></div>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('set-account-id').textContent);Aura.showToast(Aura.t('ds_t_copied'),'success')" class="text-xs text-navy hover:underline" data-i18n="ds_set_copy">Kopieren</button>
             </div>
             <div class="p-5 flex items-center justify-between">
-              <div><p class="text-sm font-medium">Mitgliedschaft</p><p class="text-xs text-gray-400 mt-0.5">Aura Standard</p></div>
+              <div><p class="text-sm font-medium" data-i18n="ds_set_member">Mitgliedschaft</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_set_member_v">Aura Standard</p></div>
               <span class="px-2.5 py-1 text-[10px] font-bold bg-gold/10 text-gold rounded">STANDARD</span>
             </div>
             <div class="p-5 flex items-center justify-between">
-              <div><p class="text-sm font-medium">Währung</p><p class="text-xs text-gray-400 mt-0.5">EUR (€)</p></div>
-              <select id="set-currency" class="h-9 px-3 border border-gray-200 rounded-lg text-sm" onchange="Aura.showToast('Währung gespeichert','success')">
+              <div><p class="text-sm font-medium" data-i18n="ds_set_currency">Währung</p><p class="text-xs text-gray-400 mt-0.5">EUR (€)</p></div>
+              <select id="set-currency" class="h-9 px-3 border border-gray-200 rounded-lg text-sm" onchange="Aura.showToast(Aura.t('ds_t_currency'),'success')">
                 <option value="EUR">€ EUR</option>
                 <option value="USD">$ USD</option>
                 <option value="GBP">£ GBP</option>
@@ -478,16 +478,16 @@
             </div>
             <div class="p-5">
               <div class="flex items-center justify-between">
-                <div><p class="text-sm font-medium">Datenexport</p><p class="text-xs text-gray-400 mt-0.5">Laden Sie all Ihre persönlichen Daten herunter</p></div>
-                <button onclick="Aura.showToast('Export wird vorbereitet…','success')" class="px-4 py-2 border border-gray-200 text-xs font-semibold rounded-lg hover:border-navy transition-colors">EXPORTIEREN</button>
+                <div><p class="text-sm font-medium" data-i18n="ds_set_export">Datenexport</p><p class="text-xs text-gray-400 mt-0.5" data-i18n="ds_set_export_d">Laden Sie all Ihre persönlichen Daten herunter</p></div>
+                <button onclick="Aura.showToast(Aura.t('ds_t_export'),'success')" class="px-4 py-2 border border-gray-200 text-xs font-semibold rounded-lg hover:border-navy transition-colors" data-i18n="ds_set_export_btn">EXPORTIEREN</button>
               </div>
             </div>
           </div>
         </div>
         <div class="bg-red-50 border border-red-100 p-6 rounded-xl">
-          <h3 class="font-semibold text-red-600 mb-2">Konto löschen</h3>
-          <p class="text-sm text-red-400 mb-4">Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden unwiderruflich gelöscht.</p>
-          <button onclick="if(confirm('Sind Sie sicher? Alle Daten werden gelöscht.')){Aura.logout();window.location='/index.html'}" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors rounded-lg">KONTO LÖSCHEN</button>
+          <h3 class="font-semibold text-red-600 mb-2" data-i18n="ds_set_delete">Konto löschen</h3>
+          <p class="text-sm text-red-400 mb-4" data-i18n="ds_set_delete_d">Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden unwiderruflich gelöscht.</p>
+          <button onclick="if(confirm(Aura.t('ds_t_delete_confirm'))){Aura.logout();window.location='/index.html'}" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors rounded-lg" data-i18n="ds_set_delete_btn">KONTO LÖSCHEN</button>
         </div>
       </div>
     </div>
@@ -507,41 +507,41 @@
         <img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9">
         <div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div>
       </div>
-      <p class="text-white/30 text-xs leading-relaxed">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+      <p class="text-white/30 text-xs leading-relaxed"><span data-i18n="ft_desc">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</span></p>
     </div>
     <div>
-      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_svc">Kundendienst</span></h3>
       <ul class="space-y-3">
-        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li>
-        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li>
-        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li>
-        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li>
+        <li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_track">Bestellung verfolgen</span></a></li>
+        <li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_returns">Rückgabe & Erstattung</span></a></li>
+        <li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_shipping_pay">Versandrichtlinien</span></a></li>
+        <li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_faq">FAQ</span></a></li>
       </ul>
     </div>
     <div>
-      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_co">Unternehmen</span></h3>
       <ul class="space-y-3">
-        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li>
-        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li>
-        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Beschaffung</a></li>
-        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li>
-        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li>
-        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li>
-        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li>
+        <li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_story">Unsere Geschichte</span></a></li>
+        <li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_sustainability">Nachhaltigkeit</span></a></li>
+        <li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_sourcing">Unsere Beschaffung</span></a></li>
+        <li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_careers">Karriere</span></a></li>
+        <li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_privacy">Datenschutz</span></a></li>
+        <li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_terms">AGB</span></a></li>
+        <li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_imprint">Impressum</span></a></li>
       </ul>
     </div>
     <div>
-      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3>
+      <h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_cat">Kategorien</span></h3>
       <ul class="space-y-3">
-        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li>
-        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li>
-        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li>
-        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li>
+        <li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_electronics">Elektronik</span></a></li>
+        <li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_fashion">Mode & Accessoires</span></a></li>
+        <li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_home">Haus & Wohnen</span></a></li>
+        <li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_travel">Reise & Outdoor</span></a></li>
       </ul>
     </div>
   </div>
   <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <p class="text-white/20 text-[11px]"><span data-i18n="ft_copyright">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</span></p>
     <div class="flex items-center gap-1.5 flex-wrap">
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span>
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span>
@@ -571,8 +571,8 @@
             <i data-lucide="star" class="w-5 h-5 text-gold"></i>
           </div>
           <div>
-            <h2 class="text-lg font-bold text-navy">Bewertung abgeben</h2>
-            <p class="text-xs text-gray-400">Teilen Sie Ihre Erfahrung</p>
+            <h2 class="text-lg font-bold text-navy" data-i18n="ds_rv_h">Bewertung abgeben</h2>
+            <p class="text-xs text-gray-400" data-i18n="ds_rv_d">Teilen Sie Ihre Erfahrung</p>
           </div>
         </div>
         <button onclick="closeReviewModal()" class="w-9 h-9 flex items-center justify-center text-gray-300 hover:text-navy hover:bg-gray-100 rounded-lg transition-all">
@@ -586,7 +586,7 @@
     <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
       <button onclick="submitAllReviews()" class="w-full py-3 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2">
         <i data-lucide="send" class="w-4 h-4"></i>
-        <span>Bewertungen absenden</span>
+        <span data-i18n="ds_rv_submit">Bewertungen absenden</span>
       </button>
     </div>
   </div>
@@ -630,10 +630,10 @@ var statusColors={pending:'yellow',paid:'green',sourcing:'orange',inspection:'bl
 
 /* Timeline steps mapping */
 var STEPS=[
-  {key:'paid',     icon:'credit-card', label:'Bezahlt'},
-  {key:'sourcing', icon:'warehouse',   label:'Versandfertig'},
-  {key:'inspection',icon:'shield-check',label:'Geprüft'},
-  {key:'shipped',  icon:'truck',       label:'Versendet'}
+  {key:'paid',     icon:'credit-card', label:Aura.t('ds_tl_paid')},
+  {key:'sourcing', icon:'warehouse',   label:Aura.t('ds_tl_sourcing')},
+  {key:'inspection',icon:'shield-check',label:Aura.t('ds_tl_inspection')},
+  {key:'shipped',  icon:'truck',       label:Aura.t('ds_tl_shipped')}
 ];
 var STATUS_ORDER={paid:0.5,sourcing:1.5,inspection:2.5,shipped:3.5,delivered:4};
 
@@ -656,7 +656,7 @@ window.downloadReceiptBlob=function downloadReceiptBlob(orderId){
   // Always read fresh from localStorage
   var orders=JSON.parse(localStorage.getItem('aura_orders'))||[];
   var o=orders.find(function(x){return x.id===orderId;});
-  if(!o||!o.receiptUrl){ Aura.showToast('Rechnung noch nicht verfügbar','error'); return; }
+  if(!o||!o.receiptUrl){ Aura.showToast(Aura.t('ds_t_no_receipt'),'error'); return; }
   try{
     var dataUrl=o.receiptUrl;
     var arr=dataUrl.split(','),mime=arr[0].match(/:(.*?);/)[1];
@@ -703,7 +703,7 @@ function buildTimeline(o){
   if(isDelivered){
     html+='<div class="flex items-center justify-center gap-2 mt-3 py-1.5 px-4 bg-emerald-50 rounded-lg mx-auto w-fit">'
       +'<i data-lucide="package-check" class="w-3.5 h-3.5 text-emerald-600"></i>'
-      +'<span class="text-xs font-semibold text-emerald-700">Zugestellt</span>'
+      +'<span class="text-xs font-semibold text-emerald-700">'+Aura.t('ds_tl_delivered')+'</span>'
     +'</div>';
   }
   html+='</div>';
@@ -745,7 +745,7 @@ function openOrderVideo(videoKey){
           document.body.appendChild(overlay);
           document.body.style.overflow='hidden';
         }else{
-          Aura.showToast('Video nicht gefunden','error');
+          Aura.showToast(Aura.t('ds_t_video_missing'),'error');
         }
       };
     };
@@ -790,7 +790,7 @@ window.openReviewModal = function(orderId){
       +'</div>'
       // Star rating
       +'<div class="mb-3">'
-        +'<p class="text-xs font-semibold text-gray-500 mb-2">Bewertung</p>'
+        +'<p class="text-xs font-semibold text-gray-500 mb-2">'+Aura.t('ds_rv_rating')+'</p>'
         +'<div class="flex gap-1" id="rv-stars-'+riIdx+'">'
           +'<button type="button" onclick="setReviewStars('+riIdx+',1)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="1"><i data-lucide="star" class="w-5 h-5"></i></button>'
           +'<button type="button" onclick="setReviewStars('+riIdx+',2)" class="rv-star w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gold text-gray-300 hover:text-gold transition-all" data-star="2"><i data-lucide="star" class="w-5 h-5"></i></button>'
@@ -805,11 +805,11 @@ window.openReviewModal = function(orderId){
       +'</div>'
       // Photo upload
       +'<div>'
-        +'<p class="text-xs font-semibold text-gray-500 mb-2">Fotos (max. 3)</p>'
+        +'<p class="text-xs font-semibold text-gray-500 mb-2">'+Aura.t('ds_rv_photos')+'</p>'
         +'<div class="flex items-center gap-2" id="rv-photos-'+riIdx+'">'
           +'<label class="w-16 h-16 border-2 border-dashed border-gray-200 hover:border-gold rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors">'
             +'<i data-lucide="camera" class="w-5 h-5 text-gray-300"></i>'
-            +'<span class="text-[9px] text-gray-300 mt-0.5">Hinzufügen</span>'
+            +'<span class="text-[9px] text-gray-300 mt-0.5">'+Aura.t('ds_rv_add')+'</span>'
             +'<input type="file" accept="image/*" multiple class="hidden" onchange="addReviewPhotos('+riIdx+',this)">'
           +'</label>'
         +'</div>'
@@ -819,7 +819,7 @@ window.openReviewModal = function(orderId){
   });
 
   if(_reviewItems.length === 0){
-    container.innerHTML = '<div class="text-center py-8"><i data-lucide="check-circle" class="w-12 h-12 text-emerald-300 mx-auto mb-3"></i><p class="text-gray-400 text-sm">Alle Produkte bereits bewertet!</p></div>';
+    container.innerHTML = '<div class="text-center py-8"><i data-lucide="check-circle" class="w-12 h-12 text-emerald-300 mx-auto mb-3"></i><p class="text-gray-400 text-sm">'+Aura.t('ds_rv_all_done')+'</p></div>';
   }
 
   document.getElementById('review-modal').style.display = '';
@@ -857,7 +857,7 @@ window.addReviewPhotos = function(riIdx, input){
   var maxPhotos = 3;
   var currentCount = _reviewItems[riIdx].photos.length;
   var remaining = maxPhotos - currentCount;
-  if(remaining <= 0){ Aura.showToast('Max. 3 Fotos','error'); return; }
+  if(remaining <= 0){ Aura.showToast(Aura.t('ds_t_max_photos'),'error'); return; }
 
   var toProcess = Math.min(files.length, remaining);
   for(var i=0; i<toProcess; i++){
@@ -919,7 +919,7 @@ window.submitAllReviews = function(){
     if(ri.stars < 1){ hasError = true; }
   });
   if(hasError){
-    Aura.showToast('Bitte vergeben Sie mindestens 1 Stern für jedes Produkt','error');
+    Aura.showToast(Aura.t('ds_t_stars'),'error');
     return;
   }
   _reviewItems.forEach(function(ri){
@@ -935,7 +935,7 @@ window.submitAllReviews = function(){
       approved: true
     });
   });
-  Aura.showToast('Vielen Dank für Ihre Bewertung!','success');
+  Aura.showToast(Aura.t('ds_t_review_thx'),'success');
   closeReviewModal();
   // Re-render orders to show "Bewertet" badge
   setTimeout(function(){ window.location.reload(); }, 600);
@@ -956,8 +956,8 @@ if(!orders.length){
 
     /* Rechnung / Support buttons */
     /* Rechnung / Support buttons — always re-check receipt from localStorage on click */
-    var receiptBtn = '<button onclick="downloadReceiptBlob(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 '+(o.receiptUrl?'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600':'bg-gray-50/50 border border-gray-100 text-gray-300')+' text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Rechnung</button>';
-    var supportBtn = '<a href="/contact.html" class="inline-flex items-center gap-1.5 px-3 py-2 bg-navy/5 hover:bg-navy/10 border border-navy/10 text-navy text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>Hilfe</a>';
+    var receiptBtn = '<button onclick="downloadReceiptBlob(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 '+(o.receiptUrl?'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600':'bg-gray-50/50 border border-gray-100 text-gray-300')+' text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>'+Aura.t('ds_ord_receipt')+'</button>';
+    var supportBtn = '<a href="/contact.html" class="inline-flex items-center gap-1.5 px-3 py-2 bg-navy/5 hover:bg-navy/10 border border-navy/10 text-navy text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>'+Aura.t('ds_ord_help')+'</a>';
 
     /* Review button — only for delivered orders */
     var reviewBtn = '';
@@ -968,9 +968,9 @@ if(!orders.length){
         return allReviews.some(function(r){ return r.productId===pid && r.userId===session.id; });
       });
       if(alreadyReviewed){
-        reviewBtn = '<span class="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-600 text-[11px] font-semibold rounded-lg"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Bewertet</span>';
+        reviewBtn = '<span class="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-600 text-[11px] font-semibold rounded-lg"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>'+Aura.t('ds_ord_reviewed')+'</span>';
       } else {
-        reviewBtn = '<button onclick="openReviewModal(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 text-gold-dark text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="star" class="w-3.5 h-3.5"></i>Bewerten</button>';
+        reviewBtn = '<button onclick="openReviewModal(\''+o.id+'\')" class="inline-flex items-center gap-1.5 px-3 py-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 text-gold-dark text-[11px] font-semibold rounded-lg transition-colors"><i data-lucide="star" class="w-3.5 h-3.5"></i>'+Aura.t('ds_ord_review')+'</button>';
       }
     }
 
@@ -981,8 +981,8 @@ if(!orders.length){
       var isUrl=/^https?:\/\//i.test(tn);
       var displayNum=isUrl?tn.replace(/^https?:\/\//i,'').split('/').pop().split('=').pop().slice(0,18):tn.slice(0,18);
       trackingLink='<div class="flex items-center gap-2 mt-1"><i data-lucide="truck" class="w-3.5 h-3.5 text-purple-500"></i>'
-        +(isUrl?'<a href="'+tn+'" target="_blank" class="text-xs text-navy hover:underline font-mono font-medium">Sendungsnr: '+displayNum+'</a>'
-               :'<span class="text-xs text-gray-500">Sendungsnr: <span class="font-mono font-medium text-navy">'+displayNum+'</span></span>')
+        +(isUrl?'<a href="'+tn+'" target="_blank" class="text-xs text-navy hover:underline font-mono font-medium">'+Aura.t('ds_ord_tracking')+': '+displayNum+'</a>'
+               :'<span class="text-xs text-gray-500">'+Aura.t('ds_ord_tracking')+': <span class="font-mono font-medium text-navy">'+displayNum+'</span></span>')
         +'</div>';
     }
 
@@ -990,12 +990,12 @@ if(!orders.length){
       /* Header bar */
       +'<div class="flex flex-wrap items-center justify-between px-5 sm:px-6 py-4 border-b border-gray-100 gap-4 bg-gray-50">'
         +'<div class="flex items-center gap-5 sm:gap-8 flex-wrap">'
-          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Bestellnr.</p><p class="font-mono text-sm font-bold text-navy">'+o.id+'</p></div>'
-          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Datum</p><p class="text-sm text-gray-700">'+dateStr+'</p></div>'
-          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">Gesamt</p><p class="text-sm font-bold text-navy">€'+o.total.toFixed(2)+'</p></div>'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">'+Aura.t('ds_ord_nr')+'</p><p class="font-mono text-sm font-bold text-navy">'+o.id+'</p></div>'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">'+Aura.t('ds_ord_date')+'</p><p class="text-sm text-gray-700">'+dateStr+'</p></div>'
+          +'<div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-0.5">'+Aura.t('ds_ord_total')+'</p><p class="text-sm font-bold text-navy">'+Aura.formatPrice(o.total)+'</p></div>'
         +'</div>'
         +'<div class="flex items-center gap-2">'
-          +'<a href="'+trackUrl+'" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-navy bg-white border border-gray-200 hover:border-navy rounded-lg transition-colors"><i data-lucide="map-pin" class="w-3 h-3"></i>Verfolgen</a>'
+          +'<a href="'+trackUrl+'" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-navy bg-white border border-gray-200 hover:border-navy rounded-lg transition-colors"><i data-lucide="map-pin" class="w-3 h-3"></i>'+Aura.t('ds_ord_track')+'</a>'
         +'</div>'
       +'</div>'
       /* Timeline row */
@@ -1059,7 +1059,7 @@ window.saveProfile=function(){
   var fn=document.getElementById('set-firstname').value.trim();
   var ln=document.getElementById('set-lastname').value.trim();
   var fullName=(fn+' '+ln).trim();
-  if(!fullName){Aura.showToast('Bitte Name eingeben','error');return;}
+  if(!fullName){Aura.showToast(Aura.t('ds_t_enter_name'),'error');return;}
   var profile={
     firstname:fn,lastname:ln,
     phone:document.getElementById('set-phone').value.trim(),
@@ -1076,7 +1076,7 @@ window.saveProfile=function(){
   localStorage.setItem('aura_session',JSON.stringify(s));
   document.getElementById('d-name').textContent=fullName;
   document.getElementById('d-initial').textContent=fullName[0].toUpperCase();
-  Aura.showToast('Profil gespeichert','success');
+  Aura.showToast(Aura.t('ds_t_profile'),'success');
 };
 
 /* ── ADDRESSES ── */
@@ -1092,12 +1092,12 @@ function renderAddresses(){
     return '<div class="border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-colors'+(a.isDefault?' ring-1 ring-navy/20':'')+'">'
       +'<div class="flex items-start justify-between mb-2">'
       +'<div><p class="text-sm font-semibold">'+esc(a.fname)+' '+esc(a.lname)+'</p>'
-      +(a.isDefault?'<span class="text-[10px] bg-navy/5 text-navy font-bold px-2 py-0.5 rounded ml-1">Standard</span>':'')+'</div>'
-      +'<div class="flex gap-2"><button onclick="editAddress('+i+')" class="text-xs text-navy hover:underline">Bearbeiten</button>'
-      +'<button onclick="deleteAddress('+i+')" class="text-xs text-red-400 hover:underline">Löschen</button></div></div>'
+      +(a.isDefault?'<span class="text-[10px] bg-navy/5 text-navy font-bold px-2 py-0.5 rounded ml-1">'+Aura.t('ds_standard')+'</span>':'')+'</div>'
+      +'<div class="flex gap-2"><button onclick="editAddress('+i+')" class="text-xs text-navy hover:underline">'+Aura.t('ds_edit')+'</button>'
+      +'<button onclick="deleteAddress('+i+')" class="text-xs text-red-400 hover:underline">'+Aura.t('ds_delete')+'</button></div></div>'
       +'<p class="text-sm text-gray-600">'+esc(a.street)+(a.extra?', '+esc(a.extra):'')+'</p>'
       +'<p class="text-sm text-gray-600">'+esc(a.zip)+' '+esc(a.city)+', '+esc(a.country)+'</p>'
-      +(a.isDefault?'':'<button onclick="setDefaultAddress('+i+')" class="text-xs text-gray-400 hover:text-navy mt-2">Als Standard festlegen</button>')
+      +(a.isDefault?'':'<button onclick="setDefaultAddress('+i+')" class="text-xs text-gray-400 hover:text-navy mt-2">'+Aura.t('ds_pay_default_set')+'</button>')
       +'</div>';
   }).join('');
   if(typeof lucide!=='undefined') lucide.createIcons();
@@ -1105,7 +1105,7 @@ function renderAddresses(){
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 window.addAddress=function(){
   document.getElementById('addr-id').value='';
-  document.getElementById('address-form-title').textContent='Neue Adresse';
+  document.getElementById('address-form-title').textContent=Aura.t('ds_addr_new');
   ['addr-fname','addr-lname','addr-street','addr-extra','addr-zip','addr-city'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('addr-country').value='DE';
   document.getElementById('addr-default').checked=false;
@@ -1115,7 +1115,7 @@ window.editAddress=function(idx){
   var list=getAddresses(),a=list[idx];
   if(!a) return;
   document.getElementById('addr-id').value=idx;
-  document.getElementById('address-form-title').textContent='Adresse bearbeiten';
+  document.getElementById('address-form-title').textContent=Aura.t('ds_addr_edit');
   document.getElementById('addr-fname').value=a.fname||'';
   document.getElementById('addr-lname').value=a.lname||'';
   document.getElementById('addr-street').value=a.street||'';
@@ -1133,7 +1133,7 @@ window.saveAddress=function(){
   var street=document.getElementById('addr-street').value.trim();
   var zip=document.getElementById('addr-zip').value.trim();
   var city=document.getElementById('addr-city').value.trim();
-  if(!fname||!street||!zip||!city){Aura.showToast('Bitte Pflichtfelder ausfüllen','error');return;}
+  if(!fname||!street||!zip||!city){Aura.showToast(Aura.t('ds_t_required'),'error');return;}
   var obj={fname:fname,lname:lname,street:street,extra:document.getElementById('addr-extra').value.trim(),zip:zip,city:city,country:document.getElementById('addr-country').value,isDefault:document.getElementById('addr-default').checked};
   var list=getAddresses();
   var editIdx=document.getElementById('addr-id').value;
@@ -1143,20 +1143,20 @@ window.saveAddress=function(){
   saveAddressesData(list);
   document.getElementById('address-form').classList.add('hidden');
   renderAddresses();
-  Aura.showToast('Adresse gespeichert','success');
+  Aura.showToast(Aura.t('ds_t_addr_saved'),'success');
 };
 window.deleteAddress=function(idx){
-  if(!confirm('Adresse löschen?')) return;
+  if(!confirm(Aura.t('ds_t_addr_del_q'))) return;
   var list=getAddresses();list.splice(idx,1);
   if(list.length&&!list.some(function(a){return a.isDefault;})) list[0].isDefault=true;
   saveAddressesData(list);renderAddresses();
-  Aura.showToast('Adresse gelöscht','success');
+  Aura.showToast(Aura.t('ds_t_addr_deleted'),'success');
 };
 window.setDefaultAddress=function(idx){
   var list=getAddresses();
   list.forEach(function(a,i){a.isDefault=(i===idx);});
   saveAddressesData(list);renderAddresses();
-  Aura.showToast('Standardadresse aktualisiert','success');
+  Aura.showToast(Aura.t('ds_t_addr_default'),'success');
 };
 
 /* ── WISHLIST ── */
@@ -1184,7 +1184,7 @@ function renderWishlist(){
       +'<a href="/product.html?id='+p.id+'" class="text-sm font-medium hover:text-navy line-clamp-2 leading-tight mt-0.5">'+esc(p.name)+'</a>'
       +'<div class="flex items-center justify-between mt-2">'
       +'<span class="text-sm font-bold text-navy">'+Aura.formatPrice(p.price)+'</span>'
-      +'<button onclick="Aura.addToCart(\''+p.id+'\');Aura.showToast(\'Zum Warenkorb hinzugefügt\',\'success\')" class="w-8 h-8 bg-navy/5 hover:bg-navy text-navy hover:text-white rounded-lg flex items-center justify-center transition-colors"><i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i></button>'
+      +'<button onclick="Aura.addToCart(\''+p.id+'\');Aura.showToast(Aura.t(\'ds_t_cart_added\'),\'success\')" class="w-8 h-8 bg-navy/5 hover:bg-navy text-navy hover:text-white rounded-lg flex items-center justify-center transition-colors"><i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i></button>'
       +'</div></div></div>';
   }).join('');
   if(typeof lucide!=='undefined') lucide.createIcons();
@@ -1192,7 +1192,7 @@ function renderWishlist(){
 window.removeWishlist=function(pid){
   var ids=getWishlist().filter(function(x){return x!==pid;});
   saveWishlistData(ids);renderWishlist();
-  Aura.showToast('Von Wunschliste entfernt','success');
+  Aura.showToast(Aura.t('ds_t_wish_removed'),'success');
 };
 window.toggleWishlistItem=function(pid){
   var ids=getWishlist();
@@ -1226,16 +1226,16 @@ function renderPayments(){
     var desc='';
     if(PAY_CARD_TYPES.indexOf(p.type)>=0){
       desc='<p class="text-sm font-medium">'+(p.holder?esc(p.holder)+' · ':'')+'•••• '+esc(p.last4||'****')+'</p>'
-        +'<p class="text-xs text-gray-400">'+(p.exp?'Läuft ab '+esc(p.exp):'')+'</p>';
+        +'<p class="text-xs text-gray-400">'+(p.exp?Aura.t('ds_pay_expires')+' '+esc(p.exp):'')+'</p>';
     } else {
       desc='<p class="text-sm font-medium">'+esc(PAY_LABELS[p.type]||p.type)+'</p>'
-        +'<p class="text-xs text-gray-400">'+(p.email?esc(p.email):'Verbunden')+'</p>';
+        +'<p class="text-xs text-gray-400">'+(p.email?esc(p.email):Aura.t('ds_pay_connected'))+'</p>';
     }
     return '<div class="border border-gray-100 rounded-xl p-5 flex items-center gap-4 hover:border-gray-200 transition-colors'+(p.isDefault?' ring-1 ring-navy/20':'')+'">'
       +icon
       +'<div class="flex-1">'+desc+'</div>'
       +'<div class="flex items-center gap-2">'
-      +(p.isDefault?'<span class="px-2 py-0.5 text-[10px] font-bold bg-navy/5 text-navy rounded">Standard</span>':'<button onclick="setPayDefault('+i+')" class="text-[10px] text-gray-400 hover:text-navy">Standard</button>')
+      +(p.isDefault?'<span class="px-2 py-0.5 text-[10px] font-bold bg-navy/5 text-navy rounded">'+Aura.t('ds_standard')+'</span>':'<button onclick="setPayDefault('+i+')" class="text-[10px] text-gray-400 hover:text-navy">'+Aura.t('ds_standard')+'</button>')
       +'<button onclick="editPayment('+i+')" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy rounded-lg hover:bg-gray-50 transition-colors"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>'
       +'<button onclick="deletePaymentItem('+i+')" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>'
       +'</div></div>';
@@ -1245,7 +1245,7 @@ function renderPayments(){
 window.openPaymentForm=function(idx){
   var form=document.getElementById('payment-form');
   document.getElementById('pay-edit-idx').value=idx!=null?idx:'';
-  document.getElementById('payment-form-title').textContent=idx!=null?'Zahlungsmethode bearbeiten':'Neue Zahlungsmethode';
+  document.getElementById('payment-form-title').textContent=idx!=null?Aura.t('ds_pay_edit'):Aura.t('ds_pay_new');
   if(idx!=null){
     var list=Aura.getPayments(),p=list[idx];
     if(!p) return;
@@ -1282,7 +1282,7 @@ window.savePaymentForm=function(){
     obj.holder=document.getElementById('pay-holder').value.trim();
     obj.last4=document.getElementById('pay-last4').value.trim();
     obj.exp=document.getElementById('pay-exp').value.trim();
-    if(!obj.last4||obj.last4.length<4){Aura.showToast('Bitte letzte 4 Ziffern eingeben','error');return;}
+    if(!obj.last4||obj.last4.length<4){Aura.showToast(Aura.t('ds_t_last4'),'error');return;}
   } else {
     obj.email=document.getElementById('pay-email').value.trim();
     obj.label=PAY_LABELS[t]||t;
@@ -1291,19 +1291,19 @@ window.savePaymentForm=function(){
   if(idx!==''){Aura.updatePayment(+idx,obj);}else{Aura.addPayment(obj);}
   closePaymentForm();
   renderPayments();
-  Aura.showToast('Zahlungsmethode gespeichert','success');
+  Aura.showToast(Aura.t('ds_t_pay_saved'),'success');
 };
 window.editPayment=function(idx){openPaymentForm(idx);};
 window.deletePaymentItem=function(idx){
-  if(!confirm('Zahlungsmethode löschen?')) return;
+  if(!confirm(Aura.t('ds_t_pay_del_q'))) return;
   Aura.deletePayment(idx);
   renderPayments();
-  Aura.showToast('Zahlungsmethode gelöscht','success');
+  Aura.showToast(Aura.t('ds_t_pay_deleted'),'success');
 };
 window.setPayDefault=function(idx){
   Aura.setDefaultPayment(idx);
   renderPayments();
-  Aura.showToast('Standard aktualisiert','success');
+  Aura.showToast(Aura.t('ds_t_default'),'success');
 };
 
 /* ── NOTIFICATIONS ── */
@@ -1322,7 +1322,7 @@ window.saveNotifications=function(){
     prefs[k]=el?el.checked:false;
   });
   localStorage.setItem('aura_notif_'+session.id,JSON.stringify(prefs));
-  Aura.showToast('Einstellungen gespeichert','success');
+  Aura.showToast(Aura.t('ds_t_notif'),'success');
 };
 
 /* ── SECURITY ── */
@@ -1330,9 +1330,9 @@ window.changePassword=function(){
   var cur=document.getElementById('sec-current-pw').value;
   var np=document.getElementById('sec-new-pw').value;
   var cp=document.getElementById('sec-confirm-pw').value;
-  if(!cur||!np){Aura.showToast('Bitte alle Felder ausfüllen','error');return;}
-  if(np!==cp){Aura.showToast('Passwörter stimmen nicht überein','error');return;}
-  if(np.length<6){Aura.showToast('Mindestens 6 Zeichen','error');return;}
+  if(!cur||!np){Aura.showToast(Aura.t('ds_t_fill_all'),'error');return;}
+  if(np!==cp){Aura.showToast(Aura.t('ds_t_pw_mismatch'),'error');return;}
+  if(np.length<6){Aura.showToast(Aura.t('ds_t_pw_min'),'error');return;}
   // Update password  
   var users=Aura.getUsers();
   var found=false;
@@ -1342,17 +1342,17 @@ window.changePassword=function(){
       u.password=np;found=true;
     }
   });
-  if(!found){Aura.showToast('Aktuelles Passwort falsch','error');return;}
+  if(!found){Aura.showToast(Aura.t('ds_t_pw_wrong'),'error');return;}
   localStorage.setItem('aura_users',JSON.stringify(users));
   // Notify by email
   if(typeof AuraEmail!=='undefined') AuraEmail.sendPasswordChanged(session.email, session.name);
   document.getElementById('sec-current-pw').value='';
   document.getElementById('sec-new-pw').value='';
   document.getElementById('sec-confirm-pw').value='';
-  Aura.showToast('Passwort geändert','success');
+  Aura.showToast(Aura.t('ds_t_pw_changed'),'success');
 };
 window.toggle2FA=function(on){
-  Aura.showToast(on?'2FA aktiviert':'2FA deaktiviert','success');
+  Aura.showToast(on?Aura.t('ds_t_2fa_on'):Aura.t('ds_t_2fa_off'),'success');
 };
 
 /* ── ACCOUNT SETTINGS ── */

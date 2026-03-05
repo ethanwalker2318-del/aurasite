@@ -111,7 +111,7 @@
       <div>
         <label class="flex items-start gap-3 cursor-pointer">
           <input type="checkbox" id="r-gdpr" class="accent-navy w-4 h-4 mt-0.5 flex-shrink-0">
-          <span class="text-xs text-gray-500 leading-relaxed">Ich habe die <a href="/terms.html" target="_blank" class="text-gold hover:underline font-medium">AGB</a> und die <a href="/privacy.html" target="_blank" class="text-gold hover:underline font-medium">Datenschutzerklärung</a> gelesen und stimme diesen zu.</span>
+          <span class="text-xs text-gray-500 leading-relaxed" data-i18n="lg_gdpr">Ich habe die <a href="/terms.html" target="_blank" class="text-gold hover:underline font-medium">AGB</a> und die <a href="/privacy.html" target="_blank" class="text-gold hover:underline font-medium">Datenschutzerklärung</a> gelesen und stimme diesen zu.</span>
         </label>
       </div>
       <p id="r-error" class="text-red-500 text-xs hidden"></p>
@@ -127,7 +127,7 @@
 <!-- FOOTER MINI -->
 <footer class="bg-navy-dark py-6">
   <div class="max-w-[1400px] mx-auto px-4 text-center">
-    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. · Company No. 15847293</p>
+    <p class="text-white/20 text-[11px]"><span data-i18n="ft_copyright_short">© 2026 Aura Global Merchants Ltd. · Company No. 15847293</span></p>
   </div>
 </footer>
 
@@ -185,7 +185,7 @@ window.handleRegister=function(e){
   var pass2=document.getElementById('r-pass2').value;
   var errEl=document.getElementById('r-error');
   errEl.classList.add('hidden');
-  if(!document.getElementById('r-gdpr').checked){errEl.textContent='Bitte stimmen Sie den AGB und der Datenschutzerklärung zu.';errEl.classList.remove('hidden');return false;}
+  if(!document.getElementById('r-gdpr').checked){errEl.textContent=Aura.t('lg_gdpr_req');errEl.classList.remove('hidden');return false;}
   if(pass!==pass2){errEl.textContent=Aura.t('pass_mismatch');errEl.classList.remove('hidden');return false;}
   var result=Aura.register(name,email,pass);
   if(result.ok){
@@ -210,9 +210,9 @@ function updateForgotUI(){
   document.getElementById('forgot-step2').classList.toggle('hidden',_forgotStep!==2);
   document.getElementById('forgot-step3').classList.toggle('hidden',_forgotStep!==3);
   var btn=document.getElementById('f-btn');
-  if(_forgotStep===1) btn.textContent='CODE SENDEN';
-  else if(_forgotStep===2) btn.textContent='CODE BESTÄTIGEN';
-  else btn.textContent='PASSWORT ÄNDERN';
+  if(_forgotStep===1) btn.textContent=Aura.t('btn_send_code');
+  else if(_forgotStep===2) btn.textContent=Aura.t('lg_btn_verify');
+  else btn.textContent=Aura.t('ds_sec_pwchange');
   document.getElementById('f-error').classList.add('hidden');
   document.getElementById('f-success').classList.add('hidden');
 }
@@ -230,14 +230,14 @@ window.handleForgotSubmit=function(e){
     var users=JSON.parse(localStorage.getItem('aura_users')||'[]');
     var exists=users.some(function(u){return u.email===_forgotEmail;});
     if(!exists){
-      errEl.textContent='Kein Konto mit dieser E-Mail gefunden.';
+      errEl.textContent=Aura.t('lg_no_account');
       errEl.classList.remove('hidden');
       return false;
     }
     // Send reset code
     if(typeof AuraEmail!=='undefined'){
       AuraEmail.sendPasswordReset(_forgotEmail);
-      sucEl.textContent='Ein 6-stelliger Code wurde an '+_forgotEmail+' gesendet.';
+      sucEl.textContent=Aura.t('lg_code_sent').replace('{email}',_forgotEmail);
       sucEl.classList.remove('hidden');
     }
     _forgotStep=2;
@@ -246,7 +246,7 @@ window.handleForgotSubmit=function(e){
   } else if(_forgotStep===2){
     var code=document.getElementById('f-code').value.trim();
     if(!code||code.length!==6){
-      errEl.textContent='Bitte geben Sie den 6-stelligen Code ein.';
+      errEl.textContent=Aura.t('lg_enter_code');
       errEl.classList.remove('hidden');
       return false;
     }
@@ -265,12 +265,12 @@ window.handleForgotSubmit=function(e){
     var np=document.getElementById('f-newpass').value;
     var np2=document.getElementById('f-newpass2').value;
     if(np.length<6){
-      errEl.textContent='Passwort muss mindestens 6 Zeichen lang sein.';
+      errEl.textContent=Aura.t('lg_pw_min');
       errEl.classList.remove('hidden');
       return false;
     }
     if(np!==np2){
-      errEl.textContent='Passwörter stimmen nicht überein.';
+      errEl.textContent=Aura.t('lg_pw_mismatch');
       errEl.classList.remove('hidden');
       return false;
     }
@@ -284,7 +284,7 @@ window.handleForgotSubmit=function(e){
     }
     localStorage.setItem('aura_users',JSON.stringify(users));
     if(typeof AuraEmail!=='undefined') AuraEmail.sendPasswordChanged(_forgotEmail,'');
-    Aura.showToast('Passwort erfolgreich geändert!','success');
+    Aura.showToast(Aura.t('lg_pw_changed'),'success');
     setTimeout(function(){ showForm('login'); },1200);
   }
   return false;

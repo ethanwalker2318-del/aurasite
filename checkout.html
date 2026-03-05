@@ -135,7 +135,7 @@
           <div id="stripe-card-errors" class="text-xs text-red-500 mt-1" role="alert"></div>
           <div class="flex items-center gap-2 mt-2">
             <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            <span class="text-xs text-gray-400">Gesichert durch <strong class="text-gray-600">Stripe</strong> — Ihre Kartendaten werden verschlüsselt übertragen und nie auf unseren Servern gespeichert.</span>
+            <span class="text-xs text-gray-400" data-i18n="ck_stripe_sec">Gesichert durch <strong class="text-gray-600">Stripe</strong> — Ihre Kartendaten werden verschlüsselt übertragen und nie auf unseren Servern gespeichert.</span>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
       <div class="mt-4">
         <label class="flex items-start gap-3 cursor-pointer">
           <input type="checkbox" id="gdpr-consent" class="accent-navy w-4 h-4 mt-0.5 flex-shrink-0">
-          <span class="text-xs text-gray-500 leading-relaxed">Ich habe die <a href="/terms.html" target="_blank" class="text-gold hover:underline font-medium">AGB</a> und die <a href="/privacy.html" target="_blank" class="text-gold hover:underline font-medium">Datenschutzerklärung</a> gelesen und stimme diesen zu. Ich wurde über mein <a href="/returns.html#widerrufsformular" target="_blank" class="text-gold hover:underline font-medium">Widerrufsrecht</a> belehrt.</span>
+          <span class="text-xs text-gray-500 leading-relaxed" data-i18n="ck_gdpr">Ich habe die <a href="/terms.html" target="_blank" class="text-gold hover:underline font-medium">AGB</a> und die <a href="/privacy.html" target="_blank" class="text-gold hover:underline font-medium">Datenschutzerklärung</a> gelesen und stimme diesen zu. Ich wurde über mein <a href="/returns.html#widerrufsformular" target="_blank" class="text-gold hover:underline font-medium">Widerrufsrecht</a> belehrt.</span>
         </label>
       </div>
       <div class="flex gap-4 mt-4">
@@ -173,11 +173,11 @@
   <div class="max-w-[1400px] mx-auto px-4 flex flex-col items-center gap-4">
     <div class="flex items-center gap-2 text-[11px] text-white/30">
       <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      <span>Ihre Daten sind durch 256-bit SSL-Verschlüsselung geschützt</span>
+      <span data-i18n="ft_ssl_ck">Ihre Daten sind durch 256-bit SSL-Verschlüsselung geschützt</span>
     </div>
     <div class="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
-      <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p>
-      <div class="flex items-center gap-4 text-[11px] text-white/20"><span>SSL verschlüsselt</span><span>·</span><span>PCI DSS konform</span><span>·</span><span>3D Secure</span></div>
+      <p class="text-white/20 text-[11px]" data-i18n="ft_copyright_short">© 2026 Aura Global Merchants Ltd.</p>
+      <div class="flex items-center gap-4 text-[11px] text-white/20"><span data-i18n="ck_badge_ssl">SSL verschlüsselt</span><span>·</span><span data-i18n="ck_badge_pci">PCI DSS konform</span><span>·</span><span>3D Secure</span></div>
       <div class="flex items-center gap-1.5 flex-wrap"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
         <span class="mx-1 text-white/10">|</span>
         <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DHL</span>
@@ -271,7 +271,7 @@ window.goToStep=function(n){
 window.placeOrder=function(){
   // Validate GDPR consent
   if(!document.getElementById('gdpr-consent').checked){
-    Aura.showToast('Bitte stimmen Sie den AGB und der Datenschutzerklärung zu.','error');
+    Aura.showToast(Aura.t('ck_gdpr_req'),'error');
     return;
   }
   var payMethod=document.querySelector('input[name="pay"]:checked').value;
@@ -284,7 +284,7 @@ window.placeOrder=function(){
   }
 
   var btn=document.getElementById('btn-place-order');
-  btn.disabled=true; btn.textContent='Wird verarbeitet...';
+  btn.disabled=true; btn.textContent=Aura.t('ck_processing');
 
   var userId=session?(session.userId||session.id):('guest-'+Date.now());
   var address={
@@ -303,7 +303,7 @@ window.placeOrder=function(){
   document.getElementById('order-id').textContent=order.id;
   goToStep(3);
   Aura.showToast(Aura.t('order_placed'),'success');
-  btn.disabled=false; btn.textContent='BESTELLUNG AUFGEBEN';
+  btn.disabled=false; btn.textContent=Aura.t('ck_place');
 };
 
 if(typeof lucide!=='undefined') lucide.createIcons();

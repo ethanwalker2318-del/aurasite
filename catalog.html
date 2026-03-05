@@ -143,10 +143,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   <div>
     <h3 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="flt_cat">Kategorie</h3>
     <div class="space-y-1.5" id="filter-cats">
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="electronics" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Elektronik</span></label>
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="fashion" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Mode & Accessoires</span></label>
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="home" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Haus & Wohnen</span></label>
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="travel" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Reise & Outdoor</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="electronics" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="nav_electronics">Elektronik</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="fashion" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="nav_fashion_long">Mode & Accessoires</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="home" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="nav_home">Haus & Wohnen</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="travel" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="nav_travel">Reise & Outdoor</span></label>
     </div>
   </div>
   <!-- Brand -->
@@ -164,8 +164,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   <div>
     <h3 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="flt_cond">Zustand</h3>
     <div class="space-y-1.5">
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-badge="verified" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Hub Geprüft</span></label>
-      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-badge="express" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">Aura Check</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-badge="verified" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="flt_verified">Hub Geprüft</span></label>
+      <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-badge="express" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="flt_openbox">Aura Check</span></label>
     </div>
   </div>
   <button onclick="resetFilters()" class="text-xs text-gold font-semibold hover:underline" data-i18n="flt_reset">Filter zurücksetzen</button>
@@ -180,7 +180,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
     <div class="flex items-center gap-3">
       <select id="sort-select" onchange="applyFilters()" class="text-sm border border-gray-200 rounded px-3 py-2 outline-none focus:border-navy cursor-pointer bg-white">
         <option value="featured" data-i18n="sort_default">Empfohlen</option>
-        <option value="newest">Neuheiten</option>
+        <option value="newest" data-i18n="sort_newest">Neuheiten</option>
         <option value="price-asc" data-i18n="sort_price_asc">Preis: Niedrig → Hoch</option>
         <option value="price-desc" data-i18n="sort_price_desc">Preis: Hoch → Niedrig</option>
         <option value="name" data-i18n="sort_name">Name A–Z</option>
@@ -210,13 +210,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   <div>
     <h3 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="flt_cat">Kategorie</h3>
     <div class="flex flex-wrap gap-2">
-      <button onclick="toggleMobileCat('electronics',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded">Elektronik</button>
-      <button onclick="toggleMobileCat('fashion',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded">Mode</button>
-      <button onclick="toggleMobileCat('home',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded">Haus & Wohnen</button>
-      <button onclick="toggleMobileCat('travel',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded">Reise</button>
+      <button onclick="toggleMobileCat('electronics',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded" data-i18n="nav_electronics">Elektronik</button>
+      <button onclick="toggleMobileCat('fashion',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded" data-i18n="nav_fashion">Mode</button>
+      <button onclick="toggleMobileCat('home',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded" data-i18n="nav_home">Haus & Wohnen</button>
+      <button onclick="toggleMobileCat('travel',this)" class="filter-chip px-3 py-1.5 text-xs border border-gray-200 rounded" data-i18n="nav_travel">Reise</button>
     </div>
   </div>
-  <button onclick="applyFilters();document.getElementById('mobile-filters').classList.add('hidden')" class="w-full py-3 bg-gold text-white text-sm font-bold tracking-wider">ANWENDEN</button>
+  <button onclick="applyFilters();document.getElementById('mobile-filters').classList.add('hidden')" class="w-full py-3 bg-gold text-white text-sm font-bold tracking-wider" data-i18n="flt_apply">ANWENDEN</button>
 </div>
 </div>
 
@@ -226,19 +226,19 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
     <div>
       <div class="flex items-center gap-2.5 mb-4"><img src="/logo-outline.svg" alt="Aura Global" class="w-9 h-9"><div><span class="block font-serif text-white text-sm font-bold tracking-wider">AURA GLOBAL</span><span class="block text-[8px] text-gold/50 tracking-[0.2em]">MERCHANTS LTD.</span></div></div>
-      <p class="text-white/30 text-xs leading-relaxed mb-5">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</p>
+      <p class="text-white/30 text-xs leading-relaxed mb-5"><span data-i18n="ft_desc">Geprüfte Markenware aus dem Londoner Hub. Zuverlässig, günstig, sicher.</span></p>
       <div class="flex items-center gap-3">
         <a href="https://instagram.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
         <a href="https://twitter.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
         <a href="https://linkedin.com" target="_blank" class="w-9 h-9 border border-white/10 flex items-center justify-center text-white/30 hover:text-gold hover:border-gold/30 transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
       </div>
     </div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kategorien</h3><ul class="space-y-3"><li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white transition-colors">Alle Produkte</a></li><li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors">Elektronik</a></li><li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors">Mode & Accessoires</a></li><li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors">Haus & Wohnen</a></li><li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors">Reise & Outdoor</a></li></ul></div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Kundendienst</h3><ul class="space-y-3"><li><a href="/contact.html" class="text-white/40 text-sm hover:text-white transition-colors">Kontakt</a></li><li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors">Bestellung verfolgen</a></li><li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors">Rückgabe & Erstattung</a></li><li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors">Versandrichtlinien</a></li><li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors">FAQ</a></li></ul></div>
-    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5">Unternehmen</h3><ul class="space-y-3"><li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Geschichte</a></li><li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors">Nachhaltigkeit</a></li><li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors">Unsere Beschaffung</a></li><li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors">Karriere</a></li><li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors">Datenschutz</a></li><li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors">AGB</a></li><li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors">Impressum</a></li></ul><div class="mt-6 pt-5 border-t border-white/5"><p class="text-white/15 text-[11px]">Company No. 15847293</p><p class="text-white/15 text-[11px]">Registered in England & Wales</p></div></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_cat">Kategorien</span></h3><ul class="space-y-3"><li><a href="/catalog.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_all_products">Alle Produkte</span></a></li><li><a href="/catalog.html?cat=electronics" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_electronics">Elektronik</span></a></li><li><a href="/catalog.html?cat=fashion" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_fashion">Mode & Accessoires</span></a></li><li><a href="/catalog.html?cat=home" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_home">Haus & Wohnen</span></a></li><li><a href="/catalog.html?cat=travel" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_travel">Reise & Outdoor</span></a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_svc">Kundendienst</span></h3><ul class="space-y-3"><li><a href="/contact.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_contact">Kontakt</span></a></li><li><a href="/tracking.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_track">Bestellung verfolgen</span></a></li><li><a href="/returns.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_returns">Rückgabe & Erstattung</span></a></li><li><a href="/shipping.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_shipping_pay">Versandrichtlinien</span></a></li><li><a href="/faq.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_faq">FAQ</span></a></li></ul></div>
+    <div><h3 class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-5"><span data-i18n="ft_co">Unternehmen</span></h3><ul class="space-y-3"><li><a href="/story.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_story">Unsere Geschichte</span></a></li><li><a href="/nachhaltigkeit.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_sustainability">Nachhaltigkeit</span></a></li><li><a href="/sourcing.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_sourcing">Unsere Beschaffung</span></a></li><li><a href="/karriere.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_careers">Karriere</span></a></li><li><a href="/privacy.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_privacy">Datenschutz</span></a></li><li><a href="/terms.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_terms">AGB</span></a></li><li><a href="/impressum.html" class="text-white/40 text-sm hover:text-white transition-colors"><span data-i18n="ft_imprint">Impressum</span></a></li></ul><div class="mt-6 pt-5 border-t border-white/5"><p class="text-white/15 text-[11px]">Company No. 15847293</p><p class="text-white/15 text-[11px]">Registered in England & Wales</p></div></div>
   </div>
   <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</p>
+    <p class="text-white/20 text-[11px]"><span data-i18n="ft_copyright">© 2026 Aura Global Merchants Ltd. Alle Rechte vorbehalten.</span></p>
     <div class="flex items-center gap-1.5 flex-wrap"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
       <span class="mx-1 text-white/10">|</span>
       <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DHL</span>
@@ -377,7 +377,7 @@ function renderPagination(total){
 
 function renderChips(cats,brs,badges,search){
   var el=document.getElementById('active-chips');
-  var catNames={electronics:'Elektronik',fashion:'Mode',home:'Haus & Wohnen',travel:'Reise'};
+  var catNames={electronics:Aura.t('nav_electronics'),fashion:Aura.t('nav_fashion'),home:Aura.t('nav_home'),travel:Aura.t('nav_travel')};
   var h='';
   cats.forEach(function(c){h+='<span class="inline-flex items-center gap-1 px-3 py-1 bg-navy/5 text-xs font-medium rounded">'+(catNames[c]||c)+'<button onclick="document.querySelector(\'[data-cat='+c+']\').checked=false;applyFilters()" class="text-gray-400 hover:text-navy ml-1">✕</button></span>';});
   brs.forEach(function(b){h+='<span class="inline-flex items-center gap-1 px-3 py-1 bg-navy/5 text-xs font-medium rounded">'+b+'<button onclick="document.querySelector(\'[data-brand='+b+']\').checked=false;applyFilters()" class="text-gray-400 hover:text-navy ml-1">✕</button></span>';});
