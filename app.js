@@ -28,7 +28,7 @@ function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textCo
 */
 var DEFAULT_PRODUCTS = [];
 
-var PRODUCTS_VERSION = 8; // Bump: added 42 new products (IDs 1901-1942)
+var PRODUCTS_VERSION = 9; // Bump: travel category added (396 products reclassified)
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;
@@ -437,7 +437,8 @@ var PRODUCT_TYPE_ICONS = {
 };
 function imgHtml(src, sizeClass, altText){
   var alt = (altText||'').replace(/"/g,'&quot;');
-  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-cover" loading="lazy">';
+  var fallback='this.onerror=null;this.style.display=\'none\';this.parentNode.innerHTML=\'<div class="w-full h-full bg-gradient-to-br from-[#f8f7f4] to-[#eeece7] flex flex-col items-center justify-center gap-2"><img src="/logo.svg" alt="Aura" style="width:38px;height:38px;opacity:0.15"><span style="font-size:9px;letter-spacing:0.2em;color:rgba(10,22,40,0.2);font-weight:600">AURA VERIFIED<\/span><\/div>\'';
+  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-cover" loading="lazy" onerror="'+fallback+'">';
   /* Product-type branded placeholder */
   var iconSvg = PRODUCT_TYPE_ICONS[src];
   if(iconSvg){
@@ -541,7 +542,7 @@ de:{
   top_bar:'Kostenloser Versand ab €99 · 30 Tage Rückgaberecht',
   guarantee:'Garantie',
   search_ph:'Suche nach Produkten, Marken, Kategorien...',
-  nav_all:'Alle Produkte',nav_electronics:'Elektronik',nav_fashion:'Mode',nav_fashion_long:'Mode & Accessoires',nav_home:'Haus & Wohnen',nav_travel:'Reise & Outdoor',nav_sale:'Sale %',nav_new:'Neuheiten ✦',
+  nav_all:'Alle Produkte',nav_electronics:'Elektronik',nav_fashion:'Mode',nav_fashion_long:'Mode & Accessoires',nav_home:'Haus & Wohnen',nav_travel:'Reise & Outdoor',nav_sale:'Sale %',nav_new:'Neuheiten',
   mob_login:'Anmelden / Registrieren',mob_orders:'Meine Bestellungen',
   hero_tag:'Gepr\u00fcft \u00b7 Zuverl\u00e4ssig \u00b7 G\u00fcnstig',hero_h1a:'Gepr\u00fcfte Elektronik & Mode',hero_h1b:'direkt aus dem Lager',
   hero_desc:'Jedes Produkt wird in unserem Hub in London manuell kontrolliert. 100% Originalit\u00e4t und Funktionalit\u00e4t garantiert.',
@@ -756,7 +757,7 @@ de:{
   stat_items:'Gepr\u00fcfte Artikel',stat_brands:'Top-Marken',stat_sat:'Kundenzufriedenheit',stat_del:'Tage Lieferung',
   cat_elec_d:'Smartphones, Laptops, Audio',cat_fash_d:'Schuhe, Taschen, Schmuck',cat_home_d:'Dyson, Smarthome, Pflege',cat_travel_d:'Gep\u00e4ck, Accessoires',cat_beauty:'Beauty & Pflege',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'ENTDECKEN \u2192',
   spot_top:'TOP KATEGORIE',spot_elec:'Elektronik & Technik',spot_all_elec:'Alle Elektronik \u2192',spot_fash:'Mode & Lifestyle',spot_all_fash:'Alle Mode \u2192',
-  sec_trending_label:'\ud83d\udd25 AKTUELL',sec_trending:'Trending jetzt',sec_all_new:'Alle Neuheiten \u2192',
+  sec_trending_label:'AKTUELL',sec_trending:'Trending jetzt',sec_all_new:'Alle Neuheiten \u2192',
   sec_premium:'PREMIUM AUSWAHL',sec_brands_grid:'120+ Top-Marken auf einen Blick',sec_brands_d:'Von weltweit f\u00fchrenden Marken \u2014 gepr\u00fcft und direkt zu Ihnen.',sec_brands_sub:'\u00dcber 120 verifizierte Marken aus aller Welt',
   sec_testi_label:'KUNDENSTIMMEN',sec_testimonials:'Was unsere Kunden sagen',
   sec_why_label:'WARUM AURA?',sec_why:'Der Unterschied liegt im Detail',
@@ -848,7 +849,7 @@ en:{
   top_bar:'Free shipping from $99 · 30-day returns',
   guarantee:'Guarantee',
   search_ph:'Search products, brands, categories...',
-  nav_all:'All Products',nav_electronics:'Electronics',nav_fashion:'Fashion',nav_fashion_long:'Fashion & Accessories',nav_home:'Home & Living',nav_travel:'Travel & Outdoor',nav_sale:'Sale %',nav_new:'New Arrivals ✦',
+  nav_all:'All Products',nav_electronics:'Electronics',nav_fashion:'Fashion',nav_fashion_long:'Fashion & Accessories',nav_home:'Home & Living',nav_travel:'Travel & Outdoor',nav_sale:'Sale %',nav_new:'New Arrivals',
   mob_login:'Sign In / Register',mob_orders:'My Orders',
   hero_tag:'Inspected \u00b7 Reliable \u00b7 Affordable',hero_h1a:'Inspected Electronics & Fashion',hero_h1b:'direct from the hub',
   hero_desc:'Every product is manually inspected at our London hub. 100% authenticity and functionality guaranteed.',
@@ -1058,7 +1059,7 @@ en:{
   stat_items:'Inspected Items',stat_brands:'Top Brands',stat_sat:'Customer Satisfaction',stat_del:'Days Delivery',
   cat_elec_d:'Smartphones, Laptops, Audio',cat_fash_d:'Shoes, Bags, Jewellery',cat_home_d:'Dyson, Smart Home, Care',cat_travel_d:'Luggage, Accessories',cat_beauty:'Beauty & Care',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'DISCOVER →',
   spot_top:'TOP CATEGORY',spot_elec:'Electronics & Tech',spot_all_elec:'All Electronics →',spot_fash:'Fashion & Lifestyle',spot_all_fash:'All Fashion →',
-  sec_trending_label:'🔥 TRENDING',sec_trending:'Trending Now',sec_all_new:'All New Arrivals →',
+  sec_trending_label:'TRENDING',sec_trending:'Trending Now',sec_all_new:'All New Arrivals →',
   sec_premium:'PREMIUM SELECTION',sec_brands_grid:'120+ Top Brands at a Glance',sec_brands_d:'From world-leading brands — inspected and delivered to you.',sec_brands_sub:'Over 120 verified brands from around the world',
   sec_testi_label:'TESTIMONIALS',sec_testimonials:'What Our Customers Say',
   sec_why_label:'WHY AURA?',sec_why:'The Difference is in the Details',
@@ -1150,7 +1151,7 @@ fr:{
   top_bar:'Livraison gratuite d\u00e8s 99\u20ac \u00b7 Retour sous 30 jours',
   guarantee:'Garantie',
   search_ph:'Rechercher produits, marques, cat\u00e9gories...',
-  nav_all:'Tous les produits',nav_electronics:'\u00c9lectronique',nav_fashion:'Mode',nav_fashion_long:'Mode & Accessoires',nav_home:'Maison',nav_travel:'Voyage & Outdoor',nav_sale:'Promo %',nav_new:'Nouveaut\u00e9s \u2726',
+  nav_all:'Tous les produits',nav_electronics:'\u00c9lectronique',nav_fashion:'Mode',nav_fashion_long:'Mode & Accessoires',nav_home:'Maison',nav_travel:'Voyage & Outdoor',nav_sale:'Promo %',nav_new:'Nouveaut\u00e9s',
   mob_login:'Connexion / Inscription',mob_orders:'Mes commandes',
   hero_tag:'V\u00e9rifi\u00e9 \u00b7 Fiable \u00b7 Abordable',hero_h1a:'\u00c9lectronique & Mode v\u00e9rifi\u00e9es',hero_h1b:'directement du hub',
   hero_desc:'Chaque produit est contr\u00f4l\u00e9 manuellement dans notre hub \u00e0 Londres. Authenticit\u00e9 et fonctionnalit\u00e9 garanties \u00e0 100%.',
@@ -1231,7 +1232,7 @@ fr:{
   stat_items:'Articles inspect\u00e9s',stat_brands:'Top Marques',stat_sat:'Satisfaction client',stat_del:'Jours de livraison',
   cat_elec_d:'Smartphones, PC portables, Audio',cat_fash_d:'Chaussures, Sacs, Bijoux',cat_home_d:'Dyson, Maison connect\u00e9e, Soin',cat_travel_d:'Bagages, Accessoires',cat_beauty:'Beaut\u00e9 & Soin',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'D\u00c9COUVRIR \u2192',
   spot_top:'TOP CAT\u00c9GORIE',spot_elec:'\u00c9lectronique & Tech',spot_all_elec:'Toute l\u0027\u00e9lectronique \u2192',spot_fash:'Mode & Lifestyle',spot_all_fash:'Toute la mode \u2192',
-  sec_trending_label:'\ud83d\udd25 TENDANCES',sec_trending:'Tendances actuelles',sec_all_new:'Toutes les nouveaut\u00e9s \u2192',
+  sec_trending_label:'TENDANCES',sec_trending:'Tendances actuelles',sec_all_new:'Toutes les nouveaut\u00e9s \u2192',
   sec_premium:'S\u00c9LECTION PREMIUM',sec_brands_grid:'120+ Top Marques en un coup d\u0027\u0153il',sec_brands_d:'Des marques mondiales \u2014 inspect\u00e9es et livr\u00e9es chez vous.',sec_brands_sub:'Plus de 120 marques v\u00e9rifi\u00e9es du monde entier',
   sec_testi_label:'T\u00c9MOIGNAGES',sec_testimonials:'Ce que disent nos clients',
   sec_why_label:'POURQUOI AURA\u00a0?',sec_why:'La diff\u00e9rence est dans les d\u00e9tails',
@@ -1323,7 +1324,7 @@ es:{
   top_bar:'Env\u00edo gratis desde 99\u20ac \u00b7 Devoluci\u00f3n en 30 d\u00edas',
   guarantee:'Garant\u00eda',
   search_ph:'Buscar productos, marcas, categor\u00edas...',
-  nav_all:'Todos',nav_electronics:'Electr\u00f3nica',nav_fashion:'Moda',nav_fashion_long:'Moda y Accesorios',nav_home:'Hogar',nav_travel:'Viaje & Outdoor',nav_sale:'Ofertas %',nav_new:'Novedades \u2726',
+  nav_all:'Todos',nav_electronics:'Electr\u00f3nica',nav_fashion:'Moda',nav_fashion_long:'Moda y Accesorios',nav_home:'Hogar',nav_travel:'Viaje & Outdoor',nav_sale:'Ofertas %',nav_new:'Novedades',
   mob_login:'Iniciar sesi\u00f3n / Registro',mob_orders:'Mis pedidos',
   hero_tag:'Verificado \u00b7 Fiable \u00b7 Asequible',hero_h1a:'Electr\u00f3nica y Moda verificada',hero_h1b:'directo del almac\u00e9n',
   hero_desc:'Cada producto se inspecciona manualmente en nuestro hub de Londres. Autenticidad y funcionalidad garantizadas al 100%.',
@@ -1404,7 +1405,7 @@ es:{
   stat_items:'Art\u00edculos inspeccionados',stat_brands:'Top Marcas',stat_sat:'Satisfacci\u00f3n del cliente',stat_del:'D\u00edas de entrega',
   cat_elec_d:'Smartphones, Port\u00e1tiles, Audio',cat_fash_d:'Zapatos, Bolsos, Joyer\u00eda',cat_home_d:'Dyson, Hogar inteligente, Cuidado',cat_travel_d:'Equipaje, Accesorios',cat_beauty:'Belleza & Cuidado',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'DESCUBRIR \u2192',
   spot_top:'TOP CATEGOR\u00cdA',spot_elec:'Electr\u00f3nica & Tech',spot_all_elec:'Toda la Electr\u00f3nica \u2192',spot_fash:'Moda & Lifestyle',spot_all_fash:'Toda la Moda \u2192',
-  sec_trending_label:'\ud83d\udd25 TENDENCIA',sec_trending:'En tendencia ahora',sec_all_new:'Todas las novedades \u2192',
+  sec_trending_label:'TENDENCIA',sec_trending:'En tendencia ahora',sec_all_new:'Todas las novedades \u2192',
   sec_premium:'SELECCI\u00d3N PREMIUM',sec_brands_grid:'120+ Top Marcas de un vistazo',sec_brands_d:'De marcas l\u00edderes mundiales \u2014 inspeccionadas y entregadas.',sec_brands_sub:'M\u00e1s de 120 marcas verificadas de todo el mundo',
   sec_testi_label:'TESTIMONIOS',sec_testimonials:'Lo que dicen nuestros clientes',
   sec_why_label:'\u00bfPOR QU\u00c9 AURA?',sec_why:'La diferencia est\u00e1 en los detalles',
@@ -1496,7 +1497,7 @@ it:{
   top_bar:'Spedizione gratuita da 99\u20ac \u00b7 Reso entro 30 giorni',
   guarantee:'Garanzia',
   search_ph:'Cerca prodotti, marchi, categorie...',
-  nav_all:'Tutti',nav_electronics:'Elettronica',nav_fashion:'Moda',nav_fashion_long:'Moda e Accessori',nav_home:'Casa',nav_travel:'Viaggio & Outdoor',nav_sale:'Offerte %',nav_new:'Novit\u00e0 \u2726',
+  nav_all:'Tutti',nav_electronics:'Elettronica',nav_fashion:'Moda',nav_fashion_long:'Moda e Accessori',nav_home:'Casa',nav_travel:'Viaggio & Outdoor',nav_sale:'Offerte %',nav_new:'Novit\u00e0',
   mob_login:'Accedi / Registrati',mob_orders:'I miei ordini',
   hero_tag:'Verificato \u00b7 Affidabile \u00b7 Conveniente',hero_h1a:'Elettronica e Moda verificata',hero_h1b:'direttamente dal magazzino',
   hero_desc:'Ogni prodotto viene controllato manualmente nel nostro hub di Londra. Autenticit\u00e0 e funzionalit\u00e0 garantite al 100%.',
@@ -1577,7 +1578,7 @@ it:{
   stat_items:'Articoli Ispezionati',stat_brands:'Top Brand',stat_sat:'Soddisfazione Clienti',stat_del:'Giorni di Consegna',
   cat_elec_d:'Smartphone, Laptop, Audio',cat_fash_d:'Scarpe, Borse, Gioielli',cat_home_d:'Dyson, Smart Home, Cura',cat_travel_d:'Bagagli, Accessori',cat_beauty:'Bellezza & Cura',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'SCOPRI \u2192',
   spot_top:'TOP CATEGORIA',spot_elec:'Elettronica & Tech',spot_all_elec:'Tutta l\u0027Elettronica \u2192',spot_fash:'Moda & Lifestyle',spot_all_fash:'Tutta la Moda \u2192',
-  sec_trending_label:'\ud83d\udd25 DI TENDENZA',sec_trending:'Di Tendenza Ora',sec_all_new:'Tutte le Novit\u00e0 \u2192',
+  sec_trending_label:'DI TENDENZA',sec_trending:'Di Tendenza Ora',sec_all_new:'Tutte le Novit\u00e0 \u2192',
   sec_premium:'SELEZIONE PREMIUM',sec_brands_grid:'120+ Top Brand a Colpo d\u0027Occhio',sec_brands_d:'Dai brand leader mondiali \u2014 ispezionati e consegnati a te.',sec_brands_sub:'Oltre 120 brand verificati da tutto il mondo',
   sec_testi_label:'TESTIMONIANZE',sec_testimonials:'Cosa Dicono i Nostri Clienti',
   sec_why_label:'PERCH\u00c9 AURA?',sec_why:'La Differenza \u00e8 nei Dettagli',
@@ -1669,7 +1670,7 @@ pl:{
   top_bar:'Darmowa wysy\u0142ka od 99\u20ac \u00b7 30 dni na zwrot',
   guarantee:'Gwarancja',
   search_ph:'Szukaj produkt\u00f3w, marek, kategorii...',
-  nav_all:'Wszystkie',nav_electronics:'Elektronika',nav_fashion:'Moda',nav_fashion_long:'Moda i Akcesoria',nav_home:'Dom',nav_travel:'Podr\u00f3\u017ce & Outdoor',nav_sale:'Wyprzeda\u017c %',nav_new:'Nowo\u015bci \u2726',
+  nav_all:'Wszystkie',nav_electronics:'Elektronika',nav_fashion:'Moda',nav_fashion_long:'Moda i Akcesoria',nav_home:'Dom',nav_travel:'Podr\u00f3\u017ce & Outdoor',nav_sale:'Wyprzeda\u017c %',nav_new:'Nowo\u015bci',
   mob_login:'Zaloguj / Rejestracja',mob_orders:'Moje zam\u00f3wienia',
   hero_tag:'Sprawdzone \u00b7 Bezpieczne \u00b7 Korzystne',hero_h1a:'Sprawdzona Elektronika i Moda',hero_h1b:'prosto z magazynu',
   hero_desc:'Ka\u017cdy produkt jest r\u0119cznie kontrolowany w naszym hubie w Londynie. 100% oryginalno\u015bci i funkcjonalno\u015bci.',
@@ -1750,7 +1751,7 @@ pl:{
   stat_items:'Sprawdzone Produkty',stat_brands:'Top Marki',stat_sat:'Zadowolenie Klientów',stat_del:'Dni Dostawy',
   cat_elec_d:'Smartfony, Laptopy, Audio',cat_fash_d:'Buty, Torby, Biżuteria',cat_home_d:'Dyson, Smart Home, Pielęgnacja',cat_travel_d:'Bagaż, Akcesoria',cat_beauty:'Uroda & Pielęgnacja',cat_beauty_d:'Sephora, Rituals, Dyson Hair',cat_gaming:'Gaming & VR',cat_gaming_d:'PlayStation, Meta Quest, Steam',cat_discover:'ODKRYJ →',
   spot_top:'TOP KATEGORIA',spot_elec:'Elektronika & Tech',spot_all_elec:'Cała Elektronika →',spot_fash:'Moda & Lifestyle',spot_all_fash:'Cała Moda →',
-  sec_trending_label:'🔥 TRENDY',sec_trending:'Teraz w Trendach',sec_all_new:'Wszystkie Nowości →',
+  sec_trending_label:'TRENDY',sec_trending:'Teraz w Trendach',sec_all_new:'Wszystkie Nowości →',
   sec_premium:'PREMIUM WYBÓR',sec_brands_grid:'120+ Top Marek na Pierwszy Rzut Oka',sec_brands_d:'Od światowych liderów — sprawdzone i dostarczone do Ciebie.',sec_brands_sub:'Ponad 120 zweryfikowanych marek z całego świata',
   sec_testi_label:'OPINIE',sec_testimonials:'Co Mówią Nasi Klienci',
   sec_why_label:'DLACZEGO AURA?',sec_why:'Różnica Tkwi w Szczegółach',
@@ -1848,9 +1849,8 @@ function setLocale(loc){
 function t(key){ var d=I18N[getLocale()]; return (d&&d[key])||(I18N.de[key])||key; }
 
 function formatPrice(n){
-  var loc=getLocale();
-  if(loc==='en') return '\u00a3'+Math.round(n*EUR_GBP).toLocaleString('en-GB');
-  return '\u20ac'+n.toLocaleString('de-DE');
+  // Currency is always EUR (€) — no conversion for other locales
+  return '\u20ac'+n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 function applyLocale(){

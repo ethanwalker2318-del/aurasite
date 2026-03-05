@@ -180,7 +180,7 @@ html{scrollbar-gutter:stable}
       </div>
     </div>
     <a href="/catalog.html?badge=express" class="px-4 py-3 text-[13px] text-red-500 font-semibold hover:bg-red-50 transition-colors" data-i18n="nav_sale">Sale %</a>
-    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten ✦</a>
+    <a href="/catalog.html?sort=newest" class="px-4 py-3 text-[13px] text-gold font-semibold hover:bg-gold/5 transition-colors" data-i18n="nav_new">Neuheiten</a>
   </div>
 </nav>
 </header>
@@ -445,7 +445,7 @@ html{scrollbar-gutter:stable}
 <section class="py-10 sm:py-14">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between mb-8">
-    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase" data-i18n="sec_trending_label">🔥 AKTUELL</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal" data-i18n="sec_trending">Trending jetzt</h2></div>
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase" data-i18n="sec_trending_label">AKTUELL</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal" data-i18n="sec_trending">Trending jetzt</h2></div>
     <a href="/catalog.html?sort=newest" class="text-sm text-gold font-semibold hover:underline hidden sm:inline" data-i18n="sec_all_new">Alle Neuheiten →</a>
   </div>
   <div id="trending-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"></div>
@@ -842,17 +842,31 @@ function renderCartDrawer(){
 window.renderCartDrawer=renderCartDrawer;
 document.addEventListener('cart-update',function(){Aura.renderCartBadge();});
 
-// Featured products
-var prods=Aura.getProducts().slice(0,12);
-var grid=document.getElementById('featured-grid');
-grid.innerHTML=prods.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+// ── Curated Bestsellers for homepage ──
+var BESTSELLER_IDS = ['1607','1614','1618','1609','1687','1648','1649','1683','1119','1632','31','1608'];
+var TRENDING_IDS   = ['1610','1611','1928','1936','1687','1114','1927','16'];
 
-// Trending products (offset from featured)
-var trendProds=Aura.getProducts().slice(12,20);
-var trendGrid=document.getElementById('trending-grid');
-if(trendGrid && trendProds.length){
-  trendGrid.innerHTML=trendProds.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+function getBestsellers(ids){
+  var all=Aura.getProducts();
+  var map={};
+  all.forEach(function(p){map[p.id]=p;});
+  return ids.map(function(id){return map[id];}).filter(Boolean);
 }
+
+function renderHomepageProducts(){
+  var prods = getBestsellers(BESTSELLER_IDS);
+  if(!prods.length) prods = Aura.getProducts().slice(0,12);
+  var grid=document.getElementById('featured-grid');
+  if(grid) grid.innerHTML=prods.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+
+  var trendProds = getBestsellers(TRENDING_IDS);
+  if(!trendProds.length) trendProds = Aura.getProducts().slice(12,20);
+  var trendGrid=document.getElementById('trending-grid');
+  if(trendGrid) trendGrid.innerHTML=trendProds.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+
+renderHomepageProducts();
 
 // Scroll + Reveal
 window.addEventListener('scroll',function(){document.getElementById('site-header').classList.toggle('shadow-md',window.scrollY>40);},{passive:true});
@@ -860,24 +874,12 @@ var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isInte
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 // Re-render on locale change
 document.addEventListener('locale-change',function(){
-  var prods2=Aura.getProducts().slice(0,12);
-  var grid2=document.getElementById('featured-grid');
-  grid2.innerHTML=prods2.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
-  var trendProds2=Aura.getProducts().slice(12,20);
-  var tg2=document.getElementById('trending-grid');
-  if(tg2 && trendProds2.length) tg2.innerHTML=trendProds2.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
-  if(typeof lucide!=='undefined') lucide.createIcons();
+  renderHomepageProducts();
 });
 if(typeof lucide!=='undefined') lucide.createIcons();
 // Re-render when JSON products load async
 document.addEventListener('aura:json-products-loaded',function(){
-  var p3=Aura.getProducts().slice(0,12);
-  var g3=document.getElementById('featured-grid');
-  if(g3) g3.innerHTML=p3.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
-  var t3=Aura.getProducts().slice(12,20);
-  var tg3=document.getElementById('trending-grid');
-  if(tg3 && t3.length) tg3.innerHTML=t3.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true}); }).join('');
-  if(typeof lucide!=='undefined') lucide.createIcons();
+  renderHomepageProducts();
 });
 })();
 </script>

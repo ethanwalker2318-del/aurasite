@@ -205,7 +205,15 @@
 var items=Aura.getCartItems();
 if(!items.length){window.location.replace('/catalog.html');return;}
 
+// ── Auth gate: require login before checkout ──
 var session=Aura.getSession();
+if(!session){
+  // Save current URL to redirect back after login
+  try{ localStorage.setItem('aura_login_next','checkout.html'); }catch(e){}
+  window.location.replace('/login.html');
+  return;
+}
+
 var shipCost=0;
 
 function renderSummary(){

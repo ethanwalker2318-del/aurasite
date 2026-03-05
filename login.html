@@ -179,7 +179,9 @@ window.handleLogin=function(e){
   if(result.ok){
     Aura.showToast(Aura.t('welcome_back'),'success');
     setTimeout(function(){
-      if(result.user.role==='admin'||result.user.role==='linguist') window.location.href='/admin-hub.html';
+      if(result.user.role==='admin'||result.user.role==='linguist') { window.location.href='/admin-hub.html'; return; }
+      var nextPage = localStorage.getItem('aura_login_next');
+      if(nextPage){ localStorage.removeItem('aura_login_next'); window.location.href='/'+nextPage; }
       else window.location.href='/dashboard.html';
     },600);
   }else{
