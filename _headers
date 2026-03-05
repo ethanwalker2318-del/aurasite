@@ -1,0 +1,20 @@
+/*
+  Cache-Control: no-cache, must-revalidate
+
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+/app.js
+  Cache-Control: no-cache, must-revalidate
+
+/products.json
+  Cache-Control: no-cache, must-revalidate
+
+/products-loader.js
+  Cache-Control: no-cache, must-revalidate
+
+/*.svg
+  Cache-Control: public, max-age=86400
+
+/public/images/*
+  Cache-Control: public, max-age=2592000
