@@ -417,7 +417,13 @@ html{scrollbar-gutter:stable}
 'use strict';
 var pid=new URLSearchParams(window.location.search).get('id')||'p1';
 var product=Aura.getProductById(pid);
-if(!product){product=Aura.getProducts()[0];pid=product.id;}
+if(!product){var all=Aura.getProducts(); product=all.length?all[0]:null;}
+if(!product){
+  // Products not loaded yet — wait for JSON loader
+  document.addEventListener('aura:json-products-loaded',function(){ window.location.reload(); });
+  return;
+}
+pid=product.id;
 var catNames={electronics:Aura.t('nav_electronics'),fashion:Aura.t('nav_fashion_long'),home:Aura.t('nav_home'),travel:Aura.t('nav_travel')};
 var qty=1;
 

@@ -1,4 +1,6 @@
 gen_*.py
+_gen_*.ps1
 promt
 sections/
 EMAIL-SETUP.md
+public/images/products-master.csv

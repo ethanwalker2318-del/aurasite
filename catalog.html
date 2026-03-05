@@ -443,6 +443,14 @@ window.addEventListener('scroll',function(){document.getElementById('site-header
 
 // Re-render on locale change
 document.addEventListener('locale-change',function(){ applyFilters(); });
+// Re-render when JSON products load async
+document.addEventListener('aura:json-products-loaded',function(){
+  allProducts=Aura.getProducts();
+  brands=[...new Set(allProducts.map(function(p){return p.brand;}))].sort();
+  var bf2=document.getElementById('filter-brands');
+  bf2.innerHTML=brands.map(function(b){return '<label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-brand="'+b+'" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">'+b+'</span></label>';}).join('');
+  applyFilters();
+});
 // Init
 applyFilters();
 if(typeof lucide!=='undefined') lucide.createIcons();
