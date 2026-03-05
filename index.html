@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/logo.svg">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Geprüfte Elektronik & Mode direkt aus dem Londoner Hub. Über 120 verifizierte Marken, 30 Tage Rückgabe, sichere Zahlung.">
 <title>Aura Global Merchants — Geprüfte Elektronik & Mode</title>
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,6 +28,7 @@ html{scrollbar-gutter:stable}
 /* Responsive helpers */
 @media(max-width:639px){.hero-grid-item{padding:1rem !important}.hero-grid-item .text-5xl{font-size:2rem !important}}
 @media(max-width:374px){.hero-title{font-size:1.75rem !important;line-height:1.15 !important}}
+@media(max-width:374px){.product-card button{font-size:10px !important;padding:8px 6px !important;letter-spacing:0.04em !important}}
 </style>
 </head>
 <body class="font-sans bg-white text-navy antialiased overflow-x-hidden">
@@ -203,9 +207,9 @@ html{scrollbar-gutter:stable}
     </div>
     <!-- Inline trust -->
     <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6 reveal">
-      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i>Versand in 2–4 Tagen</span>
-      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>30 Tage Rückgabe</span>
-      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>Sichere Zahlung</span>
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_ship">Versand in 2–4 Tagen</span></span>
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_return">30 Tage Rückgabe</span></span>
+      <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_pay">Sichere Zahlung</span></span>
     </div>
   </div>
   <div class="flex-1 grid grid-cols-2 gap-3 w-full max-w-sm sm:max-w-md lg:max-w-lg reveal">
@@ -271,36 +275,36 @@ html{scrollbar-gutter:stable}
 <section class="py-12 sm:py-16 bg-white">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="text-center mb-10 sm:mb-14">
-    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">UNSER PROZESS</span>
-    <h2 class="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold text-navy reveal">So funktioniert Aura</h2>
-    <p class="text-gray-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto reveal">Jedes Produkt durchläuft unser dreistufiges Prüfverfahren im Londoner Hub, bevor es zu Ihnen gelangt.</p>
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3" data-i18n="sec_process">UNSER PROZESS</span>
+    <h2 class="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold text-navy reveal" data-i18n="sec_how">So funktioniert Aura</h2>
+    <p class="text-gray-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto reveal" data-i18n="sec_how_d">Jedes Produkt durchläuft unser dreistufiges Prüfverfahren im Londoner Hub, bevor es zu Ihnen gelangt.</p>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
     <div class="text-center reveal">
       <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="package-search" class="w-7 h-7 text-navy"></i></div>
-      <div class="text-gold font-bold text-sm mb-2">Schritt 1</div>
-      <h3 class="font-semibold text-navy text-lg mb-2">Beschaffung</h3>
-      <p class="text-gray-400 text-sm leading-relaxed">Wir beziehen Originalware direkt von autorisierten Händlern und Marken weltweit — von Apple über Nike bis Louis Vuitton. Über 120 verifizierte Quellen.</p>
+      <div class="text-gold font-bold text-sm mb-2" data-i18n="step1_n">Schritt 1</div>
+      <h3 class="font-semibold text-navy text-lg mb-2" data-i18n="step1_t">Beschaffung</h3>
+      <p class="text-gray-400 text-sm leading-relaxed" data-i18n="step1_d">Wir beziehen Originalware direkt von autorisierten Händlern und Marken weltweit — von Apple über Nike bis Louis Vuitton. Über 120 verifizierte Quellen.</p>
     </div>
     <div class="text-center reveal">
       <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="shield-check" class="w-7 h-7 text-navy"></i></div>
-      <div class="text-gold font-bold text-sm mb-2">Schritt 2</div>
-      <h3 class="font-semibold text-navy text-lg mb-2">Hub-Inspektion</h3>
-      <p class="text-gray-400 text-sm leading-relaxed">In unserem Londoner Hub wird jedes Produkt manuell auf Originalität, Vollständigkeit und Funktion geprüft — mit Video-Dokumentation.</p>
+      <div class="text-gold font-bold text-sm mb-2" data-i18n="step2_n">Schritt 2</div>
+      <h3 class="font-semibold text-navy text-lg mb-2" data-i18n="step2_t">Hub-Inspektion</h3>
+      <p class="text-gray-400 text-sm leading-relaxed" data-i18n="step2_d">In unserem Londoner Hub wird jedes Produkt manuell auf Originalität, Vollständigkeit und Funktion geprüft — mit Video-Dokumentation.</p>
     </div>
     <div class="text-center reveal">
       <div class="w-16 h-16 bg-navy/5 rounded-2xl flex items-center justify-center mx-auto mb-5"><i data-lucide="truck" class="w-7 h-7 text-navy"></i></div>
-      <div class="text-gold font-bold text-sm mb-2">Schritt 3</div>
-      <h3 class="font-semibold text-navy text-lg mb-2">Versand zu Ihnen</h3>
-      <p class="text-gray-400 text-sm leading-relaxed">Versiegeltes, geprüftes Paket — versichert und mit Tracking direkt zu Ihnen nach Hause. In nur 2–4 Werktagen.</p>
+      <div class="text-gold font-bold text-sm mb-2" data-i18n="step3_n">Schritt 3</div>
+      <h3 class="font-semibold text-navy text-lg mb-2" data-i18n="step3_t">Versand zu Ihnen</h3>
+      <p class="text-gray-400 text-sm leading-relaxed" data-i18n="step3_d">Versiegeltes, geprüftes Paket — versichert und mit Tracking direkt zu Ihnen nach Hause. In nur 2–4 Werktagen.</p>
     </div>
   </div>
   <!-- Stats bar -->
   <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-gray-100 pt-10">
-    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">10.000+</p><p class="text-xs text-gray-400 mt-1">Geprüfte Artikel</p></div>
-    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">120+</p><p class="text-xs text-gray-400 mt-1">Top-Marken</p></div>
-    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">99,8%</p><p class="text-xs text-gray-400 mt-1">Kundenzufriedenheit</p></div>
-    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">2–4</p><p class="text-xs text-gray-400 mt-1">Tage Lieferung</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">10.000+</p><p class="text-xs text-gray-400 mt-1" data-i18n="stat_items">Geprüfte Artikel</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">120+</p><p class="text-xs text-gray-400 mt-1" data-i18n="stat_brands">Top-Marken</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">99,8%</p><p class="text-xs text-gray-400 mt-1" data-i18n="stat_sat">Kundenzufriedenheit</p></div>
+    <div class="text-center reveal"><p class="text-3xl sm:text-4xl font-bold text-navy">2–4</p><p class="text-xs text-gray-400 mt-1" data-i18n="stat_del">Tage Lieferung</p></div>
   </div>
 </div>
 </section>
@@ -312,39 +316,39 @@ html{scrollbar-gutter:stable}
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
     <a href="/catalog.html?cat=electronics" class="group relative bg-gradient-to-br from-blue-50 to-blue-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">📱</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Elektronik</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Smartphones, Laptops, Audio</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="nav_electronics">Elektronik</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_elec_d">Smartphones, Laptops, Audio</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
     <a href="/catalog.html?cat=fashion" class="group relative bg-gradient-to-br from-pink-50 to-rose-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">👜</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Mode & Accessoires</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Schuhe, Taschen, Schmuck</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="nav_fashion_long">Mode & Accessoires</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_fash_d">Schuhe, Taschen, Schmuck</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
     <a href="/catalog.html?cat=home" class="group relative bg-gradient-to-br from-green-50 to-emerald-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">🏠</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Haus & Wohnen</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Dyson, Smarthome, Pflege</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="nav_home">Haus & Wohnen</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_home_d">Dyson, Smarthome, Pflege</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
     <a href="/catalog.html?cat=travel" class="group relative bg-gradient-to-br from-amber-50 to-yellow-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">✈️</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Reise & Outdoor</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Gepäck, Accessoires</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="nav_travel">Reise & Outdoor</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_travel_d">Gepäck, Accessoires</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
     <a href="/catalog.html?cat=fashion&sub=beauty" class="group relative bg-gradient-to-br from-purple-50 to-violet-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">💄</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Beauty & Pflege</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">Sephora, Rituals, Dyson Hair</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="cat_beauty">Beauty & Pflege</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_beauty_d">Sephora, Rituals, Dyson Hair</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
     <a href="/catalog.html?cat=electronics&sub=gaming" class="group relative bg-gradient-to-br from-indigo-50 to-blue-100/50 p-5 sm:p-8 text-center hover:shadow-lg transition-all reveal">
       <span class="text-4xl sm:text-5xl block mb-3 sm:mb-4">🎮</span>
-      <h3 class="font-semibold text-navy text-sm sm:text-base">Gaming & VR</h3>
-      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block">PlayStation, Meta Quest, Steam</p>
-      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline">ENTDECKEN →</span>
+      <h3 class="font-semibold text-navy text-sm sm:text-base" data-i18n="cat_gaming">Gaming & VR</h3>
+      <p class="text-[10px] sm:text-xs text-gray-400 mt-1 hidden sm:block" data-i18n="cat_gaming_d">PlayStation, Meta Quest, Steam</p>
+      <span class="text-[10px] text-gold font-semibold mt-2 sm:mt-3 block group-hover:underline" data-i18n="cat_discover">ENTDECKEN →</span>
     </a>
   </div>
 </div>
@@ -354,8 +358,8 @@ html{scrollbar-gutter:stable}
 <section class="py-10 sm:py-14 bg-gradient-to-b from-gray-50 to-white">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between mb-8">
-    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Elektronik & Technik</h2></div>
-    <a href="/catalog.html?cat=electronics" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Elektronik →</a>
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase" data-i18n="spot_top">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal" data-i18n="spot_elec">Elektronik & Technik</h2></div>
+    <a href="/catalog.html?cat=electronics" class="text-sm text-gold font-semibold hover:underline hidden sm:inline" data-i18n="spot_all_elec">Alle Elektronik →</a>
   </div>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
     <a href="/catalog.html?cat=electronics&q=smartphone" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
@@ -384,8 +388,8 @@ html{scrollbar-gutter:stable}
 <section class="py-10 sm:py-14">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between mb-8">
-    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Mode & Lifestyle</h2></div>
-    <a href="/catalog.html?cat=fashion" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Mode →</a>
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase" data-i18n="spot_top">TOP KATEGORIE</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal" data-i18n="spot_fash">Mode & Lifestyle</h2></div>
+    <a href="/catalog.html?cat=fashion" class="text-sm text-gold font-semibold hover:underline hidden sm:inline" data-i18n="spot_all_fash">Alle Mode →</a>
   </div>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
     <a href="/catalog.html?cat=fashion&q=sneaker" class="group bg-white border border-gray-100 rounded-lg p-4 text-center hover:shadow-md hover:border-navy/10 transition-all reveal">
@@ -426,8 +430,8 @@ html{scrollbar-gutter:stable}
 <section class="py-10 sm:py-14">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between mb-8">
-    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase">🔥 AKTUELL</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal">Trending jetzt</h2></div>
-    <a href="/catalog.html?sort=newest" class="text-sm text-gold font-semibold hover:underline hidden sm:inline">Alle Neuheiten →</a>
+    <div><span class="text-[10px] font-bold text-gold tracking-[0.25em] uppercase" data-i18n="sec_trending_label">🔥 AKTUELL</span><h2 class="font-sans text-xl sm:text-2xl font-bold text-navy mt-1 reveal" data-i18n="sec_trending">Trending jetzt</h2></div>
+    <a href="/catalog.html?sort=newest" class="text-sm text-gold font-semibold hover:underline hidden sm:inline" data-i18n="sec_all_new">Alle Neuheiten →</a>
   </div>
   <div id="trending-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5"></div>
 </div>
@@ -437,7 +441,7 @@ html{scrollbar-gutter:stable}
 <section class="py-8 sm:py-12 border-y border-gray-100 overflow-hidden">
 <div class="max-w-[1400px] mx-auto px-4 lg:px-8 mb-6 sm:mb-8">
   <h2 class="font-serif text-lg sm:text-xl font-bold text-center reveal" data-i18n="sec_brands">Unsere Marken</h2>
-  <p class="text-gray-400 text-xs text-center mt-2">Über 120 verifizierte Marken aus aller Welt</p>
+  <p class="text-gray-400 text-xs text-center mt-2" data-i18n="sec_brands_sub">Über 120 verifizierte Marken aus aller Welt</p>
 </div>
 <div class="flex animate-marquee whitespace-nowrap">
   <span class="mx-6 sm:mx-10 text-xl sm:text-2xl font-bold text-gray-200 hover:text-navy transition-colors cursor-pointer">Apple</span>
@@ -496,9 +500,9 @@ html{scrollbar-gutter:stable}
 <section class="py-12 sm:py-16 bg-white">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="text-center mb-10">
-    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">PREMIUM AUSWAHL</span>
-    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal">120+ Top-Marken auf einen Blick</h2>
-    <p class="text-gray-400 text-sm mt-3 max-w-xl mx-auto reveal">Von weltweit führenden Marken — geprüft und direkt zu Ihnen.</p>
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3" data-i18n="sec_premium">PREMIUM AUSWAHL</span>
+    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal" data-i18n="sec_brands_grid">120+ Top-Marken auf einen Blick</h2>
+    <p class="text-gray-400 text-sm mt-3 max-w-xl mx-auto reveal" data-i18n="sec_brands_d">Von weltweit führenden Marken — geprüft und direkt zu Ihnen.</p>
   </div>
   <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
     <a href="/catalog.html?brand=Apple" class="py-3 px-2 bg-gray-50 hover:bg-navy hover:text-white text-center text-xs font-semibold text-navy/70 transition-all rounded">Apple</a>
@@ -574,8 +578,8 @@ html{scrollbar-gutter:stable}
 <section class="py-12 sm:py-16 bg-gray-50">
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="text-center mb-10">
-    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">KUNDENSTIMMEN</span>
-    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal">Was unsere Kunden sagen</h2>
+    <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3" data-i18n="sec_testi_label">KUNDENSTIMMEN</span>
+    <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy reveal" data-i18n="sec_testimonials">Was unsere Kunden sagen</h2>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-sm border border-gray-100 reveal">
@@ -611,8 +615,8 @@ html{scrollbar-gutter:stable}
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
     <div class="reveal">
-      <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3">WARUM AURA?</span>
-      <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy mb-6">Der Unterschied liegt im Detail</h2>
+      <span class="inline-block text-[10px] font-bold text-gold tracking-[0.25em] uppercase mb-3" data-i18n="sec_why_label">WARUM AURA?</span>
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold text-navy mb-6" data-i18n="sec_why">Der Unterschied liegt im Detail</h2>
       <div class="space-y-5">
         <div class="flex items-start gap-4">
           <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="video" class="w-5 h-5 text-emerald-600"></i></div>
@@ -652,8 +656,8 @@ html{scrollbar-gutter:stable}
 <div class="absolute inset-0 opacity-[0.03]" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22><circle cx=%2220%22 cy=%2220%22 r=%228%22 fill=%22none%22 stroke=%22%232D8C4E%22 stroke-width=%220.5%22/></svg>');"></div>
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
   <div class="text-center mb-10 reveal">
-    <span class="inline-block text-[10px] font-bold text-emerald-400 tracking-[0.25em] uppercase mb-3">UNSERE MISSION</span>
-    <h2 class="font-sans text-white text-2xl sm:text-3xl font-bold mb-3">Kreislaufwirtschaft statt Verschwendung</h2>
+    <span class="inline-block text-[10px] font-bold text-emerald-400 tracking-[0.25em] uppercase mb-3" data-i18n="sec_mission">UNSERE MISSION</span>
+    <h2 class="font-sans text-white text-2xl sm:text-3xl font-bold mb-3" data-i18n="sec_sust">Kreislaufwirtschaft statt Verschwendung</h2>
     <p class="text-white/40 text-sm max-w-xl mx-auto">Jedes Produkt bei Aura ist ein gerettetes Produkt. Wir geben Markenware ein zweites Leben — und schonen Ressourcen, die unser Planet braucht.</p>
   </div>
   <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
@@ -685,8 +689,8 @@ html{scrollbar-gutter:stable}
   <h2 class="font-sans text-white text-2xl font-bold mb-3 reveal" data-i18n="sec_news">Newsletter</h2>
   <p class="text-white/40 text-sm mb-6 reveal" data-i18n="news_desc">Neue Angebote und geprüfte Produkte direkt in Ihr Postfach.</p>
   <form class="flex gap-2 reveal" onsubmit="event.preventDefault();var em=this.querySelector('input').value.trim();if(!em){Aura.showToast('Bitte E-Mail eingeben','error');return;}console.log('[Newsletter] Subscribing:',em);if(typeof AuraEmail!=='undefined'){AuraEmail.sendNewsletterWelcome(em);Aura.showToast('Erfolgreich abonniert! Prüfen Sie Ihr Postfach.','success');}else{console.error('[Newsletter] AuraEmail not loaded');Aura.showToast('Fehler — bitte Seite neu laden','error');}this.reset();">
-    <input type="email" required placeholder="Ihre E-Mail-Adresse" class="flex-1 px-4 py-3 bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 outline-none focus:border-gold/40">
-    <button type="submit" class="px-6 py-3 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors">ABONNIEREN</button>
+    <input type="email" required data-i18n-ph="news_ph" placeholder="Ihre E-Mail-Adresse" class="flex-1 px-4 py-3 bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 outline-none focus:border-gold/40">
+    <button type="submit" class="px-6 py-3 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors" data-i18n="news_btn">ABONNIEREN</button>
   </form>
 </div>
 </section>
