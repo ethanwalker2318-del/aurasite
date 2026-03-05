@@ -271,7 +271,7 @@ function saveUsers(u){ ls('aura_users', u); }
 function register(name, email, password){
   email = email.toLowerCase().trim();
   var users = getUsers();
-  if(users.find(function(u){return u.email===email;})){ return {ok:false, error:'Email уже зарегистрирован'}; }
+  if(users.find(function(u){return u.email===email;})){ return {ok:false, error:'Diese E-Mail ist bereits registriert'}; }
   var user = {id:uid(), name:name, email:email, password:password, role: email===ADMIN_EMAIL?'admin':'customer', created: new Date().toISOString()};
   users.push(user);
   saveUsers(users);
@@ -289,12 +289,12 @@ function login(email, password){
       saveUsers(users);
     }
     if(password===adm.password){ ls('aura_session',{id:adm.id, userId:adm.id, email:adm.email, role:'admin', name:adm.name}); return {ok:true,user:adm}; }
-    return {ok:false, error:'Неверный пароль'};
+    return {ok:false, error:'Falsches Passwort'};
   }
   var users = getUsers();
   var found = users.find(function(u){return u.email===email;});
-  if(!found) return {ok:false, error:'Пользователь не найден'};
-  if(found.password!==password) return {ok:false, error:'Неверный пароль'};
+  if(!found) return {ok:false, error:'Benutzer nicht gefunden'};
+  if(found.password!==password) return {ok:false, error:'Falsches Passwort'};
   ls('aura_session',{id:found.id, userId:found.id, email:found.email, role:found.role||'customer', name:found.name});
   return {ok:true, user:found};
 }

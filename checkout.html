@@ -5,6 +5,7 @@
 <link rel="icon" type="image/svg+xml" href="/logo.svg">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kasse — Aura Global Merchants</title>
+<meta name="description" content="Sichere Kasse bei Aura Global Merchants — 256-bit SSL, Stripe-Zahlungsabwicklung, 3D Secure. Schneller Versand nach DE & EU.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -56,12 +57,16 @@
               <input type="email" id="s-email" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div class="col-span-2">
+              <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider">Telefon</label>
+              <input type="tel" id="s-phone" placeholder="+49 170 1234567" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9+\s\-()]/g,'')">
+            </div>
+            <div class="col-span-2">
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_street">Straße & Hausnummer</label>
               <input type="text" id="s-street" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
             </div>
             <div>
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_zip">PLZ</label>
-              <input type="text" id="s-zip" required class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm">
+              <input type="text" id="s-zip" required maxlength="10" class="w-full h-11 px-4 border-2 border-gray-200 focus:border-navy outline-none text-sm" oninput="this.value=this.value.replace(/[^0-9A-Za-z\s\-]/g,'')">
             </div>
             <div>
               <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="ck_city">Stadt</label>
@@ -165,14 +170,20 @@
 
 <!-- FOOTER MINI -->
 <footer class="bg-navy-dark py-6 mt-auto">
-  <div class="max-w-[1400px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p>
-    <div class="flex items-center gap-4 text-[11px] text-white/20"><span>SSL verschlüsselt</span><span>·</span><span>PCI DSS konform</span></div>
-    <div class="flex items-center gap-1.5 flex-wrap"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
-      <span class="mx-1 text-white/10">|</span>
-      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DHL</span>
-      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">UPS</span>
-      <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DPD</span></div>
+  <div class="max-w-[1400px] mx-auto px-4 flex flex-col items-center gap-4">
+    <div class="flex items-center gap-2 text-[11px] text-white/30">
+      <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <span>Ihre Daten sind durch 256-bit SSL-Verschlüsselung geschützt</span>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
+      <p class="text-white/20 text-[11px]">© 2026 Aura Global Merchants Ltd.</p>
+      <div class="flex items-center gap-4 text-[11px] text-white/20"><span>SSL verschlüsselt</span><span>·</span><span>PCI DSS konform</span><span>·</span><span>3D Secure</span></div>
+      <div class="flex items-center gap-1.5 flex-wrap"><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">VISA</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">MC</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">AMEX</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">PayPal</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Apple Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Google Pay</span><span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">Klarna</span>
+        <span class="mx-1 text-white/10">|</span>
+        <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DHL</span>
+        <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">UPS</span>
+        <span class="px-3 py-1 border border-white/10 text-white/25 text-[10px] font-mono">DPD</span></div>
+    </div>
   </div>
 </footer>
 
