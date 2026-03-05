@@ -415,15 +415,22 @@ html{scrollbar-gutter:stable}
 <script>
 (function(){
 'use strict';
-var pid=new URLSearchParams(window.location.search).get('id')||'p1';
+var pid=new URLSearchParams(window.location.search).get('id')||'1';
 var product=Aura.getProductById(pid);
 if(!product){var all=Aura.getProducts(); product=all.length?all[0]:null;}
 if(!product){
-  // Products not loaded yet — wait for JSON loader
-  document.addEventListener('aura:json-products-loaded',function(){ window.location.reload(); });
+  document.addEventListener('aura:json-products-loaded',function(){
+    product=Aura.getProductById(pid);
+    if(!product){var all2=Aura.getProducts();product=all2.length?all2[0]:null;}
+    if(!product)return;
+    pid=product.id;
+    initPage();
+  });
   return;
 }
 pid=product.id;
+initPage();
+function initPage(){
 var catNames={electronics:Aura.t('nav_electronics'),fashion:Aura.t('nav_fashion_long'),home:Aura.t('nav_home'),travel:Aura.t('nav_travel')};
 var qty=1;
 
@@ -962,6 +969,7 @@ document.addEventListener('locale-change',function(){
   if(typeof lucide!=='undefined') lucide.createIcons();
 });
 if(typeof lucide!=='undefined') lucide.createIcons();
+}
 })();
 </script>
 </body>

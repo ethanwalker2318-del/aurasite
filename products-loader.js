@@ -32,7 +32,7 @@
 
   function loadProducts(){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/products.json?v=' + Date.now(), true);
+    xhr.open('GET', '/products.json?v=7', true);
     xhr.onreadystatechange = function(){
       if(xhr.readyState !== 4) return;
       if(xhr.status !== 200){ console.warn('[products-loader] Failed to load products.json:', xhr.status); return; }
