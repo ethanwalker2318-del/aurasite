@@ -845,7 +845,7 @@ fr:{
   mega_smartphones:'Smartphones & Tablettes',mega_laptops:'Ordinateurs portables',mega_audio:'Audio & Wearables',mega_gaming:'Gaming & VR',
   mega_shoes:'Chaussures & Baskets',mega_designer:'Designer & Luxe',mega_jewelry:'Bijoux & Montres',mega_clothing:'Vêtements & Accessoires',
   mega_home:'Maison & Habitat',mega_travel:'Voyage & Outdoor',
-  mega_all_el:'Voir toute l''Électronique →',mega_all_fa:'Voir toute la Mode →',mega_all_home:'Voir tout Maison →',mega_all_travel:'Voir tout Voyage →',
+  mega_all_el:'Voir toute l\u2019\u00c9lectronique \u2192',mega_all_fa:'Voir toute la Mode \u2192',mega_all_home:'Voir tout Maison \u2192',mega_all_travel:'Voir tout Voyage \u2192',
   mega_bose:'Casques Bose',mega_dyson_hair:'Dyson Soins & Nettoyage',mega_ecovacs:'Aspirateurs robots Ecovacs',mega_hexclad:'Ustensiles HexClad',mega_ring:'Sécurité Ring',mega_rimowa:'Valises Rimowa',
   ck_phone:'Téléphone',ck_card_brands:'Visa, Mastercard, American Express',ck_klarna:'Klarna — Facture',ck_klarna_d:'Payer sous 14 jours',ck_wallet:'Apple Pay / Google Pay',ck_wallet_d:'Paiement rapide & sécurisé',
   country_de:'Allemagne',country_at:'Autriche',country_ch:'Suisse',country_gb:'Royaume-Uni',country_us:'États-Unis',
