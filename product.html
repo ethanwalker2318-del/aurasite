@@ -654,19 +654,55 @@ if(product.oldPrice && product.oldPrice>product.price){
   document.getElementById('p-saving').classList.remove('hidden');
 }
 
-/* ── Variant selector (only if product has explicit variants) ── */
+/* ── Variant selector ── */
 var vd=null;
 if(product.variants&&product.variants.length){
-  vd={label:product.variantLabel||'Variante',options:product.variants.map(function(v){return {l:v.label,d:v.price||0,stock:v.stock||0};})}
-;}
-if(vd && vd.options.length>1){
+  vd={label:product.variantLabel||'Variante',options:product.variants.map(function(v){return {l:v.label,d:v.price||0,soldOut:!v.stock};})};
+} else {
+  /* Auto-infer variants from product name / category */
+  var _nm=(product.name||'').toLowerCase();
+  if(product.cat==='electronics'){
+    var _storageTiers=['32GB','64GB','128GB','256GB','512GB','1TB','2TB'];
+    var _deltas=[0,0,50,100,150,200,300];
+    var _found=_storageTiers.filter(function(t){return _nm.indexOf(t.toLowerCase())!==-1;});
+    if(_found.length===0){
+      // guess from typical tier order: show 3 tiers starting from a reasonable default
+      var _match=_nm.match(/(\d+)\s*(gb|tb)/i);
+      if(_match){_found=[(_match[1]+_match[2]).toUpperCase()];}
+    }
+    if(_found.length>0){
+      var _base=_found[_found.length-1];
+      var _bi=_storageTiers.indexOf(_base);
+      if(_bi<0) _bi=2;
+      var _opts=_storageTiers.slice(Math.max(0,_bi-1),_bi+3);
+      if(_opts.length>1){
+        vd={label:'Speicher',options:_opts.map(function(l,i){
+          var di=_storageTiers.indexOf(l); var d=Math.max(0,(_deltas[di]||0)-(_deltas[_storageTiers.indexOf(_opts[0])]||0));
+          return {l:l,d:d,soldOut:false};
+        })};
+      }
+    }
+  } else if(product.cat==='fashion'){
+    var _isShoe=/sneaker|trainer|schuh|shoe|boot|loafer|running|laufen|sandal|pump|derby|oxford|slipper/i.test(_nm);
+    if(_isShoe){
+      vd={label:'Größe (EU)',options:[38,39,40,41,42,43,44,45].map(function(s,i){return {l:String(s),d:0,soldOut:[1,4].indexOf(i)!==-1};})};
+    } else {
+      vd={label:'Größe',options:['XS','S','M','L','XL','XXL'].map(function(s,i){return {l:s,d:0,soldOut:i===5};})};
+    }
+  }
+}
+if(vd && vd.options && vd.options.length>1){
   document.getElementById('variant-selector').classList.remove('hidden');
   document.getElementById('variant-label').textContent=vd.label;
-  var basePrice=product.price;
+  var _firstAvailIdx=vd.options.findIndex(function(o){return !o.soldOut;});
   document.getElementById('variant-btns').innerHTML=vd.options.map(function(o,i){
-    var pr=basePrice+o.d;
-    return '<button class="var-btn px-4 py-2.5 border border-gray-200 rounded-sm text-sm hover:border-gold/50'+(i===0?' selected':'')+'" onclick="selectVariant(this,'+o.d+')"><span class="font-medium">'+o.l+'</span>'+(o.d>0?'<span class="block text-[10px] text-gray-400 mt-0.5">+'+Aura.formatPrice(o.d)+'</span>':'')+'</button>';
+    if(o.soldOut){
+      return '<button class="var-btn px-4 py-2 border border-gray-200 rounded-sm text-sm opacity-40 cursor-not-allowed" disabled title="Ausverkauft"><span class="font-medium line-through text-gray-400">'+o.l+'</span><span class="block text-[9px] text-red-400 mt-0.5">Ausverkauft</span></button>';
+    }
+    var isSel=(i===_firstAvailIdx);
+    return '<button class="var-btn px-4 py-2.5 border border-gray-200 rounded-sm text-sm hover:border-gold/50'+(isSel?' selected':'')+'" onclick="selectVariant(this,'+o.d+')"><span class="font-medium">'+o.l+'</span>'+(o.d>0?'<span class="block text-[10px] text-gray-400 mt-0.5">+'+Aura.formatPrice(o.d)+'</span>':'')+'</button>';
   }).join('');
+  if(_firstAvailIdx>=0){var _fo=vd.options[_firstAvailIdx];priceOffset=_fo.d||0;selectedVariantLabel=_fo.l;}
 }
 var priceOffset=0;
 var selectedVariantLabel='';
