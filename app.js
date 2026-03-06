@@ -435,10 +435,14 @@ var PRODUCT_TYPE_ICONS = {
   home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
   product:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 3v18"/>'
 };
+function auraImgErr(el){
+  el.onerror=null;
+  el.style.display='none';
+  el.parentNode.innerHTML='<div class="w-full h-full bg-gradient-to-br from-[#f8f7f4] to-[#eeece7] flex flex-col items-center justify-center gap-2"><img src="/logo.svg" alt="Aura" style="width:38px;height:38px;opacity:0.15"><span style="font-size:9px;letter-spacing:0.2em;color:rgba(10,22,40,0.2);font-weight:600">AURA VERIFIED</span></div>';
+}
 function imgHtml(src, sizeClass, altText){
   var alt = (altText||'').replace(/"/g,'&quot;');
-  var fallback='this.onerror=null;this.style.display=\'none\';this.parentNode.innerHTML=\'<div class="w-full h-full bg-gradient-to-br from-[#f8f7f4] to-[#eeece7] flex flex-col items-center justify-center gap-2"><img src="/logo.svg" alt="Aura" style="width:38px;height:38px;opacity:0.15"><span style="font-size:9px;letter-spacing:0.2em;color:rgba(10,22,40,0.2);font-weight:600">AURA VERIFIED<\/span><\/div>\'';
-  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-cover" loading="lazy" onerror="'+fallback+'">';
+  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-cover" loading="lazy" onerror="auraImgErr(this)">';
   /* Product-type branded placeholder */
   var iconSvg = PRODUCT_TYPE_ICONS[src];
   if(iconSvg){
