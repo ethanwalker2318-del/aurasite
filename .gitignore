@@ -5,4 +5,10 @@ sections/
 EMAIL-SETUP.md
 public/images/products-master.csv
 
+# Product images (1.37 GB, 12 106 files) — served from Cloudflare R2.
+# Upload once: wrangler r2 object put aurasite-images/<file> --file <path>
+# Bind R2 bucket in wrangler.toml [[r2_buckets]] when ready.
+public/images/products/
+
 _site/
+.wrangler/

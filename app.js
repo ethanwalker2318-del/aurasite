@@ -28,7 +28,7 @@ function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textCo
 */
 var DEFAULT_PRODUCTS = [];
 
-var PRODUCTS_VERSION = 9; // Bump: travel category added (396 products reclassified)
+var PRODUCTS_VERSION = 10; // Bump: CSV catalog integration — 2040 products, Secretlab + Ridestore added
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;

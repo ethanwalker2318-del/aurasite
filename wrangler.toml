@@ -2,5 +2,23 @@ name = "aurasite"
 compatibility_date = "2025-09-27"
 compatibility_flags = ["nodejs_compat"]
 
+# build.sh creates _site/ from root sources.
+# Both Cloudflare native CI and GitHub Actions run it.
+[build]
+command = "sh build.sh"
+
 [assets]
 directory = "./_site"
+
+# ─── R2 IMAGE STORAGE (enable when bucket is ready) ───────────────────────
+# Product images (12 106 webp files, 1.37 GB) are stored in Cloudflare R2.
+# One-time upload command (run locally):
+#   wrangler r2 object put aurasite-images/<file> --file public/images/products/<file>
+# Or bulk upload with rclone:
+#   rclone copy public/images/products/ r2:aurasite-images/
+# After bucket creation, uncomment the binding below:
+#
+# [[r2_buckets]]
+# binding = "IMAGES"
+# bucket_name = "aurasite-images"
+# preview_bucket_name = "aurasite-images"
