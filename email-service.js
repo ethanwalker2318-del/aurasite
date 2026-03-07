@@ -61,7 +61,6 @@ function _send(to,subj,html,reply){
     to_email:to, subject:subj, html_content:html, reply_to:reply||FM.NOREPLY
   }).then(function(r){
     console.log('[AuraEmail] OK -> '+to+' | '+subj);
-    if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail gesendet!','success');
   }).catch(function(e){
     console.error('[AuraEmail] Fehler -> '+to,e);
     if(typeof Aura!=='undefined'&&Aura.showToast) Aura.showToast('E-Mail-Versand fehlgeschlagen.','error');

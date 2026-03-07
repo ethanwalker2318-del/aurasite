@@ -168,6 +168,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
       <label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy focus:ring-gold accent-navy" data-cat="travel" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy" data-i18n="nav_travel">Reise & Outdoor</span></label>
     </div>
   </div>
+  <!-- Subcategory (shown when 1 category selected) -->
+  <div id="desktop-subcat-wrap" class="hidden">
+    <h3 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3">Unterkategorie</h3>
+    <div class="space-y-1.5" id="filter-subcats"></div>
+  </div>
   <!-- Brand -->
   <div>
     <h3 class="text-[10px] font-bold text-gold tracking-[0.2em] uppercase mb-3" data-i18n="flt_brand">Marke</h3>
@@ -342,6 +347,37 @@ var currentFiltered=[];
 var currentPage=1;
 var perPage=36;
 
+var SUBCAT_LABELS={
+  // fashion
+  shoes:'Schuhe', clothing:'Kleidung', bags:'Taschen & Beutel',
+  watches:'Uhren', accessories:'Accessoires', underwear:'Unterwäsche',
+  // electronics
+  phones:'Smartphones', tablets:'Tablets', computers:'Laptops & PCs',
+  gaming:'Gaming', audio:'Audio & Kopfhörer', cameras:'Kameras',
+  displays:'TV & Monitore', smart_home:'Smart Home', gadgets:'Gadgets',
+  // home
+  kitchen:'Küche & Kochen', cleaning:'Reinigung', hair_beauty:'Haarpflege', appliances:'Hausgeräte',
+  // travel
+  luggage:'Koffer & Taschen', footwear:'Outdoor-Schuhe', gear:'Ausrüstung', outdoor:'Outdoor-Kleidung'
+};
+
+function renderSubcatFilter(products){
+  var cats=[]; document.querySelectorAll('[data-cat]:checked').forEach(function(c){cats.push(c.dataset.cat);});
+  var wrap=document.getElementById('desktop-subcat-wrap');
+  var el=document.getElementById('filter-subcats');
+  if(!wrap||!el) return;
+  if(cats.length!==1){wrap.classList.add('hidden');return;}
+  // collect unique subcats from current products
+  var subcatSet={};
+  products.forEach(function(p){if(p.subcat) subcatSet[p.subcat]=true;});
+  var subcats=Object.keys(subcatSet).sort(function(a,b){return (SUBCAT_LABELS[a]||a).localeCompare(SUBCAT_LABELS[b]||b);});
+  if(subcats.length<=1){wrap.classList.add('hidden');return;}
+  el.innerHTML=subcats.map(function(sc){
+    return '<label class="flex items-center gap-2 cursor-pointer group"><input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-navy accent-navy" data-subcat="'+sc+'" onchange="applyFilters()"><span class="text-sm text-gray-600 group-hover:text-navy">'+(SUBCAT_LABELS[sc]||sc)+'</span></label>';
+  }).join('');
+  wrap.classList.remove('hidden');
+}
+
 // Build brand checkboxes dynamically
 var brands=[...new Set(allProducts.map(function(p){return p.brand;}))].sort();
 var bf=document.getElementById('filter-brands');
@@ -356,6 +392,8 @@ function readURL(){
   if(p.get('q')){document.getElementById('search-input').value=p.get('q');}
   if(p.get('page')){currentPage=Math.max(1,parseInt(p.get('page'))||1);}
   if(p.get('sort')){document.getElementById('sort-select').value=p.get('sort');}
+  // subcat is applied after renderSubcatFilter builds checkboxes — stored for deferred apply
+  window._pendingSubcat=p.get('subcat')||'';
 }
 readURL();
 
@@ -380,11 +418,21 @@ window.applyFilters=function(keepPage){
   var cats=[]; document.querySelectorAll('[data-cat]:checked').forEach(function(c){cats.push(c.dataset.cat);});
   var brs=[]; document.querySelectorAll('[data-brand]:checked').forEach(function(c){brs.push(c.dataset.brand);});
   var badges=[]; document.querySelectorAll('[data-badge]:checked').forEach(function(c){badges.push(c.dataset.badge);});
+  // Build subcat list from cat-filtered products first, then re-filter
+  var catFiltered=allProducts.filter(function(p){
+    if(cats.length && cats.indexOf(p.cat)===-1) return false;
+    return true;
+  });
+  renderSubcatFilter(catFiltered);
+  // Apply pending subcat from URL once checkboxes are built
+  if(window._pendingSubcat){var sc=window._pendingSubcat;window._pendingSubcat='';document.querySelectorAll('[data-subcat="'+sc+'"]').forEach(function(c){c.checked=true;});}
+  var subcats=[]; document.querySelectorAll('[data-subcat]:checked').forEach(function(c){subcats.push(c.dataset.subcat);});
 
   currentFiltered=allProducts.filter(function(p){
     if(search && p.name.toLowerCase().indexOf(search)===-1 && p.brand.toLowerCase().indexOf(search)===-1 && (p.desc||'').toLowerCase().indexOf(search)===-1) return false;
     if(p.price<minPrice || p.price>maxPrice) return false;
     if(cats.length && cats.indexOf(p.cat)===-1) return false;
+    if(subcats.length && subcats.indexOf(p.subcat||'')===-1) return false;
     if(brs.length && brs.indexOf(p.brand)===-1) return false;
     if(badges.length){
       var pBadge=p.videoUrl?'verified':'express';
