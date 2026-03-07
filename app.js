@@ -28,7 +28,7 @@ function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textCo
 */
 var DEFAULT_PRODUCTS = [];
 
-var PRODUCTS_VERSION = 10; // Bump: CSV catalog integration — 2040 products, Secretlab + Ridestore added
+var PRODUCTS_VERSION = 11; // Bump: force clear old localStorage cache (was 795 products)
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;
