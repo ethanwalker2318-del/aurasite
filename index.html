@@ -33,7 +33,7 @@ html{scrollbar-gutter:stable}
 .hide-scrollbar::-webkit-scrollbar{display:none}.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.fade-up{animation:fadeUp .5s ease-out forwards}.reveal{opacity:0}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}.animate-marquee{animation:marquee 35s linear infinite}
-.product-card:hover .prod-img{transform:scale(1.05)}.product-card:hover .quick-act{opacity:1;transform:translateY(0)}
+.product-card:hover .prod-img{transform:none}.product-card:hover .quick-act{opacity:1;transform:translateY(0)}
 .quick-act{opacity:0;transform:translateY(8px);transition:all .25s ease}
 .mega-menu{display:none}.nav-cat:hover .mega-menu{display:block}
 /* Responsive helpers */
@@ -237,25 +237,25 @@ html{scrollbar-gutter:stable}
         </div>
         <div class="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs sm:max-w-sm">
           <a href="/product.html?id=1607" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <div class="text-3xl mb-2">📱</div>
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1607.webp" alt="iPhone" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
             <p class="text-white text-xs font-semibold">iPhone 17 Pro</p>
             <p class="text-gold text-sm font-bold mt-1">€1.291,99</p>
             <p class="text-white/30 text-[10px] line-through">€1.511,63</p>
           </a>
           <a href="/product.html?id=1614" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <div class="text-3xl mb-2">💻</div>
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1614.webp" alt="MacBook" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
             <p class="text-white text-xs font-semibold">MacBook Pro 14</p>
             <p class="text-gold text-sm font-bold mt-1">€1.621,99</p>
             <p class="text-white/30 text-[10px] line-through">€1.897,73</p>
           </a>
           <a href="/product.html?id=1648" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <div class="text-3xl mb-2">🎮</div>
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1648.webp" alt="PlayStation" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
             <p class="text-white text-xs font-semibold">PlayStation 5 Pro</p>
             <p class="text-gold text-sm font-bold mt-1">€638,99</p>
             <p class="text-white/30 text-[10px] line-through">€747,62</p>
           </a>
           <a href="/product.html?id=1104" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <div class="text-3xl mb-2">💨</div>
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1104.webp" alt="Dyson" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
             <p class="text-white text-xs font-semibold">Dyson Airwrap</p>
             <p class="text-gold text-sm font-bold mt-1">€413,99</p>
             <p class="text-white/30 text-[10px] line-through">€484,37</p>
@@ -290,15 +290,15 @@ html{scrollbar-gutter:stable}
         </div>
         <div class="flex-shrink-0 flex flex-col gap-3 w-full max-w-xs">
           <a href="/catalog.html?cat=fashion&brand=Nike" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <div class="text-4xl">👟</div>
+            <i data-lucide="footprints" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
             <div><p class="text-white text-sm font-bold">Nike Sneaker</p><p class="text-white/50 text-xs mt-0.5">76 Modelle verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €42,99 →</p></div>
           </a>
           <a href="/catalog.html?cat=fashion&brand=Adidas" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <div class="text-4xl">⚡</div>
+            <i data-lucide="zap" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
             <div><p class="text-white text-sm font-bold">Adidas Originals</p><p class="text-white/50 text-xs mt-0.5">61 Modelle verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €39,99 →</p></div>
           </a>
           <a href="/catalog.html?cat=fashion&brand=Lululemon" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <div class="text-4xl">🏃</div>
+            <i data-lucide="activity" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
             <div><p class="text-white text-sm font-bold">Lululemon</p><p class="text-white/50 text-xs mt-0.5">65 Artikel verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €59,99 →</p></div>
           </a>
         </div>
@@ -331,22 +331,22 @@ html{scrollbar-gutter:stable}
         </div>
         <div class="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs sm:max-w-sm">
           <a href="/catalog.html?cat=travel&brand=Mammut" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <div class="text-3xl mb-2">🏔️</div>
+            <i data-lucide="mountain" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
             <p class="text-white text-xs font-semibold">Mammut</p>
             <p class="text-gold text-xs font-bold mt-1">70 Artikel</p>
           </a>
           <a href="/catalog.html?cat=travel&brand=Patagonia" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <div class="text-3xl mb-2">🌿</div>
+            <i data-lucide="leaf" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
             <p class="text-white text-xs font-semibold">Patagonia</p>
             <p class="text-gold text-xs font-bold mt-1">66 Artikel</p>
           </a>
           <a href="/catalog.html?cat=travel&brand=Salomon" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <div class="text-3xl mb-2">🥾</div>
+            <i data-lucide="footprints" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
             <p class="text-white text-xs font-semibold">Salomon</p>
             <p class="text-gold text-xs font-bold mt-1">64 Artikel</p>
           </a>
           <a href="/catalog.html?cat=travel&brand=Hoka" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <div class="text-3xl mb-2">🏃</div>
+            <i data-lucide="activity" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
             <p class="text-white text-xs font-semibold">Hoka</p>
             <p class="text-gold text-xs font-bold mt-1">56 Artikel</p>
           </a>

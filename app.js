@@ -2107,7 +2107,7 @@ document.addEventListener('click', function(e){
     btn.id='aura-prime-sticky';
     btn.onclick=showPrimeModal;
     btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9997;background:linear-gradient(135deg,#C5A059,#A8863D);color:white;border:none;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;box-shadow:0 4px 20px rgba(197,160,89,0.4);transition:transform .2s,box-shadow .2s;border-radius:6px;';
-    btn.textContent='Aura Prime \ud83d\udc8e';
+    btn.textContent='Aura Prime';
     btn.onmouseenter=function(){btn.style.transform='scale(1.05)';btn.style.boxShadow='0 6px 24px rgba(197,160,89,0.5)';};
     btn.onmouseleave=function(){btn.style.transform='scale(1)';btn.style.boxShadow='0 4px 20px rgba(197,160,89,0.4)';};
     document.body.appendChild(btn);
@@ -2119,7 +2119,7 @@ document.addEventListener('click', function(e){
     overlay.style.cssText='position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;';
     overlay.innerHTML='<div style="position:absolute;inset:0;background:rgba(0,0,0,0.6)" onclick="document.getElementById(\'aura-prime-modal\').remove()"></div>'
       +'<div style="position:relative;max-width:440px;width:100%;background:#001A3D;border:1px solid rgba(197,160,89,0.3);box-shadow:0 20px 60px rgba(0,0,0,0.5);padding:0;font-family:Inter,system-ui,sans-serif;overflow:hidden">'
-      +'<div style="padding:24px 20px 0;text-align:center"><div style="width:56px;height:56px;margin:0 auto 16px;background:rgba(197,160,89,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center"><span style="font-size:24px">\ud83d\udc8e</span></div>'
+      +'<div style="padding:24px 20px 0;text-align:center"><div style="width:56px;height:56px;margin:0 auto 16px;background:rgba(197,160,89,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center"><span style="font-size:24px"></span></div>'
       +'<h3 style="font-family:Playfair Display,Georgia,serif;font-size:20px;font-weight:700;color:white;margin:0 0 8px">'+t('prime_title')+'</h3>'
       +'<p style="font-size:13px;color:rgba(255,255,255,0.5);margin:0 0 20px;line-height:1.5">'+t('prime_desc')+'</p></div>'
       +'<form onsubmit="event.preventDefault();var email=this.querySelector(\'input\').value;var leads=JSON.parse(localStorage.getItem(\'aura_prime_leads\')||\'[]\');leads.push({email:email,date:new Date().toISOString()});localStorage.setItem(\'aura_prime_leads\',JSON.stringify(leads));if(typeof AuraEmail!==\'undefined\')AuraEmail.sendPrimeWelcome(email);this.innerHTML=\'<div style=padding:24px;text-align:center><p style=color:#C5A059;font-weight:700;font-size:14px>'+t('prime_ok')+'</p><p style=color:rgba(255,255,255,0.4);font-size:12px;margin-top:8px>'+t('prime_ok_d')+'</p></div>\';sessionStorage.setItem(\'aura_prime_joined\',\'1\')" style="padding:0 20px 24px">'
@@ -2203,26 +2203,4 @@ document.addEventListener('click', function(e){
     '.product-card:hover{box-shadow:0 8px 32px rgba(0,26,61,.10);transform:translateY(-2px)}',
   ].join('');
   document.head.appendChild(s);
-})();
-
-/* ── Inject global CSS for in-card variants ── */
-(function injectVarChipCSS(){
-  if(document.getElementById('aura-var-css')) return;
-  var s=document.createElement('style');
-  s.id='aura-var-css';
-  s.textContent=[
-    '.var-chip{transition:all .15s;line-height:1.2;font-family:Inter,system-ui,sans-serif}',
-    '.var-chip.selected{border-color:#C5A059 !important;background:rgba(197,160,89,.10);color:#001A3D;font-weight:700}',
-    '.card-add-btn:not(:disabled){opacity:1 !important;cursor:pointer !important}',
-    '.prod-img img{width:100%;height:100%;object-fit:contain;background:#fafafa}',
-    '.prod-img{position:relative;overflow:hidden}',
-    '.prod-img .hover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}',
-    '.product-card:hover .prod-img .hover-img{opacity:1}',
-    // Apple-style card: white bg, clean border, subtle shadow on hover
-    '.product-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;transition:box-shadow .2s,transform .2s}',
-    '.product-card:hover{box-shadow:0 8px 32px rgba(0,26,61,.10);transform:translateY(-2px)}',
-  ].join('');
-  document.head.appendChild(s);
-})();
-
 })();
