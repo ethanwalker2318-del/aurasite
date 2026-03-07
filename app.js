@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════
    AURA GLOBAL MERCHANTS — Shared Application Module
    All data, auth, cart, orders managed via localStorage
    ═══════════════════════════════════════════════════════ */
@@ -437,12 +437,16 @@ var PRODUCT_TYPE_ICONS = {
 };
 function auraImgErr(el){
   el.onerror=null;
-  el.style.display='none';
-  el.parentNode.innerHTML='<div class="w-full h-full bg-gradient-to-br from-[#f8f7f4] to-[#eeece7] flex flex-col items-center justify-center gap-2"><img src="/logo.svg" alt="Aura" style="width:38px;height:38px;opacity:0.15"><span style="font-size:9px;letter-spacing:0.2em;color:rgba(10,22,40,0.2);font-weight:600">AURA VERIFIED</span></div>';
+  // Replace broken img with branded placeholder preserving layout
+  var ph=document.createElement('div');
+  ph.style.cssText='width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#f8f7f4,#eeece7)';
+  ph.innerHTML='<img src="/logo.svg" alt="Aura" style="width:36px;height:36px;opacity:0.18"><span style="font-size:9px;letter-spacing:0.2em;color:rgba(0,26,61,0.2);font-weight:700;font-family:Inter,sans-serif">AURA VERIFIED</span>';
+  el.parentNode.insertBefore(ph, el);
+  el.remove();
 }
 function imgHtml(src, sizeClass, altText){
   var alt = (altText||'').replace(/"/g,'&quot;');
-  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-cover" loading="lazy" onerror="auraImgErr(this)">';
+  if(isImgUrl(src)) return '<img src="'+src+'" alt="'+alt+'" class="w-full h-full object-contain bg-white" loading="lazy" onerror="auraImgErr(this)">';
   /* Product-type branded placeholder */
   var iconSvg = PRODUCT_TYPE_ICONS[src];
   if(iconSvg){
@@ -508,7 +512,7 @@ function productCardHtml(p, opts){
   var wishActive=isInWishlist(p.id);
   var hoverImg='';
   if(p.gallery&&p.gallery.length){
-    hoverImg='<img src="'+p.gallery[0]+'" alt="" class="absolute inset-0 w-full h-full object-contain p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gray-50">';
+    hoverImg='<img src="'+p.gallery[0]+'" alt="'+esc(p.name)+' Ansicht 2" class=\"hover-img\" loading="lazy" onerror="this.style.display=\'none\'">';
   }
   var heartBtn='<button onclick="event.preventDefault();event.stopPropagation();Aura.toggleWishlist(\''+p.id+'\');this.querySelector(\'svg\').setAttribute(\'fill\',Aura.isInWishlist(\''+p.id+'\')?\'currentColor\':\'none\');this.classList.toggle(\'text-red-500\',Aura.isInWishlist(\''+p.id+'\'));this.classList.toggle(\'text-white\',!Aura.isInWishlist(\''+p.id+'\'))" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center transition-colors '+(wishActive?'text-red-500':'text-white')+' hover:scale-110" title="Wunschliste"><svg class="w-4 h-4" fill="'+(wishActive?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>';
   if(isLink){
@@ -532,7 +536,39 @@ function productCardHtml(p, opts){
   +stars+sold
   +'<div class="flex items-baseline flex-wrap mt-2"><span class="text-base font-bold">'+formatPrice(p.price)+'</span>'+mwst+old+'</div></a>'
   +trustLine
-  +'<button onclick="event.preventDefault();Aura.addToCart(\''+p.id+'\');Aura.showToast(Aura.t(\'added_cart\'));if(typeof toggleCart===\'function\')toggleCart()" class="w-full mt-3 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider transition-colors rounded-lg flex items-center justify-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'+t('add_cart')+'</button>'
+    +(function(){
+    var _nm=(p.name||'').toLowerCase(),_cat=p.cat||'';
+    var _vd=null;
+    if(p.variants&&p.variants.length){ _vd=p.variants; }
+    else if(_cat==='electronics'){
+      var _tiers=['32GB','64GB','128GB','256GB','512GB','1TB'];
+      var _found=_tiers.filter(function(t){return _nm.indexOf(t.toLowerCase())!==-1;});
+      if(_found.length===0){var _m=_nm.match(/(\d+)\s*(gb|tb)/i);if(_m)_found=[(_m[1]+_m[2]).toUpperCase()];}
+      if(_found.length>0){var _bi=_tiers.indexOf(_found[_found.length-1]);if(_bi<0)_bi=2;var _sl=_tiers.slice(Math.max(0,_bi-1),_bi+3);if(_sl.length>1)_vd=_sl.map(function(l,i){return {label:l,price_delta:i*50,stock:1};});}
+    } else if(_cat==='fashion'){
+      var _shoe=/sneaker|trainer|schuh|shoe|boot|running|laufen/i.test(_nm);
+      _vd=(_shoe?[38,39,40,41,42,43,44,45]:[['XS','S','M','L','XL']]).map?
+        (_shoe?[38,39,40,41,42,43,44,45]:[]):['XS','S','M','L','XL'];
+      if(_shoe)_vd=[38,39,40,41,42,43,44,45].map(function(s){return {label:String(s),price_delta:0,stock:1};});
+      else _vd=['XS','S','M','L','XL'].map(function(s){return {label:s,price_delta:0,stock:1};});
+    }
+    if(!_vd||_vd.length<2) return '<button onclick="event.preventDefault();Aura.addToCart(\''+p.id+'\');Aura.showToast(Aura.t(\'added_cart\'));if(typeof toggleCart===\'function\')toggleCart()" class="w-full mt-3 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider transition-colors rounded-lg flex items-center justify-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'+t('add_cart')+'</button>';
+    var _uid='vs_'+p.id+'_'+Math.random().toString(36).substr(2,4);
+    var _lbl=_cat==='electronics'?t('card_sel_mem'):t('card_sel_size');
+    var _chips=_vd.map(function(v,i){
+      var _l=typeof v==='object'?v.label:String(v);
+      var _d=typeof v==='object'?(v.price_delta||0):0;
+      var _s=typeof v==='object'?(v.stock||0):1;
+      if(!_s) return '<button disabled class="var-chip px-2 py-1 text-[10px] border border-gray-200 rounded opacity-35 cursor-not-allowed line-through">'+_l+'<span class="block text-[8px] text-red-400">'+t('card_soldout')+'</span></button>';
+      return '<button class="var-chip px-2 py-1 text-[10px] border border-gray-200 rounded hover:border-gold/60 transition-all" data-vdelta="'+_d+'" onclick="event.preventDefault();event.stopPropagation();(function(btn){btn.closest(\'.product-card\').querySelectorAll(\'.var-chip\').forEach(function(b){b.classList.remove(\'selected\');});btn.classList.add(\'selected\');var cb=btn.closest(\'.product-card\').querySelector(\'.card-add-btn\');if(cb){cb.disabled=false;cb.classList.remove(\'opacity-50\',\'cursor-not-allowed\');cb.dataset.vdelta=btn.dataset.vdelta;}})(this)">'+_l+'</button>';
+    }).join('');
+    return '<div class="mt-3"><p class="text-[9px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">'+_lbl+'</p><div class="flex flex-wrap gap-1">'+_chips+'</div></div>'
+      +'<button class="card-add-btn w-full mt-2.5 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider transition-colors rounded-lg flex items-center justify-center gap-1.5 opacity-50 cursor-not-allowed" disabled data-pid="'+p.id+'" data-vdelta="0" onclick="event.preventDefault();var d=parseInt(this.dataset.vdelta||0);Aura.addToCart(\''+p.id+'\',null,null,d);Aura.showToast(Aura.t(\'added_cart\'));if(typeof toggleCart===\'function\')toggleCart()"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'+t('add_cart')+'</button>';
+  })()
+  +'<div class="flex flex-col gap-0.5 mt-2">'
+  +'<span class="flex items-center gap-1 text-[9px] text-emerald-600"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>'+t('card_ship_free')+'</span>'
+  +'<span class="flex items-center gap-1 text-[9px] text-blue-600"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'+t('card_ssl')+'</span>'
+  +'</div>'
   +'</div></div>';
 }
 
@@ -747,6 +783,8 @@ de:{
   delete_confirm:'Konto wirklich löschen?',
   // Card trust
   card_free_ship:'Gratis Versand',card_inspected:'Geprüft',card_instock:'Auf Lager',card_reviews:'Bewertungen',card_sold:'verkauft',card_returns:'30 Tage Rückgabe',card_delivery:'Lieferung in 2\u20134 Tagen',
+  card_ship_free:'Kostenloser Versand ab 50 €',card_ssl:'Sichere Zahlung mit SSL',
+  card_sel_size:'Größe wählen',card_sel_mem:'Speicher wählen',card_soldout:'Ausverkauft',
   price_vat:'inkl. MwSt., zzgl. Versandkosten',
   cart_remove:'Entfernen',cart_empty_msg:'Ihr Warenkorb ist leer',cart_continue:'Weiter einkaufen',
   hero_trust_ship:'Versand in 2–4 Tagen',hero_trust_return:'30 Tage Rückgabe',hero_trust_pay:'Sichere Zahlung',
@@ -1049,6 +1087,8 @@ en:{
   account_created:'Account created!',
   delete_confirm:'Really delete account?',
   card_free_ship:'Free Shipping',card_inspected:'Hub Inspected',card_instock:'In Stock',card_reviews:'Reviews',card_sold:'sold',card_returns:'30-Day Returns',card_delivery:'Delivered in 2\u20134 days',
+  card_ship_free:'Free shipping from €50',card_ssl:'Secure payment with SSL',
+  card_sel_size:'Select size',card_sel_mem:'Select storage',card_soldout:'Out of stock',
   price_vat:'incl. VAT, excl. shipping costs',
   cart_remove:'Remove',cart_empty_msg:'Your cart is empty',cart_continue:'Continue shopping',
   hero_trust_ship:'Shipping in 2–4 days',hero_trust_return:'30-day returns',hero_trust_pay:'Secure payment',
@@ -1223,6 +1263,8 @@ fr:{
   fill_all:'Veuillez remplir tous les champs',pass_mismatch:'Les mots de passe ne correspondent pas.',added_cart:'ajout\u00e9 au panier',
   settings_saved:'Param\u00e8tres enregistr\u00e9s',order_placed:'Commande pass\u00e9e !',welcome_back:'Bon retour !',account_created:'Compte cr\u00e9\u00e9 !',delete_confirm:'Supprimer le compte ?',
   card_free_ship:'Livraison gratuite',card_inspected:'V\u00e9rifi\u00e9',card_instock:'En stock',card_reviews:'Avis',card_sold:'vendus',card_returns:'Retour 30j',card_delivery:'Livr\u00e9 en 2\u20134 jours',
+  card_ship_free:'Livraison gratuite dès 50 €',card_ssl:'Paiement sécurisé SSL',
+  card_sel_size:'Choisir la taille',card_sel_mem:'Choisir le stockage',card_soldout:'Rupture de stock',
   price_vat:'TVA incluse, hors frais de port',cart_remove:'Supprimer',cart_empty_msg:'Votre panier est vide',cart_continue:'Continuer les achats',
   hero_trust_ship:'Livraison en 2\u20134 jours',hero_trust_return:'Retour 30 jours',hero_trust_pay:'Paiement s\u00e9curis\u00e9',
   prime_title:'Devenez membre Aura Prime',prime_desc:'Recevez des <strong style="color:#C5A059">offres exclusives</strong>, un acc\u00e8s anticip\u00e9 et la livraison Express gratuite.',prime_btn:'REJOINDRE',prime_ph:'Adresse e-mail',prime_ok:'Bienvenue chez Aura Prime\u00a0!',prime_ok_d:'Nous vous contactons bient\u00f4t.',prime_spam:'Pas de spam. D\u00e9sabonnement \u00e0 tout moment.',
@@ -1396,6 +1438,8 @@ es:{
   fill_all:'Rellena todos los campos',pass_mismatch:'Las contrase\u00f1as no coinciden.',added_cart:'a\u00f1adido al carrito',
   settings_saved:'Guardado',order_placed:'\u00a1Pedido realizado!',welcome_back:'\u00a1Bienvenido!',account_created:'\u00a1Cuenta creada!',delete_confirm:'\u00bfEliminar cuenta?',
   card_free_ship:'Env\u00edo gratis',card_inspected:'Verificado',card_instock:'En stock',card_reviews:'Rese\u00f1as',card_sold:'vendidos',card_returns:'30 d\u00edas devoluci\u00f3n',card_delivery:'Entrega en 2\u20134 d\u00edas',
+  card_ship_free:'Envío gratis desde 50 €',card_ssl:'Pago seguro con SSL',
+  card_sel_size:'Elegir talla',card_sel_mem:'Elegir almacenamiento',card_soldout:'Agotado',
   price_vat:'IVA incluido, gastos de env\u00edo aparte',cart_remove:'Eliminar',cart_empty_msg:'Carrito vac\u00edo',cart_continue:'Seguir comprando',
   hero_trust_ship:'Env\u00edo en 2\u20134 d\u00edas',hero_trust_return:'30 d\u00edas devoluci\u00f3n',hero_trust_pay:'Pago seguro',
   prime_title:'Hazte miembro Aura Prime',prime_desc:'Recibe <strong style="color:#C5A059">ofertas exclusivas</strong>, acceso anticipado y env\u00edo Express gratis.',prime_btn:'UNIRSE',prime_ph:'Correo electr\u00f3nico',prime_ok:'\u00a1Bienvenido a Aura Prime!',prime_ok_d:'Te contactaremos pronto.',prime_spam:'Sin spam. Cancela cuando quieras.',
@@ -1569,6 +1613,8 @@ it:{
   fill_all:'Compila tutti i campi',pass_mismatch:'Le password non corrispondono.',added_cart:'aggiunto al carrello',
   settings_saved:'Impostazioni salvate',order_placed:'Ordine effettuato!',welcome_back:'Bentornato!',account_created:'Account creato!',delete_confirm:'Eliminare l\'account?',
   card_free_ship:'Spedizione gratuita',card_inspected:'Verificato',card_instock:'Disponibile',card_reviews:'Recensioni',card_sold:'venduti',card_returns:'Reso 30gg',card_delivery:'Consegna in 2\u20134 giorni',
+  card_ship_free:'Spedizione gratis da 50 €',card_ssl:'Pagamento sicuro SSL',
+  card_sel_size:'Scegli taglia',card_sel_mem:'Scegli memoria',card_soldout:'Esaurito',
   price_vat:'IVA inclusa, spese di spedizione escluse',cart_remove:'Rimuovi',cart_empty_msg:'Il carrello \u00e8 vuoto',cart_continue:'Continua lo shopping',
   hero_trust_ship:'Spedizione in 2\u20134 giorni',hero_trust_return:'Reso 30 giorni',hero_trust_pay:'Pagamento sicuro',
   prime_title:'Diventa membro Aura Prime',prime_desc:'Ricevi <strong style="color:#C5A059">offerte esclusive</strong>, accesso anticipato e spedizione Express gratuita.',prime_btn:'ISCRIVITI',prime_ph:'Indirizzo e-mail',prime_ok:'Benvenuto in Aura Prime!',prime_ok_d:'Ti contatteremo presto.',prime_spam:'Niente spam. Cancellati quando vuoi.',
@@ -1742,6 +1788,8 @@ pl:{
   fill_all:'Wype\u0142nij wszystkie pola',pass_mismatch:'Has\u0142a nie pasuj\u0105.',added_cart:'dodano do koszyka',
   settings_saved:'Zapisano',order_placed:'Zam\u00f3wienie z\u0142o\u017cone!',welcome_back:'Witaj ponownie!',account_created:'Konto utworzone!',delete_confirm:'Usun\u0105\u0107 konto?',
   card_free_ship:'Darmowa wysy\u0142ka',card_inspected:'Sprawdzony',card_instock:'Dost\u0119pny',card_reviews:'Opinie',card_sold:'sprzedanych',card_returns:'30 dni zwrotu',card_delivery:'Dostawa w 2\u20134 dni',
+  card_ship_free:'Darmowa dostawa od 50 €',card_ssl:'Bezpieczna płatność SSL',
+  card_sel_size:'Wybierz rozmiar',card_sel_mem:'Wybierz pamięć',card_soldout:'Wyprzedany',
   price_vat:'z VAT, bez koszt\u00f3w wysy\u0142ki',cart_remove:'Usu\u0144',cart_empty_msg:'Koszyk jest pusty',cart_continue:'Kontynuuj zakupy',
   hero_trust_ship:'Wysy\u0142ka w 2\u20134 dni',hero_trust_return:'30 dni na zwrot',hero_trust_pay:'Bezpieczna p\u0142atno\u015b\u0107',
   prime_title:'Do\u0142\u0105cz do Aura Prime',prime_desc:'Otrzymaj <strong style="color:#C5A059">ekskluzywne oferty</strong>, wczesny dost\u0119p i darmow\u0105 wysy\u0142k\u0119 Express.',prime_btn:'DO\u0141\u0104CZ',prime_ph:'Adres e-mail',prime_ok:'Witaj w Aura Prime!',prime_ok_d:'Skontaktujemy si\u0119 wkr\u00f3tce.',prime_spam:'Bez spamu. Wypisz si\u0119 kiedy chcesz.',
@@ -2134,6 +2182,47 @@ document.addEventListener('click', function(e){
     localStorage.setItem('aura_cookie_consent','essential');
     dismissBar();
   });
+})();
+
+})();
+/* ── Inject global CSS for in-card variants ── */
+(function injectVarChipCSS(){
+  if(document.getElementById('aura-var-css')) return;
+  var s=document.createElement('style');
+  s.id='aura-var-css';
+  s.textContent=[
+    '.var-chip{transition:all .15s;line-height:1.2;font-family:Inter,system-ui,sans-serif}',
+    '.var-chip.selected{border-color:#C5A059 !important;background:rgba(197,160,89,.10);color:#001A3D;font-weight:700}',
+    '.card-add-btn:not(:disabled){opacity:1 !important;cursor:pointer !important}',
+    '.prod-img img{width:100%;height:100%;object-fit:contain;background:#fafafa}',
+    '.prod-img{position:relative;overflow:hidden}',
+    '.prod-img .hover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}',
+    '.product-card:hover .prod-img .hover-img{opacity:1}',
+    // Apple-style card: white bg, clean border, subtle shadow on hover
+    '.product-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;transition:box-shadow .2s,transform .2s}',
+    '.product-card:hover{box-shadow:0 8px 32px rgba(0,26,61,.10);transform:translateY(-2px)}',
+  ].join('');
+  document.head.appendChild(s);
+})();
+
+/* ── Inject global CSS for in-card variants ── */
+(function injectVarChipCSS(){
+  if(document.getElementById('aura-var-css')) return;
+  var s=document.createElement('style');
+  s.id='aura-var-css';
+  s.textContent=[
+    '.var-chip{transition:all .15s;line-height:1.2;font-family:Inter,system-ui,sans-serif}',
+    '.var-chip.selected{border-color:#C5A059 !important;background:rgba(197,160,89,.10);color:#001A3D;font-weight:700}',
+    '.card-add-btn:not(:disabled){opacity:1 !important;cursor:pointer !important}',
+    '.prod-img img{width:100%;height:100%;object-fit:contain;background:#fafafa}',
+    '.prod-img{position:relative;overflow:hidden}',
+    '.prod-img .hover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}',
+    '.product-card:hover .prod-img .hover-img{opacity:1}',
+    // Apple-style card: white bg, clean border, subtle shadow on hover
+    '.product-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;transition:box-shadow .2s,transform .2s}',
+    '.product-card:hover{box-shadow:0 8px 32px rgba(0,26,61,.10);transform:translateY(-2px)}',
+  ].join('');
+  document.head.appendChild(s);
 })();
 
 })();

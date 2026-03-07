@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════
    AURA — JSON Product Loader
    Loads products from /products.json and merges them
    into the existing product system via window.AURA_JSON_PRODUCTS
@@ -15,7 +15,7 @@
       id:         String(raw.id),
       name:       raw.name,
       brand:      raw.brand,
-      cat:        raw.cat || 'electronics',
+      cat:        (['electronics','fashion','home','travel'].indexOf(raw.cat)!==-1 ? raw.cat : 'electronics'),
       price:      raw.price,
       oldPrice:   raw.oldPrice || 0,
       img:        b + '1.webp',
