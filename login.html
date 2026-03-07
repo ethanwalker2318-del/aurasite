@@ -127,8 +127,31 @@
         </label>
       </div>
       <p id="r-error" class="text-red-500 text-xs hidden"></p>
-      <button type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="btn_register">KONTO ERSTELLEN</button>
+      <div id="reg-step1-btns">
+        <button type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="btn_send_code">CODE SENDEN</button>
+      </div>
     </form>
+
+    <!-- REGISTRATION — VERIFY CODE STEP -->
+    <div id="form-reg-verify" class="space-y-5 hidden">
+      <div class="text-center mb-4">
+        <div class="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-3">
+          <svg class="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <p class="text-sm font-semibold text-navy" data-i18n="lbl_code">Bestätigungscode</p>
+        <p id="reg-verify-hint" class="text-xs text-gray-400 mt-1">Code wurde an Ihre E-Mail gesendet.</p>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1.5 text-gray-500 uppercase tracking-wider" data-i18n="lbl_code">6-stelliger Code</label>
+        <input type="text" id="rv-code" maxlength="6" placeholder="● ● ● ● ● ●" class="w-full h-14 px-4 border-2 border-gray-200 focus:border-navy outline-none text-xl tracking-[0.5em] text-center font-mono transition-colors">
+      </div>
+      <p id="rv-error" class="text-red-500 text-xs hidden"></p>
+      <button onclick="submitRegVerify()" class="w-full py-4 bg-navy hover:bg-navy-light text-white text-sm font-bold tracking-[0.15em] transition-colors" data-i18n="lg_btn_verify">CODE BESTÄTIGEN</button>
+      <div class="text-center flex items-center justify-between gap-3 mt-1">
+        <button type="button" onclick="backToRegForm()" class="text-xs text-gray-400 hover:text-navy" data-i18n="back_login">← Zurück</button>
+        <button type="button" onclick="resendRegCode()" class="text-xs text-gold hover:text-gold-dark underline">Code erneut senden</button>
+      </div>
+    </div>
 
     <div class="mt-8 text-center">
       <a href="/index.html" class="text-xs text-gray-400 hover:text-navy" data-i18n="back_shop">← Zurück zum Shop</a>
@@ -191,6 +214,9 @@ window.handleLogin=function(e){
   return false;
 };
 
+// Pending registration data
+var _regPending = null;
+
 window.handleRegister=function(e){
   e.preventDefault();
   var name=document.getElementById('r-name').value.trim();
@@ -201,18 +227,71 @@ window.handleRegister=function(e){
   errEl.classList.add('hidden');
   if(!document.getElementById('r-gdpr').checked){errEl.textContent=Aura.t('lg_gdpr_req');errEl.classList.remove('hidden');return false;}
   if(pass!==pass2){errEl.textContent=Aura.t('pass_mismatch');errEl.classList.remove('hidden');return false;}
-  var result=Aura.register(name,email,pass);
+  if(pass.length<6){errEl.textContent=Aura.t('lg_pw_min')||'Passwort muss mind. 6 Zeichen haben';errEl.classList.remove('hidden');return false;}
+  // Check if email already exists
+  var users=JSON.parse(localStorage.getItem('aura_users')||'[]');
+  var exists=users.some(function(u){return u.email===email;});
+  if(exists){
+    var chkResult=Aura.register(name,email,pass); // will return error
+    errEl.textContent=chkResult.error||'Diese E-Mail ist bereits registriert.';
+    errEl.classList.remove('hidden');
+    return false;
+  }
+  // Save pending registration & send verification code
+  _regPending={name:name,email:email,pass:pass};
+  if(typeof AuraEmail!=='undefined'){
+    AuraEmail.sendVerificationCode(email, name);
+  }
+  // Show verify step
+  document.getElementById('form-register').classList.add('hidden');
+  document.getElementById('form-reg-verify').classList.remove('hidden');
+  document.getElementById('reg-verify-hint').textContent=
+    (Aura.t('lg_code_sent')||'Code gesendet an {email}').replace('{email}',email);
+  document.getElementById('rv-code').focus();
+  return false;
+};
+
+window.submitRegVerify=function(){
+  var code=document.getElementById('rv-code').value.trim();
+  var errEl=document.getElementById('rv-error');
+  errEl.classList.add('hidden');
+  if(!code||code.length!==6){
+    errEl.textContent=Aura.t('lg_enter_code')||'Bitte geben Sie den 6-stelligen Code ein.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  if(typeof AuraEmail!=='undefined'){
+    var res=AuraEmail.verifyCode(code);
+    if(!res.ok){
+      errEl.textContent=res.error||'Ungültiger oder abgelaufener Code.';
+      errEl.classList.remove('hidden');
+      return;
+    }
+  }
+  // Code verified — create account
+  if(!_regPending){window.location.reload();return;}
+  var result=Aura.register(_regPending.name,_regPending.email,_regPending.pass);
   if(result.ok){
-    Aura.login(email,pass);
-    // Send welcome email
-    if(typeof AuraEmail!=='undefined') AuraEmail.sendWelcome(email,name);
-    Aura.showToast(Aura.t('account_created'),'success');
+    Aura.login(_regPending.email,_regPending.pass);
+    if(typeof AuraEmail!=='undefined') AuraEmail.sendWelcome(_regPending.email,_regPending.name);
+    Aura.showToast(Aura.t('account_created')||'Konto erstellt!','success');
     setTimeout(function(){window.location.href='/dashboard.html';},800);
   }else{
     errEl.textContent=result.error;
     errEl.classList.remove('hidden');
   }
-  return false;
+};
+
+window.backToRegForm=function(){
+  document.getElementById('form-reg-verify').classList.add('hidden');
+  document.getElementById('form-register').classList.remove('hidden');
+  document.getElementById('rv-code').value='';
+};
+
+window.resendRegCode=function(){
+  if(!_regPending) return;
+  if(typeof AuraEmail!=='undefined') AuraEmail.sendVerificationCode(_regPending.email,_regPending.name);
+  Aura.showToast(Aura.t('lg_code_sent')||'Code erneut gesendet','success');
 };
 
 /* ── FORGOT PASSWORD ─────────────────── */

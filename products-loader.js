@@ -17,11 +17,27 @@
       brand:      raw.brand,
       cat:        (function(rawCat, rawBrand){
       var b = (rawBrand||'').toLowerCase();
-      // Brand-based category override (takes priority over raw.cat if raw.cat is wrong)
-      var fashionBrands = ['nike','adidas','lululemon','new balance','carhartt','polo ralph lauren','ralph lauren','supreme','off-white','stone island','canada goose','gucci','prada','balenciaga','converse','vans','reebok','puma','under armour','jordan','north face','gap','h&m','zara','uniqlo'];
-      var travelBrands = ['mammut','patagonia','salomon','hoka','columbia','arcteryx','merrell','osprey','gregory','msr','blackdiamond','black diamond','suunto','garmin'];
-      var homeBrands = ['dyson','ecovacs','hexclad','kitchenaid','nespresso','ring','govee','roomba','irobot','philips hue','le creuset','vitamix','breville','keurig','instant pot','ninja','cuisinart','sonos','augustlock','august','nest'];
-      var electronicsBrands = ['apple','samsung','sony','bose','microsoft','lg','dell','hp','lenovo','asus','acer','google','oneplus','huawei','xiaomi','canon','nikon','fujifilm','gopro','meta','oculus','playstation','xbox','nintendo'];
+      var nm = (raw.name||'').toLowerCase();
+      // ── Name-based override (highest priority — beats brand) ──
+      if(/backpack|rucksack|bag|handtasche|satchel|tote|purse|clutch|wallet|geldbeutel|shoulder|portfolio|messenger bag/.test(nm)) return 'fashion';
+      if(/watch|uhr|reloj|orologio|montre|timepiece|chronograph|armbanduhr|smartwatch/.test(nm) && !/smartwatch/.test(b)) return 'fashion';
+      if(/vacuum|staubsauger|saugroboter|air purifier|luftreiniger|coffee maker|espresso|kaffeemaschine|blender|mixer/.test(nm)) return 'home';
+      // ── Brand arrays ──
+      var fashionBrands = [
+        'nike','adidas','lululemon','new balance','carhartt','polo ralph lauren','ralph lauren',
+        'supreme','off-white','stone island','canada goose','gucci','prada','balenciaga',
+        'converse','vans','reebok','puma','under armour','jordan','north face','gap','h&m','zara','uniqlo',
+        // Watch & accessory brands
+        'guess','etti','fossil','casio','seiko','michael kors','tommy hilfiger','calvin klein',
+        'dkny','emporio armani','hugo boss','daniel wellington','tag heuer','longines','swatch',
+        'timex','tissot','versace','armani exchange','coach','kate spade','marc jacobs',
+        'ted baker','lacoste','boss','rolex','omega','breitling','iwc','patek','hublot',
+        'cartier watch','burberry','montblanc','tory burch','furla','charles & keith',
+        'pedro','aldo','steve madden','nine west','charles david'
+      ];
+      var travelBrands = ['mammut','patagonia','salomon','hoka','columbia','arcteryx','merrell','osprey','gregory','msr','blackdiamond','black diamond','suunto','garmin','rimowa','samsonite','tumi','away','peak design','lowepro','manfrotto'];
+      var homeBrands = ['dyson','ecovacs','hexclad','kitchenaid','nespresso','ring','govee','roomba','irobot','philips hue','le creuset','vitamix','breville','keurig','instant pot','ninja','cuisinart','sonos','augustlock','august','nest','delonghi','smeg','shark','rowenta','tefal','bosch home','braun'];
+      var electronicsBrands = ['apple','samsung','sony','bose','microsoft','lg','dell','hp','lenovo','asus','acer','google','oneplus','huawei','xiaomi','canon','nikon','fujifilm','gopro','meta','oculus','playstation','xbox','nintendo','jbl','beats','anker','razer','logitech','corsair','alienware','msi','benq','viewsonic'];
       for(var i=0;i<fashionBrands.length;i++){if(b.indexOf(fashionBrands[i])!==-1) return 'fashion';}
       for(var i=0;i<travelBrands.length;i++){if(b.indexOf(travelBrands[i])!==-1) return 'travel';}
       for(var i=0;i<homeBrands.length;i++){if(b.indexOf(homeBrands[i])!==-1) return 'home';}
@@ -45,7 +61,7 @@
 
   function loadProducts(){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/products.json?v=11', true);
+    xhr.open('GET', '/products.json?v=12', true);
     xhr.onreadystatechange = function(){
       if(xhr.readyState !== 4) return;
       if(xhr.status !== 200){ console.warn('[products-loader] Failed to load products.json:', xhr.status); return; }

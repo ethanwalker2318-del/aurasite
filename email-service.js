@@ -304,34 +304,101 @@ function SIGN(dept){
 function sendWelcome(email,name){
   var n=esc(name||email.split('@')[0]);
 
-  /* → Customer */
-  var html=W(BD(
-    TITLE('Willkommen bei Aura Global','Ihr Kundenkonto wurde eingerichtet.')+
-    DIV()+
-    GREET(n)+
-    '<p>Ihr Konto ist ab sofort aktiv. Nachfolgend finden Sie Ihre Kontodaten und eine &Uuml;bersicht der verf&uuml;gbaren Leistungen.</p>'+
+  /* ── Zalando-grade welcome email ── */
+  var welcomeBanner=(
+    '<div style="background:linear-gradient(135deg,'+_navy+' 0%,#132845 60%,#1a3a5c 100%);border-radius:12px 12px 0 0;padding:48px 40px 36px;text-align:center">'+
+      '<div style="display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);border-radius:20px;padding:6px 18px;margin-bottom:20px">'+
+        '<span style="font-family:'+_sans+';font-size:11px;font-weight:700;letter-spacing:2px;color:'+_gold+';text-transform:uppercase">\u2713 Konto aktiviert</span>'+
+      '</div>'+
+      '<div style="font-family:'+_serif+';font-size:13px;font-weight:400;letter-spacing:3px;color:rgba(201,168,76,0.7);text-transform:uppercase;margin-bottom:8px">Willkommen bei</div>'+
+      '<div style="font-family:'+_serif+';font-size:38px;font-weight:700;color:#FFFFFF;letter-spacing:1px;line-height:1">Aura Global</div>'+
+      '<div style="width:48px;height:2px;background:'+_gold+';margin:20px auto"></div>'+
+      '<p style="font-family:'+_sans+';font-size:15px;color:rgba(255,255,255,0.75);margin:0;line-height:1.6">Guten Tag, <strong style="color:#fff">'+n+'</strong> &mdash; Ihr pers&ouml;nliches Konto ist ab sofort aktiv.</p>'+
+    '</div>'
+  );
 
-    SEC('Kontodaten')+
-    '<table style="width:100%;border-collapse:collapse">'+
-      TR('E-Mail-Adresse',esc(email),{mono:true})+
-      TR('Registrierung',fD())+
-      TR('Kontostatus',BDG('Aktiv','#059669'))+
+  var accountInfo=(
+    '<div style="background:#FFFFFF;padding:28px 40px;border-left:4px solid '+_gold+'">'+
+      '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;letter-spacing:2px;color:'+_navy+';text-transform:uppercase;margin-bottom:16px">Ihre Kontodaten</div>'+
+      '<table style="width:100%;border-collapse:collapse;font-family:'+_sans+';font-size:14px">'+
+        '<tr><td style="padding:10px 0;border-bottom:1px solid #F0EDE8;color:#888;width:40%">E-Mail-Adresse</td><td style="padding:10px 0;border-bottom:1px solid #F0EDE8;color:'+_navy+';font-family:'+_mono+';font-weight:500">'+esc(email)+'</td></tr>'+
+        '<tr><td style="padding:10px 0;border-bottom:1px solid #F0EDE8;color:#888">Registriert am</td><td style="padding:10px 0;border-bottom:1px solid #F0EDE8;color:'+_navy+'">'+fD()+'</td></tr>'+
+        '<tr><td style="padding:10px 0;color:#888">Kontostatus</td><td style="padding:10px 0"><span style="background:#D1FAE5;color:#059669;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:12px">Aktiv</span></td></tr>'+
+      '</table>'+
+    '</div>'
+  );
+
+  var featureGrid=(
+    '<div style="background:'+_ivory+';padding:28px 40px">'+
+      '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;letter-spacing:2px;color:'+_navy+';text-transform:uppercase;margin-bottom:20px">Was Sie erwartet</div>'+
+      '<table style="width:100%;border-collapse:collapse"><tr>'+
+        '<td style="width:50%;vertical-align:top;padding:0 8px 12px 0">'+
+          '<div style="background:#fff;border:1px solid #EAE7E1;border-radius:10px;padding:18px;text-align:center">'+
+            '<div style="font-size:26px;margin-bottom:8px">&#128230;</div>'+
+            '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;color:'+_navy+';margin-bottom:4px">Bestellverwaltung</div>'+
+            '<div style="font-family:'+_sans+';font-size:12px;color:#888;line-height:1.5">Alle Bestellungen &amp; Sendungsverfolgung im &Uuml;berblick</div>'+
+          '</div>'+
+        '</td>'+
+        '<td style="width:50%;vertical-align:top;padding:0 0 12px 8px">'+
+          '<div style="background:#fff;border:1px solid #EAE7E1;border-radius:10px;padding:18px;text-align:center">'+
+            '<div style="font-size:26px;margin-bottom:8px">&#10084;&#65039;</div>'+
+            '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;color:'+_navy+';margin-bottom:4px">Wunschliste</div>'+
+            '<div style="font-family:'+_sans+';font-size:12px;color:#888;line-height:1.5">Lieblingsartikel speichern &amp; keine Sales verpassen</div>'+
+          '</div>'+
+        '</td>'+
+      '</tr><tr>'+
+        '<td style="vertical-align:top;padding:12px 8px 0 0">'+
+          '<div style="background:#fff;border:1px solid #EAE7E1;border-radius:10px;padding:18px;text-align:center">'+
+            '<div style="font-size:26px;margin-bottom:8px">&#128737;&#65039;</div>'+
+            '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;color:'+_navy+';margin-bottom:4px">Aura Inspection</div>'+
+            '<div style="font-family:'+_sans+';font-size:12px;color:#888;line-height:1.5">24-Punkt Echtheitszertifikat f&uuml;r jeden Artikel</div>'+
+          '</div>'+
+        '</td>'+
+        '<td style="vertical-align:top;padding:12px 0 0 8px">'+
+          '<div style="background:#fff;border:1px solid #EAE7E1;border-radius:10px;padding:18px;text-align:center">'+
+            '<div style="font-size:26px;margin-bottom:8px">&#128260;</div>'+
+            '<div style="font-family:'+_serif+';font-size:13px;font-weight:600;color:'+_navy+';margin-bottom:4px">30 Tage R&uuml;ckgabe</div>'+
+            '<div style="font-family:'+_sans+';font-size:12px;color:#888;line-height:1.5">Kostenloser R&uuml;ckversand ohne Fragen</div>'+
+          '</div>'+
+        '</td>'+
+      '</tr></table>'+
+    '</div>'
+  );
+
+  var ctaSection=(
+    '<div style="background:#FFFFFF;padding:32px 40px;text-align:center">'+
+      '<a href="'+O+'/catalog.html" style="display:inline-block;background:'+_gold+';color:'+_navy+';font-family:'+_sans+';font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:16px 40px;border-radius:4px;text-decoration:none;margin-bottom:28px">Jetzt einkaufen &rarr;</a>'+
+      '<div style="font-family:'+_sans+';font-size:11px;font-weight:700;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:14px">Kategorien entdecken</div>'+
+      '<table style="width:100%;border-collapse:collapse"><tr>'+
+        '<td style="text-align:center;padding:0 4px"><a href="'+O+'/catalog.html?cat=electronics" style="display:block;background:'+_ivory+';border:1px solid #EAE7E1;border-radius:8px;padding:10px 6px;font-family:'+_sans+';font-size:11px;font-weight:600;color:'+_navy+';text-decoration:none;letter-spacing:0.5px">&#128187;<br>Elektronik</a></td>'+
+        '<td style="text-align:center;padding:0 4px"><a href="'+O+'/catalog.html?cat=fashion" style="display:block;background:'+_ivory+';border:1px solid #EAE7E1;border-radius:8px;padding:10px 6px;font-family:'+_sans+';font-size:11px;font-weight:600;color:'+_navy+';text-decoration:none;letter-spacing:0.5px">&#128084;<br>Mode</a></td>'+
+        '<td style="text-align:center;padding:0 4px"><a href="'+O+'/catalog.html?cat=home" style="display:block;background:'+_ivory+';border:1px solid #EAE7E1;border-radius:8px;padding:10px 6px;font-family:'+_sans+';font-size:11px;font-weight:600;color:'+_navy+';text-decoration:none;letter-spacing:0.5px">&#127968;<br>Haushalt</a></td>'+
+        '<td style="text-align:center;padding:0 4px"><a href="'+O+'/catalog.html?cat=travel" style="display:block;background:'+_ivory+';border:1px solid #EAE7E1;border-radius:8px;padding:10px 6px;font-family:'+_sans+';font-size:11px;font-weight:600;color:'+_navy+';text-decoration:none;letter-spacing:0.5px">&#127944;<br>Reise&nbsp;&amp;&nbsp;Sport</a></td>'+
+      '</tr></table>'+
+    '</div>'
+  );
+
+  var supportNote=(
+    '<div style="background:'+_ivory+';padding:16px 40px;border-top:1px solid #EAE7E1;text-align:center">'+
+      '<p style="font-family:'+_sans+';font-size:12px;color:#999;margin:0;line-height:1.7">Fragen? Unser Team ist jederzeit erreichbar:<br>'+
+      '<a href="mailto:'+FM.SUPPORT+'" style="color:'+_navy+';font-weight:600;text-decoration:none">'+FM.SUPPORT+'</a></p>'+
+    '</div>'
+  );
+
+  var fullHtml='<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Willkommen bei Aura Global</title></head>'+
+    '<body style="margin:0;padding:0;background:#F5F2EC;font-family:'+_sans+'">'+
+    '<table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F2EC;padding:32px 0"><tr><td align="center">'+
+    '<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10)">'+
+      '<tr><td>'+welcomeBanner+'</td></tr>'+
+      '<tr><td>'+accountInfo+'</td></tr>'+
+      '<tr><td>'+featureGrid+'</td></tr>'+
+      '<tr><td>'+ctaSection+'</td></tr>'+
+      '<tr><td>'+supportNote+'</td></tr>'+
+      '<tr><td>'+FTR()+'</td></tr>'+
     '</table>'+
+    '</td></tr></table></body></html>';
 
-    SEC('Leistungsumfang')+
-    CARD_S(
-      '<table style="width:100%;font-size:13px;color:'+_warm+'">'+
-        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;Vollst&auml;ndiger Katalogzugang — verifizierte Markenware</td></tr>'+
-        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;24-Punkt Aura Inspection Protocol pro Artikel</td></tr>'+
-        '<tr><td style="padding:8px 0;border-bottom:1px solid #E8E5DF">&bull; &nbsp;14 Tage Widerrufsrecht gem&auml;&szlig; Fernabsatzgesetz</td></tr>'+
-        '<tr><td style="padding:8px 0">&bull; &nbsp;Pers&ouml;nlicher Video-Inspektionsbericht</td></tr>'+
-      '</table>'
-    )+
-    BTN('Katalog ansehen &rarr;',O+'/catalog.html')+
-    SIGN('Kundendienst')
-  ),'Kontoregistrierung',null,
-    'Ihr Kundenkonto bei Aura Global ist aktiv.');
-  _send(email,'Willkommen bei Aura Global \u2014 Kontozugang best\u00e4tigt',html,FM.SUPPORT);
+  _send(email,'Willkommen bei Aura Global \u2014 Kontozugang best\u00e4tigt',fullHtml,FM.SUPPORT);
 
   /* → Admin (INBOX) */
   var aHtml=W(BD(

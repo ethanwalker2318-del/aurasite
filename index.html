@@ -217,22 +217,23 @@ html{scrollbar-gutter:stable}
       <div class="w-full">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-5">
           <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-          <span class="text-white/70 text-xs font-medium">Geprüft · Zuverlässig · Günstig</span>
+          <span class="text-white/70 text-xs font-medium" data-i18n="hero_tag">Geprüft · Zuverlässig · Günstig</span>
         </div>
         <h1 class="font-sans text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-center">
-          Premium Elektronik,<br>Mode &amp; Outdoor<br><span class="text-gold">&mdash; Jetzt Verfügbar</span>
+          <span data-i18n="hero_h1a">Geprüfte Elektronik &amp; Mode</span><br>
+          <span class="text-gold" data-i18n="hero_h1b">direkt aus dem Lager</span>
         </h1>
-        <p class="text-white/50 text-sm sm:text-base mt-5 max-w-2xl mx-auto text-center">
-          Über 2.000 geprüfte Produkte. Apple, Samsung, Nike, Dyson und mehr &mdash; direkt aus dem Londoner Lagerhub.
+        <p class="text-white/50 text-sm sm:text-base mt-5 max-w-2xl mx-auto text-center" data-i18n="hero_desc">
+          Jedes Produkt wird in unserem Hub in London manuell kontrolliert. 100% Originalität und Funktionalität garantiert.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
-          <a href="/catalog.html" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center">ALLE PRODUKTE</a>
-          <a href="/catalog.html?badge=express" class="w-full sm:w-auto px-8 py-3.5 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors text-center">SALE &amp; ANGEBOTE</a>
+          <a href="/catalog.html" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center" data-i18n="hero_cta1">ALLE PRODUKTE ANSEHEN</a>
+          <a href="/catalog.html?badge=express" class="w-full sm:w-auto px-8 py-3.5 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors text-center" data-i18n="hero_cta2">SALE &amp; ANGEBOTE</a>
         </div>
         <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-6">
-          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i>Versand in 2&ndash;4 Tagen</span>
-          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>30 Tage Rückgabe</span>
-          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>SSL-Zahlung</span>
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_ship">Versand in 2–4 Tagen</span></span>
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_return">30 Tage Rückgabe</span></span>
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i><span data-i18n="hero_trust_pay">Sichere Zahlung</span></span>
         </div>
         <div class="flex flex-wrap gap-2 mt-5 justify-center">
           <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Apple</span>
@@ -254,7 +255,7 @@ html{scrollbar-gutter:stable}
 <section class="bg-white border-b border-gray-100 py-6">
 <div class="max-w-[1400px] mx-auto px-4 lg:px-8">
   <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
-    <p class="text-[10px] font-bold text-gray-300 tracking-[0.25em] uppercase flex-shrink-0">TOP MARKEN</p>
+    <p class="text-[10px] font-bold text-gray-300 tracking-[0.25em] uppercase flex-shrink-0" data-i18n="sec_brands">Unsere Marken</p>
     <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4">
       <a href="/catalog.html?brand=Apple" class="flex items-center gap-2 px-4 py-2.5 bg-gray-50 hover:bg-navy hover:text-white text-navy rounded-lg transition-all group">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>

@@ -28,7 +28,7 @@ function esc(s){ if(!s) return ''; var d=document.createElement('div'); d.textCo
 */
 var DEFAULT_PRODUCTS = [];
 
-var PRODUCTS_VERSION = 11; // Bump: force clear old localStorage cache (was 795 products)
+var PRODUCTS_VERSION = 12; // v12: category fixes (watches, bags, name-based detection)
 // ── Remote overrides (published from admin panel via GitHub) ──
 var _remoteOverrides = null;
 var _overridesLoaded = false;
