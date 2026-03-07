@@ -31,7 +31,7 @@
 <style>
 html{scrollbar-gutter:stable}
 .hide-scrollbar::-webkit-scrollbar{display:none}.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.fade-up{animation:fadeUp .5s ease-out forwards}.reveal{opacity:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.fade-up{animation:fadeUp .5s ease-out forwards}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}.animate-marquee{animation:marquee 35s linear infinite}
 .product-card:hover .prod-img{transform:none}.product-card:hover .quick-act{opacity:1;transform:translateY(0)}
 .quick-act{opacity:0;transform:translateY(8px);transition:all .25s ease}
@@ -208,178 +208,103 @@ html{scrollbar-gutter:stable}
 </div>
 </div>
 
-<!-- ══ HERO SLIDER ══ -->
-<section id="main-content" class="relative overflow-hidden bg-navy" aria-label="Startseite Slider">
-  <!-- Slides -->
-  <div id="hero-slider" class="relative" style="min-height:480px">
+<!-- ══ HERO ══ -->
+<section id="main-content" class="bg-navy py-10 sm:py-14">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
 
-    <!-- Slide 1: Tech -->
-    <div class="hero-slide active" data-slide="0">
-      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-        <div class="flex-1 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-5">
-            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-            <span class="text-white/70 text-xs font-medium">Geprüft · Zuverlässig · Günstig</span>
-          </div>
-          <h1 class="font-sans text-white text-3xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-            Exklusive Technik &amp; Mode<br><span class="text-gold">— Jetzt Verfügbar</span>
-          </h1>
-          <p class="text-white/50 text-sm sm:text-base mt-5 max-w-lg mx-auto lg:mx-0">Jedes Produkt wird manuell im Londoner Hub geprüft. 100 % Originalität garantiert.</p>
-          <div class="flex flex-col sm:flex-row items-center gap-3 mt-7">
-            <a href="/catalog.html?cat=electronics" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center">ELEKTRONIK ENTDECKEN</a>
-            <a href="/catalog.html?badge=express" class="w-full sm:w-auto px-8 py-3.5 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors text-center">SALE & ANGEBOTE</a>
-          </div>
-          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6">
-            <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i>Versand in 2–4 Tagen</span>
-            <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>30 Tage Rückgabe</span>
-            <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>SSL-Zahlung</span>
-          </div>
+      <!-- Left: headline + CTAs -->
+      <div class="flex-1 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-5">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+          <span class="text-white/70 text-xs font-medium">Geprüft · Zuverlässig · Günstig</span>
         </div>
-        <div class="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs sm:max-w-sm">
-          <a href="/product.html?id=1607" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1607.webp" alt="iPhone" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
-            <p class="text-white text-xs font-semibold">iPhone 17 Pro</p>
-            <p class="text-gold text-sm font-bold mt-1">€1.291,99</p>
-            <p class="text-white/30 text-[10px] line-through">€1.511,63</p>
-          </a>
-          <a href="/product.html?id=1614" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1614.webp" alt="MacBook" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
-            <p class="text-white text-xs font-semibold">MacBook Pro 14</p>
-            <p class="text-gold text-sm font-bold mt-1">€1.621,99</p>
-            <p class="text-white/30 text-[10px] line-through">€1.897,73</p>
-          </a>
-          <a href="/product.html?id=1648" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1648.webp" alt="PlayStation" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
-            <p class="text-white text-xs font-semibold">PlayStation 5 Pro</p>
-            <p class="text-gold text-sm font-bold mt-1">€638,99</p>
-            <p class="text-white/30 text-[10px] line-through">€747,62</p>
-          </a>
-          <a href="/product.html?id=1104" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10 hover:border-white/20">
-            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1104.webp" alt="Dyson" class="w-12 h-12 object-contain mx-auto mb-2 rounded-lg" loading="lazy" onerror="this.style.display='none'">
-            <p class="text-white text-xs font-semibold">Dyson Airwrap</p>
-            <p class="text-gold text-sm font-bold mt-1">€413,99</p>
-            <p class="text-white/30 text-[10px] line-through">€484,37</p>
-          </a>
+        <h1 class="font-sans text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
+          Premium Elektronik,<br>Mode &amp; Outdoor<br><span class="text-gold">&mdash; Jetzt Verfügbar</span>
+        </h1>
+        <p class="text-white/50 text-sm sm:text-base mt-5 max-w-lg mx-auto lg:mx-0">
+          Über 2.000 geprüfte Produkte. Apple, Samsung, Nike, Dyson und mehr &mdash; direkt aus dem Londoner Lagerhub.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center gap-3 mt-7">
+          <a href="/catalog.html" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center">ALLE PRODUKTE</a>
+          <a href="/catalog.html?badge=express" class="w-full sm:w-auto px-8 py-3.5 bg-gold hover:bg-gold-dark text-white text-sm font-bold tracking-wider transition-colors text-center">SALE &amp; ANGEBOTE</a>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6">
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="truck" class="w-3.5 h-3.5 text-emerald-400"></i>Versand in 2&ndash;4 Tagen</span>
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>30 Tage Rückgabe</span>
+          <span class="flex items-center gap-1.5 text-white/40 text-xs"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>SSL-Zahlung</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Apple</span>
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Samsung</span>
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Nike</span>
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Dyson</span>
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Adidas</span>
+          <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Sony</span>
         </div>
       </div>
-    </div>
 
-    <!-- Slide 2: Fashion/Sneakers -->
-    <div class="hero-slide" data-slide="1" style="display:none">
-      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-        <div class="flex-1 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-5">
-            <i data-lucide="sparkles" class="w-4 h-4 text-gold"></i>
-            <span class="text-white/70 text-xs font-medium">Premium Sportswear & Mode</span>
+      <!-- Right: real product photos 4x2 grid -->
+      <div class="flex-shrink-0 grid grid-cols-4 gap-2 sm:gap-3 w-full max-w-[440px]">
+        <a href="/product.html?id=1607" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1607.webp" alt="iPhone 17 Pro" class="w-full h-full object-contain" loading="eager">
           </div>
-          <h1 class="font-sans text-white text-3xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-            Elite-Sneaker &amp; Streetwear<br><span class="text-gold">Direkt aus London</span>
-          </h1>
-          <p class="text-white/50 text-sm sm:text-base mt-5 max-w-lg mx-auto lg:mx-0">Nike, Adidas, New Balance, On Running — über 800 geprüfte Mode-Artikel auf Lager.</p>
-          <div class="flex flex-col sm:flex-row items-center gap-3 mt-7">
-            <a href="/catalog.html?cat=fashion" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center">MODE ENTDECKEN</a>
-            <a href="/catalog.html?cat=fashion&brand=Nike" class="w-full sm:w-auto px-8 py-3.5 border-2 border-white/30 text-white text-sm font-bold tracking-wider hover:bg-white/10 transition-colors text-center">NIKE KOLLEKTION</a>
+          <p class="text-white text-[9px] font-semibold leading-tight">iPhone 17 Pro</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;1.292</p>
+        </a>
+        <a href="/product.html?id=1614" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1614.webp" alt="MacBook Pro 14" class="w-full h-full object-contain" loading="eager">
           </div>
-          <div class="flex flex-wrap gap-2 mt-6">
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Nike</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Adidas</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">New Balance</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">On Running</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Lululemon</span>
+          <p class="text-white text-[9px] font-semibold leading-tight">MacBook Pro 14</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;1.622</p>
+        </a>
+        <a href="/product.html?id=1648" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1648.webp" alt="PlayStation 5 Pro" class="w-full h-full object-contain" loading="eager">
           </div>
-        </div>
-        <div class="flex-shrink-0 flex flex-col gap-3 w-full max-w-xs">
-          <a href="/catalog.html?cat=fashion&brand=Nike" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <i data-lucide="footprints" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
-            <div><p class="text-white text-sm font-bold">Nike Sneaker</p><p class="text-white/50 text-xs mt-0.5">76 Modelle verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €42,99 →</p></div>
-          </a>
-          <a href="/catalog.html?cat=fashion&brand=Adidas" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <i data-lucide="zap" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
-            <div><p class="text-white text-sm font-bold">Adidas Originals</p><p class="text-white/50 text-xs mt-0.5">61 Modelle verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €39,99 →</p></div>
-          </a>
-          <a href="/catalog.html?cat=fashion&brand=Lululemon" class="bg-white/10 hover:bg-white/20 rounded-xl p-5 border border-white/10 hover:border-white/20 transition-all flex items-center gap-4">
-            <i data-lucide="activity" class="w-8 h-8 flex-shrink-0 text-white/70 block"></i>
-            <div><p class="text-white text-sm font-bold">Lululemon</p><p class="text-white/50 text-xs mt-0.5">65 Artikel verfügbar</p><p class="text-gold text-xs font-semibold mt-1">ab €59,99 →</p></div>
-          </a>
-        </div>
+          <p class="text-white text-[9px] font-semibold leading-tight">PS5 Pro</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;639</p>
+        </a>
+        <a href="/product.html?id=1104" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1104.webp" alt="Dyson Airwrap" class="w-full h-full object-contain" loading="eager">
+          </div>
+          <p class="text-white text-[9px] font-semibold leading-tight">Dyson Airwrap</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;414</p>
+        </a>
+        <a href="/product.html?id=1609" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1609.webp" alt="Samsung Galaxy S25" class="w-full h-full object-contain" loading="eager">
+          </div>
+          <p class="text-white text-[9px] font-semibold leading-tight">Samsung Galaxy</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;899</p>
+        </a>
+        <a href="/product.html?id=1687" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1687.webp" alt="Nike Air" class="w-full h-full object-contain" loading="eager">
+          </div>
+          <p class="text-white text-[9px] font-semibold leading-tight">Nike Air Max</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;189</p>
+        </a>
+        <a href="/product.html?id=1119" class="bg-white/10 hover:bg-white/20 rounded-xl p-2.5 text-center transition-all border border-white/10 hover:border-gold/50">
+          <div class="aspect-square rounded-lg overflow-hidden bg-white/5 mb-1.5 flex items-center justify-center">
+            <img src="https://pub-8541d45ceaea4d7fbb5d209f987a2f5b.r2.dev/1119.webp" alt="Sony WH-1000XM5" class="w-full h-full object-contain" loading="eager">
+          </div>
+          <p class="text-white text-[9px] font-semibold leading-tight">Sony WH-1000</p>
+          <p class="text-gold text-[9px] font-bold mt-0.5">&euro;289</p>
+        </a>
+        <a href="/catalog.html" class="bg-gold/20 hover:bg-gold/30 rounded-xl p-2.5 text-center transition-all border border-gold/30 hover:border-gold flex flex-col items-center justify-center gap-1">
+          <i data-lucide="layout-grid" class="w-6 h-6 text-gold block"></i>
+          <p class="text-gold text-[9px] font-bold leading-tight">2.000+</p>
+          <p class="text-gold/60 text-[8px]">Produkte &rarr;</p>
+        </a>
       </div>
-    </div>
 
-    <!-- Slide 3: Outdoor/Travel -->
-    <div class="hero-slide" data-slide="2" style="display:none">
-      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-        <div class="flex-1 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-5">
-            <i data-lucide="mountain" class="w-4 h-4 text-emerald-400"></i>
-            <span class="text-white/70 text-xs font-medium">Outdoor & Reise</span>
-          </div>
-          <h1 class="font-sans text-white text-3xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-            Premium Outdoor<br><span class="text-gold">Für jeden Abenteuer</span>
-          </h1>
-          <p class="text-white/50 text-sm sm:text-base mt-5 max-w-lg mx-auto lg:mx-0">Mammut, Patagonia, Salomon, Hoka, Columbia — Gear für echte Abenteurer.</p>
-          <div class="flex flex-col sm:flex-row items-center gap-3 mt-7">
-            <a href="/catalog.html?cat=travel" class="w-full sm:w-auto px-8 py-3.5 bg-white text-navy text-sm font-bold tracking-wider hover:bg-gray-100 transition-colors text-center">OUTDOOR ENTDECKEN</a>
-            <a href="/catalog.html?cat=travel&brand=Mammut" class="w-full sm:w-auto px-8 py-3.5 border-2 border-white/30 text-white text-sm font-bold tracking-wider hover:bg-white/10 transition-colors text-center">MAMMUT SHOP</a>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-6">
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Mammut</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Patagonia</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Salomon</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Hoka</span>
-            <span class="px-3 py-1 bg-white/10 text-white/60 text-xs rounded-full">Columbia</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs sm:max-w-sm">
-          <a href="/catalog.html?cat=travel&brand=Mammut" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <i data-lucide="mountain" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
-            <p class="text-white text-xs font-semibold">Mammut</p>
-            <p class="text-gold text-xs font-bold mt-1">70 Artikel</p>
-          </a>
-          <a href="/catalog.html?cat=travel&brand=Patagonia" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <i data-lucide="leaf" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
-            <p class="text-white text-xs font-semibold">Patagonia</p>
-            <p class="text-gold text-xs font-bold mt-1">66 Artikel</p>
-          </a>
-          <a href="/catalog.html?cat=travel&brand=Salomon" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <i data-lucide="footprints" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
-            <p class="text-white text-xs font-semibold">Salomon</p>
-            <p class="text-gold text-xs font-bold mt-1">64 Artikel</p>
-          </a>
-          <a href="/catalog.html?cat=travel&brand=Hoka" class="bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center transition-all border border-white/10">
-            <i data-lucide="activity" class="w-8 h-8 mx-auto block mb-2 text-white/70"></i>
-            <p class="text-white text-xs font-semibold">Hoka</p>
-            <p class="text-gold text-xs font-bold mt-1">56 Artikel</p>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slider controls -->
-    <button onclick="heroSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center rounded-full transition-colors z-10" aria-label="Vorheriger Slide"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-    <button onclick="heroSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center rounded-full transition-colors z-10" aria-label="Nächster Slide"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
-    <!-- Dots -->
-    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-      <button onclick="heroGoTo(0)" class="hero-dot w-2 h-2 rounded-full bg-white/60 transition-all" data-dot="0"></button>
-      <button onclick="heroGoTo(1)" class="hero-dot w-2 h-2 rounded-full bg-white/20 transition-all" data-dot="1"></button>
-      <button onclick="heroGoTo(2)" class="hero-dot w-2 h-2 rounded-full bg-white/20 transition-all" data-dot="2"></button>
     </div>
   </div>
 </section>
-<script>
-(function(){
-  var current=0, total=3, timer=null;
-  function show(n){
-    document.querySelectorAll('.hero-slide').forEach(function(s,i){s.style.display=i===n?'block':'none';s.classList.toggle('active',i===n);});
-    document.querySelectorAll('.hero-dot').forEach(function(d,i){d.className='hero-dot w-2 h-2 rounded-full transition-all '+(i===n?'bg-white scale-125':'bg-white/30');});
-    if(typeof lucide!=='undefined') lucide.createIcons();
-    current=n;
-  }
-  window.heroSlide=function(dir){show((current+dir+total)%total);resetTimer();};
-  window.heroGoTo=function(n){show(n);resetTimer();};
-  function resetTimer(){clearInterval(timer);timer=setInterval(function(){show((current+1)%total);},6000);}
-  show(0); resetTimer();
-}());
-</script>
 
 <!-- ══ TOP BRANDS ══ -->
 <section class="bg-white border-b border-gray-100 py-6">
@@ -1033,6 +958,13 @@ function renderHomepageProducts(){
   var trendGrid=document.getElementById('trending-grid');
   if(trendGrid) trendGrid.innerHTML=trendProds.map(function(p){ return Aura.productCardHtml(p,{linkOnly:true,extraClass:'reveal'}); }).join('');
   if(typeof lucide!=='undefined') lucide.createIcons();
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.fade-up)').forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.top<window.innerHeight+100){el.classList.add('fade-up');}
+      else if(typeof obs!=='undefined'){obs.observe(el);}
+    });
+  },50);
 }
 
 renderHomepageProducts();
@@ -1040,7 +972,12 @@ renderHomepageProducts();
 // Scroll + Reveal
 window.addEventListener('scroll',function(){document.getElementById('site-header').classList.toggle('shadow-md',window.scrollY>40);},{passive:true});
 var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){en.target.classList.add('fade-up');obs.unobserve(en.target);}});},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+document.querySelectorAll('.reveal').forEach(function(el){
+  var r=el.getBoundingClientRect();
+  if(r.top<window.innerHeight+100){el.classList.add('fade-up');}
+  else{obs.observe(el);}
+});
+setTimeout(function(){document.querySelectorAll('.reveal:not(.fade-up)').forEach(function(el){el.classList.add('fade-up');});},1000);
 // Re-render on locale change
 document.addEventListener('locale-change',function(){
   renderHomepageProducts();
