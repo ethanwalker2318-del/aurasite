@@ -15,7 +15,20 @@
       id:         String(raw.id),
       name:       raw.name,
       brand:      raw.brand,
-      cat:        (['electronics','fashion','home','travel'].indexOf(raw.cat)!==-1 ? raw.cat : 'electronics'),
+      cat:        (function(rawCat, rawBrand){
+      var b = (rawBrand||'').toLowerCase();
+      // Brand-based category override (takes priority over raw.cat if raw.cat is wrong)
+      var fashionBrands = ['nike','adidas','lululemon','new balance','carhartt','polo ralph lauren','ralph lauren','supreme','off-white','stone island','canada goose','gucci','prada','balenciaga','converse','vans','reebok','puma','under armour','jordan','north face','gap','h&m','zara','uniqlo'];
+      var travelBrands = ['mammut','patagonia','salomon','hoka','columbia','arcteryx','arc'teryx','merrell','osprey','gregory','msr','blackdiamond','black diamond','suunto','garmin'];
+      var homeBrands = ['dyson','ecovacs','hexclad','kitchenaid','nespresso','ring','govee','roomba','irobot','philips hue','le creuset','vitamix','breville','keurig','instant pot','ninja','cuisinart','sonos','augustlock','august','nest'];
+      var electronicsBrands = ['apple','samsung','sony','bose','microsoft','lg','dell','hp','lenovo','asus','acer','google','oneplus','huawei','xiaomi','canon','nikon','fujifilm','gopro','meta','oculus','playstation','xbox','nintendo'];
+      for(var i=0;i<fashionBrands.length;i++){if(b.indexOf(fashionBrands[i])!==-1) return 'fashion';}
+      for(var i=0;i<travelBrands.length;i++){if(b.indexOf(travelBrands[i])!==-1) return 'travel';}
+      for(var i=0;i<homeBrands.length;i++){if(b.indexOf(homeBrands[i])!==-1) return 'home';}
+      for(var i=0;i<electronicsBrands.length;i++){if(b.indexOf(electronicsBrands[i])!==-1) return 'electronics';}
+      // Fall back to raw.cat if valid, else electronics
+      return (['electronics','fashion','home','travel'].indexOf(rawCat)!==-1 ? rawCat : 'electronics');
+    })(raw.cat, raw.brand),
       price:      raw.price,
       oldPrice:   raw.oldPrice || 0,
       img:        b + '1.webp',

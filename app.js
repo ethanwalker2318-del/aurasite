@@ -501,7 +501,7 @@ function productCardHtml(p, opts){
   var disc=p.oldPrice?'<span class="absolute top-2 sm:top-3 right-2 sm:right-3 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold leading-tight">-'+Math.round((1-p.price/p.oldPrice)*100)+'%</span>':'';
   var stars=p.rating?'<div class="flex items-center gap-0.5 mt-1.5">'+starsHtml(p.rating)+'<span class="text-[10px] text-gray-400 ml-1">'+p.rating+'</span><span class="text-[10px] text-gray-300">('+p.reviews+')</span></div>':'';
   var sold=p.reviews?'<p class="text-[10px] text-gray-400 mt-0.5">'+(p.reviews*3)+'+&nbsp;'+t('card_sold')+'</p>':'';
-  var trustLine='<div class="flex items-center gap-2 mt-2 flex-wrap">'
+  var trustLine='<div class="flex items-center gap-1.5 mt-1.5 flex-wrap">'
     +'<span class="inline-flex items-center gap-0.5 text-[9px] text-green-600 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>'+t('card_instock')+'</span>'
     +'<span class="inline-flex items-center gap-0.5 text-[9px] text-blue-500 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>'+t('card_free_ship')+'</span>'
     +'</div>'
@@ -530,7 +530,7 @@ function productCardHtml(p, opts){
   +'<a href="/product.html?id='+p.id+'" class="block"><div class="relative overflow-hidden rounded-t-xl">'+heartBtn+'<div class="prod-img aspect-square bg-gray-50 flex items-center justify-center transition-transform duration-500">'+imgHtml(p.img,null,p.brand+' '+p.name)+hoverImg+'</div>'
   +'<span class="absolute top-3 left-3 px-2 py-0.5 '+badge+' text-white text-[9px] font-bold rounded">'+badgeT+'</span>'+disc
   +'<div class="quick-act absolute bottom-3 left-3 right-3 flex gap-2"><span class="flex-1 flex items-center justify-center py-2.5 bg-navy text-white text-xs font-semibold rounded-lg">'+t('view_prod')+'</span></div></div></a>'
-  +'<div class="p-4"><a href="/product.html?id='+p.id+'">'
+  +'<div class="p-2.5 sm:p-4"><a href="/product.html?id='+p.id+'">'
   +'<p class="text-gold text-[10px] font-semibold tracking-[0.15em] uppercase">'+p.brand+'</p>'
   +'<h3 class="text-sm font-medium mt-1 leading-snug truncate hover:text-gold transition-colors">'+p.name+'</h3>'
   +stars+sold
@@ -562,13 +562,10 @@ function productCardHtml(p, opts){
       if(!_s) return '<button disabled class="var-chip px-2 py-1 text-[10px] border border-gray-200 rounded opacity-35 cursor-not-allowed line-through">'+_l+'<span class="block text-[8px] text-red-400">'+t('card_soldout')+'</span></button>';
       return '<button class="var-chip px-2 py-1 text-[10px] border border-gray-200 rounded hover:border-gold/60 transition-all" data-vdelta="'+_d+'" onclick="event.preventDefault();event.stopPropagation();(function(btn){btn.closest(\'.product-card\').querySelectorAll(\'.var-chip\').forEach(function(b){b.classList.remove(\'selected\');});btn.classList.add(\'selected\');var cb=btn.closest(\'.product-card\').querySelector(\'.card-add-btn\');if(cb){cb.disabled=false;cb.classList.remove(\'opacity-50\',\'cursor-not-allowed\');cb.dataset.vdelta=btn.dataset.vdelta;}})(this)">'+_l+'</button>';
     }).join('');
-    return '<div class="mt-3"><p class="text-[9px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">'+_lbl+'</p><div class="flex flex-wrap gap-1">'+_chips+'</div></div>'
-      +'<button class="card-add-btn w-full mt-2.5 py-2.5 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider transition-colors rounded-lg flex items-center justify-center gap-1.5 opacity-50 cursor-not-allowed" disabled data-pid="'+p.id+'" data-vdelta="0" onclick="event.preventDefault();var d=parseInt(this.dataset.vdelta||0);Aura.addToCart(\''+p.id+'\',null,null,d);Aura.showToast(Aura.t(\'added_cart\'));if(typeof toggleCart===\'function\')toggleCart()"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'+t('add_cart')+'</button>';
+    return '<div class="mt-2"><p class="text-[9px] text-gray-400 font-semibold uppercase mb-1">'+_lbl+'</p><div class="flex gap-1 overflow-x-auto hide-scrollbar pb-0.5 -mx-0.5 px-0.5">'+_chips+'</div></div>'
+      +'<button class="card-add-btn w-full mt-2 py-2 bg-navy hover:bg-navy-light text-white text-xs font-bold tracking-wider transition-colors rounded-lg flex items-center justify-center gap-1.5 opacity-50 cursor-not-allowed" disabled data-pid="'+p.id+'" data-vdelta="0" onclick="event.preventDefault();var d=parseInt(this.dataset.vdelta||0);Aura.addToCart(\''+p.id+'\',null,null,d);Aura.showToast(Aura.t(\'added_cart\'));if(typeof toggleCart===\'function\')toggleCart()"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'+t('add_cart')+'</button>';
   })()
-  +'<div class="flex flex-col gap-0.5 mt-2">'
-  +'<span class="flex items-center gap-1 text-[9px] text-emerald-600"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>'+t('card_ship_free')+'</span>'
-  +'<span class="flex items-center gap-1 text-[9px] text-blue-600"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'+t('card_ssl')+'</span>'
-  +'</div>'
+
   +'</div></div>';
 }
 
